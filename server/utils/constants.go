@@ -1,0 +1,4 @@
+package utils
+
+const DEFAULT_NEWS_LIMIT = 10
+const DEFAULT_NEWS_LIMIT_UPPER_BOUND = 50
