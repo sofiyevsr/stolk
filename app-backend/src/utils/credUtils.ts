@@ -1,0 +1,59 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { v4 } from "uuid";
+import { IJWTUser, platformToName } from "./constants";
+
+export async function hashPassword(s: string, saltRounds = 10) {
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(s, salt);
+  return hash;
+}
+
+export function comparePassword(plain: string, hash: string) {
+  return bcrypt.compare(plain, hash);
+}
+
+export async function generateAccessToken(user: IJWTUser) {
+  return new Promise<string>((res, rej) => {
+    jwt.sign(
+      { id: user.id },
+      process.env.JWT_KEY as string,
+      {
+        audience: platformToName(user.platform),
+      },
+      (err, token) => {
+        if (err) {
+          return rej(err);
+        }
+        if (token == null) {
+          return rej();
+        }
+        return res(token);
+      }
+    );
+  });
+}
+
+export async function verifyToken(token: string) {
+  return new Promise<{ id: string; audience: string }>((res, rej) =>
+    jwt.verify(token, process.env.JWT_KEY as string, {}, (err, decoded) => {
+      if (err) {
+        return rej(err);
+      }
+      if (decoded == null) {
+        return rej(Error());
+      }
+      return res(decoded as any);
+    })
+  );
+}
+
+export async function generateResetToken() {
+  const token = v4();
+  const hash = await hashPassword(token);
+  return { hash, plain: token };
+}
+
+export async function hashResetToken(token: string) {
+  return hashPassword(token);
+}

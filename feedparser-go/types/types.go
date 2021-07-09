@@ -7,12 +7,14 @@ import (
 
 // Implement categories
 type CustomFeed struct {
-	Name        string         `db:"title"`
-	Description sql.NullString `db:"description"`
-	PubDate     time.Time      `db:"pub_date"`
-	ImageLink   sql.NullString `db:"image_link"`
-	Link        string         `db:"feed_link"`
-	Source      int            `db:"source"`
+	Name         string         `db:"title"`
+	Description  sql.NullString `db:"description"`
+	PubDate      time.Time      `db:"pub_date"`
+	ImageLink    sql.NullString `db:"image_link"`
+	Link         string         `db:"feed_link"`
+	Source       int            `db:"source_id"`
+	CatAlias     sql.NullInt64  `db:"category_alias_id"`
+	CatAliasName string         `db:"-"`
 }
 
 // Result Type for feed parser
@@ -22,14 +24,14 @@ type Result struct {
 }
 
 type Feed struct {
-	Id   string `db:"id"`
+	Id   int    `db:"id"`
 	Name string `db:"name"`
-	Feed string `db:"feed"`
+	Feed string `db:"link"`
 }
 
 type CatAlias struct {
 	Alias    string         `db:"alias"`
-	Category sql.NullString `db:"category"`
+	Category sql.NullString `db:"category_id"`
 }
 
 type LastPubDateForSource struct {

@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "production"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - echo starting install
+      - npm install -g yarn
+      - yarn install --frozen-lockfile
+  pre_build:
+    commands:
+      - echo pre build 
+      # - yarn test
+  build:
+    commands:
+      - echo building...
+      - yarn build
+    finally:
+      - echo build done
+artifacts:
+  files:
+    - dist/**/*
+    - package.json
+    - yarn.lock
+    - scripts/*
+  name: dist

@@ -1,0 +1,194 @@
+{
+  "errors": {
+    "invalid_token": "",
+    "account_banned": "",
+    "login_fail": "",
+    "invalid_session_id": "",
+    "reset_fail": "",
+    "user_not_found": "",
+    "booking_limit_reached": "",
+    "campaign_not_found": "",
+    "not_enough_place_booking": "",
+    "already_has_one": "",
+    "no_booking_left": "",
+    "booking_not_found": "",
+    "campaign_is_not_active": "",
+    "not_allowed": "",
+    "business_is_not_active": "",
+    "booking_is_claimed": "",
+    "booking_expired": "",
+    "campaign_expired": "",
+    "business_logo_not_found": "",
+    "business_gallery_not_found": "",
+    "image_upload_failed": "",
+    "validations": {
+      "id": {
+        "required": ""
+      },
+      "invalid_image": ""
+    },
+    "id_not_found": "",
+    "business_not_found": "",
+    "business_not_updated": "",
+    "campaign_not_created": "",
+    "campaign_not_stopped": "",
+    "rating_not_found": "",
+    "only_partner_business": "",
+    "validation": {
+      "email": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "invalid_email": ""
+      },
+      "password": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "invalid_pattern": ""
+      },
+      "service_type": {
+        "number": "",
+        "required": "",
+        "invalid": ""
+      },
+      "account_type": {
+        "number": "",
+        "required": "",
+        "invalid": ""
+      },
+      "session_type": {
+        "number": "",
+        "required": "",
+        "invalid": ""
+      },
+      "first_name": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min2": "",
+        "max30": ""
+      },
+      "last_name": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min2": "",
+        "max30": ""
+      },
+      "id": {
+        "number": "",
+        "required": ""
+      },
+      "token": {
+        "string": "",
+        "empty": "",
+        "required": ""
+      },
+      "booking_count": {
+        "string": "",
+        "required": "",
+        "max5": ""
+      },
+      "campaign_id": {
+        "number": "",
+        "required": ""
+      },
+      "lat": {
+        "number": "",
+        "required": ""
+      },
+      "lng": {
+        "number": "",
+        "required": ""
+      },
+      "location": {
+        "object": ""
+      },
+      "description": {
+        "string": "",
+        "max500": "",
+        "required": ""
+      },
+      "business_name": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min3": "",
+        "max15": ""
+      },
+      "address": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min5": ""
+      },
+      "phone_number": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "invalid_pattern": ""
+      },
+      "business_type": {
+        "number": "",
+        "required": "",
+        "invalid": ""
+      },
+      "business_id": {
+        "number": "",
+        "required": ""
+      },
+      "radius": {
+        "number": "",
+        "required": "",
+        "min1000": "",
+        "max10000": ""
+      },
+      "booking_valid_for_hours": {
+        "number": "",
+        "required": "",
+        "min1": "",
+        "max24": ""
+      },
+      "campaign_name": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min3": ""
+      },
+      "discount": {
+        "number": "",
+        "required": "",
+        "min1": "",
+        "max100": ""
+      },
+      "campaign_count": {
+        "number": "",
+        "required": "",
+        "min1": ""
+      },
+      "starts_at": {
+        "date": "",
+        "required": ""
+      },
+      "expires_at": {
+        "date": "",
+        "required": ""
+      },
+      "created_by": {
+        "number": "",
+        "required": ""
+      },
+      "rating": {
+        "number": "",
+        "required": "",
+        "min1": "",
+        "max5": ""
+      },
+      "booking_id": {
+        "number": "",
+        "required": ""
+      }
+    }
+  }
+}

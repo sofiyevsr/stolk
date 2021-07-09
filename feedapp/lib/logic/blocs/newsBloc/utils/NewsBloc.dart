@@ -6,12 +6,13 @@ import "package:equatable/equatable.dart";
 part "NewsEvents.dart";
 part "NewsState.dart";
 
+final service = NewsService();
+
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc() : super(NewsStateInitial());
 
   @override
   Stream<NewsState> mapEventToState(NewsEvent event) async* {
-    final service = NewsService();
     if (event is FetchNewsEvent) {
       try {
         yield NewsStateLoading();
@@ -22,26 +23,30 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
             ),
+            isLoadingNext: false,
           );
         else
           yield NewsStateNoData();
       } catch (e) {
-        print(e);
         yield NewsStateError();
       }
     } else if (event is FetchNextNewsEvent) {
       if (state is NewsStateSuccess &&
+          (state as NewsStateSuccess).isLoadingNext == false &&
           (state as NewsStateSuccess).data.hasReachedEnd == false) {
         try {
+          yield (state as NewsStateSuccess).copyWith(true);
           final existing = (state as NewsStateSuccess).data;
-          final data = await service
-              .getAllNews(existing.news[existing.news.length - 1].id);
+          final lastPub = existing.news[existing.news.length - 1].publishedDate;
+
+          // set Loading and fetch data then
+          final data = await service.getAllNews(lastPub);
           yield NewsStateSuccess(
-            data: existing.addNewNews(
-              incomingNews: data.news,
-              hasReachedEnd: data.hasReachedEnd,
-            ),
-          );
+              data: existing.addNewNews(
+                incomingNews: data.news,
+                hasReachedEnd: data.hasReachedEnd,
+              ),
+              isLoadingNext: false);
         } catch (e) {
           // yield NewsStateError();
         }

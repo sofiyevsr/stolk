@@ -6,7 +6,8 @@ class SingleNews extends Equatable {
   final String? description;
   final String sourceName;
   final String publishedDate;
-  final String imageLink;
+  final String createdAt;
+  final String? imageLink;
   final String feedLink;
   SingleNews._({
     required this.id,
@@ -14,7 +15,8 @@ class SingleNews extends Equatable {
     this.description,
     required this.sourceName,
     required this.publishedDate,
-    required this.imageLink,
+    required this.createdAt,
+    this.imageLink,
     required this.feedLink,
   });
   SingleNews.fromJson(Map<String, dynamic> json)
@@ -24,8 +26,9 @@ class SingleNews extends Equatable {
           description: json['description'],
           sourceName: json['source_name'],
           publishedDate: json['pub_date'],
+          createdAt: json['created_at'],
           imageLink: json['image_link'],
-          feedLink: json['link'],
+          feedLink: json['feed_link'],
         );
 
   @override
@@ -35,6 +38,7 @@ class SingleNews extends Equatable {
         description,
         sourceName,
         publishedDate,
+        createdAt,
         imageLink,
         feedLink,
       ];
