@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:partner_gainclub/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomCachedImage extends StatelessWidget {
@@ -36,7 +35,7 @@ class CustomCachedImage extends StatelessWidget {
           image: DecorationImage(image: provider, fit: fit),
         ),
       ),
-      imageUrl: bucketUrl + url,
+      imageUrl: url,
       width: width,
       height: height,
     );

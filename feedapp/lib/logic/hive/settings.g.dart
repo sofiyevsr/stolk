@@ -17,24 +17,15 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings(
-      cats: (fields[0] as List).cast<int>(),
-      radius: fields[1] as int,
-      banners: (fields[2] as List).cast<int>(),
-      skipIntro: fields[3] as bool,
+      skipIntro: fields[0] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.cats)
       ..writeByte(1)
-      ..write(obj.radius)
-      ..writeByte(2)
-      ..write(obj.banners)
-      ..writeByte(3)
+      ..writeByte(0)
       ..write(obj.skipIntro);
   }
 

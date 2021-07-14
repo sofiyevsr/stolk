@@ -1,7 +1,7 @@
-import 'package:partner_gainclub/components/common/iconBackground.dart';
+import 'package:feedapp/components/common/iconBackground.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
-import 'package:partner_gainclub/components/common/tilesHeader.dart';
+import 'package:feedapp/components/common/tilesHeader.dart';
 
 class GroupListTile extends StatelessWidget {
   final List<SingleTileInGroup> tiles;

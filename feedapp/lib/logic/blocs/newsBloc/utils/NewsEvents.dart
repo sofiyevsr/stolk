@@ -7,7 +7,9 @@ class NewsEvent extends Equatable {
 
 class FetchNewsEvent extends NewsEvent {}
 
-class FetchNextNewsEvent extends NewsEvent {
-  // final String lastCreatedAt;
-  // FetchNextCampaignsEvent({required this.lastCreatedAt});
+class RefreshNewsEvent extends NewsEvent {
+  final AllNewsResponse data;
+  RefreshNewsEvent({required this.data});
 }
+
+class FetchNextNewsEvent extends NewsEvent {}

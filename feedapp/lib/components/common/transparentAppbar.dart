@@ -1,4 +1,4 @@
-import 'package:partner_gainclub/utils/services/app/navigationService.dart';
+import 'package:feedapp/utils/services/app/navigationService.dart';
 import "package:flutter/material.dart";
 
 class TransparentAppbar extends StatelessWidget {

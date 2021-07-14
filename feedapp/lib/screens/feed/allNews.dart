@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:feedapp/screens/feed/widgets/categoryList.dart';
 import 'package:feedapp/screens/feed/widgets/singleNews.dart';
+import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const SINGLE_NEWS_HEIGHT = 150.0;
+const SINGLE_NEWS_HEIGHT = 400.0;
+
+final service = NewsService();
 
 class AllNewsScreen extends StatefulWidget {
   const AllNewsScreen({Key? key}) : super(key: key);
@@ -48,6 +51,15 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     super.dispose();
   }
 
+  Future<void> onRefresh() async {
+    try {
+      final data = await service.getAllNews();
+      BlocProvider.of<NewsBloc>(context).add(
+        RefreshNewsEvent(data: data),
+      );
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,12 +73,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                 builder: (ctx, state) {
                   if (state is NewsStateSuccess) {
                     return RefreshIndicator(
-                      onRefresh: () async {
-                        NewsBloc()
-                          ..add(
-                            FetchNewsEvent(),
-                          );
-                      },
+                      onRefresh: onRefresh,
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         controller: _scrollController,

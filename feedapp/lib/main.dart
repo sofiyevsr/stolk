@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
-import 'package:feedapp/screens/home.dart';
 import 'package:feedapp/screens/splash.dart';
 import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/services/app/localNotification.dart';
 import 'package:feedapp/utils/themes/index.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -18,6 +17,8 @@ import 'logic/hive/settings.dart';
 import 'utils/services/app/navigationService.dart';
 import 'utils/services/app/toastService.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,7 +28,7 @@ void main() {
     // Open box to use in app
     Hive.registerAdapter(SettingsAdapter());
     await Hive.openBox<Settings>("settings");
-    await LocalNotification.instance.init();
+    // await LocalNotification.instance.init();
     // await Firebase.initializeApp();
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     // FirebaseMessaging.onMessage.listen((event) {});
@@ -48,12 +49,13 @@ void main() {
   }, (exception, trace) {
     print(exception);
   });
-  // FlutterError.onError = (details, {bool forceReport = false}) {
-  //   sentry.captureException(
-  //     exception: details.exception,
-  //     stackTrace: details.stack,
-  //   );
-  // };
+  FlutterError.onError = (details, {bool forceReport = false}) {
+    print(details);
+    // sentry.captureException(
+    //   exception: details.exception,
+    //   stackTrace: details.stack,
+    // );
+  };
 }
 
 class App extends StatelessWidget {

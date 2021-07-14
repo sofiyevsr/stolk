@@ -9,6 +9,7 @@ class SingleNewsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       child: InkWell(
         onTap: () {
@@ -22,49 +23,24 @@ class SingleNewsView extends StatelessWidget {
           margin: const EdgeInsets.symmetric(
             vertical: 5,
           ),
-          padding: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
+            color: theme.cardColor,
           ),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 5,
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          feed.title,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               Expanded(
                 child: Stack(
                   children: [
                     Positioned.fill(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          topRight: Radius.circular(10),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
                         child: feed.imageLink == null
                             ? Container(
-                                color: Colors.red,
+                                color: theme.primaryColor,
                               )
                             : CachedNetworkImage(
                                 imageUrl: feed.imageLink!,
@@ -85,6 +61,29 @@ class SingleNewsView extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 5,
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          feed.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

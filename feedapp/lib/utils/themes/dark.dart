@@ -1,6 +1,7 @@
 part of "./index.dart";
 
 final darkTheme = ThemeData.dark().copyWith(
+  primaryColor: Colors.black38,
   dividerTheme: DividerThemeData(
     space: 0,
     thickness: 1,
@@ -21,6 +22,7 @@ final darkTheme = ThemeData.dark().copyWith(
       ),
     ),
   ),
+  scaffoldBackgroundColor: Colors.black54,
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     labelStyle: TextStyle(fontSize: 20, color: Colors.white),

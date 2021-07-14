@@ -1,8 +1,8 @@
+import 'package:feedapp/screens/home.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:partner_gainclub/components/auth/views/AuthView.dart';
-import 'package:partner_gainclub/logic/hive/settings.dart';
-import 'package:partner_gainclub/screens/Intro.dart';
+import 'package:feedapp/logic/hive/settings.dart';
+import 'package:feedapp/screens/intro.dart';
 import "package:flutter/material.dart";
 
 class IntroductionWrapper extends StatelessWidget {
@@ -15,7 +15,7 @@ class IntroductionWrapper extends StatelessWidget {
       builder: (ctx, Box<Settings> gBox, _) {
         final box = gBox.get("main", defaultValue: Settings())!;
         if (box.skipIntro == true)
-          return AuthView();
+          return Home();
         else
           return IntroScreen();
       },

@@ -2,25 +2,27 @@ package utils
 
 import (
 	"errors"
-	"feedparser/types"
 	"fmt"
-	"os"
 	"time"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/mmcdole/gofeed"
 )
+
+type Result struct {
+	Feed []CustomFeed
+	Err  error
+}
 
 // i int -> index of feed.item aka "a news"
 // v Feed -> a news object
 // fp Parser
 // c chan CustomFeed -> channel to receive feeds
 
-func ParseFeed(i int, v types.Feed, sources *[]types.LastPubDateForSource, c chan types.Result) {
+func ParseFeed(i int, v Feed, sources *[]LastPubDateForSource, categoryAliases []CatAlias, c chan Result) {
 	defer func() {
 		if r := recover(); r != nil {
-			c <- types.Result{
-				Feed: []types.CustomFeed{},
+			c <- Result{
+				Feed: []CustomFeed{},
 				Err:  errors.New("parsing error"),
 			}
 			fmt.Printf("error occured inside goroutine %s \n", v.Name)
@@ -48,53 +50,23 @@ func ParseFeed(i int, v types.Feed, sources *[]types.LastPubDateForSource, c cha
 		}
 	}
 
-	var cats []types.CatAlias
-	var feeds []types.CustomFeed
+	var cats []CatAlias
+	var feeds []CustomFeed
 
 	for _, item := range remoteFeed.Items {
 		if feedResult, err := ProcessFeed(item, &current, &v); err == nil {
-			addCatAlias(&cats, feedResult.feed.CatAliasName)
-			feeds = append(feeds, feedResult.feed)
+			addCatAlias(&cats, feedResult.CatAliasName)
+			feeds = append(feeds, feedResult)
 		}
 	}
 	// send feeds array through channel
-	c <- types.Result{
+	c <- Result{
 		Feed: feeds,
 		Err:  nil,
 	}
 
+	filteredCats := filterDuplicateAliases(cats, categoryAliases)
 	// TODO send through channel and save to db in one time
-	saveCategoryAlias(cats)
+	saveCategoryAlias(filteredCats)
 	return
-}
-
-func addCatAlias(aliases *[]types.CatAlias, alias string) {
-	arr := *aliases
-	var exists bool
-	for i := 0; i < len(arr); i++ {
-		if arr[i].Alias == alias {
-			exists = true
-		}
-	}
-	if !exists {
-		arr = append(arr, types.CatAlias{Alias: alias})
-	}
-}
-
-func saveCategoryAlias(cats []types.CatAlias) error {
-	if cats == nil || len(cats) == 0 {
-		return errors.New("empty cats")
-	}
-	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		return err
-	}
-	_, e := db.NamedExec(`INSERT INTO 
-	 news_category_alias(alias)
-	 VALUES(:alias) ON CONFLICT(alias) DO NOTHING;
-`, cats)
-	if e != nil {
-		fmt.Printf("error while cats save: %v", e)
-	}
-	return nil
 }

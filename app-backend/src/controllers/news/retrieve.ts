@@ -2,7 +2,12 @@ import db from "@config/db/db";
 import { DEFAULT_PERPAGE, MAX_PERPAGE, tables } from "@utils/constants";
 import parseCats from "./helpers/categoryParser";
 
-async function all(perPage?: string, lastCreatedAt?: string, cats?: string) {
+async function all(
+  perPage?: string,
+  lastCreatedAt?: string,
+  cats?: string,
+  user_id?: number
+) {
   let query = db
     .select([
       "s.id AS source_id",
@@ -26,6 +31,11 @@ async function all(perPage?: string, lastCreatedAt?: string, cats?: string) {
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
     .orderBy("pub_date", "desc");
 
+  if (user_id != null) {
+    query = query
+      .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
+      .where({ "f.user_id": user_id });
+  }
   if (lastCreatedAt != null) {
     query = query.andWhere("n.pub_date", "<", lastCreatedAt);
   }

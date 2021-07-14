@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"feedparser/types"
 	"testing"
 	"time"
 
@@ -13,7 +12,7 @@ func TestFeedHaveTitle(t *testing.T) {
 	item := &gofeed.Item{
 		Title: "",
 	}
-	_, err := ProcessFeed(item, &time.Time{}, &types.Feed{})
+	_, err := ProcessFeed(item, &time.Time{}, &Feed{})
 	assert.NotNil(t, err)
 }
 
@@ -21,7 +20,7 @@ func TestFeedLink(t *testing.T) {
 	item := &gofeed.Item{
 		Link: "",
 	}
-	_, err := ProcessFeed(item, &time.Time{}, &types.Feed{})
+	_, err := ProcessFeed(item, &time.Time{}, &Feed{})
 	assert.NotNil(t, err)
 }
 

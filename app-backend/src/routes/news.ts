@@ -10,7 +10,13 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
     [key: string]: string | undefined;
   };
   try {
-    const session = await news.retrieve.all(limit, pub_date, categories);
+    const user_id = req.session?.user_id;
+    const session = await news.retrieve.all(
+      limit,
+      pub_date,
+      categories,
+      user_id
+    );
     return responseSuccess(res, session);
   } catch (error) {
     return next(error);

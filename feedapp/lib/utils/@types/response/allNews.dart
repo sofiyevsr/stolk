@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 class SingleNews extends Equatable {
   final int id;
   final String title;
-  final String? description;
   final String sourceName;
   final String publishedDate;
   final String createdAt;
@@ -12,7 +11,6 @@ class SingleNews extends Equatable {
   SingleNews._({
     required this.id,
     required this.title,
-    this.description,
     required this.sourceName,
     required this.publishedDate,
     required this.createdAt,
@@ -23,7 +21,6 @@ class SingleNews extends Equatable {
       : this._(
           id: json['id'],
           title: json['title'],
-          description: json['description'],
           sourceName: json['source_name'],
           publishedDate: json['pub_date'],
           createdAt: json['created_at'],
@@ -35,7 +32,6 @@ class SingleNews extends Equatable {
   List get props => [
         id,
         title,
-        description,
         sourceName,
         publishedDate,
         createdAt,

@@ -1,5 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feed/allNews.dart';
 
@@ -31,7 +33,7 @@ class _HomeState extends State<Home> {
             ),
             icon: Icon(e["icon"] as IconData),
             inactiveColor: theme.primaryColor,
-            activeColor: Colors.grey.shade800,
+            activeColor: theme.accentColor,
             textAlign: TextAlign.center,
           ),
         )
@@ -52,6 +54,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Container(
         child: PageView(
@@ -62,7 +65,13 @@ class _HomeState extends State<Home> {
             });
           },
           children: [
-            AllNewsScreen(),
+            BlocProvider<NewsBloc>(
+              create: (ctx) => NewsBloc()
+                ..add(
+                  FetchNewsEvent(),
+                ),
+              child: AllNewsScreen(),
+            ),
             AllNewsScreen(),
             AllNewsScreen(),
             AllNewsScreen(),
@@ -70,6 +79,8 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
+        curve: Curves.easeInOut,
+        backgroundColor: theme.bottomAppBarColor,
         selectedIndex: _currentIndex,
         onItemSelected: (index) {
           setState(() => _currentIndex = index);

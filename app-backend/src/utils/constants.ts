@@ -42,6 +42,7 @@ export const tables = {
   news_category_alias: "news_category_alias",
   news_like: "news_like",
   news_bookmark: "news_bookmark",
+  source_follow: "source_follow",
   notification_token: "notification_token",
 };
 

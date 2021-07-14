@@ -2,14 +2,13 @@ import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
   final String? firstName, lastName, email, createdAt;
-  final int? serviceTypeId, accountTypeId;
+  final int? serviceTypeId;
   const User({
     this.firstName,
     this.lastName,
     this.email,
     this.createdAt,
     this.serviceTypeId,
-    this.accountTypeId,
   });
 
   User.fromJSON(Map<String, dynamic> json)
@@ -19,7 +18,6 @@ class User extends Equatable {
           email: json['email'],
           createdAt: json['created_at'],
           serviceTypeId: json['service_type_id'],
-          accountTypeId: json['account_type_id'],
         );
 
   @override
@@ -29,6 +27,5 @@ class User extends Equatable {
         this.email,
         this.createdAt,
         this.serviceTypeId,
-        this.accountTypeId,
       ];
 }

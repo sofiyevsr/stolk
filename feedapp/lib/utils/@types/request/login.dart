@@ -4,7 +4,6 @@ import "dart:io" show Platform;
 class LoginRequest {
   final String _email;
   final String _password;
-  final int _accountType = AccountType.USER;
   final int _sessionType =
       Platform.isIOS ? AppPlatform.IOS : AppPlatform.ANDROID;
   final int _serviceType = ServiceType.APP;
@@ -16,7 +15,6 @@ class LoginRequest {
   Map<String, Object> toMap() {
     return {
       "email": _email,
-      "account_type": _accountType,
       "session_type": _sessionType,
       "password": _password,
       "service_type": _serviceType

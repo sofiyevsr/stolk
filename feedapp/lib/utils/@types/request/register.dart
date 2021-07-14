@@ -6,7 +6,6 @@ class RegisterRequest {
   final String _lastName;
   final String _email;
   final String _password;
-  final int _accountType = AccountType.USER;
   final int _sessionType =
       Platform.isIOS ? AppPlatform.IOS : AppPlatform.ANDROID;
   final int _serviceType = ServiceType.APP;
@@ -20,7 +19,6 @@ class RegisterRequest {
   Map<String, Object> toMap() {
     return {
       "email": _email,
-      "account_type": _accountType,
       "first_name": _firstName,
       "last_name": _lastName,
       "session_type": _sessionType,

@@ -22,7 +22,6 @@ class _NewsViewState extends State<NewsView> {
 
   @override
   void initState() {
-    print(widget.link);
     super.initState();
   }
 
@@ -49,7 +48,7 @@ class _NewsViewState extends State<NewsView> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        // backgroundColor: Colors.red,
         centerTitle: true,
         title: Row(
           children: [
@@ -102,6 +101,7 @@ class _NewsViewState extends State<NewsView> {
                   isLoading = false;
                 });
               },
+              onWebResourceError: (e) {},
               allowsInlineMediaPlayback: true,
               javascriptMode: JavascriptMode.unrestricted,
               initialUrl: widget.link,

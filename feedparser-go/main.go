@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"feedparser/types"
 	"feedparser/utils"
 	"fmt"
 	"log"
@@ -43,34 +42,31 @@ func main() {
 }
 
 func handleLambda() (string, error) {
-	startTime := time.Now()
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("%v", r)
 		}
 	}()
+	startTime := time.Now()
 
-	// assign parsed feeds
-	var feeds []types.Feed
-	var sources []types.LastPubDateForSource
-	err := getLastPubDateOfSources(&sources)
+	// get Data from db
+	data, err := utils.Startup()
+
 	if err != nil {
 		return "", err
 	}
-	e := getFeedsFromDB(&feeds)
-	if e != nil {
-		return "", e
-	}
-	ch := make(chan types.Result)
-	for i, v := range feeds {
-		go utils.ParseFeed(i, v, &sources, ch)
+
+	ch := make(chan utils.Result)
+	for i, v := range data.Feeds {
+		go utils.ParseFeed(i, v, &data.LastPubDates, data.CatAliases, ch)
 	}
 
-	var items []types.CustomFeed
-	processedFeeds := feeds
+	var items []utils.CustomFeed
+	processedFeeds := data.Feeds
 
 	timeout := time.After(TOTAL_PARSE_TIME_LIMIT)
-	for i := 0; i < len(feeds); i++ {
+
+	for i := 0; i < len(data.Feeds); i++ {
 		var br bool
 		select {
 		case feed := <-ch:
@@ -104,44 +100,8 @@ func handleLambda() (string, error) {
 	return fmt.Sprintf("inserted rows: %d \n", len(items)), nil
 }
 
-// Startup:
-// Get feeds to be parsed later
-func getFeedsFromDB(feeds *[]types.Feed) error {
-
-	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		return err
-	}
-
-	e := db.Select(feeds, "SELECT id,name,link FROM news_source;")
-	if e != nil {
-		return e
-	}
-	return nil
-}
-
-// Get last pub date of sources to avoid overriding
-func getLastPubDateOfSources(sources *[]types.LastPubDateForSource) error {
-	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		return err
-	}
-
-	e := db.Select(sources, `SELECT s.id AS source, MAX(n.pub_date) AS pub_date FROM news_source AS s
-		LEFT JOIN news_feed AS n on n.source_id=s.id GROUP BY s.id;
-	`)
-
-	if e != nil {
-		return e
-	}
-
-	return nil
-}
-
-// --END Startup
-
 // Last Step
-func saveToDB(items []types.CustomFeed) {
+func saveToDB(items []utils.CustomFeed) {
 	if items == nil || len(items) == 0 {
 		return
 	}
@@ -150,11 +110,16 @@ func saveToDB(items []types.CustomFeed) {
 		panic(err)
 	}
 
-	catAliases := make(map[string]int64)
-	rows, e := db.Query(`SELECT id, alias FROM news_category_alias;`)
+	// Map id of category_alias from string
+	// TODO Not best way, improve
+	catAliases := make(map[string]int32)
+	rows, err := db.Query(`SELECT id, alias FROM news_category_alias;`)
+	if err != nil {
+		return
+	}
 	for rows.Next() {
 		var key string
-		var val int64
+		var val int32
 		rows.Scan(&val, &key)
 		if key != "" && val != 0 {
 			catAliases[key] = val
@@ -162,25 +127,24 @@ func saveToDB(items []types.CustomFeed) {
 	}
 
 	// map cat alias to id in each news
-	for _, v := range items {
-		val, ok := catAliases[v.CatAliasName]
-		if ok {
-			v.CatAlias = sql.NullInt64{
-				Valid: true,
-				Int64: val,
+	for i := 0; i < len(items); i++ {
+		if items[i].CatAliasName != "" {
+			val, ok := catAliases[items[i].CatAliasName]
+			if ok {
+				items[i].CatAlias = sql.NullInt32{
+					Valid: true,
+					Int32: val,
+				}
 			}
 		}
 	}
 
-	if e != nil {
-		return
-	}
-	_, e = db.NamedExec(`INSERT INTO 
-	 news_feed(title,description,source_id,image_link,pub_date,feed_link,category_alias_id)
-	 VALUES(:title,:description,:source_id,:image_link,:pub_date,:feed_link,:category_alias_id)
+	_, err = db.NamedExec(`INSERT INTO
+	 news_feed(title,source_id,image_link,pub_date,feed_link,category_alias_id)
+	 VALUES(:title,:source_id,:image_link,:pub_date,:feed_link,:category_alias_id)
 	 ON CONFLICT(feed_link) DO NOTHING;
-`, items)
-	if e != nil {
-		log.Fatalln(e)
+	`, items)
+	if err != nil {
+		log.Fatalln(err)
 	}
 }

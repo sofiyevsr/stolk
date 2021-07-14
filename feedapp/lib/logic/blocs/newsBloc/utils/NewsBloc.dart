@@ -1,4 +1,5 @@
 import 'package:feedapp/logic/blocs/newsBloc/models/newsModel.dart';
+import 'package:feedapp/utils/@types/response/allNews.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
@@ -17,6 +18,22 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       try {
         yield NewsStateLoading();
         final data = await service.getAllNews();
+        if (data.news.length != 0)
+          yield NewsStateSuccess(
+            data: News(
+              news: data.news,
+              hasReachedEnd: data.hasReachedEnd,
+            ),
+            isLoadingNext: false,
+          );
+        else
+          yield NewsStateNoData();
+      } catch (e) {
+        yield NewsStateError();
+      }
+    } else if (event is RefreshNewsEvent) {
+      try {
+        final data = event.data;
         if (data.news.length != 0)
           yield NewsStateSuccess(
             data: News(

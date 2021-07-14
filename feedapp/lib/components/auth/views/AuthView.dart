@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:partner_gainclub/components/auth/login.dart';
-import 'package:partner_gainclub/components/auth/register.dart';
+import 'package:feedapp/components/auth/login.dart';
+import 'package:feedapp/components/auth/register.dart';
 import "package:flutter/material.dart";
-import 'package:partner_gainclub/utils/services/app/navigationService.dart';
+import 'package:feedapp/utils/services/app/navigationService.dart';
 
 class AuthView extends StatefulWidget {
   final bool isLogin;

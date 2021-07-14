@@ -3,6 +3,7 @@ import 'package:feedapp/logic/blocs/authBloc/models/user.dart';
 import 'package:feedapp/utils/@types/request/checkToken.dart';
 import 'package:feedapp/utils/@types/request/login.dart';
 import 'package:feedapp/utils/@types/request/register.dart';
+import 'package:feedapp/utils/services/app/startupService.dart';
 import 'package:feedapp/utils/services/server/authService.dart';
 import 'package:feedapp/utils/services/app/secureStorage.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -23,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         transition.currentState is AuthLoadingState) {
       // Sync auth token
       final token = (transition.nextState as AuthorizedState).token;
-      // StartupService.instance.storeDeviceToken(token);
+      StartupService.instance.storeDeviceToken(token);
     }
   }
 
@@ -41,7 +42,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,
-            accountTypeId: response.user.accountTypeId,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
           ),
@@ -67,7 +67,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,
-            accountTypeId: response.user.accountTypeId,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
           ),
@@ -86,7 +85,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,
-            accountTypeId: response.user.accountTypeId,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
           ),

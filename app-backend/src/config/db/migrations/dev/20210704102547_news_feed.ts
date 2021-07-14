@@ -8,7 +8,6 @@ export async function up(knex: Knex): Promise<void> {
     t.specificType("title", "VARCHAR (1000)").notNullable();
     t.specificType("image_link", "VARCHAR (1000)");
     t.specificType("feed_link", "VARCHAR (1000)").unique().notNullable();
-    t.specificType("description", "VARCHAR");
     t.integer("source_id")
       .notNullable()
       .references("id")

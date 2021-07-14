@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:partner_gainclub/utils/services/app/startupService.dart';
+import 'package:feedapp/utils/services/app/startupService.dart';
 import "package:flutter/material.dart";
 
 class CheckTokenFailScreen extends StatefulWidget {
