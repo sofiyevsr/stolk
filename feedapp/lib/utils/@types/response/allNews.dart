@@ -1,21 +1,45 @@
 import 'package:equatable/equatable.dart';
 
+class SingleCategory extends Equatable {
+  final int id;
+  final String name;
+  SingleCategory._({required this.id, required this.name});
+  SingleCategory.fromJSON(Map<String, dynamic> json)
+      : this._(
+          id: json["id"],
+          name: json["name"],
+        );
+  @override
+  List get props => [
+        id,
+        name,
+      ];
+}
+
 class SingleNews extends Equatable {
   final int id;
   final String title;
   final String sourceName;
   final String publishedDate;
   final String createdAt;
-  final String? imageLink;
   final String feedLink;
+  final int likeCount;
+  final int commentCount;
+  final int? likeID;
+  final int? bookmarkID;
+  final String? imageLink;
   SingleNews._({
     required this.id,
     required this.title,
     required this.sourceName,
     required this.publishedDate,
     required this.createdAt,
-    this.imageLink,
     required this.feedLink,
+    required this.likeCount,
+    required this.commentCount,
+    required this.likeID,
+    required this.bookmarkID,
+    required this.imageLink,
   });
   SingleNews.fromJson(Map<String, dynamic> json)
       : this._(
@@ -26,6 +50,10 @@ class SingleNews extends Equatable {
           createdAt: json['created_at'],
           imageLink: json['image_link'],
           feedLink: json['feed_link'],
+          likeID: json["like_id"],
+          likeCount: json["like_count"],
+          commentCount: json["comment_count"],
+          bookmarkID: json["like_id"],
         );
 
   @override
@@ -35,8 +63,12 @@ class SingleNews extends Equatable {
         sourceName,
         publishedDate,
         createdAt,
-        imageLink,
         feedLink,
+        likeCount,
+        commentCount,
+        likeID,
+        bookmarkID,
+        imageLink,
       ];
 }
 
@@ -48,8 +80,21 @@ class AllNewsResponse {
     if (json['news'] == null) {
       return;
     }
+
     for (int i = 0; i < json['news'].length; i++) {
       news.add(SingleNews.fromJson(json['news'][i]));
+    }
+  }
+  List<dynamic> get props => [news, hasReachedEnd];
+}
+
+class AllCategoriesResponse {
+  final List<SingleCategory> categories = [];
+  AllCategoriesResponse.fromJSON(Map<String, dynamic> json) {
+    if (json["categories"] != null) {
+      for (int i = 0; i < json['categories'].length; i++) {
+        categories.add(SingleCategory.fromJSON(json['categories'][i]));
+      }
     }
   }
 }

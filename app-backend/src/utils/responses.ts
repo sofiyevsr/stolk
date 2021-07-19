@@ -1,12 +1,12 @@
 import { Response } from "express";
 
-const responseSuccess = (res: Response, data: any) => {
+const responseSuccess = (res: Response, data?: Object | undefined) => {
   return res.status(200).json({
     body: data ?? {},
   });
 };
 
-const responseContentCreated = (res: Response, data: any) => {
+const responseContentCreated = (res: Response, data?: Object | undefined) => {
   return res.status(201).json({ body: data ?? {} });
 };
 

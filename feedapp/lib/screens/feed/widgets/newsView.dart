@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:feedapp/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -33,14 +34,14 @@ class _NewsViewState extends State<NewsView> {
         color: theme.accentColor,
         child: Row(
           children: [
-            IconButton(
-              onPressed: () async {
+            ScaleButton(
+              onFinish: () async {
                 final view = await _controller.future;
                 await view.goBack();
               },
-              icon: Icon(
+              child: Icon(
                 Icons.arrow_back,
-                size: 32,
+                size: 44,
                 color: theme.cardColor,
               ),
             ),
@@ -67,13 +68,15 @@ class _NewsViewState extends State<NewsView> {
             )
           ],
         ),
-        leading: IconButton(
-          onPressed: () async {
+        leading: ScaleButton(
+          onFinish: () async {
             final navigator = Navigator.of(context);
             if (navigator.canPop()) navigator.pop();
           },
-          icon: Icon(
+          child: Icon(
             Icons.arrow_back,
+            size: 32,
+            color: theme.cardColor,
           ),
         ),
       ),

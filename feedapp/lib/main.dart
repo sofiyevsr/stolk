@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:feedapp/screens/splash.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:feedapp/utils/themes/index.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,14 +15,22 @@ import 'logic/blocs/authBloc/utils/AuthBloc.dart';
 import 'logic/hive/settings.dart';
 import 'utils/services/app/navigationService.dart';
 import 'utils/services/app/toastService.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+
+Future<void> _loadInternalization() async {
+  await EasyLocalization.ensureInitialized();
+  timeago.setLocaleMessages("az", timeago.AzMessages());
+  timeago.setLocaleMessages("ru", timeago.RuMessages());
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runZonedGuarded(() async {
-    await EasyLocalization.ensureInitialized();
+    await _loadInternalization();
+
     await Hive.initFlutter();
     // Open box to use in app
     Hive.registerAdapter(SettingsAdapter());

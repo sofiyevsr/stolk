@@ -21,7 +21,7 @@ export default async function loginUser(body: any) {
       "last_name",
       "banned_at",
     ])
-    .where({ email: value.email, account_type_id: value.account_type })
+    .where({ email: value.email })
     .first();
 
   if (dbUser == null) {

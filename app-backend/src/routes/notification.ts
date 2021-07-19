@@ -8,8 +8,8 @@ const r = Router();
 r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
   try {
     const user_id = req.session?.user_id!;
-    const data = await notification.create(req.body.token, user_id);
-    return responseContentCreated(res, data);
+    await notification.create(req.body.token, user_id);
+    return responseContentCreated(res, {});
   } catch (e) {
     return next(e);
   }
@@ -21,8 +21,8 @@ r.post(
   // authenticateMiddleware(undefined, true),
   async (req, res, next) => {
     try {
-      const data = await notification.send.sendToEveryone(req.body);
-      return responseSuccess(res, data);
+      await notification.send.sendToEveryone(req.body);
+      return responseSuccess(res, {});
     } catch (e) {
       return next(e);
     }
@@ -34,8 +34,8 @@ r.post(
   // authenticateMiddleware(undefined, true),
   async (req, res, next) => {
     try {
-      const data = await notification.send.sendNews(req.body);
-      return responseSuccess(res, data);
+      await notification.send.sendNews(req.body);
+      return responseSuccess(res);
     } catch (e) {
       return next(e);
     }
@@ -46,8 +46,8 @@ r.post(
   // authenticateMiddleware(undefined, true),
   async (req, res, next) => {
     try {
-      const data = await notification.send.sendToUser(req.params.id, req.body);
-      return responseSuccess(res, data);
+      await notification.send.sendToUser(req.params.id, req.body);
+      return responseSuccess(res, {});
     } catch (e) {
       return next(e);
     }

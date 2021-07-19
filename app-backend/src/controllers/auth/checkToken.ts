@@ -1,5 +1,4 @@
 import db from "@config/db/db";
-import { Express } from "express";
 import i18next from "@translate/i18next";
 import { tables } from "@utils/constants";
 import { verifyToken } from "@utils/credUtils";

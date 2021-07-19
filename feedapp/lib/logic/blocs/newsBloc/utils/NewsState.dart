@@ -16,9 +16,17 @@ class NewsStateNoData extends NewsState {}
 class NewsStateSuccess extends NewsState {
   final News data;
   final bool isLoadingNext;
-  NewsStateSuccess({required this.data, required this.isLoadingNext});
-  NewsStateSuccess copyWith(bool isLoading) =>
-      NewsStateSuccess(data: this.data, isLoadingNext: isLoading);
+  NewsStateSuccess({
+    required this.data,
+    required this.isLoadingNext,
+  });
+  NewsStateSuccess setLoading() => NewsStateSuccess(
+        isLoadingNext: true,
+        data: this.data,
+      );
   @override
-  get props => [data];
+  get props => [
+        data,
+        isLoadingNext,
+      ];
 }

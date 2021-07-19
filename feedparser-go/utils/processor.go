@@ -61,10 +61,9 @@ func ProcessFeed(item *gofeed.Item, lastTime *time.Time, v *Feed) (CustomFeed, e
 	var parsedImage string
 	if item.Image != nil {
 		imageLink, err := tryParseLink(item.Image.URL)
-		if err != nil || imageLink == "" {
-			return CustomFeed{}, err
+		if err == nil && imageLink != "" {
+			parsedImage = imageLink
 		}
-		parsedImage = imageLink
 	}
 
 	// Look for image in enclosures

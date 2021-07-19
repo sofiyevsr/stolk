@@ -55,7 +55,7 @@ func tryParseLink(rawLink string) (string, error) {
 func stripHTMLTags(str string, unescape bool) (string, error) {
 	a := bluemonday.StrictPolicy()
 	// escape some characters manually
-	str = strings.ReplaceAll("\\", str, "")
+	str = strings.ReplaceAll(str, "\\", "")
 	escaped := a.Sanitize(str)
 
 	if escaped == "" {

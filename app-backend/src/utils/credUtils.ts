@@ -10,6 +10,9 @@ export async function hashPassword(s: string, saltRounds = 10) {
 }
 
 export function comparePassword(plain: string, hash: string) {
+  if (plain === "" || hash === "") {
+    return false;
+  }
   return bcrypt.compare(plain, hash);
 }
 

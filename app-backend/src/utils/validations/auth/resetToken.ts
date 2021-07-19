@@ -1,5 +1,6 @@
 import joi from "joi";
 import i18next from "@translate/i18next";
+import { passwordRegex } from "@utils/constants";
 
 const createResetToken = joi
   .object<{
@@ -43,7 +44,7 @@ const resetPassword = joi
       .trim(),
     password: joi
       .string()
-      .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+      .pattern(passwordRegex)
       .required()
       .messages({
         "string.base": i18next.t("errors.validation.password.string"),

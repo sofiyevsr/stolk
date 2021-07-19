@@ -18,7 +18,7 @@ type Result struct {
 // fp Parser
 // c chan CustomFeed -> channel to receive feeds
 
-func ParseFeed(i int, v Feed, sources *[]LastPubDateForSource, categoryAliases []CatAlias, c chan Result) {
+func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []CatAlias, c chan Result) {
 	defer func() {
 		if r := recover(); r != nil {
 			c <- Result{
@@ -39,7 +39,7 @@ func ParseFeed(i int, v Feed, sources *[]LastPubDateForSource, categoryAliases [
 	fmt.Printf("parsing feed: %s, len: %d \n", v.Name, remoteFeed.Len())
 	// lookup for source and its last pub_date
 	var current time.Time
-	for _, source := range *sources {
+	for _, source := range sources {
 		if source.Source == v.Id {
 			if source.PubDate.Valid {
 				temp, err := time.Parse(time.RFC3339, source.PubDate.String)

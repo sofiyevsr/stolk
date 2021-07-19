@@ -66,6 +66,7 @@ class RouteNames {
   static const AUTH = "auth";
   static const SINGLE_CAMPAIGN = "single_campaign";
   static const MY_BOOKINGS = "my_bookings";
+  static const SINGLE_SETTING = "single_setting";
 }
 
 const DEFAULT_RADIUS = 1000;

@@ -1,4 +1,6 @@
 export const tokenExpirationMinutes = 60;
+export const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
 
 export enum AppPlatform {
   IOS,
@@ -44,6 +46,21 @@ export const tables = {
   news_bookmark: "news_bookmark",
   source_follow: "source_follow",
   notification_token: "notification_token",
+  news_comment: "news_comment",
+};
+
+export const functions = {
+  comment_news: "comment_news",
+  uncomment_news: "uncomment_news",
+  like_news: "like_news",
+  unlike_news: "unlike_news",
+};
+
+export const triggers = {
+  comment_trigger: "comment_trigger",
+  uncomment_trigger: "uncomment_trigger",
+  like_trigger: "like_trigger",
+  unlike_trigger: "unlike_trigger",
 };
 
 export const notification_topics = {

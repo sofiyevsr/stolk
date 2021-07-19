@@ -26,10 +26,17 @@ class _AuthViewState extends State<AuthView>
       vsync: this,
       initialIndex: widget.isLogin == true ? 0 : 1,
     )..addListener(() {
-        setState(() {
-          _isLogin = _controller.index == 0;
-        });
+        final kIndex = _controller.index == 0;
+        if (_isLogin != kIndex) {
+          setState(() {
+            _isLogin = kIndex;
+          });
+        }
       });
+
+    setState(() {
+      _isLogin = _controller.index == 0;
+    });
   }
 
   @override
@@ -40,7 +47,29 @@ class _AuthViewState extends State<AuthView>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final canPop = NavigationService.key.currentState?.canPop();
     return Scaffold(
+      appBar: canPop == true
+          ? AppBar(
+              leading: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                ),
+                child: Icon(
+                  Icons.arrow_back_sharp,
+                  size: 30,
+                  color: theme.primaryColor,
+                ),
+                onPressed: () {
+                  NavigationService.pop();
+                },
+              ),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+            )
+          : null,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

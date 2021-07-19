@@ -58,7 +58,7 @@ func handleLambda() (string, error) {
 
 	ch := make(chan utils.Result)
 	for i, v := range data.Feeds {
-		go utils.ParseFeed(i, v, &data.LastPubDates, data.CatAliases, ch)
+		go utils.ParseFeed(i, v, data.LastPubDates, data.CatAliases, ch)
 	}
 
 	var items []utils.CustomFeed

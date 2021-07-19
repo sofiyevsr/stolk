@@ -1,6 +1,6 @@
 import joi from "joi";
 import i18next from "@translate/i18next";
-import { ServiceType, SessionType } from "@utils/constants";
+import { passwordRegex, ServiceType, SessionType } from "@utils/constants";
 
 export default joi
   .object<{
@@ -22,7 +22,7 @@ export default joi
       .trim(),
     password: joi
       .string()
-      .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+      .pattern(passwordRegex)
       .required()
       .messages({
         "string.base": i18next.t("errors.validation.password.string"),

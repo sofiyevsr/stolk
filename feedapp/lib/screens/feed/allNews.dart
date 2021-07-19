@@ -20,6 +20,7 @@ class AllNewsScreen extends StatefulWidget {
 
 class _AllNewsScreenState extends State<AllNewsScreen> {
   ScrollController _scrollController = ScrollController();
+  int _currentCategory = 0;
 
   Timer? _timer;
   @override
@@ -30,13 +31,15 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         // Debounce
         if (_timer != null && _timer!.isActive) _timer!.cancel();
         _timer = Timer(
-          Duration(milliseconds: 80),
+          Duration(milliseconds: 50),
           () {
             final maxScroll = _scrollController.position.maxScrollExtent;
             final currentScroll = _scrollController.position.pixels;
             if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT) {
               context.read<NewsBloc>().add(
-                    FetchNextNewsEvent(),
+                    FetchNextNewsEvent(
+                      category: _currentCategory,
+                    ),
                   );
             }
           },
@@ -53,11 +56,28 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
   Future<void> onRefresh() async {
     try {
-      final data = await service.getAllNews();
+      final data = await service.getAllNews(null, _currentCategory);
       BlocProvider.of<NewsBloc>(context).add(
-        RefreshNewsEvent(data: data),
+        RefreshNewsEvent(
+          data: data,
+        ),
       );
     } catch (e) {}
+  }
+
+  void _changeCategory(int id) {
+    _scrollController.jumpTo(
+      0,
+    );
+    final bloc = context.read<NewsBloc>();
+    bloc.add(
+      FetchNewsEvent(
+        category: id,
+      ),
+    );
+    setState(() {
+      _currentCategory = id;
+    });
   }
 
   @override
@@ -67,7 +87,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
-            CategoryList(),
+            CategoryList(
+              current: _currentCategory,
+              changeCategory: _changeCategory,
+            ),
             Expanded(
               child: BlocBuilder<NewsBloc, NewsState>(
                 builder: (ctx, state) {
@@ -77,15 +100,18 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         controller: _scrollController,
-                        itemExtent: SINGLE_NEWS_HEIGHT,
+                        shrinkWrap: true,
                         itemCount: state.data.hasReachedEnd
                             ? state.data.news.length
                             : state.data.news.length + 1,
                         itemBuilder: (ctx, index) =>
                             index >= state.data.news.length
-                                ? Center(
-                                    child: CircularProgressIndicator.adaptive(
-                                      strokeWidth: 10,
+                                ? Container(
+                                    height: 50,
+                                    child: Center(
+                                      child: CircularProgressIndicator.adaptive(
+                                        strokeWidth: 8,
+                                      ),
                                     ),
                                   )
                                 : SingleNewsView(

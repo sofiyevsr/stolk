@@ -11,7 +11,6 @@ class StartupService {
   StartupService._();
 
   Future<void> storeDeviceToken(String? authToken) async {
-    print('saving token');
     final permissions = await FirebaseMessaging.instance.requestPermission();
     if (permissions.authorizationStatus == AuthorizationStatus.authorized) {
       // Get the token each time the application loads
@@ -33,8 +32,8 @@ class StartupService {
     final storage = SecureStorage();
     final token = await storage.getToken();
     // if check token fails it is okay to stop store device token
-    await _checkToken(token);
     storeDeviceToken(token).catchError((e) {});
+    await _checkToken(token);
   }
 
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {

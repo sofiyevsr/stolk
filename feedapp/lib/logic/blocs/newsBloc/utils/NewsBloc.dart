@@ -17,7 +17,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (event is FetchNewsEvent) {
       try {
         yield NewsStateLoading();
-        final data = await service.getAllNews();
+        final data = await service.getAllNews(null, event.category);
         if (data.news.length != 0)
           yield NewsStateSuccess(
             data: News(
@@ -31,14 +31,18 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       } catch (e) {
         yield NewsStateError();
       }
-    } else if (event is RefreshNewsEvent) {
+    }
+
+    // Refresh
+    // 1. Event sender must fetch data
+    // 2. Event sender is responsible for sending current category
+    else if (event is RefreshNewsEvent) {
       try {
-        final data = event.data;
-        if (data.news.length != 0)
+        if (event.data.news.length != 0)
           yield NewsStateSuccess(
             data: News(
-              news: data.news,
-              hasReachedEnd: data.hasReachedEnd,
+              news: event.data.news,
+              hasReachedEnd: event.data.hasReachedEnd,
             ),
             isLoadingNext: false,
           );
@@ -47,23 +51,28 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       } catch (e) {
         yield NewsStateError();
       }
-    } else if (event is FetchNextNewsEvent) {
+    }
+    // Fetch next batch
+    // 1. Keep in mind current category
+    else if (event is FetchNextNewsEvent) {
       if (state is NewsStateSuccess &&
           (state as NewsStateSuccess).isLoadingNext == false &&
           (state as NewsStateSuccess).data.hasReachedEnd == false) {
         try {
-          yield (state as NewsStateSuccess).copyWith(true);
-          final existing = (state as NewsStateSuccess).data;
-          final lastPub = existing.news[existing.news.length - 1].publishedDate;
+          yield (state as NewsStateSuccess).setLoading();
+          final existing = (state as NewsStateSuccess);
+          final lastPub =
+              existing.data.news[existing.data.news.length - 1].publishedDate;
 
           // set Loading and fetch data then
-          final data = await service.getAllNews(lastPub);
+          final data = await service.getAllNews(lastPub, event.category);
           yield NewsStateSuccess(
-              data: existing.addNewNews(
-                incomingNews: data.news,
-                hasReachedEnd: data.hasReachedEnd,
-              ),
-              isLoadingNext: false);
+            data: existing.data.addNewNews(
+              incomingNews: data.news,
+              hasReachedEnd: data.hasReachedEnd,
+            ),
+            isLoadingNext: false,
+          );
         } catch (e) {
           // yield NewsStateError();
         }
