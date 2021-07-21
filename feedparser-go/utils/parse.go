@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"time"
@@ -8,9 +9,12 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
+const PARSE_TIMEOUT = time.Second * 10
+
 type Result struct {
-	Feed []CustomFeed
-	Err  error
+	Feed    []CustomFeed
+	Aliases []CatAlias
+	Err     error
 }
 
 // i int -> index of feed.item aka "a news"
@@ -31,21 +35,29 @@ func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []
 	}()
 	fp := gofeed.NewParser()
 	beforeParse := time.Now()
-	remoteFeed, err := fp.ParseURL(v.Feed)
+
+	// -- Timeout Feed Parser
+	bctx := context.Background()
+	ctx, cancel := context.WithTimeout(bctx, PARSE_TIMEOUT)
+	defer cancel()
+	remoteFeed, err := fp.ParseURLWithContext(v.Feed, ctx)
 	fmt.Printf("parsing %s took %v \n", v.Name, time.Since(beforeParse))
+
 	if err != nil {
-		panic(errors.New(fmt.Sprintf("error while parsing %s \n", v.Name)))
+		panic(fmt.Errorf("error while parsing %s \n", v.Name))
 	}
 	fmt.Printf("parsing feed: %s, len: %d \n", v.Name, remoteFeed.Len())
+
 	// lookup for source and its last pub_date
 	var current time.Time
 	for _, source := range sources {
 		if source.Source == v.Id {
 			if source.PubDate.Valid {
 				temp, err := time.Parse(time.RFC3339, source.PubDate.String)
-				if err == nil {
-					current = temp
+				if err != nil {
+					panic(err)
 				}
+				current = temp
 			}
 		}
 	}
@@ -54,19 +66,18 @@ func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []
 	var feeds []CustomFeed
 
 	for _, item := range remoteFeed.Items {
-		if feedResult, err := ProcessFeed(item, &current, &v); err == nil {
+		if feedResult, err := ProcessFeed(item, current, &v); err == nil {
 			addCatAlias(&cats, feedResult.CatAliasName)
 			feeds = append(feeds, feedResult)
 		}
 	}
+	filteredCats := filterDuplicateAliases(cats, categoryAliases)
 	// send feeds array through channel
 	c <- Result{
-		Feed: feeds,
-		Err:  nil,
+		Feed:    feeds,
+		Aliases: filteredCats,
+		Err:     nil,
 	}
 
-	filteredCats := filterDuplicateAliases(cats, categoryAliases)
-	// TODO send through channel and save to db in one time
-	saveCategoryAlias(filteredCats)
 	return
 }

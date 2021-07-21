@@ -42,7 +42,7 @@ func addCatAlias(aliases *[]CatAlias, alias string) {
 	}
 }
 
-func saveCategoryAlias(cats []CatAlias) error {
+func SaveCategoryAlias(cats []CatAlias) error {
 	if cats == nil || len(cats) == 0 {
 		return errors.New("empty cats")
 	}

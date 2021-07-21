@@ -14,12 +14,13 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const TOTAL_PARSE_TIME_LIMIT = time.Millisecond * 10000
-const SINGLE_PARSE_LIMIT = time.Millisecond * 4500
+const (
+	TOTAL_PARSE_TIME_LIMIT = time.Millisecond * 10000
+	SINGLE_PARSE_LIMIT     = time.Millisecond * 4500
+)
 
 func main() {
 	env := os.Getenv("GO_ENV")
-	fmt.Println(env)
 	if env == "development" {
 		err := godotenv.Load()
 		if err != nil {
@@ -61,8 +62,12 @@ func handleLambda() (string, error) {
 		go utils.ParseFeed(i, v, data.LastPubDates, data.CatAliases, ch)
 	}
 
-	var items []utils.CustomFeed
-	processedFeeds := data.Feeds
+	var (
+		items    []utils.CustomFeed
+		catsColl []utils.CatAlias
+	)
+
+	processedFeeds := utils.ConvertFeedsToLogFeeds(data.Feeds)
 
 	timeout := time.After(TOTAL_PARSE_TIME_LIMIT)
 
@@ -75,14 +80,14 @@ func handleLambda() (string, error) {
 			} else {
 				items = append(items, feed.Feed...)
 				// mark source as processed
-				for i, fe := range processedFeeds {
-					if len(feed.Feed) > 0 && fe.Id == feed.Feed[0].Source {
-						processedFeeds[i] = processedFeeds[len(processedFeeds)-1]
-						// We do not need to put s[i] at the end, as it will be discarded anyway
-						processedFeeds = processedFeeds[:len(processedFeeds)-1]
-					}
+				if len(feed.Feed) > 0 {
+					utils.MarkFeedAsProcessed(feed.Feed[0].Source, &processedFeeds)
+				}
+				if len(feed.Aliases) > 0 {
+					catsColl = append(catsColl, feed.Aliases...)
 				}
 			}
+		// TODO probably useless
 		case <-time.After(SINGLE_PARSE_LIMIT):
 			fmt.Printf("didn't get single result in %s, so skipping...\n", TOTAL_PARSE_TIME_LIMIT.String())
 		case <-timeout:
@@ -93,17 +98,22 @@ func handleLambda() (string, error) {
 			break
 		}
 	}
-	saveToDB(items)
+	utils.SaveCategoryAlias(catsColl)
+	fmt.Printf("New category aliases %v \n", catsColl)
+
+	result := saveToDB(items)
 	duration := time.Since(startTime)
 	fmt.Printf("execution time: %v \n", duration)
-	fmt.Printf("sources that wasn't processed %v", processedFeeds)
-	return fmt.Sprintf("inserted rows: %d \n", len(items)), nil
+	fmt.Printf("sources that wasn't processed %v \n", processedFeeds)
+	affectedRows, _ := result.RowsAffected()
+	lastID, _ := result.LastInsertId()
+	return fmt.Sprintf("last id: %d, inserted rows: %d \n", lastID, affectedRows), nil
 }
 
 // Last Step
-func saveToDB(items []utils.CustomFeed) {
+func saveToDB(items []utils.CustomFeed) sql.Result {
 	if items == nil || len(items) == 0 {
-		return
+		return nil
 	}
 	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
@@ -115,7 +125,7 @@ func saveToDB(items []utils.CustomFeed) {
 	catAliases := make(map[string]int32)
 	rows, err := db.Query(`SELECT id, alias FROM news_category_alias;`)
 	if err != nil {
-		return
+		return nil
 	}
 	for rows.Next() {
 		var key string
@@ -139,7 +149,7 @@ func saveToDB(items []utils.CustomFeed) {
 		}
 	}
 
-	_, err = db.NamedExec(`INSERT INTO
+	inserts, err := db.NamedExec(`INSERT INTO
 	 news_feed(title,source_id,image_link,pub_date,feed_link,category_alias_id)
 	 VALUES(:title,:source_id,:image_link,:pub_date,:feed_link,:category_alias_id)
 	 ON CONFLICT(feed_link) DO NOTHING;
@@ -147,4 +157,5 @@ func saveToDB(items []utils.CustomFeed) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	return inserts
 }

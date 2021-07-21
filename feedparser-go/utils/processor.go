@@ -10,7 +10,6 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-// Implement categories
 type CustomFeed struct {
 	Name         string         `db:"title"`
 	PubDate      time.Time      `db:"pub_date"`
@@ -21,7 +20,7 @@ type CustomFeed struct {
 	CatAliasName string         `db:"-"`
 }
 
-func ProcessFeed(item *gofeed.Item, lastTime *time.Time, v *Feed) (CustomFeed, error) {
+func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, error) {
 	prepareFeed(item, v.Name)
 
 	if item.Title == "" {
@@ -51,11 +50,13 @@ func ProcessFeed(item *gofeed.Item, lastTime *time.Time, v *Feed) (CustomFeed, e
 			fmt.Println("error while parsing pub_date")
 			return CustomFeed{}, err
 		}
-		feed.PubDate = parsedTime
+		feed.PubDate = parsedTime.UTC()
 	}
 
-	if feed.PubDate.Equal(*lastTime) || feed.PubDate.Before(*lastTime) {
-		return CustomFeed{}, errors.New("old_feed")
+	currentDate := time.Now().UTC()
+
+	if !feed.PubDate.IsZero() && (feed.PubDate.Equal(lastTime) || feed.PubDate.Before(lastTime) || feed.PubDate.After(currentDate)) {
+		return CustomFeed{}, errors.New("old feed")
 	}
 
 	var parsedImage string
@@ -90,6 +91,12 @@ func ProcessFeed(item *gofeed.Item, lastTime *time.Time, v *Feed) (CustomFeed, e
 		catAlias := strings.ToLower(strings.TrimSpace(item.Categories[0]))
 		// Set alias name in feed object to be transformed to integer on final step
 		feed.CatAliasName = catAlias
+	}
+
+	// If single item doesn't have category
+	// look if source has category
+	if feed.CatAliasName == "" && v.CategoryAlias.Valid == true {
+		feed.CatAliasName = v.CategoryAlias.String
 	}
 	return feed, nil
 }

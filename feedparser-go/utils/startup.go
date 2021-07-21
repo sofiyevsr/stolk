@@ -13,9 +13,10 @@ type LastPubDateForSource struct {
 }
 
 type Feed struct {
-	Id   int    `db:"id"`
-	Name string `db:"name"`
-	Feed string `db:"link"`
+	Id            int            `db:"id"`
+	Name          string         `db:"name"`
+	Feed          string         `db:"link"`
+	CategoryAlias sql.NullString `db:"category_alias_name"`
 }
 
 type StartupData struct {
@@ -53,7 +54,7 @@ func getFeedsFromDB(feeds *[]Feed) error {
 		return err
 	}
 
-	e := db.Select(feeds, "SELECT id,name,link FROM news_source;")
+	e := db.Select(feeds, "SELECT id,name,category_alias_name,link FROM news_source;")
 	if e != nil {
 		return e
 	}
