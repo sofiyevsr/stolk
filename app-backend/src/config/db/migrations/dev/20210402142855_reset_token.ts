@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
       .unique()
       .references("id")
       .inTable(tables.app_user)
-      .onDelete("NO ACTION")
+      .onDelete("CASCADE")
       .onUpdate("CASCADE");
     t.string("token").notNullable();
     t.timestamp("issued_at", { useTz: true }).notNullable();

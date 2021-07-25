@@ -50,82 +50,90 @@ class _AuthViewState extends State<AuthView>
     final theme = Theme.of(context);
     final canPop = NavigationService.key.currentState?.canPop();
     return Scaffold(
-      appBar: canPop == true
-          ? AppBar(
-              leading: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                ),
-                child: Icon(
-                  Icons.arrow_back_sharp,
-                  size: 30,
-                  color: theme.primaryColor,
-                ),
-                onPressed: () {
-                  NavigationService.pop();
-                },
-              ),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            )
-          : null,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                  ),
-                ],
-                color: Theme.of(context).accentColor.withOpacity(.9),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                margin: const EdgeInsets.all(30),
-                child: Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor.withOpacity(.4),
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (canPop == true)
+                    AppBar(
+                      leading: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          shadowColor: Colors.transparent,
                         ),
+                        child: Icon(
+                          Icons.arrow_back_sharp,
+                          size: 30,
+                          color: theme.iconTheme.color,
+                        ),
+                        onPressed: () {
+                          NavigationService.pop();
+                        },
                       ),
-                      child: TabBar(
-                        controller: _controller,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        unselectedLabelColor: Colors.black,
-                        tabs: [
-                          Tab(
-                            text: tr("login.title"),
-                          ),
-                          Tab(
-                            text: tr("register.title"),
-                          ),
-                        ],
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                    ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
                       ),
                     ),
-                    AnimatedCrossFade(
-                      firstChild: LoginPage(),
-                      secondChild: RegisterPage(),
-                      secondCurve: Curves.easeIn,
-                      firstCurve: Curves.easeIn,
-                      crossFadeState: _isLogin
-                          ? CrossFadeState.showFirst
-                          : CrossFadeState.showSecond,
-                      duration: const Duration(milliseconds: 450),
-                    )
-                  ],
-                ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child:
+                              Text("Welcome", style: theme.textTheme.headline3),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(.4),
+                            ),
+                          ),
+                          child: TabBar(
+                            controller: _controller,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            unselectedLabelColor: Colors.black,
+                            tabs: [
+                              Tab(
+                                text: tr("login.title"),
+                              ),
+                              Tab(
+                                text: tr("register.title"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        AnimatedCrossFade(
+                          firstChild: LoginPage(),
+                          secondChild: RegisterPage(),
+                          secondCurve: Curves.easeIn,
+                          firstCurve: Curves.easeIn,
+                          crossFadeState: _isLogin
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          duration: const Duration(milliseconds: 450),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

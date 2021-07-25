@@ -15,15 +15,41 @@ class NewsView extends StatefulWidget {
   _NewsViewState createState() => _NewsViewState();
 }
 
-class _NewsViewState extends State<NewsView> {
+class _NewsViewState extends State<NewsView>
+    with SingleTickerProviderStateMixin {
   final _controller = Completer<WebViewController>();
   String _title = "";
-  bool isLoading = true;
+
   double loadingPer = 0;
+  late AnimationController _loadingController;
+
+  void _progressToTarget(double d) {
+    _loadingController.animateTo(d).catchError((e) => print(e));
+  }
 
   @override
   void initState() {
     super.initState();
+    _loadingController = AnimationController(
+      vsync: this,
+      value: 0,
+      lowerBound: 0.0,
+      upperBound: 100.0,
+      duration: const Duration(
+        milliseconds: 800,
+      ),
+    );
+    _loadingController.addListener(() {
+      setState(() {
+        loadingPer = _loadingController.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _loadingController.dispose();
   }
 
   @override
@@ -49,7 +75,6 @@ class _NewsViewState extends State<NewsView> {
         ),
       ),
       appBar: AppBar(
-        // backgroundColor: Colors.red,
         centerTitle: true,
         title: Row(
           children: [
@@ -84,13 +109,12 @@ class _NewsViewState extends State<NewsView> {
         child: Stack(
           children: [
             WebView(
+              debuggingEnabled: true,
               onWebViewCreated: (c) {
                 _controller.complete(c);
               },
               onProgress: (i) {
-                setState(() {
-                  loadingPer = i.toDouble();
-                });
+                _progressToTarget(i.toDouble());
               },
               onPageFinished: (s) async {
                 final view = await _controller.future;
@@ -100,9 +124,6 @@ class _NewsViewState extends State<NewsView> {
                     _title = title;
                   });
                 }
-                setState(() {
-                  isLoading = false;
-                });
               },
               onWebResourceError: (e) {},
               allowsInlineMediaPlayback: true,

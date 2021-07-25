@@ -4,21 +4,7 @@ import 'package:feedapp/logic/blocs/authBloc/auth.dart';
 import 'package:feedapp/utils/services/app/toastService.dart';
 import "constants.dart";
 
-class CustomInterceptor extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (AuthBloc.instance.state is AuthorizedState) {
-      final token = (AuthBloc.instance.state as AuthorizedState).token;
-      options.headers['authorization'] = 'Bearer $token';
-    }
-    return super.onRequest(options, handler);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    return super.onResponse(response, handler);
-  }
-
+class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
@@ -40,16 +26,32 @@ class CustomInterceptor extends Interceptor {
   }
 }
 
+class CustomInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if (AuthBloc.instance.state is AuthorizedState) {
+      final token = (AuthBloc.instance.state as AuthorizedState).token;
+      options.headers['authorization'] = 'Bearer $token';
+    }
+    return super.onRequest(options, handler);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    return super.onResponse(response, handler);
+  }
+}
+
 class CustomDio {
-  static final BaseOptions _options = BaseOptions(
-      connectTimeout: 6000,
-      baseUrl: apiUrl,
-      contentType: Headers.jsonContentType);
-  static final instance = CustomDio._();
+  late Dio _dio;
+  CustomDio({bool enableErrorHandler = false}) {
+    final BaseOptions _options = BaseOptions(
+        connectTimeout: 6000,
+        baseUrl: apiUrl,
+        contentType: Headers.jsonContentType);
 
-  static final _dio = Dio(_options);
-
-  CustomDio._() {
+    _dio = Dio(_options);
+    if (enableErrorHandler == true) _dio.interceptors.add(ErrorInterceptor());
     _dio.interceptors.add(CustomInterceptor());
   }
 

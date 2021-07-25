@@ -54,16 +54,16 @@ final lightTheme = ThemeData(
   accentColor: const Color(0xFFe9c46a),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
-    labelStyle: TextStyle(fontSize: 20, color: Color(0xfffefae0)),
-    hoverColor: Colors.yellow,
-    focusColor: Colors.yellow,
+    // labelStyle: TextStyle(fontSize: 18, color: Color(0xfffefae0)),
+    // hoverColor: Colors.yellow,
+    // focusColor: Colors.yellow,
     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: CustomColorScheme.main,
-      ),
+          // color: CustomColorScheme.main,
+          ),
     ),
-    prefixStyle: TextStyle(color: Colors.white),
+    // prefixStyle: TextStyle(color: Colors.white),
   ),
   appBarTheme: AppBarTheme(
     elevation: 5,

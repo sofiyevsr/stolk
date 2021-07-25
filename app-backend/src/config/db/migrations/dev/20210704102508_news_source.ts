@@ -6,6 +6,8 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.news_source, (t) => {
     t.increments("id");
     t.string("name").unique().notNullable();
+    t.string("category_alias_name");
+    t.string("logo_suffix").notNullable();
     t.string("link").notNullable();
     t.integer("lang_id")
       .notNullable()

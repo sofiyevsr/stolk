@@ -34,6 +34,7 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   Widget _buildItem(SingleCategory category) {
+    final theme = Theme.of(context);
     if (category.id == widget.current) {
       return Container(
         padding: const EdgeInsets.all(10),
@@ -51,7 +52,7 @@ class _CategoryListState extends State<CategoryList> {
               height: 4,
               width: 4,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: theme.iconTheme.color,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
@@ -79,25 +80,25 @@ class _CategoryListState extends State<CategoryList> {
         height: 80,
       );
     }
+
+    final cats = [
+      SingleCategory.fromJSON({"id": 0, "name": "all"}),
+      ..._categories
+    ];
+
     return SizedBox(
       height: 80,
-      child: ListView(
+      child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        children: [
-          SingleCategory.fromJSON({"id": 0, "name": "all"}),
-          ..._categories
-        ]
-            .map(
-              (e) => GestureDetector(
-                key: Key(
-                  e.id.toString(),
-                ),
-                onTap: () => widget.changeCategory(e.id),
-                child: _buildItem(e),
-              ),
-            )
-            .toList(),
+        itemCount: cats.length,
+        itemBuilder: (ctx, index) => GestureDetector(
+          key: Key(
+            cats[index].id.toString(),
+          ),
+          onTap: () => widget.changeCategory(cats[index].id),
+          child: _buildItem(cats[index]),
+        ),
       ),
     );
   }

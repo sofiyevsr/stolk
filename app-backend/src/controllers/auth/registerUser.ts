@@ -10,17 +10,31 @@ export default async function registerUser(body: any) {
     throw new SoftError(error.message);
   }
   const hash = await hashPassword(value.password);
-  const [user] = await db(tables.app_user).insert(
-    {
-      first_name: value.first_name,
-      last_name: value.last_name,
-      email: value.email,
-      password: hash,
-      service_type_id: value.service_type,
-    },
-    ["id", "first_name", "last_name", "email", "created_at", "service_type_id"]
-  );
+  const [user] = await db(tables.app_user)
+    .insert(
+      {
+        first_name: value.first_name,
+        last_name: value.last_name,
+        email: value.email,
+        password: hash,
+        service_type_id: value.service_type,
+      },
+      [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "created_at",
+        "service_type_id",
+      ]
+    )
+    .catch((err) => {
+      // TODO 23505 unique violation
+      console.log(err);
+      throw err;
+    });
 
+  // TODO send verification code to email
   const token = await generateAccessToken({
     id: user.id,
     platform: value.session_type,

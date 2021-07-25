@@ -14,7 +14,7 @@ class NewsStateLoading extends NewsState {}
 class NewsStateNoData extends NewsState {}
 
 class NewsStateSuccess extends NewsState {
-  final News data;
+  final NewsModel data;
   final bool isLoadingNext;
   NewsStateSuccess({
     required this.data,
@@ -22,6 +22,10 @@ class NewsStateSuccess extends NewsState {
   });
   NewsStateSuccess setLoading() => NewsStateSuccess(
         isLoadingNext: true,
+        data: this.data,
+      );
+  NewsStateSuccess disableLoading() => NewsStateSuccess(
+        isLoadingNext: false,
         data: this.data,
       );
   @override

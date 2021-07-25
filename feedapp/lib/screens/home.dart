@@ -1,10 +1,11 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feed/allNews.dart';
+import 'settings/settings.dart';
+import 'sources.dart';
 
 final navItems = [
   {"icon": Icons.home, "title": "home"},
@@ -57,26 +58,29 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: Container(
-        child: PageView(
-          controller: _controller,
-          onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          children: [
-            BlocProvider<NewsBloc>(
-              create: (ctx) => NewsBloc()
-                ..add(
-                  FetchNewsEvent(category: null),
-                ),
-              child: AllNewsScreen(),
-            ),
-            AllNewsScreen(),
-            AllNewsScreen(),
-            SettingsPage(),
-          ],
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Container(
+          child: PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            children: [
+              BlocProvider<NewsBloc>(
+                create: (ctx) => NewsBloc()
+                  ..add(
+                    FetchNewsEvent(category: null),
+                  ),
+                child: AllNewsScreen(),
+              ),
+              SourcesPage(),
+              AllNewsScreen(),
+              SettingsPage(),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavyBar(

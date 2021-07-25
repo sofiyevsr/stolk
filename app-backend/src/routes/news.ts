@@ -19,10 +19,21 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
   }
 });
 
-r.post("/categories", async (_, res, next) => {
+r.get("/categories", async (_, res, next) => {
   try {
     const categories = await news.retrieve.allCategories();
     return responseSuccess(res, categories);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.get("/:id/comments", async (req, res, next) => {
+  try {
+    const { id } = await parseRequest(undefined, req.params.id);
+    const { last_id } = req.query;
+    const comments = await news.retrieve.comments(id, last_id as string);
+    return responseSuccess(res, comments);
   } catch (error) {
     return next(error);
   }
@@ -34,8 +45,8 @@ r.post("/:id/comment", authenticateMiddleware(), async (req, res, next) => {
       req.session?.user_id,
       req.params.id
     );
-    const comment_id = await news.actions.comment(id, user_id, req.body);
-    return responseSuccess(res, { comment_id });
+    const comment = await news.actions.comment(id, user_id, req.body);
+    return responseSuccess(res, { comment });
   } catch (error) {
     return next(error);
   }

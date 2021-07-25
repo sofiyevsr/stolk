@@ -26,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
       alignment: Alignment.center,
       child: FocusScope(
         child: Form(
+          autovalidateMode: AutovalidateMode.disabled,
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,

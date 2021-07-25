@@ -18,6 +18,7 @@ class SingleCategory extends Equatable {
 
 class SingleNews extends Equatable {
   final int id;
+  final int sourceID;
   final String title;
   final String sourceName;
   final String publishedDate;
@@ -27,9 +28,11 @@ class SingleNews extends Equatable {
   final int commentCount;
   final int? likeID;
   final int? bookmarkID;
+  final int? followID;
   final String? imageLink;
   SingleNews._({
     required this.id,
+    required this.sourceID,
     required this.title,
     required this.sourceName,
     required this.publishedDate,
@@ -38,12 +41,14 @@ class SingleNews extends Equatable {
     required this.likeCount,
     required this.commentCount,
     required this.likeID,
+    required this.followID,
     required this.bookmarkID,
     required this.imageLink,
   });
   SingleNews.fromJson(Map<String, dynamic> json)
       : this._(
           id: json['id'],
+          sourceID: json['source_id'],
           title: json['title'],
           sourceName: json['source_name'],
           publishedDate: json['pub_date'],
@@ -51,14 +56,16 @@ class SingleNews extends Equatable {
           imageLink: json['image_link'],
           feedLink: json['feed_link'],
           likeID: json["like_id"],
+          followID: json["follow_id"],
           likeCount: json["like_count"],
           commentCount: json["comment_count"],
-          bookmarkID: json["like_id"],
+          bookmarkID: json["bookmark_id"],
         );
 
   @override
   List get props => [
         id,
+        sourceID,
         title,
         sourceName,
         publishedDate,
@@ -69,6 +76,7 @@ class SingleNews extends Equatable {
         likeID,
         bookmarkID,
         imageLink,
+        followID
       ];
 }
 

@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
     t.string("email").unique().notNullable();
     t.string("password").notNullable();
     t.timestamp("banned_at", { useTz: true });
+    t.timestamp("confirmed_at", { useTz: true });
     t.integer("service_type_id")
       .notNullable()
       .references("id")

@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       child: FocusScope(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.disabled,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

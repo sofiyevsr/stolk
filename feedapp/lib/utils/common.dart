@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:feedapp/components/auth/views/AuthView.dart';
 import 'package:feedapp/logic/blocs/authBloc/utils/AuthBloc.dart';
+import 'package:feedapp/utils/constants.dart';
+import 'package:feedapp/utils/services/app/navigationService.dart';
 import 'package:feedapp/utils/services/app/toastService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,11 +49,11 @@ class LimitRangeTextInputFormatter extends TextInputFormatter {
   }
 }
 
-bool authorize() {
+// When user is not logged in push AuthView
+authorize() {
   final auth = AuthBloc.instance.state;
   if (auth is! AuthorizedState) {
-    ToastService.showAlert("not authorized");
-    return false;
+    NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+    throw Error();
   }
-  return true;
 }

@@ -20,7 +20,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         final data = await service.getAllNews(null, event.category);
         if (data.news.length != 0)
           yield NewsStateSuccess(
-            data: News(
+            data: NewsModel(
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
             ),
@@ -40,7 +40,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       try {
         if (event.data.news.length != 0)
           yield NewsStateSuccess(
-            data: News(
+            data: NewsModel(
               news: event.data.news,
               hasReachedEnd: event.data.hasReachedEnd,
             ),
@@ -74,7 +74,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             isLoadingNext: false,
           );
         } catch (e) {
-          // yield NewsStateError();
+          yield (state as NewsStateSuccess).disableLoading();
         }
       }
     }

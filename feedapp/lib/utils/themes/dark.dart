@@ -25,18 +25,19 @@ final darkTheme = ThemeData.dark().copyWith(
   scaffoldBackgroundColor: Colors.black54,
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
-    labelStyle: TextStyle(fontSize: 20, color: Colors.white),
+    // labelStyle: TextStyle(fontSize: 18, color: Colors.white),
     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.red,
-      ),
+          // color: Colors.red,
+          ),
     ),
-    prefixStyle: TextStyle(color: Colors.white),
+    // prefixStyle: TextStyle(color: Colors.white),
   ),
   iconTheme: IconThemeData(color: Colors.white),
   primaryColorDark: Colors.blue,
   appBarTheme: AppBarTheme(
+    color: Colors.grey[600],
     elevation: 5,
     textTheme: const TextTheme(
       headline5: TextStyle(fontWeight: FontWeight.w700),

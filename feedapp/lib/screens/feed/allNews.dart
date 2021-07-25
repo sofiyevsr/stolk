@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:feedapp/screens/feed/widgets/categoryList.dart';
 import 'package:feedapp/screens/feed/widgets/singleNews.dart';
+import 'package:feedapp/screens/feed/widgets/singleNewsShimmer.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           () {
             final maxScroll = _scrollController.position.maxScrollExtent;
             final currentScroll = _scrollController.position.pixels;
-            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT) {
+            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
               context.read<NewsBloc>().add(
                     FetchNextNewsEvent(
                       category: _currentCategory,
@@ -50,6 +51,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
   @override
   void dispose() {
+    _timer?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
@@ -94,6 +96,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
             Expanded(
               child: BlocBuilder<NewsBloc, NewsState>(
                 builder: (ctx, state) {
+                  if (state is NewsStateLoading) return SingleNewsShimmer();
                   if (state is NewsStateSuccess) {
                     return RefreshIndicator(
                       onRefresh: onRefresh,
@@ -123,10 +126,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                       ),
                     );
                   }
-                  if (state is NewsStateLoading)
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+
                   if (state is NewsStateNoData) {}
                   if (state is NewsStateError) {}
                   return Container();

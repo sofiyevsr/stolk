@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 final apiUrl = "http://localhost:4500/";
 
+const Map<int, String> LANGS = {0: "az", 1: "tr", 2: "ru", 3: "en"};
+
 class AppPlatform {
-  static const WEB = 0;
-  static const IOS = 1;
-  static const ANDROID = 2;
+  static const IOS = 0;
+  static const ANDROID = 1;
 }
 
 class SessionType {
-  static const WEB = 0;
-  static const IOS = 1;
-  static const ANDROID = 2;
+  static const IOS = 0;
+  static const ANDROID = 1;
 }
 
 class ServiceType {
@@ -24,9 +24,6 @@ class AccountType {
 }
 
 String platformToName(int p) {
-  if (p == AppPlatform.WEB) {
-    return "WEB";
-  }
   if (p == AppPlatform.IOS) {
     return "IOS";
   }
@@ -34,20 +31,6 @@ String platformToName(int p) {
     return "ANDROID";
   }
   return "";
-}
-
-class BusinessType {
-  static const FOOD = 0;
-  static const CLOTHING = 1;
-}
-
-class ClosedBanners {
-  static const MY_BOOKINGS = 0;
-}
-
-class CampaignStatus {
-  static const FREE = 0;
-  static const PREMIUM = 1;
 }
 
 class CustomColorScheme {
@@ -59,16 +42,12 @@ class RouteNames {
   static const CHECKTOKENFAIL = "check_token_fail";
   static const INTRODUCTION = "introduction";
   static const SPLASH = "splash";
+  static const SINGLE_SETTING = "single_setting";
   static const SETTINGS = "settings";
-  static const SINGLE_BOOKING = "single_booking";
-  static const BOOKINGS = "bookings";
+  static const SINGLE_NEWS = "single_news";
   static const HOME = "home";
   static const AUTH = "auth";
-  static const SINGLE_CAMPAIGN = "single_campaign";
-  static const MY_BOOKINGS = "my_bookings";
-  static const SINGLE_SETTING = "single_setting";
 }
 
-const DEFAULT_RADIUS = 1000;
-const DEFAULT_CATS = [BusinessType.FOOD, BusinessType.CLOTHING];
-const List<int> DEFAULT_BANNERS = [];
+final passwordRegex =
+    RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$");

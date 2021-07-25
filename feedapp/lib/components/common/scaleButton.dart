@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class ScaleButton extends StatefulWidget {
   final Function onFinish;
   final Widget child;
-
-  ScaleButton({required this.onFinish, required this.child});
+  final bool? disabled;
+  ScaleButton({
+    required this.onFinish,
+    required this.child,
+    this.disabled,
+  });
 
   @override
   _ScaleButton createState() => _ScaleButton();
@@ -32,18 +36,21 @@ class _ScaleButton extends State<ScaleButton>
   @override
   Widget build(ctx) => ScaleTransition(
         scale: _scale,
-        child: GestureDetector(
-          onTap: () {
-            widget.onFinish();
-          },
-          onLongPressStart: (_) {
-            _controller.animateTo(.7);
-          },
-          onLongPressEnd: (_) {
-            _controller.animateTo(1);
-            widget.onFinish();
-          },
-          child: widget.child,
+        child: AbsorbPointer(
+          absorbing: widget.disabled == true,
+          child: GestureDetector(
+            onTap: () {
+              widget.onFinish();
+            },
+            onLongPressStart: (_) {
+              _controller.animateTo(.7);
+            },
+            onLongPressEnd: (_) {
+              _controller.animateTo(1);
+              widget.onFinish();
+            },
+            child: widget.child,
+          ),
         ),
       );
 }

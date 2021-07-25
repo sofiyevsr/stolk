@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:feedapp/utils/constants.dart';
 import "package:flutter/material.dart";
 
 class PasswordInput extends StatefulWidget {
@@ -28,7 +29,7 @@ class _PasswordInputState extends State<PasswordInput> {
           suffixIcon: IconButton(
               tooltip:
                   _showPassword ? tr("hide_password") : tr("show_password"),
-              iconSize: 30,
+              iconSize: 26,
               icon: _showPassword
                   ? const Icon(Icons.visibility)
                   : const Icon(Icons.visibility_off),
@@ -39,7 +40,7 @@ class _PasswordInputState extends State<PasswordInput> {
               }),
           prefixIcon: Icon(
             Icons.lock_outline_rounded,
-            size: 32,
+            size: 26,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(
@@ -51,10 +52,13 @@ class _PasswordInputState extends State<PasswordInput> {
         ),
         onSaved: (s) => widget._onSaved(s?.trim()),
         validator: (s) {
-          if (s != null && s.isNotEmpty && s.trim().length > 8) {
-            return null;
+          if (s == null || s.isEmpty) {
+            return tr('validations.invalid_password');
           }
-          return tr('validations.invalid_password');
+          if (!passwordRegex.hasMatch(s)) {
+            return tr('validations.regex_password');
+          }
+          return null;
         },
       ),
     );

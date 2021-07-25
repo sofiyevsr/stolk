@@ -44,7 +44,8 @@ async function all(
     query = query
       .select(
         db.raw("min(bo.id) as bookmark_id"),
-        db.raw("min(l.id) as like_id")
+        db.raw("min(l.id) as like_id"),
+        db.raw("min(f.id) as follow_id")
       )
       .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
       .leftJoin(`${tables.news_bookmark} as bo`, function () {
@@ -90,7 +91,34 @@ async function allCategories() {
   return { categories };
 }
 
+async function comments(news_id: number, id?: string) {
+  let query = db
+    .select("id", "comment", "user_id")
+    .from(tables.news_comment)
+    .where({
+      news_id,
+    })
+    .orderBy("id", "desc")
+    .limit(DEFAULT_PERPAGE + 1);
+  if (id != null) {
+    const val = await Joi.number().validateAsync(id);
+    console.log(val);
+    query = query.andWhere("id", "<", val);
+  }
+  let comments = await query;
+  const hasReachedEnd = comments.length !== DEFAULT_PERPAGE + 1;
+  comments = comments.slice(0, DEFAULT_PERPAGE);
+
+  const result = {
+    comments,
+    has_reached_end: hasReachedEnd,
+  };
+
+  return result;
+}
+
 export default {
   all,
   allCategories,
+  comments,
 };

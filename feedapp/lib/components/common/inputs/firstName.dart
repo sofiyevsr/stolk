@@ -14,12 +14,11 @@ class FirstNameInput extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             isDense: true,
             alignLabelWithHint: true,
             prefixIcon: Icon(
-              Icons.person,
+              Icons.person_outlined,
               size: 32,
             ),
             border: OutlineInputBorder(

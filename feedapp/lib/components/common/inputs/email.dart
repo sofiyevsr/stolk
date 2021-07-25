@@ -14,13 +14,12 @@ class EmailInput extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             isDense: true,
             alignLabelWithHint: true,
             prefixIcon: Icon(
-              Icons.email_rounded,
-              size: 32,
+              Icons.email_outlined,
+              size: 26,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
