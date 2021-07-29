@@ -1,11 +1,13 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:feedapp/logic/blocs/newsBloc/news.dart';
+import 'package:feedapp/logic/blocs/sourcesBloc/sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feed/allNews.dart';
+import 'history/history.dart';
 import 'settings/settings.dart';
-import 'sources.dart';
+import 'sources/sources.dart';
 
 final navItems = [
   {"icon": Icons.home, "title": "home"},
@@ -60,27 +62,31 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: Container(
-          child: PageView(
-            controller: _controller,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            children: [
-              BlocProvider<NewsBloc>(
-                create: (ctx) => NewsBloc()
-                  ..add(
-                    FetchNewsEvent(category: null),
-                  ),
-                child: AllNewsScreen(),
-              ),
-              SourcesPage(),
-              AllNewsScreen(),
-              SettingsPage(),
-            ],
-          ),
+        child: PageView(
+          controller: _controller,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          children: [
+            BlocProvider<NewsBloc>(
+              create: (ctx) => NewsBloc()
+                ..add(
+                  FetchNewsEvent(category: null, filterBy: null),
+                ),
+              child: AllNewsScreen(),
+            ),
+            BlocProvider<SourcesBloc>(
+              create: (ctx) => SourcesBloc()
+                ..add(
+                  FetchSourcesEvent(),
+                ),
+              child: SourcesPage(),
+            ),
+            HistoryPage(),
+            SettingsPage(),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavyBar(

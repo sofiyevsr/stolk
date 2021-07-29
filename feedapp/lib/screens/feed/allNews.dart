@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:feedapp/screens/feed/widgets/categoryList.dart';
 import 'package:feedapp/screens/feed/widgets/singleNews.dart';
-import 'package:feedapp/screens/feed/widgets/singleNewsShimmer.dart';
+import 'package:feedapp/screens/feed/widgets/allNewsShimmer.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +40,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               context.read<NewsBloc>().add(
                     FetchNextNewsEvent(
                       category: _currentCategory,
+                      filterBy: null,
                     ),
                   );
             }
@@ -58,7 +59,8 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
   Future<void> onRefresh() async {
     try {
-      final data = await service.getAllNews(null, _currentCategory);
+      final data = await service.getAllNews(
+          pubDate: null, category: _currentCategory, filterBy: null);
       BlocProvider.of<NewsBloc>(context).add(
         RefreshNewsEvent(
           data: data,
@@ -73,9 +75,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     );
     final bloc = context.read<NewsBloc>();
     bloc.add(
-      FetchNewsEvent(
-        category: id,
-      ),
+      FetchNewsEvent(category: id, filterBy: null),
     );
     setState(() {
       _currentCategory = id;
@@ -84,57 +84,54 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            CategoryList(
-              current: _currentCategory,
-              changeCategory: _changeCategory,
-            ),
-            Expanded(
-              child: BlocBuilder<NewsBloc, NewsState>(
-                builder: (ctx, state) {
-                  if (state is NewsStateLoading) return SingleNewsShimmer();
-                  if (state is NewsStateSuccess) {
-                    return RefreshIndicator(
-                      onRefresh: onRefresh,
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        controller: _scrollController,
-                        shrinkWrap: true,
-                        itemCount: state.data.hasReachedEnd
-                            ? state.data.news.length
-                            : state.data.news.length + 1,
-                        itemBuilder: (ctx, index) =>
-                            index >= state.data.news.length
-                                ? Container(
-                                    height: 50,
-                                    child: Center(
-                                      child: CircularProgressIndicator.adaptive(
-                                        strokeWidth: 8,
-                                      ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          CategoryList(
+            current: _currentCategory,
+            changeCategory: _changeCategory,
+          ),
+          Expanded(
+            child: BlocBuilder<NewsBloc, NewsState>(
+              builder: (ctx, state) {
+                if (state is NewsStateLoading) return AllNewsShimmer();
+                if (state is NewsStateSuccess) {
+                  return RefreshIndicator(
+                    onRefresh: onRefresh,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      controller: _scrollController,
+                      itemCount: state.data.hasReachedEnd
+                          ? state.data.news.length
+                          : state.data.news.length + 1,
+                      itemBuilder: (ctx, index) =>
+                          index >= state.data.news.length
+                              ? Container(
+                                  height: 50,
+                                  child: Center(
+                                    child: CircularProgressIndicator.adaptive(
+                                      strokeWidth: 8,
                                     ),
-                                  )
-                                : SingleNewsView(
-                                    key: Key(
-                                      state.data.news[index].id.toString(),
-                                    ),
-                                    feed: state.data.news[index],
                                   ),
-                      ),
-                    );
-                  }
+                                )
+                              : SingleNewsView(
+                                  key: Key(
+                                    state.data.news[index].id.toString(),
+                                  ),
+                                  feed: state.data.news[index],
+                                ),
+                    ),
+                  );
+                }
 
-                  if (state is NewsStateNoData) {}
-                  if (state is NewsStateError) {}
-                  return Container();
-                },
-              ),
+                if (state is NewsStateNoData) {}
+                if (state is NewsStateError) {}
+                return Container();
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

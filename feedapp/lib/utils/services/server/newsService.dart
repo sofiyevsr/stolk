@@ -6,9 +6,11 @@ import 'package:feedapp/utils/services/server/apiService.dart';
 class NewsService extends ApiService {
   NewsService() : super(enableErrorHandler: false);
 
-  Future<AllNewsResponse> getAllNews([String? pubDate, int? category]) async {
+  Future<AllNewsResponse> getAllNews(
+      {String? pubDate, int? category, String? filterBy}) async {
     final response = await this.request.get("/news/all", {
       if (pubDate != null) 'pub_date': pubDate,
+      if (filterBy != null) 'filter_by': filterBy,
       if (category != null && category != 0) 'category': category,
     }, {});
     return AllNewsResponse.fromJSON(response.data['body']);
@@ -19,7 +21,7 @@ class NewsService extends ApiService {
     return AllCategoriesResponse.fromJSON(response.data['body']);
   }
 
-  Future<AllCommentsResponse> getAllComments(int id, [int? lastID]) async {
+  Future<AllCommentsResponse> getAllComments(int id, int? lastID) async {
     final response = await this.request.get("/news/$id/comments", {
       if (lastID != null) 'last_id': lastID,
     }, {});

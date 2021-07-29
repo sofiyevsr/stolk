@@ -4,6 +4,7 @@ const config = {
   development: {
     client: "pg",
     connection: {
+      port: process.env.SQL_PORT,
       host: process.env.SQL_HOST,
       database: process.env.SQL_DATABASE,
       user: process.env.SQL_USER,
@@ -17,9 +18,13 @@ const config = {
       directory: "./src/config/db/seeds/dev",
     },
   },
-  production: {
+  staging: {
     client: "pg",
     connection: {
+      port: process.env.SQL_PORT,
+      ssl: {
+        rejectUnauthorized: false,
+      },
       host: process.env.SQL_HOST,
       database: process.env.SQL_DATABASE,
       user: process.env.SQL_USER,
@@ -27,10 +32,10 @@ const config = {
     },
     migrations: {
       tableName: "knex_migrations",
-      directory: "./src/config/db/migrations/prod",
+      directory: "./src/config/db/migrations/stag",
     },
     seeds: {
-      directory: "./src/config/db/seeds/prod",
+      directory: "./src/config/db/seeds/stag",
     },
   },
 };

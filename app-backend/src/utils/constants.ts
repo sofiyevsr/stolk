@@ -51,6 +51,7 @@ export const tables = {
   source_follow: "source_follow",
   notification_token: "notification_token",
   news_comment: "news_comment",
+  news_read_history: "news_read_history",
 };
 
 export const functions = {

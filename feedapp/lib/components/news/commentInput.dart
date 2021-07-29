@@ -24,6 +24,7 @@ class _CommentInputState extends State<CommentInput> {
         body: _inputController.text,
         newsID: widget.newsID,
       ));
+      _inputController.clear();
     }
   }
 

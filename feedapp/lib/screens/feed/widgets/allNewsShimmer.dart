@@ -3,8 +3,8 @@ import 'package:shimmer/shimmer.dart';
 
 const NEWS_HEIGHT = 300.0;
 
-class SingleNewsShimmer extends StatelessWidget {
-  const SingleNewsShimmer({Key? key}) : super(key: key);
+class AllNewsShimmer extends StatelessWidget {
+  const AllNewsShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

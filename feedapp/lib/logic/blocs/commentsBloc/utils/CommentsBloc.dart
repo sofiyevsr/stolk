@@ -16,7 +16,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     if (event is FetchCommentsEvent) {
       try {
         yield CommentsStateLoading();
-        final data = await service.getAllComments(event.id);
+        final data = await service.getAllComments(event.id, null);
         yield CommentsStateSuccess(
           data: CommentsModel(
             comments: data.comments,

@@ -8,12 +8,7 @@ class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
-      print(err.response);
-      if (err.response?.statusCode == 401) {
-        AuthBloc.instance.add(ApiForceLogout());
-        ToastService.showAlert(tr("server_errors.session_expired"));
-      } else if (tr(err.response?.data["message"]) ==
-          err.response?.data["message"])
+      if (tr(err.response?.data["message"]) == err.response?.data["message"])
         ToastService.showAlert(tr("errors.default"));
       else {
         ToastService.showAlert(
@@ -27,6 +22,17 @@ class ErrorInterceptor extends Interceptor {
 }
 
 class CustomInterceptor extends Interceptor {
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    if (err.response != null) {
+      if (err.response?.statusCode == 401) {
+        AuthBloc.instance.add(ApiForceLogout());
+        ToastService.showAlert(tr("server_errors.session_expired"));
+      }
+    }
+    return super.onError(err, handler);
+  }
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (AuthBloc.instance.state is AuthorizedState) {

@@ -7,12 +7,27 @@ interface NewsResult {
   has_reached_end: boolean;
 }
 
+function validateAllNewsRequest() {
+  return Joi.object({
+    filterBy: Joi.string().valid("like", "history", "bookmark", "comment"),
+    userID: Joi.any().when("filterBy", {
+      then: Joi.number().required(),
+      otherwise: Joi.number(),
+    }),
+  }).options({ stripUnknown: true });
+}
+
 async function all(
   perPage?: string,
   lastCreatedAt?: string,
   cat?: string,
-  user_id?: number
+  userID?: number,
+  filterBy?: string
 ) {
+  const values = await validateAllNewsRequest().validateAsync({
+    userID,
+    filterBy,
+  });
   let result: NewsResult;
   let query = db
     .select([
@@ -40,23 +55,43 @@ async function all(
     .orderBy("pub_date", "desc")
     .groupBy("n.id", "s.id", "c.id");
 
-  if (user_id != null) {
+  if (userID != null) {
     query = query
       .select(
         db.raw("min(bo.id) as bookmark_id"),
         db.raw("min(l.id) as like_id"),
-        db.raw("min(f.id) as follow_id")
+        db.raw("min(f.id) as follow_id"),
+        db.raw("min(h.id) as read_history_id")
       )
       .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
       .leftJoin(`${tables.news_bookmark} as bo`, function () {
         this.on("bo.news_id", "n.id");
-        this.andOnVal("bo.user_id", "=", user_id);
+        this.andOnVal("bo.user_id", "=", userID);
       })
       .leftJoin(`${tables.news_like} as l`, function () {
         this.on("l.news_id", "n.id");
-        this.andOnVal("l.user_id", "=", user_id);
+        this.andOnVal("l.user_id", "=", userID);
       })
-      .where({ "f.user_id": user_id });
+      .leftJoin(`${tables.news_read_history} as h`, function () {
+        this.on("h.news_id", "n.id");
+        this.andOnVal("h.user_id", "=", userID);
+      });
+    if (values.filterBy === "like") {
+      query = query.where({ "l.user_id": userID });
+    } else if (values.filterBy === "bookmark") {
+      query = query.where({ "bo.user_id": userID });
+    } else if (values.filterBy === "history") {
+      query = query.where({ "h.user_id": userID });
+    } else if (values.filterBy === "comment") {
+      query = query
+        .leftJoin(`${tables.news_comment} as co`, function () {
+          this.on("co.news_id", "n.id");
+          this.andOnVal("co.user_id", "=", userID);
+        })
+        .where({ "co.user_id": userID });
+    } else {
+      query = query.where({ "f.user_id": userID });
+    }
   }
 
   if (lastCreatedAt != null) {
@@ -64,7 +99,7 @@ async function all(
     query = query.andWhere("n.pub_date", "<", lastCreatedAt);
   }
 
-  if (cat != null) {
+  if (cat != null && values.filterBy == null) {
     const val = await Joi.number().min(1).max(200).validateAsync(cat);
     query = query.where((builder) => builder.where("c.id", val));
   }

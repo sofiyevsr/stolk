@@ -5,6 +5,7 @@ import 'package:feedapp/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 
 final sources = SourceService();
+const _iconSize = 30.0;
 
 class SingleNewsHeader extends StatefulWidget {
   final SingleNews feed;
@@ -34,12 +35,13 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
       } else {
         await sources.follow(widget.feed.sourceID);
       }
-    } catch (e) {
-      print(e);
-    } finally {
       setState(() {
         _isRequestOn = false;
         _isFollowing = !_isFollowing;
+      });
+    } catch (e) {
+      setState(() {
+        _isRequestOn = false;
       });
     }
   }
@@ -82,17 +84,17 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
               child: _isFollowing == true
                   ? Icon(
                       Icons.done_all,
-                      size: 32,
+                      size: _iconSize,
                     )
                   : Icon(
                       Icons.add,
-                      size: 32,
+                      size: _iconSize,
                     ),
               onFinish: onFinish,
             ),
             PopupMenuButton(
-              iconSize: 32,
               offset: Offset(0, 40),
+              iconSize: _iconSize,
               itemBuilder: (entry) {
                 return [
                   PopupMenuItem(

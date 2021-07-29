@@ -1,9 +1,15 @@
+import 'package:feedapp/utils/@types/response/allSources.dart';
 import 'package:feedapp/utils/common.dart';
 
 import 'apiService.dart';
 
 class SourceService extends ApiService {
   SourceService() : super(enableErrorHandler: false);
+
+  Future<AllSourcesResponse> getAllSources() async {
+    final response = await this.request.get("/source", {}, {});
+    return AllSourcesResponse.fromJSON(response.data['body']);
+  }
 
   Future<void> follow(int sourceID) async {
     authorize();

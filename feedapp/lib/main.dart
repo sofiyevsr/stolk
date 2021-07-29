@@ -55,6 +55,7 @@ void main() {
     );
   }, (exception, trace) {
     print(exception);
+    print(trace);
   });
   FlutterError.onError = (details, {bool forceReport = false}) {
     print(details);

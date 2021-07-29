@@ -1,4 +1,10 @@
 {
+  "languages": {
+    "az": "Azərbaycanca",
+    "tr": "Türkçe",
+    "ru": "По русский",
+    "en": "English"
+  },
   "campaign": {
     "name": "Ad",
     "discount": "Endirim",

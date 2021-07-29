@@ -7,7 +7,7 @@ import 'package:feedapp/utils/@types/response/register.dart';
 import 'package:feedapp/utils/services/server/apiService.dart';
 
 class AuthService extends ApiService {
-  AuthService() : super(enableErrorHandler: true);
+  AuthService() : super(enableErrorHandler: false);
 
   Future<LoginResponse> login(LoginRequest data) async {
     final response = await this.request.post("/auth/login", data.toMap(), {});

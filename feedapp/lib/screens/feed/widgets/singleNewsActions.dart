@@ -9,7 +9,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share_plus/share_plus.dart';
 
 final news = NewsService();
-const _iconSize = 36.0;
+const _iconSize = 30.0;
 
 class SingleNewsActions extends StatefulWidget {
   final int newsID;

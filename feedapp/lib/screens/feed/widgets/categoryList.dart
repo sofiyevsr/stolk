@@ -15,7 +15,7 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
-  var _isLoading = true;
+  bool _isLoading = true;
   List<SingleCategory> _categories = [];
 
   @override
@@ -87,7 +87,7 @@ class _CategoryListState extends State<CategoryList> {
     ];
 
     return SizedBox(
-      height: 80,
+      height: 60,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,

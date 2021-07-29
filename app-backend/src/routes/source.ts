@@ -6,9 +6,10 @@ import authenticateMiddleware from "src/middlewares/authenticate";
 
 const r = Router();
 
-r.get("/", async (_, res, next) => {
+r.get("/", authenticateMiddleware(true), async (req, res, next) => {
   try {
-    const data = await source.retrieve.allSources();
+    const user_id = req.session?.user_id;
+    const data = await source.retrieve.allSources(user_id);
     return responseSuccess(res, data);
   } catch (error) {
     return next(error);

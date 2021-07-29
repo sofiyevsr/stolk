@@ -21,7 +21,7 @@ const (
 
 func main() {
 	env := os.Getenv("GO_ENV")
-	if env == "development" {
+	if env == "development" || env == "staging" {
 		err := godotenv.Load()
 		if err != nil {
 			err := godotenv.Load(os.Getenv("ENV_PATH"))

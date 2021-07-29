@@ -17,7 +17,11 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (event is FetchNewsEvent) {
       try {
         yield NewsStateLoading();
-        final data = await service.getAllNews(null, event.category);
+        final data = await service.getAllNews(
+          pubDate: null,
+          category: event.category,
+          filterBy: event.filterBy,
+        );
         if (data.news.length != 0)
           yield NewsStateSuccess(
             data: NewsModel(
@@ -65,7 +69,11 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               existing.data.news[existing.data.news.length - 1].publishedDate;
 
           // set Loading and fetch data then
-          final data = await service.getAllNews(lastPub, event.category);
+          final data = await service.getAllNews(
+            pubDate: lastPub,
+            category: event.category,
+            filterBy: event.filterBy,
+          );
           yield NewsStateSuccess(
             data: existing.data.addNewNews(
               incomingNews: data.news,

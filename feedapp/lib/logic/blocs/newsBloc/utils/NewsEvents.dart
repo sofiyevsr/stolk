@@ -7,9 +7,10 @@ class NewsEvent extends Equatable {
 
 class FetchNewsEvent extends NewsEvent {
   final int? category;
-  FetchNewsEvent({required this.category});
+  final String? filterBy;
+  FetchNewsEvent({required this.category, required this.filterBy});
 
-  List<Object?> get props => [category];
+  List<Object?> get props => [filterBy, category];
 }
 
 class RefreshNewsEvent extends NewsEvent {
@@ -23,7 +24,8 @@ class RefreshNewsEvent extends NewsEvent {
 
 class FetchNextNewsEvent extends NewsEvent {
   final int? category;
-  FetchNextNewsEvent({required this.category});
+  final String? filterBy;
+  FetchNextNewsEvent({required this.category, required this.filterBy});
 
-  List<Object?> get props => [category];
+  List<Object?> get props => [filterBy, category];
 }
