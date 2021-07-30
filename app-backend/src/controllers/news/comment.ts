@@ -14,7 +14,7 @@ export const comment = async (newsID: string, userID: number, body: any) => {
       news_id: newsID,
       comment: value.comment,
     },
-    ["id", "user_id", "comment"]
+    ["id", "user_id", "comment", "created_at"]
   );
   return comment;
 };

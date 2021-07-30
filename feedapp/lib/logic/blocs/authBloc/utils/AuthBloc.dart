@@ -39,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await storage.setToken(response.token);
         yield AuthorizedState(
           user: User(
+            id: response.user.id,
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,
@@ -64,6 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await storage.setToken(response.token);
         yield AuthorizedState(
           user: User(
+            id: response.user.id,
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,
@@ -82,6 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final response = await _auth.checkToken(data);
         yield AuthorizedState(
           user: User(
+            id: response.user.id,
             firstName: response.user.firstName,
             lastName: response.user.lastName,
             email: response.user.email,

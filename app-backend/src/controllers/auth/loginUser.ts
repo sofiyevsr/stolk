@@ -12,7 +12,7 @@ export default async function loginUser(body: any) {
   }
   const dbUser = await db(tables.app_user)
     .select([
-      "id",
+      "id as user_id",
       "password",
       "service_type_id",
       "email",

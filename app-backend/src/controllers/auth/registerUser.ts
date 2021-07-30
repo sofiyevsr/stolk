@@ -20,7 +20,7 @@ export default async function registerUser(body: any) {
         service_type_id: value.service_type,
       },
       [
-        "id",
+        "id as user_id",
         "first_name",
         "last_name",
         "email",

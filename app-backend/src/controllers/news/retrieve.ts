@@ -128,8 +128,16 @@ async function allCategories() {
 
 async function comments(news_id: number, id?: string) {
   let query = db
-    .select("id", "comment", "user_id")
-    .from(tables.news_comment)
+    .select(
+      "c.id",
+      "c.comment",
+      "u.first_name",
+      "u.last_name",
+      "c.user_id",
+      "c.created_at"
+    )
+    .from(`${tables.news_comment} as c`)
+    .leftJoin(`${tables.app_user} as u`, "u.id", "c.user_id")
     .where({
       news_id,
     })

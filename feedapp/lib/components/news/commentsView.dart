@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:feedapp/components/common/centerLoadingWidget.dart';
+import 'package:feedapp/components/news/singleComment.dart';
 import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,24 +102,22 @@ class _CommentsViewState extends State<CommentsView> {
                                           builder: (_, int val, __) =>
                                               Transform.translate(
                                             offset: Offset(val.toDouble(), 0),
-                                            child: Container(
-                                              height: 100,
-                                              child: Text(
-                                                state.data.comments[index]
-                                                    .comment,
+                                            child: SingleCommentView(
+                                              key: Key(
+                                                state.data.comments[index].id
+                                                    .toString(),
                                               ),
+                                              comment:
+                                                  state.data.comments[index],
                                             ),
                                           ),
                                         )
-                                      : Container(
+                                      : SingleCommentView(
                                           key: Key(
                                             state.data.comments[index].id
                                                 .toString(),
                                           ),
-                                          height: 100,
-                                          child: Text(
-                                            state.data.comments[index].comment,
-                                          ),
+                                          comment: state.data.comments[index],
                                         );
                             }),
                       ),

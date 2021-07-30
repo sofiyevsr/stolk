@@ -119,7 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 child: CircleAvatar(
                                   child: Text(
-                                    user.firstName![0],
+                                    user.firstName[0],
                                     style: TextStyle(fontSize: 50),
                                   ),
                                   radius: 50.0,
@@ -127,7 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             ),
                             Text(
-                              '${user.firstName!} ${user.lastName!}',
+                              '${user.firstName} ${user.lastName}',
                               style: TextStyle(
                                 fontSize: 24,
                               ),
