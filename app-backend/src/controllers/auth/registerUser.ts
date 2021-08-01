@@ -36,13 +36,13 @@ export default async function registerUser(body: any) {
 
   // TODO send verification code to email
   const token = await generateAccessToken({
-    id: user.id,
+    id: user.user_id,
     platform: value.session_type,
   });
 
   const session = await db(tables.user_session).insert({
     session_type_id: value.session_type,
-    user_id: user.id,
+    user_id: user.user_id,
     token,
   });
   return { user, access_token: token };

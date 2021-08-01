@@ -10,11 +10,8 @@ final lightTheme = ThemeData(
     space: 0,
     thickness: 1,
   ),
-  highlightColor: const Color(0xfffefae0),
   fontFamily: 'Roboto',
   textTheme: TextTheme(
-    bodyText1: TextStyle(fontSize: 18),
-    bodyText2: TextStyle(fontSize: 20),
     headline1: TextStyle(fontWeight: FontWeight.bold),
   ),
   brightness: Brightness.light,
@@ -51,7 +48,7 @@ final lightTheme = ThemeData(
     ),
   ),
   scaffoldBackgroundColor: Colors.grey[300],
-  accentColor: const Color(0xFFe9c46a),
+  accentColor: CustomColorScheme.accent,
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     // labelStyle: TextStyle(fontSize: 18, color: Color(0xfffefae0)),
@@ -65,6 +62,8 @@ final lightTheme = ThemeData(
     ),
     // prefixStyle: TextStyle(color: Colors.white),
   ),
+  primaryColorLight: CustomColorScheme.primaryLight,
+  primaryColorDark: CustomColorScheme.primaryDark,
   appBarTheme: AppBarTheme(
     elevation: 5,
     textTheme: const TextTheme(

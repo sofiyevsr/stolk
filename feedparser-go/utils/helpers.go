@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"html"
 	"net/url"
 	"strings"
@@ -54,12 +55,13 @@ func tryParseDate(date string) (time.Time, error) {
 
 // Try to correct url
 func tryParseLink(rawLink string) (string, error) {
-	if strings.HasPrefix(rawLink, "//") {
-		return "http:" + rawLink, nil
-	}
 	if rawLink == "" {
 		return "", errors.New("link is nil")
 	}
+	if strings.HasPrefix(rawLink, "//") {
+		return "http:" + rawLink, nil
+	}
+
 	// some sources has two scheme so replace it
 	if strings.Count(rawLink, "https:") > 1 {
 		rawLink = strings.Replace(rawLink, "https:", "", 1)
@@ -67,6 +69,7 @@ func tryParseLink(rawLink string) (string, error) {
 
 	link, err := url.ParseRequestURI(rawLink)
 	if err != nil || link.Scheme == "" || link.Host == "" {
+		fmt.Printf("ignoring link because of url parsing failed %s\n", rawLink)
 		return "", errors.New("link is invalid")
 	}
 	return link.String(), nil

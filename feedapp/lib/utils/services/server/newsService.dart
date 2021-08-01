@@ -4,7 +4,7 @@ import 'package:feedapp/utils/common.dart';
 import 'package:feedapp/utils/services/server/apiService.dart';
 
 class NewsService extends ApiService {
-  NewsService() : super(enableErrorHandler: false);
+  NewsService() : super(enableErrorHandler: true);
 
   Future<AllNewsResponse> getAllNews(
       {String? pubDate, int? category, String? filterBy}) async {

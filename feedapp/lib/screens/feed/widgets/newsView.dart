@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feedapp/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsView extends StatefulWidget {
@@ -46,6 +48,10 @@ class _NewsViewState extends State<NewsView>
     });
   }
 
+  void _share() {
+    Share.share(widget.link);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -57,19 +63,48 @@ class _NewsViewState extends State<NewsView>
     final theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: Container(
-        color: theme.accentColor,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ScaleButton(
               onFinish: () async {
                 final view = await _controller.future;
                 await view.goBack();
               },
-              child: Icon(
-                Icons.arrow_back,
-                size: 44,
-                color: theme.cardColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Tooltip(
+                  message: tr("tooltip.go_back_webview"),
+                  child: Icon(Icons.arrow_back, size: 32),
+                ),
               ),
+            ),
+            Row(
+              children: [
+                ScaleButton(
+                  onFinish: _share,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Tooltip(
+                      message: tr("tooltip.share"),
+                      child: Icon(Icons.share_outlined, size: 32),
+                    ),
+                  ),
+                ),
+                ScaleButton(
+                  onFinish: () async {
+                    final view = await _controller.future;
+                    await view.loadUrl(widget.link);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Tooltip(
+                      message: tr("tooltip.load_news_url"),
+                      child: Icon(Icons.refresh, size: 32),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -81,9 +116,6 @@ class _NewsViewState extends State<NewsView>
             Expanded(
               child: Text(
                 _title,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

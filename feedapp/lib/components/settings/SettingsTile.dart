@@ -15,7 +15,7 @@ class SettingsTile extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         this.icon,
-        size: 34,
+        size: 32,
       ),
       title: Text(
         title,

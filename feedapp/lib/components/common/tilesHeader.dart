@@ -7,7 +7,7 @@ class TilesHeader extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final headline = Theme.of(context).textTheme.headline6;
+    final headline = Theme.of(context).textTheme.subtitle1;
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(

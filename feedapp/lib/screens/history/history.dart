@@ -1,3 +1,4 @@
+import 'package:feedapp/logic/blocs/authBloc/auth.dart';
 import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:feedapp/screens/history/widgets/singleNewsHistoryUnit.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         NavigationRail(
@@ -31,18 +33,34 @@ class _HistoryPageState extends State<HistoryPage> {
           destinations: [
             NavigationRailDestination(
               icon: Icon(Icons.favorite_outline),
+              selectedIcon: Icon(
+                Icons.favorite_sharp,
+                color: theme.indicatorColor,
+              ),
               label: Text("like"),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.comment_outlined),
+              selectedIcon: Icon(
+                Icons.comment_sharp,
+                color: theme.indicatorColor,
+              ),
               label: Text("comment"),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.history_outlined),
+              selectedIcon: Icon(
+                Icons.history_sharp,
+                color: theme.indicatorColor,
+              ),
               label: Text("history"),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.bookmark_outline),
+              selectedIcon: Icon(
+                Icons.bookmark_sharp,
+                color: theme.indicatorColor,
+              ),
               label: Text("bookmark"),
             ),
           ],
@@ -62,25 +80,31 @@ class _HistoryPageState extends State<HistoryPage> {
           thickness: 4,
         ),
         Expanded(
-          child: PageView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            itemCount: 4,
-            itemBuilder: (ctx, i) => Container(
-              child: BlocProvider(
-                key: Key(_pages[i]),
-                create: (ctx) => NewsBloc()
-                  ..add(
-                    FetchNewsEvent(
-                      category: null,
-                      filterBy: _pages[i],
-                    ),
+          child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            if (state is AuthorizedState)
+              return PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                itemCount: 4,
+                itemBuilder: (ctx, i) => Container(
+                  child: BlocProvider(
+                    key: Key(_pages[i]),
+                    create: (ctx) => NewsBloc()
+                      ..add(
+                        FetchNewsEvent(
+                          category: null,
+                          filterBy: _pages[i],
+                        ),
+                      ),
+                    child: SingleNewsHistoryUnit(),
                   ),
-                child: SingleNewsHistoryUnit(),
-              ),
-            ),
-            scrollDirection: Axis.vertical,
-          ),
+                ),
+                scrollDirection: Axis.vertical,
+              );
+            return Center(
+              child: Text("no data"),
+            );
+          }),
         ),
       ],
     );

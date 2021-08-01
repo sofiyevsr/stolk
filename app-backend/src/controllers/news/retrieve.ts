@@ -145,8 +145,7 @@ async function comments(news_id: number, id?: string) {
     .limit(DEFAULT_PERPAGE + 1);
   if (id != null) {
     const val = await Joi.number().validateAsync(id);
-    console.log(val);
-    query = query.andWhere("id", "<", val);
+    query = query.andWhere("c.id", "<", val);
   }
   let comments = await query;
   const hasReachedEnd = comments.length !== DEFAULT_PERPAGE + 1;

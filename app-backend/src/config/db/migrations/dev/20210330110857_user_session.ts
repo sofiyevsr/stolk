@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
       .references("id")
       .inTable(tables.app_user)
       .notNullable()
-      .onDelete("NO ACTION")
+      .onDelete("CASCADE")
       .onUpdate("CASCADE");
     t.integer("session_type_id")
       .references("id")

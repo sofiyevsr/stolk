@@ -36,8 +36,7 @@ class _HomeState extends State<Home> {
               e["title"] as String,
             ),
             icon: Icon(e["icon"] as IconData),
-            inactiveColor: theme.primaryColor,
-            activeColor: theme.accentColor,
+            activeColor: theme.indicatorColor,
             textAlign: TextAlign.center,
           ),
         )

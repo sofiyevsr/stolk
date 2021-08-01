@@ -35,7 +35,10 @@ String platformToName(int p) {
 }
 
 class CustomColorScheme {
-  static final main = const Color(0xFFe76f51);
+  static final main = const Color(0xFF264653);
+  static final accent = const Color(0xFF2A9D8F);
+  static final primaryLight = const Color(0xFF335F70);
+  static final primaryDark = const Color(0xFF203B46);
   static final logoBackground = const Color.fromRGBO(255, 221, 238, 1);
 }
 
@@ -44,6 +47,7 @@ class RouteNames {
   static const INTRODUCTION = "introduction";
   static const SPLASH = "splash";
   static const SINGLE_SETTING = "single_setting";
+  static const SOURCE_NEWS_FEED = "source_news_feed";
   static const SETTINGS = "settings";
   static const SINGLE_NEWS = "single_news";
   static const HOME = "home";

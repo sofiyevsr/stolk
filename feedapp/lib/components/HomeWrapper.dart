@@ -1,5 +1,4 @@
 import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:feedapp/screens/home.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:feedapp/utils/services/app/navigationService.dart';

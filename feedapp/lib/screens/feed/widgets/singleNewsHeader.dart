@@ -1,8 +1,12 @@
 import 'package:feedapp/components/common/scaleButton.dart';
 import 'package:feedapp/utils/@types/response/allNews.dart';
 import 'package:feedapp/utils/common.dart';
+import 'package:feedapp/utils/constants.dart';
+import 'package:feedapp/utils/services/app/navigationService.dart';
 import 'package:feedapp/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
+
+import '../sourceFeed.dart';
 
 final sources = SourceService();
 const _iconSize = 30.0;
@@ -52,30 +56,35 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(),
-            ),
-            Column(
-              children: [
-                Text(
-                  this.widget.feed.sourceName,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.headline6?.copyWith(fontSize: 18),
-                ),
-                Text(
-                  convertDiffTime(this.widget.feed.publishedDate, context),
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.subtitle2?.copyWith(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12,
+        GestureDetector(
+          onTap: () {
+            NavigationService.push(SourceFeed(), RouteNames.SOURCE_NEWS_FEED);
+          },
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(),
+              ),
+              Column(
+                children: [
+                  Text(
+                    this.widget.feed.sourceName,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.headline6?.copyWith(fontSize: 18),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Text(
+                    convertDiffTime(this.widget.feed.publishedDate, context),
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.subtitle2?.copyWith(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         Row(
           children: [

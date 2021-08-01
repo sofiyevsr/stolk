@@ -12,7 +12,7 @@ import "package:hive_flutter/hive_flutter.dart";
 
 import 'components/HomeWrapper.dart';
 import 'logic/blocs/authBloc/utils/AuthBloc.dart';
-import 'logic/hive/settings.dart';
+import 'utils/common.dart';
 import 'utils/services/app/navigationService.dart';
 import 'utils/services/app/toastService.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -33,8 +33,8 @@ void main() {
 
     await Hive.initFlutter();
     // Open box to use in app
-    Hive.registerAdapter(SettingsAdapter());
-    await Hive.openBox<Settings>("settings");
+    // Hive.registerAdapter(SettingsAdapter());
+    await Hive.openBox("settings");
     // await LocalNotification.instance.init();
     // await Firebase.initializeApp();
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -77,26 +77,31 @@ class App extends StatelessWidget {
           value: authBloc,
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        darkTheme: darkTheme,
-        // themeMode: ThemeMode.dark,
-        theme: lightTheme,
-        builder: (ctx, child) {
-          return HomeWrapper(child: child);
-        },
-        navigatorKey: NavigationService.key,
-        scaffoldMessengerKey: ToastService.key,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        // TODO implement
-        // onGenerateTitle: ,
-        onGenerateRoute: (_) => NavigationService.wrapRoute(
-          SplashScreen(),
-          RouteNames.SPLASH,
-        ),
-      ),
+      child: ValueListenableBuilder(
+          valueListenable: Hive.box('settings').listenable(keys: ["theme"]),
+          builder: (context, Box gBox, widget) {
+            final theme = gBox.get("theme", defaultValue: "system");
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              darkTheme: darkTheme,
+              themeMode: stringToTheme(theme),
+              theme: lightTheme,
+              builder: (ctx, child) {
+                return HomeWrapper(child: child);
+              },
+              navigatorKey: NavigationService.key,
+              scaffoldMessengerKey: ToastService.key,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              // TODO implement
+              // onGenerateTitle: ,
+              onGenerateRoute: (_) => NavigationService.wrapRoute(
+                SplashScreen(),
+                RouteNames.SPLASH,
+              ),
+            );
+          }),
     );
   }
 }

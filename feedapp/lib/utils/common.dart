@@ -21,6 +21,16 @@ String convertTime(String date, BuildContext context) {
   return format.format(data);
 }
 
+ThemeMode stringToTheme(String theme) {
+  if (theme == "dark") {
+    return ThemeMode.dark;
+  }
+  if (theme == "light") {
+    return ThemeMode.dark;
+  }
+  return ThemeMode.system;
+}
+
 String convertDiffTime(String date, BuildContext context) {
   final lang = EasyLocalization.of(context)?.currentLocale?.languageCode;
   final data = DateTime.tryParse(date)?.toLocal();

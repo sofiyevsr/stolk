@@ -10,7 +10,7 @@ class NotFoundImage extends StatelessWidget {
     return Container(
       color: color,
       child: Center(
-        child: Icon(FontAwesomeIcons.newspaper, size: 64),
+        child: Icon(FontAwesomeIcons.newspaper, size: 64, color: Colors.white),
       ),
     );
   }

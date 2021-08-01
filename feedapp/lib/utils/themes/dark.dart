@@ -1,7 +1,6 @@
 part of "./index.dart";
 
 final darkTheme = ThemeData.dark().copyWith(
-  primaryColor: Colors.black38,
   dividerTheme: DividerThemeData(
     space: 0,
     thickness: 1,
@@ -22,6 +21,7 @@ final darkTheme = ThemeData.dark().copyWith(
       ),
     ),
   ),
+  primaryColor: CustomColorScheme.main,
   scaffoldBackgroundColor: Colors.black54,
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
@@ -35,14 +35,14 @@ final darkTheme = ThemeData.dark().copyWith(
     // prefixStyle: TextStyle(color: Colors.white),
   ),
   iconTheme: IconThemeData(color: Colors.white),
-  primaryColorDark: Colors.blue,
+  primaryColorDark: CustomColorScheme.primaryDark,
+  primaryColorLight: CustomColorScheme.primaryLight,
   appBarTheme: AppBarTheme(
-    color: Colors.grey[600],
     elevation: 5,
     textTheme: const TextTheme(
       headline5: TextStyle(fontWeight: FontWeight.w700),
     ),
     centerTitle: true,
   ),
-  accentColor: Color(0xffa6a6a6),
+  accentColor: CustomColorScheme.accent,
 );

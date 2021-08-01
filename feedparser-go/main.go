@@ -43,12 +43,10 @@ func main() {
 }
 
 func handleLambda() (string, error) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Printf("%v", r)
-		}
-	}()
+
 	startTime := time.Now()
+
+	fmt.Printf("start time %s \n", startTime.UTC())
 
 	// get Data from db
 	data, err := utils.Startup()
@@ -99,14 +97,17 @@ func handleLambda() (string, error) {
 		}
 	}
 	utils.SaveCategoryAlias(catsColl)
-	fmt.Printf("New category aliases %v \n", catsColl)
+	// fmt.Printf("New category aliases %v \n", catsColl)
 
 	result := saveToDB(items)
 	duration := time.Since(startTime)
 	fmt.Printf("execution time: %v \n", duration)
 	fmt.Printf("sources that wasn't processed %v \n", processedFeeds)
-	affectedRows, _ := result.RowsAffected()
-	lastID, _ := result.LastInsertId()
+	var affectedRows, lastID int64
+	if result != nil {
+		affectedRows, _ = result.RowsAffected()
+		lastID, _ = result.LastInsertId()
+	}
 	return fmt.Sprintf("last id: %d, inserted rows: %d \n", lastID, affectedRows), nil
 }
 

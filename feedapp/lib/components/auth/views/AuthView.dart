@@ -83,7 +83,7 @@ class _AuthViewState extends State<AuthView>
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
@@ -109,7 +109,11 @@ class _AuthViewState extends State<AuthView>
                           child: TabBar(
                             controller: _controller,
                             indicatorSize: TabBarIndicatorSize.tab,
-                            unselectedLabelColor: Colors.black,
+                            unselectedLabelColor: Theme.of(context).accentColor,
+                            labelStyle:
+                                Theme.of(context).textTheme.headline6?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                             tabs: [
                               Tab(
                                 text: tr("login.title"),

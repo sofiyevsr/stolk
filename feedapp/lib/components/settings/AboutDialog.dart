@@ -16,14 +16,14 @@ class CustomAboutDialog extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             tr("settings.about"),
-            style: textTheme.headline5?.copyWith(fontWeight: FontWeight.bold),
+            style: textTheme.headline6?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         ListTile(
           // contentPadding: const EdgeInsets.all(0),
           title: Text(
             tr("settings.about_fields.name"),
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.subtitle2,
           ),
           trailing: Text(
             details.appName.toString(),
@@ -35,7 +35,7 @@ class CustomAboutDialog extends StatelessWidget {
           // contentPadding: const EdgeInsets.all(0),
           title: Text(
             tr("settings.about_fields.version"),
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.subtitle2,
           ),
           trailing: Text(
             details.version.toString(),

@@ -50,7 +50,6 @@ class _SettingsPageState extends State<SettingsPage> {
             icon: Icons.circle_notifications_sharp,
             trailing: Icon(
               Icons.arrow_right_outlined,
-              size: 32,
             ),
           ),
           Divider(),
@@ -59,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
               AuthBloc.instance.add(AppLogout());
             },
             title: tr("settings.logout"),
-            icon: Icons.logout_sharp,
+            icon: Icons.logout_outlined,
           ),
         ],
       );
@@ -72,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
             NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
           },
           title: tr("settings.login"),
-          icon: Icons.account_circle,
+          icon: Icons.account_circle_outlined,
         ),
         Divider(),
         SettingsTile(
@@ -80,7 +79,7 @@ class _SettingsPageState extends State<SettingsPage> {
             NavigationService.push(AuthView(isLogin: false), RouteNames.AUTH);
           },
           title: tr("settings.register"),
-          icon: Icons.app_registration,
+          icon: Icons.app_registration_outlined,
         ),
       ],
     );
@@ -91,104 +90,102 @@ class _SettingsPageState extends State<SettingsPage> {
     final theme = Theme.of(ctx);
     return SingleChildScrollView(
       child: ListTileTheme(
+        dense: true,
+        iconColor: theme.primaryColor,
         tileColor: theme.cardColor,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Column(
-            children: [
-              Container(
-                child: Center(
-                  child: BlocBuilder<AuthBloc, AuthState>(
-                    builder: (ctx, state) {
-                      if (state is AuthorizedState) {
-                        final user = state.user;
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: theme.primaryColor, width: 3),
-                                borderRadius: BorderRadius.circular(60.0),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.transparent, width: 3),
-                                  borderRadius: BorderRadius.circular(55.0),
-                                ),
-                                child: CircleAvatar(
-                                  child: Text(
-                                    user.firstName[0],
-                                    style: TextStyle(fontSize: 50),
-                                  ),
-                                  radius: 50.0,
-                                ),
-                              ),
+        minLeadingWidth: 0,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (ctx, state) {
+                  if (state is AuthorizedState) {
+                    final user = state.user;
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: theme.primaryColor, width: 3),
+                            borderRadius: BorderRadius.circular(60.0),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.transparent, width: 3),
+                              borderRadius: BorderRadius.circular(55.0),
                             ),
-                            Text(
-                              '${user.firstName} ${user.lastName}',
-                              style: TextStyle(
-                                fontSize: 24,
+                            child: CircleAvatar(
+                              child: Text(
+                                user.firstName[0],
+                                style: TextStyle(fontSize: 50),
                               ),
+                              radius: 50.0,
                             ),
-                          ],
-                        );
-                      }
-                      return Container();
-                    },
+                          ),
+                        ),
+                        Text(
+                          '${user.firstName} ${user.lastName}',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ),
+            TilesHeader(
+              title: tr("settings.general"),
+            ),
+            SettingsTile(
+              onTap: () {
+                NavigationService.push(
+                  SingleSetting(
+                    title: tr("settings.language"),
+                    child: LanguagePanel(),
                   ),
-                ),
+                  RouteNames.SINGLE_SETTING,
+                );
+              },
+              title: tr("settings.language"),
+              icon: Icons.language,
+              trailing: Icon(
+                Icons.arrow_right_outlined,
               ),
-              TilesHeader(
-                title: tr("settings.general"),
-              ),
-              SettingsTile(
-                onTap: () {
-                  NavigationService.push(
-                    SingleSetting(
-                      title: tr("settings.language"),
-                      child: LanguagePanel(),
-                    ),
-                    RouteNames.SINGLE_SETTING,
-                  );
-                },
-                title: tr("settings.language"),
-                icon: Icons.language,
-                trailing: Icon(
-                  Icons.arrow_right_outlined,
-                  size: 32,
-                ),
-              ),
-              _buildGeneralSection(),
-              TilesHeader(
-                title: tr("settings.about"),
-              ),
-              SettingsTile(
-                onTap: () {
-                  showAbout(ctx);
-                },
-                title: tr("settings.about"),
-                icon: Icons.info,
-              ),
-              Divider(),
-              SettingsTile(
-                onTap: () {
-                  // TODO redirect to web page
-                },
-                title: tr("settings.privacy"),
-                icon: Icons.privacy_tip,
-              ),
-              Divider(),
-              SettingsTile(
-                onTap: () {
-                  // TODO redirect to web page
-                },
-                title: tr("settings.terms"),
-                icon: Icons.description,
-              ),
-            ],
-          ),
+            ),
+            _buildGeneralSection(),
+            TilesHeader(
+              title: tr("settings.about"),
+            ),
+            SettingsTile(
+              onTap: () {
+                showAbout(ctx);
+              },
+              title: tr("settings.about"),
+              icon: Icons.info_outlined,
+            ),
+            Divider(),
+            SettingsTile(
+              onTap: () {
+                // TODO redirect to web page
+              },
+              title: tr("settings.privacy"),
+              icon: Icons.privacy_tip_outlined,
+            ),
+            Divider(),
+            SettingsTile(
+              onTap: () {
+                // TODO redirect to web page
+              },
+              title: tr("settings.terms"),
+              icon: Icons.description_outlined,
+            ),
+          ],
         ),
       ),
     );

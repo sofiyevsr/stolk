@@ -12,48 +12,65 @@ class SingleCommentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fullName = "${comment.firstName ?? ""} ${comment.lastName ?? ""}";
+    final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      child: Column(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(),
-                  Column(
-                    children: [
-                      BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
-                        if (state is AuthorizedState) {
-                          if (state.user.id == comment.userID) {
-                            return Text(
-                              tr(
-                                "comment.me",
-                              ),
-                              style: Theme.of(context).textTheme.headline6,
-                            );
-                          }
-                        }
-                        return Text(
-                          fullName,
-                          style: Theme.of(context).textTheme.headline6,
-                        );
-                      }),
-                      Text(
-                        convertDiffTime(comment.createdAt, context),
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              PopupMenuButton(itemBuilder: (ctx) => []),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              child: Text(comment.firstName?[0] ?? ""),
+            ),
           ),
-          Text(
-            comment.comment,
-            textAlign: TextAlign.left,
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            BlocBuilder<AuthBloc, AuthState>(
+                                builder: (ctx, state) {
+                              if (state is AuthorizedState) {
+                                if (state.user.id == comment.userID) {
+                                  return Text(
+                                      tr(
+                                        "me",
+                                      ),
+                                      style: textTheme.subtitle1);
+                                }
+                              }
+                              return Text(
+                                fullName,
+                                style: textTheme.subtitle1,
+                              );
+                            }),
+                            Text(
+                              convertDiffTime(comment.createdAt, context),
+                              style: textTheme.subtitle2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    PopupMenuButton(itemBuilder: (ctx) => []),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    comment.comment,
+                    textAlign: TextAlign.left,
+                    style: textTheme.bodyText2?.copyWith(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

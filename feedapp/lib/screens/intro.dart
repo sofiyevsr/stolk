@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feedapp/components/introduction/DotsIndicator.dart';
 import 'package:feedapp/components/introduction/IntroPage.dart';
-import 'package:feedapp/logic/hive/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -30,10 +29,8 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   void skipIntro(BuildContext ctx) {
-    final gBox = Hive.box<Settings>("settings");
-    final box = gBox.get("main", defaultValue: Settings())!;
-    box.skipIntro = true;
-    gBox.put("main", box);
+    final gBox = Hive.box("settings");
+    gBox.put("skipIntro", true);
     // FirebaseMessaging.instance.subscribeToTopic("news");
   }
 

@@ -21,6 +21,9 @@ type CustomFeed struct {
 }
 
 func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, error) {
+	if item == nil || v == nil {
+		return CustomFeed{}, errors.New("item is nil")
+	}
 	prepareFeed(item, v.Name)
 
 	if item.Title == "" {
@@ -73,7 +76,9 @@ func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, er
 		for _, ig := range allFiles {
 			if strings.Contains(ig.Type, "image") {
 				img, err := tryParseLink(ig.URL)
-				if err == nil {
+				if err != nil {
+					fmt.Printf("image error for %s on %s \n", item.Title, ig.URL)
+				} else {
 					parsedImage = img
 				}
 				break

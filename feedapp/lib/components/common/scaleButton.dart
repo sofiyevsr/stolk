@@ -23,7 +23,7 @@ class _ScaleButton extends State<ScaleButton>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: this, value: 1);
+        duration: const Duration(milliseconds: 100), vsync: this, value: 1);
     _scale = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
   }
 
