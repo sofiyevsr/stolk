@@ -37,6 +37,7 @@ final darkTheme = ThemeData.dark().copyWith(
   iconTheme: IconThemeData(color: Colors.white),
   primaryColorDark: CustomColorScheme.primaryDark,
   primaryColorLight: CustomColorScheme.primaryLight,
+  indicatorColor: CustomColorScheme.primaryLight,
   appBarTheme: AppBarTheme(
     elevation: 5,
     textTheme: const TextTheme(

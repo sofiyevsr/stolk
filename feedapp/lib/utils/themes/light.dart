@@ -65,7 +65,7 @@ final lightTheme = ThemeData(
   primaryColorLight: CustomColorScheme.primaryLight,
   primaryColorDark: CustomColorScheme.primaryDark,
   appBarTheme: AppBarTheme(
-    elevation: 5,
+    elevation: 3,
     textTheme: const TextTheme(
       headline5: TextStyle(fontWeight: FontWeight.w700),
     ),

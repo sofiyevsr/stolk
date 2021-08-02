@@ -20,12 +20,12 @@ class FetchNextCommentsEvent extends CommentsEvent {
 }
 
 class AddCommentEvent extends CommentsEvent {
-  final String body;
-  final int newsID;
+  final SingleComment comment;
   AddCommentEvent({
-    required this.body,
-    required this.newsID,
+    required this.comment,
   });
 
-  List<Object?> get props => [body, newsID];
+  List<Object?> get props => [
+        comment,
+      ];
 }

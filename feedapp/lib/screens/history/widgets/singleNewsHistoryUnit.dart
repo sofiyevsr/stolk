@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:feedapp/components/common/centerLoadingWidget.dart';
 import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:feedapp/screens/feed/widgets/singleNews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+const SINGLE_NEWS_HEIGHT = 400.0;
+
 class SingleNewsHistoryUnit extends StatefulWidget {
-  const SingleNewsHistoryUnit({Key? key}) : super(key: key);
+  final String filterBy;
+  const SingleNewsHistoryUnit({Key? key, required this.filterBy})
+      : super(key: key);
 
   @override
   _SingleNewsHistoryUnitState createState() => _SingleNewsHistoryUnitState();
@@ -13,11 +19,41 @@ class SingleNewsHistoryUnit extends StatefulWidget {
 
 class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
   late ScrollController _scrollController;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _scrollController.addListener(
+      () {
+        // Debounce
+        if (_timer != null && _timer!.isActive) _timer!.cancel();
+        _timer = Timer(
+          Duration(milliseconds: 50),
+          () {
+            final maxScroll = _scrollController.position.maxScrollExtent;
+            final currentScroll = _scrollController.position.pixels;
+            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
+              context.read<NewsBloc>().add(
+                    FetchNextNewsEvent(
+                      category: null,
+                      sourceID: null,
+                      filterBy: widget.filterBy,
+                    ),
+                  );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,6 +84,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                         state.data.news[index].id.toString(),
                       ),
                       feed: state.data.news[index],
+                      index: index,
                     ),
             );
           }

@@ -1,3 +1,4 @@
+import 'package:feedapp/components/common/sourceLogo.dart';
 import 'package:feedapp/utils/@types/response/allSources.dart';
 import 'package:feedapp/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
@@ -47,24 +48,30 @@ class _SingleSourceViewState extends State<SingleSourceView> {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(widget.item.name),
+          Text(
+            widget.item.name,
+            style: Theme.of(context).textTheme.headline6,
+            textAlign: TextAlign.center,
+          ),
           Expanded(
             child: SizedBox.expand(
               child: Container(
                 margin: const EdgeInsets.all(8),
-                child: CircleAvatar(
-                  child: Text("test"),
+                child: SourceLogo(
+                  logoSuffix: widget.item.logoSuffix,
+                  isCircle: false,
                 ),
               ),
             ),
           ),
-          ElevatedButton.icon(
+          ElevatedButton(
+            style: ButtonStyle(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             onPressed: _isRequestOn ? null : onFinish,
-            icon: _isFollowing == true
-                ? Icon(Icons.remove_outlined)
-                : Icon(Icons.add_outlined),
-            label: Text("follow"),
+            child: _isFollowing == true ? Text("following") : Text("follow"),
           ),
         ],
       ),

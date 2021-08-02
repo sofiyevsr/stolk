@@ -20,9 +20,16 @@ class SingleCommentView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Text(comment.firstName?[0] ?? ""),
-            ),
+            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+              if (state is AuthorizedState) {
+                return CircleAvatar(
+                  child: Text(state.user.firstName[0]),
+                );
+              }
+              return CircleAvatar(
+                child: Text(comment.firstName?[0] ?? ""),
+              );
+            }),
           ),
           Expanded(
             child: Column(

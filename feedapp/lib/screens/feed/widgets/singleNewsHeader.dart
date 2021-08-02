@@ -1,10 +1,13 @@
 import 'package:feedapp/components/common/scaleButton.dart';
+import 'package:feedapp/components/common/sourceLogo.dart';
+import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:feedapp/utils/@types/response/allNews.dart';
 import 'package:feedapp/utils/common.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:feedapp/utils/services/app/navigationService.dart';
 import 'package:feedapp/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../sourceFeed.dart';
 
@@ -13,35 +16,41 @@ const _iconSize = 30.0;
 
 class SingleNewsHeader extends StatefulWidget {
   final SingleNews feed;
-  const SingleNewsHeader({Key? key, required this.feed}) : super(key: key);
+  final int index;
+  const SingleNewsHeader({Key? key, required this.feed, required this.index})
+      : super(key: key);
 
   @override
   _SingleNewsHeaderState createState() => _SingleNewsHeaderState();
 }
 
 class _SingleNewsHeaderState extends State<SingleNewsHeader> {
-  late bool _isFollowing;
   bool _isRequestOn = false;
 
   @override
   void initState() {
     super.initState();
-    _isFollowing = widget.feed.followID != null;
   }
 
   void onFinish() async {
+    final news = context.read<NewsBloc>();
     setState(() {
       _isRequestOn = true;
     });
     try {
-      if (_isFollowing == true) {
-        await sources.unfollow(widget.feed.sourceID);
-      } else {
+      if (widget.feed.followID == null) {
         await sources.follow(widget.feed.sourceID);
+        news.add(
+          NewsActionEvent(index: widget.index, type: NewsActionType.FOLLOW),
+        );
+      } else {
+        await sources.unfollow(widget.feed.sourceID);
+        news.add(
+          NewsActionEvent(index: widget.index, type: NewsActionType.UNFOLLOW),
+        );
       }
       setState(() {
         _isRequestOn = false;
-        _isFollowing = !_isFollowing;
       });
     } catch (e) {
       setState(() {
@@ -58,14 +67,17 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
       children: [
         GestureDetector(
           onTap: () {
-            NavigationService.push(SourceFeed(), RouteNames.SOURCE_NEWS_FEED);
+            NavigationService.push(
+                SourceFeed(
+                  sourceID: widget.feed.sourceID,
+                  sourceName: widget.feed.sourceName,
+                  logoSuffix: widget.feed.sourceLogoSuffix,
+                ),
+                RouteNames.SOURCE_NEWS_FEED);
           },
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(),
-              ),
+              SourceLogo(logoSuffix: widget.feed.sourceLogoSuffix),
               Column(
                 children: [
                   Text(
@@ -90,7 +102,7 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
           children: [
             ScaleButton(
               disabled: _isRequestOn,
-              child: _isFollowing == true
+              child: widget.feed.followID != null
                   ? Icon(
                       Icons.done_all,
                       size: _iconSize,

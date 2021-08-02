@@ -40,6 +40,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               context.read<NewsBloc>().add(
                     FetchNextNewsEvent(
                       category: _currentCategory,
+                      sourceID: null,
                       filterBy: null,
                     ),
                   );
@@ -75,7 +76,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     );
     final bloc = context.read<NewsBloc>();
     bloc.add(
-      FetchNewsEvent(category: id, filterBy: null),
+      FetchNewsEvent(category: id, sourceID: null, filterBy: null),
     );
     setState(() {
       _currentCategory = id;
@@ -120,6 +121,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                     state.data.news[index].id.toString(),
                                   ),
                                   feed: state.data.news[index],
+                                  index: index,
                                 ),
                     ),
                   );

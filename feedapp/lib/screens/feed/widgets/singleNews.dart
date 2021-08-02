@@ -12,7 +12,9 @@ const NEWS_HEIGHT = 300.0;
 
 class SingleNewsView extends StatelessWidget {
   final SingleNews feed;
-  const SingleNewsView({Key? key, required this.feed}) : super(key: key);
+  final int index;
+  const SingleNewsView({Key? key, required this.feed, required this.index})
+      : super(key: key);
 
   Widget _buildNews(ThemeData theme) {
     return Container(
@@ -88,9 +90,9 @@ class SingleNewsView extends StatelessWidget {
     final theme = Theme.of(context);
     return Column(
       children: [
-        SingleNewsHeader(feed: this.feed),
+        SingleNewsHeader(feed: this.feed, index: index),
         _buildNews(theme),
-        SingleNewsActions(feed: this.feed),
+        SingleNewsActions(feed: this.feed, index: index),
       ],
     );
   }

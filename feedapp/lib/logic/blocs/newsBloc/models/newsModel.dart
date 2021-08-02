@@ -11,4 +11,9 @@ class NewsModel {
         news: [...this.news, ...incomingNews],
         hasReachedEnd: hasReachedEnd,
       );
+  NewsModel modifySingle({required SingleNews item, required int index}) {
+    final clonedItems = [...this.news];
+    clonedItems[index] = item;
+    return NewsModel(news: clonedItems, hasReachedEnd: hasReachedEnd);
+  }
 }

@@ -3,10 +3,14 @@ import 'package:feedapp/components/auth/views/AuthView.dart';
 import 'package:feedapp/logic/blocs/authBloc/utils/AuthBloc.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:feedapp/utils/services/app/navigationService.dart';
-import 'package:feedapp/utils/services/app/toastService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+class Nullable<T> {
+  final T? value;
+  Nullable({required this.value});
+}
 
 String shortenString(String s, int limit) =>
     s.length <= limit ? s : s.replaceRange(limit, s.length, '...');

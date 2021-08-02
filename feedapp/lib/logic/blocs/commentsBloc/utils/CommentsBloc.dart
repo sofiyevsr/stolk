@@ -1,4 +1,5 @@
 import 'package:feedapp/logic/blocs/commentsBloc/models/commentsModel.dart';
+import 'package:feedapp/utils/@types/response/comments.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
@@ -56,10 +57,9 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
           final existing = (state as CommentsStateSuccess);
 
           // set Loading and fetch data then
-          final data = await service.comment(event.newsID, event.body);
           yield CommentsStateSuccess(
             data: existing.data.addComment(
-              comment: data,
+              comment: event.comment,
             ),
             isLoadingNext: false,
           );

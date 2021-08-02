@@ -7,9 +7,10 @@ class NewsService extends ApiService {
   NewsService() : super(enableErrorHandler: true);
 
   Future<AllNewsResponse> getAllNews(
-      {String? pubDate, int? category, String? filterBy}) async {
+      {String? pubDate, int? category, String? filterBy, int? sourceID}) async {
     final response = await this.request.get("/news/all", {
       if (pubDate != null) 'pub_date': pubDate,
+      if (sourceID != null) 'source_id': sourceID,
       if (filterBy != null) 'filter_by': filterBy,
       if (category != null && category != 0) 'category': category,
     }, {});

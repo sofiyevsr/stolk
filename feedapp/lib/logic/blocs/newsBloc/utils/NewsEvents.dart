@@ -5,10 +5,13 @@ class NewsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+// Only one should be not null maybe assert
 class FetchNewsEvent extends NewsEvent {
   final int? category;
   final String? filterBy;
-  FetchNewsEvent({required this.category, required this.filterBy});
+  final int? sourceID;
+  FetchNewsEvent(
+      {required this.category, required this.filterBy, required this.sourceID});
 
   List<Object?> get props => [filterBy, category];
 }
@@ -22,10 +25,21 @@ class RefreshNewsEvent extends NewsEvent {
       ];
 }
 
+// Only one should be not null maybe assert
 class FetchNextNewsEvent extends NewsEvent {
   final int? category;
   final String? filterBy;
-  FetchNextNewsEvent({required this.category, required this.filterBy});
+  final int? sourceID;
+  FetchNextNewsEvent(
+      {required this.category, required this.filterBy, required this.sourceID});
 
   List<Object?> get props => [filterBy, category];
+}
+
+class NewsActionEvent extends NewsEvent {
+  final int index;
+  final NewsActionType type;
+  NewsActionEvent({required this.index, required this.type});
+
+  List<Object?> get props => [index];
 }

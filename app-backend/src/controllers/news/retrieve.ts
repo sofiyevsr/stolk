@@ -14,6 +14,7 @@ function validateAllNewsRequest() {
       then: Joi.number().required(),
       otherwise: Joi.number(),
     }),
+    sourceID: Joi.number().min(0),
   }).options({ stripUnknown: true });
 }
 
@@ -22,17 +23,20 @@ async function all(
   lastCreatedAt?: string,
   cat?: string,
   userID?: number,
+  sourceID?: string,
   filterBy?: string
 ) {
   const values = await validateAllNewsRequest().validateAsync({
     userID,
     filterBy,
+    sourceID,
   });
   let result: NewsResult;
   let query = db
     .select([
       "s.id AS source_id",
       "s.name AS source_name",
+      "s.logo_suffix AS source_logo_suffix",
       "n.id",
       "n.title",
       "n.image_link",
@@ -89,9 +93,13 @@ async function all(
           this.andOnVal("co.user_id", "=", userID);
         })
         .where({ "co.user_id": userID });
+    } else if (values.sourceID != null) {
+      query = query.where({ "s.id": values.sourceID });
     } else {
       query = query.where({ "f.user_id": userID });
     }
+  } else if (values.sourceID != null) {
+    query = query.where({ "s.id": values.sourceID });
   }
 
   if (lastCreatedAt != null) {

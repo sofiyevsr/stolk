@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:feedapp/utils/common.dart';
 
 class SingleCategory extends Equatable {
   final int id;
@@ -21,6 +22,7 @@ class SingleNews extends Equatable {
   final int sourceID;
   final String title;
   final String sourceName;
+  final String sourceLogoSuffix;
   final String publishedDate;
   final String createdAt;
   final String feedLink;
@@ -35,6 +37,7 @@ class SingleNews extends Equatable {
     required this.sourceID,
     required this.title,
     required this.sourceName,
+    required this.sourceLogoSuffix,
     required this.publishedDate,
     required this.createdAt,
     required this.feedLink,
@@ -45,12 +48,14 @@ class SingleNews extends Equatable {
     required this.bookmarkID,
     required this.imageLink,
   });
+
   SingleNews.fromJson(Map<String, dynamic> json)
       : this._(
           id: json['id'],
           sourceID: json['source_id'],
           title: json['title'],
           sourceName: json['source_name'],
+          sourceLogoSuffix: json['source_logo_suffix'],
           publishedDate: json['pub_date'],
           createdAt: json['created_at'],
           imageLink: json['image_link'],
@@ -61,6 +66,40 @@ class SingleNews extends Equatable {
           commentCount: json["comment_count"],
           bookmarkID: json["bookmark_id"],
         );
+  SingleNews copyWith({
+    int? id,
+    int? sourceID,
+    String? title,
+    String? sourceName,
+    String? sourceLogoSuffix,
+    String? publishedDate,
+    String? createdAt,
+    String? feedLink,
+    int? likeCount,
+    int? commentCount,
+    String? imageLink,
+
+    // these are nullable class because only they can be set to null later
+    Nullable<int>? likeID,
+    Nullable<int>? bookmarkID,
+    Nullable<int>? followID,
+  }) =>
+      SingleNews._(
+        id: id ?? this.id,
+        sourceID: sourceID ?? this.sourceID,
+        title: title ?? this.title,
+        sourceName: sourceName ?? this.sourceName,
+        sourceLogoSuffix: sourceLogoSuffix ?? this.sourceLogoSuffix,
+        publishedDate: publishedDate ?? this.publishedDate,
+        createdAt: createdAt ?? this.createdAt,
+        feedLink: feedLink ?? this.feedLink,
+        likeCount: likeCount ?? this.likeCount,
+        commentCount: commentCount ?? this.likeCount,
+        imageLink: imageLink,
+        likeID: likeID == null ? this.likeID : likeID.value,
+        followID: followID == null ? this.followID : followID.value,
+        bookmarkID: bookmarkID == null ? this.bookmarkID : bookmarkID.value,
+      );
 
   @override
   List get props => [

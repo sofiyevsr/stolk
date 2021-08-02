@@ -30,6 +30,51 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildHeaderSection() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (ctx, state) {
+          if (state is AuthorizedState) {
+            final user = state.user;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor, width: 3),
+                    borderRadius: BorderRadius.circular(60.0),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 3),
+                      borderRadius: BorderRadius.circular(55.0),
+                    ),
+                    child: CircleAvatar(
+                      child: Text(
+                        user.firstName[0],
+                        style: TextStyle(fontSize: 50),
+                      ),
+                      radius: 50.0,
+                    ),
+                  ),
+                ),
+                Text(
+                  '${user.firstName} ${user.lastName}',
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            );
+          }
+          return Container();
+        },
+      ),
+    );
+  }
+
   Widget _buildGeneralSection() {
     final auth = context.watch<AuthBloc>();
     if (auth.state is AuthorizedState) {
@@ -91,54 +136,12 @@ class _SettingsPageState extends State<SettingsPage> {
     return SingleChildScrollView(
       child: ListTileTheme(
         dense: true,
-        iconColor: theme.primaryColor,
+        iconColor: theme.primaryColorLight,
         tileColor: theme.cardColor,
         minLeadingWidth: 0,
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: BlocBuilder<AuthBloc, AuthState>(
-                builder: (ctx, state) {
-                  if (state is AuthorizedState) {
-                    final user = state.user;
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: theme.primaryColor, width: 3),
-                            borderRadius: BorderRadius.circular(60.0),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.transparent, width: 3),
-                              borderRadius: BorderRadius.circular(55.0),
-                            ),
-                            child: CircleAvatar(
-                              child: Text(
-                                user.firstName[0],
-                                style: TextStyle(fontSize: 50),
-                              ),
-                              radius: 50.0,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          '${user.firstName} ${user.lastName}',
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                  return Container();
-                },
-              ),
-            ),
+            _buildHeaderSection(),
             TilesHeader(
               title: tr("settings.general"),
             ),

@@ -93,10 +93,11 @@ class _HistoryPageState extends State<HistoryPage> {
                       ..add(
                         FetchNewsEvent(
                           category: null,
+                          sourceID: null,
                           filterBy: _pages[i],
                         ),
                       ),
-                    child: SingleNewsHistoryUnit(),
+                    child: SingleNewsHistoryUnit(filterBy: _pages[i]),
                   ),
                 ),
                 scrollDirection: Axis.vertical,

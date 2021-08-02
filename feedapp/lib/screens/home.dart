@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
               e["title"] as String,
             ),
             icon: Icon(e["icon"] as IconData),
-            activeColor: theme.indicatorColor,
+            activeColor: theme.primaryColorLight,
             textAlign: TextAlign.center,
           ),
         )
@@ -72,7 +72,8 @@ class _HomeState extends State<Home> {
             BlocProvider<NewsBloc>(
               create: (ctx) => NewsBloc()
                 ..add(
-                  FetchNewsEvent(category: null, filterBy: null),
+                  FetchNewsEvent(
+                      category: null, sourceID: null, filterBy: null),
                 ),
               child: AllNewsScreen(),
             ),

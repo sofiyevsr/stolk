@@ -1,5 +1,6 @@
 import 'package:feedapp/components/news/commentsView.dart';
 import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
+import 'package:feedapp/logic/blocs/newsBloc/news.dart';
 import 'package:feedapp/utils/@types/response/allNews.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import 'package:share_plus/share_plus.dart';
 final news = NewsService();
 const _iconSize = 30.0;
 
-class SingleNewsActions extends StatefulWidget {
+class SingleNewsActions extends StatelessWidget {
+  final int index;
   final int newsID;
   final String newsURL;
   final int? bookmarkID;
@@ -20,6 +22,7 @@ class SingleNewsActions extends StatefulWidget {
   SingleNewsActions({
     Key? key,
     required SingleNews feed,
+    required this.index,
   })  : newsID = feed.id,
         newsURL = feed.feedLink,
         bookmarkID = feed.bookmarkID,
@@ -27,24 +30,13 @@ class SingleNewsActions extends StatefulWidget {
         likeCount = feed.likeCount,
         super(key: key);
 
-  @override
-  _SingleNewsActionsState createState() => _SingleNewsActionsState();
-}
-
-class _SingleNewsActionsState extends State<SingleNewsActions> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget _buildLikeButton() {
-    final bool _isLiked = widget.likeID != null;
+  Widget _buildLikeButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: LikeButton(
         size: _iconSize,
-        likeCount: widget.likeCount,
-        isLiked: _isLiked,
+        likeCount: likeCount,
+        isLiked: likeID != null,
         likeBuilder: (isLiked) {
           if (isLiked)
             return Icon(
@@ -59,20 +51,19 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
             );
           }
         },
-        onTap: _like,
+        onTap: (isLiked) => _like(context, isLiked),
       ),
     );
   }
 
-  Widget _buildBookmarkButton() {
-    final bool _isBookmarked = widget.bookmarkID != null;
+  Widget _buildBookmarkButton(BuildContext context) {
     final bubbleColor = Colors.blue;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: LikeButton(
         padding: const EdgeInsets.all(0),
         size: _iconSize,
-        isLiked: _isBookmarked,
+        isLiked: bookmarkID != null,
         bubblesColor: BubblesColor(
           dotPrimaryColor: bubbleColor,
           dotSecondaryColor: bubbleColor,
@@ -91,7 +82,7 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
             );
           }
         },
-        onTap: _bookmark,
+        onTap: (isBookmarked) => _bookmark(context, isBookmarked),
       ),
     );
   }
@@ -107,13 +98,20 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
     );
   }
 
-  Future<bool> _like(bool isLiked) async {
+  Future<bool> _like(BuildContext context, bool isLiked) async {
+    final newsBloc = context.read<NewsBloc>();
     try {
       if (isLiked) {
-        await news.unlike(widget.newsID);
+        await news.unlike(newsID);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.UNLIKE),
+        );
         return false;
       } else {
-        await news.like(widget.newsID);
+        await news.like(newsID);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.LIKE),
+        );
         return true;
       }
     } catch (e) {
@@ -121,13 +119,20 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
     }
   }
 
-  Future<bool> _bookmark(bool bookmarked) async {
+  Future<bool> _bookmark(BuildContext context, bool bookmarked) async {
+    final newsBloc = context.read<NewsBloc>();
     try {
       if (bookmarked) {
-        await news.unbookmark(widget.newsID);
+        await news.unbookmark(newsID);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.UNBOOKMARK),
+        );
         return false;
       } else {
-        await news.bookmark(widget.newsID);
+        await news.bookmark(newsID);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.BOOKMARK),
+        );
         return true;
       }
     } catch (e) {
@@ -135,11 +140,11 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
     }
   }
 
-  void _comment() {
+  void _comment(BuildContext context) {
     showBarModalBottomSheet(
       context: context,
       builder: (context) {
-        final id = widget.newsID;
+        final id = newsID;
         return BlocProvider(
           create: (ctx) => CommentsBloc()
             ..add(
@@ -152,7 +157,7 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
   }
 
   void _share() {
-    Share.share(widget.newsURL);
+    Share.share(newsURL);
   }
 
   @override
@@ -167,14 +172,17 @@ class _SingleNewsActionsState extends State<SingleNewsActions> {
             Container(
               child: Row(
                 children: [
-                  _buildLikeButton(),
-                  _buildIconButton(Icons.comment_outlined, _comment),
+                  _buildLikeButton(context),
+                  _buildIconButton(
+                    Icons.comment_outlined,
+                    () => _comment(context),
+                  ),
                 ],
               ),
             ),
             Row(
               children: [
-                _buildBookmarkButton(),
+                _buildBookmarkButton(context),
                 _buildIconButton(Icons.share_outlined, _share),
               ],
             ),
