@@ -9,13 +9,13 @@ class ErrorInterceptor extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
       if (tr(err.response?.data["message"]) == err.response?.data["message"])
-        ToastService.showAlert(tr("errors.default"));
+        ToastService.instance.showAlert(tr("errors.default"));
       else {
-        ToastService.showAlert(
-            tr('server_errors.${err.response?.data["message"]}'));
+        ToastService.instance
+            .showAlert(tr('server_errors.${err.response?.data["message"]}'));
       }
     } else
-      ToastService.showAlert(tr("errors.network_error"));
+      ToastService.instance.showAlert(tr("errors.network_error"));
 
     return super.onError(err, handler);
   }
@@ -27,7 +27,7 @@ class CustomInterceptor extends Interceptor {
     if (err.response != null) {
       if (err.response?.statusCode == 401) {
         AuthBloc.instance.add(ApiForceLogout());
-        ToastService.showAlert(tr("server_errors.session_expired"));
+        ToastService.instance.showAlert(tr("server_errors.session_expired"));
       }
     }
     return super.onError(err, handler);

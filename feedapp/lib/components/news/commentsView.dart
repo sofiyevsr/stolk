@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:feedapp/components/common/centerLoadingWidget.dart';
 import 'package:feedapp/components/news/singleComment.dart';
 import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
+import 'package:feedapp/utils/debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,16 +22,15 @@ class _CommentsViewState extends State<CommentsView> {
   bool hasAnimatedNew = false;
   ScrollController _scrollController = ScrollController();
 
-  Timer? _timer;
+  Debounce _debouncer = Debounce(
+    duration: const Duration(milliseconds: 75),
+  );
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(
       () {
-        // Debounce
-        if (_timer != null && _timer!.isActive) _timer!.cancel();
-        _timer = Timer(
-          Duration(milliseconds: 50),
+        _debouncer.run(
           () {
             final maxScroll = _scrollController.position.maxScrollExtent;
             final currentScroll = _scrollController.position.pixels;
@@ -49,7 +49,7 @@ class _CommentsViewState extends State<CommentsView> {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _debouncer.dispose();
     _scrollController.dispose();
     super.dispose();
   }

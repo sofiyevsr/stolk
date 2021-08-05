@@ -1,18 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feedapp/components/auth/views/AuthView.dart';
-import 'package:feedapp/components/settings/AboutDialog.dart';
-import 'package:feedapp/components/settings/SettingsTile.dart';
 import 'package:feedapp/logic/blocs/authBloc/auth.dart';
 import 'package:feedapp/utils/services/app/navigationService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:feedapp/components/common/tilesHeader.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:feedapp/components/settings/buildHelpers/index.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'widgets/singleSetting.dart';
+import 'widgets/AboutDialog.dart';
+import 'widgets/LanguageSelector.dart';
+import 'widgets/NotificationPreferences.dart';
+import 'widgets/SettingsTile.dart';
+import 'widgets/SingleSetting.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildHeaderSection() {
+  Widget buildHeaderSection() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: BlocBuilder<AuthBloc, AuthState>(
@@ -75,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildGeneralSection() {
+  Widget buildGeneralSection() {
     final auth = context.watch<AuthBloc>();
     if (auth.state is AuthorizedState) {
       return Column(
@@ -86,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
               NavigationService.push(
                 SingleSetting(
                   title: tr("settings.notification_preferences"),
-                  child: buildNotificationPanel(context),
+                  child: NotificationPreferences(),
                 ),
                 RouteNames.SINGLE_SETTING,
               );
@@ -110,7 +111,6 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     return Column(
       children: [
-        Divider(),
         SettingsTile(
           onTap: () {
             NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
@@ -118,7 +118,6 @@ class _SettingsPageState extends State<SettingsPage> {
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
         ),
-        Divider(),
         SettingsTile(
           onTap: () {
             NavigationService.push(AuthView(isLogin: false), RouteNames.AUTH);
@@ -141,7 +140,7 @@ class _SettingsPageState extends State<SettingsPage> {
         minLeadingWidth: 0,
         child: Column(
           children: [
-            _buildHeaderSection(),
+            buildHeaderSection(),
             TilesHeader(
               title: tr("settings.general"),
             ),
@@ -161,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Icons.arrow_right_outlined,
               ),
             ),
-            _buildGeneralSection(),
+            buildGeneralSection(),
             TilesHeader(
               title: tr("settings.about"),
             ),
@@ -172,7 +171,6 @@ class _SettingsPageState extends State<SettingsPage> {
               title: tr("settings.about"),
               icon: Icons.info_outlined,
             ),
-            Divider(),
             SettingsTile(
               onTap: () {
                 // TODO redirect to web page
@@ -180,13 +178,25 @@ class _SettingsPageState extends State<SettingsPage> {
               title: tr("settings.privacy"),
               icon: Icons.privacy_tip_outlined,
             ),
-            Divider(),
             SettingsTile(
               onTap: () {
                 // TODO redirect to web page
               },
               title: tr("settings.terms"),
               icon: Icons.description_outlined,
+            ),
+            SettingsTile(
+              icon: Icons.layers_outlined,
+              title: tr("settings.theme"),
+              padding: const EdgeInsets.only(left: 16),
+              trailing: ToggleButtons(
+                children: [
+                  Icon(Icons.phone_android),
+                  Icon(Icons.dark_mode),
+                  Icon(Icons.light_mode),
+                ],
+                isSelected: [false, false, false],
+              ),
             ),
           ],
         ),

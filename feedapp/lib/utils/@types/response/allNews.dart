@@ -95,7 +95,7 @@ class SingleNews extends Equatable {
         feedLink: feedLink ?? this.feedLink,
         likeCount: likeCount ?? this.likeCount,
         commentCount: commentCount ?? this.likeCount,
-        imageLink: imageLink,
+        imageLink: imageLink ?? this.imageLink,
         likeID: likeID == null ? this.likeID : likeID.value,
         followID: followID == null ? this.followID : followID.value,
         bookmarkID: bookmarkID == null ? this.bookmarkID : bookmarkID.value,

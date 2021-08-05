@@ -4,6 +4,7 @@ import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:feedapp/screens/feed/widgets/categoryList.dart';
 import 'package:feedapp/screens/feed/widgets/singleNews.dart';
 import 'package:feedapp/screens/feed/widgets/allNewsShimmer.dart';
+import 'package:feedapp/utils/debounce.dart';
 import 'package:feedapp/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,40 +23,65 @@ class AllNewsScreen extends StatefulWidget {
 class _AllNewsScreenState extends State<AllNewsScreen> {
   ScrollController _scrollController = ScrollController();
   int _currentCategory = 0;
+  bool showFab = false;
 
-  Timer? _timer;
+  Debounce _debouncer = Debounce(
+    duration: const Duration(milliseconds: 75),
+  );
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      final currentScroll = _scrollController.position.pixels;
+
+      if (currentScroll < 100 && showFab == true) {
+        setState(() {
+          showFab = false;
+        });
+      }
+      if (currentScroll > 100 && showFab == false) {
+        setState(() {
+          showFab = true;
+        });
+      }
+    });
     _scrollController.addListener(
-      () {
-        // Debounce
-        if (_timer != null && _timer!.isActive) _timer!.cancel();
-        _timer = Timer(
-          Duration(milliseconds: 50),
-          () {
-            final maxScroll = _scrollController.position.maxScrollExtent;
-            final currentScroll = _scrollController.position.pixels;
-            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
-              context.read<NewsBloc>().add(
-                    FetchNextNewsEvent(
-                      category: _currentCategory,
-                      sourceID: null,
-                      filterBy: null,
-                    ),
-                  );
-            }
-          },
-        );
-      },
+      () => _debouncer.run(
+        () {
+          final maxScroll = _scrollController.position.maxScrollExtent;
+          final currentScroll = _scrollController.position.pixels;
+
+          if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
+            context.read<NewsBloc>().add(
+                  FetchNextNewsEvent(
+                    category: _currentCategory,
+                    sourceID: null,
+                    filterBy: null,
+                  ),
+                );
+          }
+        },
+      ),
     );
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _debouncer.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void forceFetchNext() {
+    BlocProvider.of<NewsBloc>(context).add(
+      FetchNextNewsEvent(
+        category: _currentCategory,
+        sourceID: null,
+        filterBy: null,
+        force: true,
+      ),
+    );
   }
 
   Future<void> onRefresh() async {
@@ -85,37 +111,50 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          CategoryList(
-            current: _currentCategory,
-            changeCategory: _changeCategory,
-          ),
-          Expanded(
-            child: BlocBuilder<NewsBloc, NewsState>(
-              builder: (ctx, state) {
-                if (state is NewsStateLoading) return AllNewsShimmer();
-                if (state is NewsStateSuccess) {
-                  return RefreshIndicator(
-                    onRefresh: onRefresh,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: _scrollController,
-                      itemCount: state.data.hasReachedEnd
-                          ? state.data.news.length
-                          : state.data.news.length + 1,
-                      itemBuilder: (ctx, index) =>
-                          index >= state.data.news.length
-                              ? Container(
-                                  height: 50,
-                                  child: Center(
-                                    child: CircularProgressIndicator.adaptive(
-                                      strokeWidth: 8,
-                                    ),
-                                  ),
-                                )
+    return Stack(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              CategoryList(
+                current: _currentCategory,
+                changeCategory: _changeCategory,
+              ),
+              Expanded(
+                child: BlocBuilder<NewsBloc, NewsState>(
+                  builder: (ctx, state) {
+                    if (state is NewsStateLoading) return AllNewsShimmer();
+                    if (state is NewsStateWithData) {
+                      return RefreshIndicator(
+                        onRefresh: onRefresh,
+                        child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          controller: _scrollController,
+                          itemCount: state.data.hasReachedEnd
+                              ? state.data.news.length
+                              : state.data.news.length + 1,
+                          itemBuilder: (ctx, index) => index >=
+                                  state.data.news.length
+                              ? state is NewsNextFetchError
+                                  ? Container(
+                                      height: 50,
+                                      child: Center(
+                                        child: ElevatedButton(
+                                          onPressed: forceFetchNext,
+                                          child: Text("missing"),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 50,
+                                      child: Center(
+                                        child:
+                                            CircularProgressIndicator.adaptive(
+                                          strokeWidth: 8,
+                                        ),
+                                      ),
+                                    )
                               : SingleNewsView(
                                   key: Key(
                                     state.data.news[index].id.toString(),
@@ -123,18 +162,32 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                   feed: state.data.news[index],
                                   index: index,
                                 ),
-                    ),
-                  );
-                }
+                        ),
+                      );
+                    }
 
-                if (state is NewsStateNoData) {}
-                if (state is NewsStateError) {}
-                return Container();
-              },
-            ),
+                    if (state is NewsStateNoData) {}
+                    if (state is NewsStateError) {}
+                    return Container();
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        if (showFab)
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: FloatingActionButton(onPressed: () {
+              _scrollController.animateTo(
+                0,
+                duration: Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+              );
+            }),
+          ),
+      ],
     );
   }
 }

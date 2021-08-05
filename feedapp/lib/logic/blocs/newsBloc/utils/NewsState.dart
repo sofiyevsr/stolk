@@ -5,32 +5,35 @@ abstract class NewsState extends Equatable {
   get props => [];
 }
 
+abstract class NewsStateWithData extends NewsState {
+  final NewsModel data;
+  NewsStateWithData({required this.data});
+  @override
+  get props => [data];
+}
+
 class NewsStateInitial extends NewsState {}
 
 class NewsStateError extends NewsState {}
+
+class NewsNextFetchError extends NewsStateWithData {
+  NewsNextFetchError({
+    required NewsModel data,
+  }) : super(data: data);
+}
+
+class NewsNextFetchLoading extends NewsStateWithData {
+  NewsNextFetchLoading({
+    required NewsModel data,
+  }) : super(data: data);
+}
 
 class NewsStateLoading extends NewsState {}
 
 class NewsStateNoData extends NewsState {}
 
-class NewsStateSuccess extends NewsState {
-  final NewsModel data;
-  final bool isLoadingNext;
+class NewsStateSuccess extends NewsStateWithData {
   NewsStateSuccess({
-    required this.data,
-    required this.isLoadingNext,
-  });
-  NewsStateSuccess setLoading() => NewsStateSuccess(
-        isLoadingNext: true,
-        data: this.data,
-      );
-  NewsStateSuccess disableLoading() => NewsStateSuccess(
-        isLoadingNext: false,
-        data: this.data,
-      );
-  @override
-  get props => [
-        data,
-        isLoadingNext,
-      ];
+    required NewsModel data,
+  }) : super(data: data);
 }

@@ -32,7 +32,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
             ),
-            isLoadingNext: false,
           );
         else
           yield NewsStateNoData();
@@ -52,7 +51,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               news: event.data.news,
               hasReachedEnd: event.data.hasReachedEnd,
             ),
-            isLoadingNext: false,
           );
         else
           yield NewsStateNoData();
@@ -63,12 +61,18 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     // Fetch next batch
     // 1. Keep in mind current category
     else if (event is FetchNextNewsEvent) {
-      if (state is NewsStateSuccess &&
-          (state as NewsStateSuccess).isLoadingNext == false &&
-          (state as NewsStateSuccess).data.hasReachedEnd == false) {
+      if (state is NewsStateWithData &&
+          (state as NewsStateWithData).data.hasReachedEnd == false) {
+        if (state is NewsNextFetchError && event.force != true) {
+          return;
+        }
+        if (state is NewsNextFetchLoading) {
+          return;
+        }
+
         try {
-          yield (state as NewsStateSuccess).setLoading();
-          final existing = (state as NewsStateSuccess);
+          yield NewsNextFetchLoading(data: (state as NewsStateWithData).data);
+          final existing = (state as NewsStateWithData);
           final lastPub =
               existing.data.news[existing.data.news.length - 1].publishedDate;
 
@@ -84,17 +88,16 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               incomingNews: data.news,
               hasReachedEnd: data.hasReachedEnd,
             ),
-            isLoadingNext: false,
           );
         } catch (e) {
-          yield (state as NewsStateSuccess).disableLoading();
+          yield NewsNextFetchError(data: (state as NewsStateWithData).data);
         }
       }
     }
     // ------------------------------- ACTIONS --------------------------------------
     else if (event is NewsActionEvent) {
-      if (state is NewsStateSuccess) {
-        final existing = (state as NewsStateSuccess);
+      if (state is NewsStateWithData) {
+        final existing = (state as NewsStateWithData);
         final item = existing.data.news[event.index];
         SingleNews modifItem;
         switch (event.type) {
@@ -124,7 +127,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             item: modifItem,
             index: event.index,
           ),
-          isLoadingNext: existing.isLoadingNext,
         );
       }
     }

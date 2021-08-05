@@ -30,10 +30,15 @@ class FetchNextNewsEvent extends NewsEvent {
   final int? category;
   final String? filterBy;
   final int? sourceID;
-  FetchNextNewsEvent(
-      {required this.category, required this.filterBy, required this.sourceID});
+  final bool? force;
+  FetchNextNewsEvent({
+    required this.category,
+    required this.filterBy,
+    required this.sourceID,
+    this.force,
+  });
 
-  List<Object?> get props => [filterBy, category];
+  List<Object?> get props => [filterBy, category, sourceID, force];
 }
 
 class NewsActionEvent extends NewsEvent {
@@ -41,5 +46,5 @@ class NewsActionEvent extends NewsEvent {
   final NewsActionType type;
   NewsActionEvent({required this.index, required this.type});
 
-  List<Object?> get props => [index];
+  List<Object?> get props => [index, type];
 }
