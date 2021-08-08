@@ -54,6 +54,15 @@ class _CommentsViewState extends State<CommentsView> {
     super.dispose();
   }
 
+  void forceFetchNext() {
+    BlocProvider.of<CommentsBloc>(context).add(
+      FetchNextCommentsEvent(
+        id: widget.id,
+        force: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final newsID = widget.id;
@@ -65,7 +74,7 @@ class _CommentsViewState extends State<CommentsView> {
             child: BlocBuilder<CommentsBloc, CommentsState>(
               builder: (ctx, state) {
                 if (state is CommentsStateLoading) return CenterLoadingWidget();
-                if (state is CommentsStateSuccess) {
+                if (state is CommentsStateWithData) {
                   return Column(
                     children: [
                       Expanded(
@@ -78,18 +87,28 @@ class _CommentsViewState extends State<CommentsView> {
                               : state.data.comments.length + 1,
                           itemBuilder: (ctx, index) {
                             return index >= state.data.comments.length
-                                ? Container(
-                                    height: 50,
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child:
-                                            CircularProgressIndicator.adaptive(
-                                          strokeWidth: 3,
+                                ? state is CommentsNextFetchError
+                                    ? Container(
+                                        height: 50,
+                                        child: Center(
+                                          child: ElevatedButton(
+                                            onPressed: forceFetchNext,
+                                            child: Text("missing"),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  )
+                                      )
+                                    : Container(
+                                        height: 50,
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: CircularProgressIndicator
+                                                .adaptive(
+                                              strokeWidth: 3,
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                 : AnimatedSingleComment(
                                     key: Key(
                                       state.data.comments[index].id.toString(),

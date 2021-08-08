@@ -14,7 +14,8 @@ class FetchCommentsEvent extends CommentsEvent {
 
 class FetchNextCommentsEvent extends CommentsEvent {
   final int id;
-  FetchNextCommentsEvent({required this.id});
+  final bool? force;
+  FetchNextCommentsEvent({required this.id, this.force});
 
   List<Object?> get props => [id];
 }

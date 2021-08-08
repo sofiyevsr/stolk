@@ -37,7 +37,7 @@ String platformToName(int p) {
 class CustomColorScheme {
   static final main = const Color(0xFF264653);
   static final accent = const Color(0xFF2A9D8F);
-  static final primaryLight = const Color(0xFF335F70);
+  static final primaryLight = const Color(0xFF6497ab);
   static final primaryDark = const Color(0xFF203B46);
   static final logoBackground = const Color.fromRGBO(255, 221, 238, 1);
 }

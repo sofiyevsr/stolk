@@ -15,6 +15,10 @@ final lightTheme = ThemeData(
     headline1: TextStyle(fontWeight: FontWeight.bold),
   ),
   brightness: Brightness.light,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: CustomColorScheme.main,
+    foregroundColor: Colors.white,
+  ),
   primaryColor: CustomColorScheme.main,
   tabBarTheme: TabBarTheme(
     unselectedLabelStyle: TextStyle(fontSize: 16),

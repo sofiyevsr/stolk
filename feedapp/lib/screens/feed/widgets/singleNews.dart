@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedapp/components/common/notFoundImage.dart';
 import 'package:feedapp/screens/feed/widgets/newsView.dart';
 import 'package:feedapp/screens/feed/widgets/singleNewsActions.dart';
@@ -6,6 +5,7 @@ import 'package:feedapp/screens/feed/widgets/singleNewsHeader.dart';
 import 'package:feedapp/utils/@types/response/allNews.dart';
 import 'package:feedapp/utils/constants.dart';
 import 'package:feedapp/utils/services/app/navigationService.dart';
+import 'package:feedapp/utils/transparentImage.dart';
 import 'package:flutter/material.dart';
 
 const NEWS_HEIGHT = 300.0;
@@ -45,10 +45,11 @@ class SingleNewsView extends StatelessWidget {
                     ),
                     child: feed.imageLink == null
                         ? NotFoundImage(color: theme.primaryColor)
-                        : CachedNetworkImage(
-                            imageUrl: feed.imageLink!,
+                        : FadeInImage.memoryNetwork(
+                            image: feed.imageLink!,
+                            placeholder: transparentPlaceholder,
                             fit: BoxFit.cover,
-                            errorWidget: (ctx, err, _) =>
+                            imageErrorBuilder: (ctx, err, _) =>
                                 NotFoundImage(color: theme.primaryColor),
                           ),
                   ),

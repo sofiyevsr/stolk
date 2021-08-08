@@ -5,6 +5,13 @@ abstract class CommentsState extends Equatable {
   get props => [];
 }
 
+abstract class CommentsStateWithData extends CommentsState {
+  final CommentsModel data;
+  CommentsStateWithData({required this.data});
+  @override
+  get props => [data];
+}
+
 class CommentsStateInitial extends CommentsState {}
 
 class CommentsStateError extends CommentsState {}
@@ -13,24 +20,20 @@ class CommentsStateLoading extends CommentsState {}
 
 class CommentsStateNoData extends CommentsState {}
 
-class CommentsStateSuccess extends CommentsState {
-  final CommentsModel data;
-  final bool isLoadingNext;
+class CommentsStateSuccess extends CommentsStateWithData {
   CommentsStateSuccess({
-    required this.data,
-    required this.isLoadingNext,
-  });
-  CommentsStateSuccess setLoading() => CommentsStateSuccess(
-        isLoadingNext: true,
-        data: this.data,
-      );
-  CommentsStateSuccess disableLoading() => CommentsStateSuccess(
-        isLoadingNext: false,
-        data: this.data,
-      );
-  @override
-  get props => [
-        data,
-        isLoadingNext,
-      ];
+    required CommentsModel data,
+  }) : super(data: data);
+}
+
+class CommentsNextFetchError extends CommentsStateWithData {
+  CommentsNextFetchError({
+    required CommentsModel data,
+  }) : super(data: data);
+}
+
+class CommentsNextFetchLoading extends CommentsStateWithData {
+  CommentsNextFetchLoading({
+    required CommentsModel data,
+  }) : super(data: data);
 }

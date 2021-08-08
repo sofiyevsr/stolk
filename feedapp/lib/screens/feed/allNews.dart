@@ -179,13 +179,16 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           Positioned(
             bottom: 10,
             right: 10,
-            child: FloatingActionButton(onPressed: () {
-              _scrollController.animateTo(
-                0,
-                duration: Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-              );
-            }),
+            child: FloatingActionButton(
+              onPressed: () {
+                _scrollController.animateTo(
+                  0,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                );
+              },
+              child: Icon(Icons.north),
+            ),
           ),
       ],
     );

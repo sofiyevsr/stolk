@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:feedapp/components/common/centerLoadingWidget.dart';
 import 'package:feedapp/logic/blocs/newsBloc/news.dart';
+import 'package:feedapp/utils/debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,9 @@ class SourceNewsSliver extends StatefulWidget {
 }
 
 class _SourceNewsSliverState extends State<SourceNewsSliver> {
-  Timer? _timer;
+  Debounce _debouncer = Debounce(
+    duration: const Duration(milliseconds: 75),
+  );
 
   @override
   void initState() {
@@ -29,9 +32,7 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
     widget.scrollController.addListener(
       () {
         // Debounce
-        if (_timer != null && _timer!.isActive) _timer!.cancel();
-        _timer = Timer(
-          Duration(milliseconds: 50),
+        _debouncer.run(
           () {
             final maxScroll = widget.scrollController.position.maxScrollExtent;
             final currentScroll = widget.scrollController.position.pixels;
@@ -50,9 +51,20 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
     );
   }
 
+  void forceFetchNext() {
+    BlocProvider.of<NewsBloc>(context).add(
+      FetchNextNewsEvent(
+        category: null,
+        sourceID: widget.sourceID,
+        filterBy: null,
+        force: true,
+      ),
+    );
+  }
+
   @override
   void dispose() {
-    _timer?.cancel();
+    _debouncer.dispose();
     super.dispose();
   }
 
@@ -64,18 +76,28 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
           return SliverFillRemaining(
             child: CenterLoadingWidget(),
           );
-        if (state is NewsStateSuccess) {
+        if (state is NewsStateWithData) {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
               (ctx, index) => index >= state.data.news.length
-                  ? Container(
-                      height: 50,
-                      child: Center(
-                        child: CircularProgressIndicator.adaptive(
-                          strokeWidth: 8,
-                        ),
-                      ),
-                    )
+                  ? state is NewsNextFetchError
+                      ? Container(
+                          height: 50,
+                          child: Center(
+                            child: ElevatedButton(
+                              onPressed: forceFetchNext,
+                              child: Text("missing"),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 50,
+                          child: Center(
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 8,
+                            ),
+                          ),
+                        )
                   : Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                       child: SingleNewsView(

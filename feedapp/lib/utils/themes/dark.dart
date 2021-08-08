@@ -21,6 +21,10 @@ final darkTheme = ThemeData.dark().copyWith(
       ),
     ),
   ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: CustomColorScheme.main,
+    foregroundColor: Colors.white,
+  ),
   primaryColor: CustomColorScheme.main,
   scaffoldBackgroundColor: Colors.black54,
   inputDecorationTheme: InputDecorationTheme(

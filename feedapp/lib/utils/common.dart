@@ -30,7 +30,7 @@ ThemeMode stringToTheme(String theme) {
     return ThemeMode.dark;
   }
   if (theme == "light") {
-    return ThemeMode.dark;
+    return ThemeMode.light;
   }
   return ThemeMode.system;
 }

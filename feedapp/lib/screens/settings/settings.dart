@@ -14,6 +14,7 @@ import 'widgets/LanguageSelector.dart';
 import 'widgets/NotificationPreferences.dart';
 import 'widgets/SettingsTile.dart';
 import 'widgets/SingleSetting.dart';
+import 'widgets/ThemeSelector.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -160,6 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Icons.arrow_right_outlined,
               ),
             ),
+            ThemeSelector(),
             buildGeneralSection(),
             TilesHeader(
               title: tr("settings.about"),
@@ -184,19 +186,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
               title: tr("settings.terms"),
               icon: Icons.description_outlined,
-            ),
-            SettingsTile(
-              icon: Icons.layers_outlined,
-              title: tr("settings.theme"),
-              padding: const EdgeInsets.only(left: 16),
-              trailing: ToggleButtons(
-                children: [
-                  Icon(Icons.phone_android),
-                  Icon(Icons.dark_mode),
-                  Icon(Icons.light_mode),
-                ],
-                isSelected: [false, false, false],
-              ),
             ),
           ],
         ),

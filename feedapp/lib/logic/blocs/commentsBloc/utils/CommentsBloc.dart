@@ -23,18 +23,24 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
             comments: data.comments,
             hasReachedEnd: data.hasReachedEnd,
           ),
-          isLoadingNext: false,
         );
       } catch (e) {
         yield CommentsStateError();
       }
     } else if (event is FetchNextCommentsEvent) {
-      if (state is CommentsStateSuccess &&
-          (state as CommentsStateSuccess).isLoadingNext == false &&
-          (state as CommentsStateSuccess).data.hasReachedEnd == false) {
+      if (state is CommentsStateWithData &&
+          (state as CommentsStateWithData).data.hasReachedEnd == false) {
+        if (state is CommentsNextFetchError && event.force != true) {
+          return;
+        }
+        if (state is CommentsNextFetchLoading) {
+          return;
+        }
+
         try {
-          yield (state as CommentsStateSuccess).setLoading();
-          final existing = (state as CommentsStateSuccess);
+          yield CommentsNextFetchLoading(
+              data: (state as CommentsStateWithData).data);
+          final existing = (state as CommentsStateWithData);
           final lastID =
               existing.data.comments[existing.data.comments.length - 1].id;
 
@@ -45,10 +51,10 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
               incomingComments: data.comments,
               hasReachedEnd: data.hasReachedEnd,
             ),
-            isLoadingNext: false,
           );
         } catch (e) {
-          yield (state as CommentsStateSuccess).disableLoading();
+          yield CommentsNextFetchError(
+              data: (state as CommentsStateWithData).data);
         }
       }
     } else if (event is AddCommentEvent) {
@@ -61,7 +67,6 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
             data: existing.data.addComment(
               comment: event.comment,
             ),
-            isLoadingNext: false,
           );
         } catch (e) {
           // yield (state as CommentsStateSuccess).disableLoading();
