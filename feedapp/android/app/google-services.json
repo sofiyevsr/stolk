@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34398439979",
+    "project_id": "stolk-app",
+    "storage_bucket": "stolk-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34398439979:android:31e3534bb16fd1ba81f86e",
+        "android_client_info": {
+          "package_name": "app.stolk.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34398439979-ss4juec27rrkpf2mpuvb8qf3r6hg272v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPGNBBMr6xxF8rtzyQUaNcuvzQueAQ8Kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34398439979-ss4juec27rrkpf2mpuvb8qf3r6hg272v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
