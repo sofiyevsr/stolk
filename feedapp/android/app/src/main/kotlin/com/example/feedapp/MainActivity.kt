@@ -1,4 +1,4 @@
-package com.example.feedapp
+package app.stolk.android
 
 import io.flutter.embedding.android.FlutterActivity
 

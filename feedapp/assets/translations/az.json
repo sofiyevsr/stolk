@@ -5,173 +5,88 @@
     "ru": "По русский",
     "en": "English"
   },
-  "campaign": {
-    "name": "Ad",
-    "discount": "Endirim",
-    "starts_at": "Başlama vaxtı",
-    "expires_at": "Bitmə vaxtı",
-    "count": "Ümumi say",
-    "left_count": "Qalan say",
-    "booking_valid_for_hours": "Bilet aktivdir",
-    "count_field": "Say"
-  },
-  "buttons": {
-    "book": "Rezerv et"
-  },
-  "tooltip": {
-    "choose_business_map": "Biznes seçilməyib, xəritədən biznes seçin"
-  },
-  "services": { "location_fail": "GPS aktiv deyil" },
-  "permissions": { "location_fail": "Ünvan üçün icazə verilmədi" },
-  "my_bookings": {
-    "banner": "Əməliyyatlar üçün bileti sola sürüşdürün"
-  },
-  "booking": {
-    "count": "Say",
-    "business_name": "Biznes",
-    "campaign_name": "Kampanya",
-    "expired": "Bitib",
-    "claimed_at": "Əldə edilib",
-    "read_qr_code": "QR kodu oxudun"
-  },
-  "add_business": {
-    "title": "Biznes əlavə et"
-  },
-  "business": {
-    "name": "Ad",
-    "address": "Ünvan",
-    "rating": "Reytinq",
-    "phone": "Əlaqə nömrəsi"
-  },
+  "buttons": {},
   "server_errors": {
-    "invalid_token": "Sessiya bitib",
-    "session_expired": "Sessiya bitib",
-    "account_banned": "Hesab banlanıb",
-    "login_fail": "Login olmadı",
-    "invalid_session_id": "Sessiya bitib",
-    "reset_fail": "Şifrə sıfırlama olmadı",
-    "user_not_found": "İstifadəçi tapılmadı",
-    "booking_limit_reached": "Limit aşılıb",
-    "campaign_not_found": "Kampanya tapılmadı",
-    "not_enough_place_booking": "Kifayət qədər yer yoxdur",
-    "already_has_one": "Booking artıq mövcuddur",
-    "booking_not_found": "Booking tapılmadı",
-    "campaign_is_not_active": "Kampanya aktiv deyil",
-    "business_is_not_active": "Biznes aktiv deyil",
-    "booking_is_claimed": "Booking təsdiq edilib",
-    "not_allowed": "İcazə çatmır",
-    "booking_expired": "Booking müddəti bitib",
-    "campaign_expired": "Kampanya müddəti bitib",
-    "image_upload_failed": "Şəkil yükləmə alınmadı",
-    "validations": {
-      "id": {
-        "required": "ID daxil edin"
-      },
-      "invalid_image": "Yanlış şəkil"
-    },
-    "id_not_found": "ID tapılmadı",
-    "business_not_found": "Biznes tapılmadı",
-    "business_not_updated": "Biznes yenilənmədi",
-    "campaign_not_created": "Kampanya yaradılmadı",
-    "campaign_not_stopped": "Kampanya dayandırılmadı",
-    "only_partner_business": "Sadəcə partnyor bizness yarada bilər",
+    "invalid_token": "",
+    "account_banned": "",
+    "login_fail": "",
+    "invalid_session_id": "",
+    "unique_email": "",
+    "reset_fail": "",
+    "news_id_required": "",
+    "source_id_required": "",
     "validation": {
       "email": {
-        "string": "Email daxil edin",
-        "required": "Email daxil edin",
-        "invalid_email": "Email düzgün deyil"
+        "string": "",
+        "empty": "",
+        "required": "",
+        "invalid_email": ""
       },
       "password": {
-        "string": "Şifrə daxil edin",
-        "required": "Şifrə daxil edin",
-        "invalid_pattern": "Şifrə düzgün deyil"
+        "string": "",
+        "empty": "",
+        "required": "",
+        "invalid_pattern": ""
       },
       "service_type": {
-        "number": "Servis növü daxil edin",
-        "required": "Servis növü daxil edin",
-        "invalid": "Servis növü düzgün deyil"
-      },
-      "account_type": {
-        "number": "Hesab növü daxil edin",
-        "required": "Hesab növü daxil edin",
-        "invalid": "Hesab növü düzgün deyil"
+        "number": "",
+        "required": "",
+        "invalid": ""
       },
       "session_type": {
-        "number": "Sessiya növü daxil edin",
-        "required": "Sessiya növü daxil edin",
-        "invalid": "Sessiya növü düzgün deyil"
+        "number": "",
+        "required": "",
+        "invalid": ""
       },
       "first_name": {
-        "string": "Ad daxil edin",
-        "required": "Ad daxil edin",
-        "min2": "Ad minimum 2 simvol olmalıdır",
-        "max30": "Ad maksimum 30 simvol olmalıdır"
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min2": "",
+        "max30": ""
       },
       "last_name": {
-        "string": "Soyad daxil edin",
-        "required": "Soyad daxil edin",
-        "min2": "Soyad minimum 2 simvol olmalıdır",
-        "max30": "Soyad maksimum 30 simvol olmalıdır"
+        "string": "",
+        "empty": "",
+        "required": "",
+        "min2": "",
+        "max30": ""
       },
       "id": {
-        "number": "ID daxil edin",
-        "required": "ID daxil edin"
+        "number": "",
+        "required": ""
       },
       "token": {
-        "string": "Token daxil edin",
-        "required": "Token daxil edin"
+        "string": "",
+        "empty": "",
+        "required": ""
       },
-      "booking_count": {
-        "string": "Booking sayı daxil edin",
-        "required": "Booking sayı daxil edin",
-        "max5": "Booking sayı maksimum 5 ola bilər"
+      "comment": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max300": ""
       },
-      "campaign_id": {
-        "number": "Kampanya ID daxil edin",
-        "required": "Kampanya ID daxil edin"
+      "title": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
       },
-      "lat": {
-        "number": "Latitude daxil edin",
-        "required": "Latitude daxil edin"
-      },
-      "lng": {
-        "number": "Longitude daxil edin",
-        "required": "Longitude daxil edin"
-      },
-      "location": {
-        "object": "Ünvan daxil edin"
-      },
-      "business_name": {
-        "string": "Biznes adı daxil edin",
-        "required": "Biznes adı daxil edin",
-        "max15": "Biznes adı maksimum 15 simvol ola bilər"
-      },
-      "address": {
-        "required": "Ünvan daxil edin",
-        "min5": "Ünvan minimum 5 simvol ola bilər",
-        "string": "Ünvan daxil edin"
-      },
-      "phone_number": {
-        "required": "Telefon daxil edin",
-        "invalid_pattern": "Telefon düzgün deyil",
-        "string": "Telefon daxil edin"
-      },
-      "business_type": {
-        "number": "Biznes növü daxil edin",
-        "required": "Biznes növü daxil edin",
-        "invalid": "Biznes növü yanlışdır"
-      },
-      "business_id": {
-        "number": "Biznes ID daxil edin",
-        "required": "Biznes ID daxil edin"
-      },
-      "radius": {
-        "number": "Radius daxil edin",
-        "required": "Radius daxil edin",
-        "min1000": "Radius minimum 1000 metr olmalıdır",
-        "max10000": "Radius maximum 10000 metr olmalıdır"
+      "body": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
       }
     }
+  },
+  "auth": { "welcome": "Xoş gəlmisiniz" },
+  "navbar": {
+    "home": "Əsas",
+    "explore": "Kəşf",
+    "history": "Tarixçə",
+    "account": "Hesab"
   },
   "commons": {
     "guest": "Qonaq",
@@ -181,60 +96,46 @@
     "rate": "Qiymət ver",
     "dont_show_again": "Bir daha göstərmə",
     "delete": "Sil",
+    "follow": "İzlə",
+    "following": "İzlənir",
     "cancel": "İmtina",
     "false": "Xeyr",
     "true": "Bəli",
     "is_active": "Aktivdir",
     "save": "Yadda saxla"
   },
+  "categories": {
+    "all": "Hamısı"
+  },
   "messages": {
-    "no_data": "Məlumat yoxdur",
-    "no_ticket": "Bilet yoxdur",
-    "no_deals": "Kampanya yoxdur"
+    "no_data": "Məlumat yoxdur"
   },
   "errors": {
     "default": "Xəta baş verdi",
     "network_error": "İnternet xətası",
     "fetch_failed": "Xəta baş verdi",
-    "campaign_fetch_failed": "Xəta baş verdi",
-    "booking_fetch_failed": "Xəta baş verdi",
-    "no_location": "Ünvan alına bilmədi",
     "retry_check_token": "Təkrar yoxla"
   },
-  "drawer": {
-    "home": "Əsas səhifə",
-    "settings": "Tənzimləmələr",
-    "bookings": "Mənim biletlərim",
-    "register": "Qeydiyyat",
-    "login": "Daxil ol",
-    "logout": "Çıxış"
-  },
+
   "fields": {
     "email": "Email",
     "first_name": "Ad",
     "last_name": "Soyad",
-    "password": "Şifrə",
-    "radius": "Radius"
+    "password": "Şifrə"
   },
   "home": {
-    "choose_list": { "title": "Kampanyalar" },
-    "choose_map": { "title": "Xəritə" },
     "title": "Əsas səhifə"
-  },
-  "single_campaign": {
-    "business_details": "Biznes haqqında",
-    "campaign_details": "Kampanya haqqında"
   },
   "intro": {
     "prev": "Geri",
     "next": "İrəli",
     "first": {
-      "subtitle": "Kəşf et",
-      "title": "Kəşf"
+      "subtitle": "Bütün mənbələr tək yerdə",
+      "title": "Rahat"
     },
     "second": {
-      "subtitle": "Booking əldə et",
-      "title": "Onlayn booking"
+      "subtitle": "İstənilən qədər mənbə seç",
+      "title": "Limitsiz"
     },
     "third": {
       "subtitle": "Fürsətlər",
@@ -243,7 +144,7 @@
   },
   "login": {
     "login_button_label": "Daxil ol",
-    "title": "Login"
+    "title": "Daxil ol"
   },
 
   "hide_password": "Gizlət",
@@ -253,11 +154,20 @@
     "register_button_label": "Qeydiyyat",
     "title": "Qeydiyyat"
   },
-
-  "business_type": {
-    "clothing": "Paltar",
-    "food": "Yemək"
+  "tooltips": {
+    "theme": {
+      "dark": "Gecə modu",
+      "light": "Gündüz modu",
+      "system": "Sistem"
+    },
+    "rails": {
+      "likes": "Bəyəndiklərim",
+      "comments": "Şərhlər",
+      "reads": "Oxuduqlarım",
+      "bookmarks": "Qeydlər"
+    }
   },
+
   "settings": {
     "language": "Dil",
     "general": "Ümumi",
@@ -267,6 +177,9 @@
     "terms": "Şərtlər və qaydalar",
     "language_select": "Dil seç",
     "title": "Tənzimləmələr",
+    "login": "Daxil ol",
+    "register": "Qeydiyyat",
+    "theme": "Görünüş",
     "notifications": { "news": "Xəbərlər" },
     "about_fields": {
       "name": "Ad",

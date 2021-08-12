@@ -1,4 +1,4 @@
-import 'package:feedapp/utils/constants.dart';
+import 'package:stolk/utils/constants.dart';
 import "dart:io" show Platform;
 
 class LoginRequest {

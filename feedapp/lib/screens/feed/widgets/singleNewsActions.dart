@@ -1,8 +1,8 @@
-import 'package:feedapp/components/news/commentsView.dart';
-import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/services/server/newsService.dart';
+import 'package:stolk/components/news/commentsView.dart';
+import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';

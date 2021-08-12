@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/common/scaleButton.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsView extends StatefulWidget {
   final String link;
@@ -19,7 +19,7 @@ class NewsView extends StatefulWidget {
 
 class _NewsViewState extends State<NewsView>
     with SingleTickerProviderStateMixin {
-  final _controller = Completer<WebViewController>();
+  final _controller = Completer<InAppWebViewController>();
   String _title = "";
 
   double loadingPer = 0;
@@ -60,7 +60,6 @@ class _NewsViewState extends State<NewsView>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: Container(
         child: Row(
@@ -94,7 +93,11 @@ class _NewsViewState extends State<NewsView>
                 ScaleButton(
                   onFinish: () async {
                     final view = await _controller.future;
-                    await view.loadUrl(widget.link);
+                    await view.loadUrl(
+                      urlRequest: URLRequest(
+                        url: Uri.tryParse(widget.link),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -133,22 +136,20 @@ class _NewsViewState extends State<NewsView>
           child: Icon(
             Icons.arrow_back,
             size: 32,
-            color: theme.cardColor,
           ),
         ),
       ),
       body: SafeArea(
         child: Stack(
           children: [
-            WebView(
-              debuggingEnabled: true,
+            InAppWebView(
               onWebViewCreated: (c) {
                 _controller.complete(c);
               },
-              onProgress: (i) {
+              onProgressChanged: (_, i) {
                 _progressToTarget(i.toDouble());
               },
-              onPageFinished: (s) async {
+              onLoadStop: (_, s) async {
                 final view = await _controller.future;
                 final title = await view.getTitle();
                 if (title != null) {
@@ -157,10 +158,9 @@ class _NewsViewState extends State<NewsView>
                   });
                 }
               },
-              onWebResourceError: (e) {},
-              allowsInlineMediaPlayback: true,
-              javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: widget.link,
+              initialUrlRequest: URLRequest(
+                url: Uri.tryParse(widget.link),
+              ),
             ),
           ],
         ),

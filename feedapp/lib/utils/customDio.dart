@@ -1,7 +1,7 @@
 import "package:dio/dio.dart";
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/utils/services/app/toastService.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/utils/services/app/toastService.dart';
 import "constants.dart";
 
 class ErrorInterceptor extends Interceptor {

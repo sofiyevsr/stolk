@@ -1,6 +1,6 @@
-import 'package:feedapp/logic/blocs/commentsBloc/models/commentsModel.dart';
-import 'package:feedapp/utils/@types/response/comments.dart';
-import 'package:feedapp/utils/services/server/newsService.dart';
+import 'package:stolk/logic/blocs/commentsBloc/models/commentsModel.dart';
+import 'package:stolk/utils/@types/response/comments.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
 

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:feedapp/logic/blocs/authBloc/models/user.dart';
-import 'package:feedapp/utils/@types/request/checkToken.dart';
-import 'package:feedapp/utils/@types/request/login.dart';
-import 'package:feedapp/utils/@types/request/register.dart';
-import 'package:feedapp/utils/services/app/startupService.dart';
-import 'package:feedapp/utils/services/server/authService.dart';
-import 'package:feedapp/utils/services/app/secureStorage.dart';
+import 'package:stolk/logic/blocs/authBloc/models/user.dart';
+import 'package:stolk/utils/@types/request/checkToken.dart';
+import 'package:stolk/utils/@types/request/login.dart';
+import 'package:stolk/utils/@types/request/register.dart';
+import 'package:stolk/utils/services/app/startupService.dart';
+import 'package:stolk/utils/services/server/authService.dart';
+import 'package:stolk/utils/services/app/secureStorage.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:equatable/equatable.dart';
 

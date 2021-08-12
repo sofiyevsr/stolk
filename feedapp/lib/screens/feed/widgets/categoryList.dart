@@ -1,5 +1,6 @@
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/services/server/newsService.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 
 final news = NewsService();
@@ -42,7 +43,7 @@ class _CategoryListState extends State<CategoryList> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              category.name,
+              tr("categories.${category.name}"),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

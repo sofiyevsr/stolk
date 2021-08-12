@@ -1,5 +1,5 @@
-import 'package:feedapp/utils/@types/response/allSources.dart';
-import 'package:feedapp/utils/common.dart';
+import 'package:stolk/utils/@types/response/allSources.dart';
+import 'package:stolk/utils/common.dart';
 
 import 'apiService.dart';
 

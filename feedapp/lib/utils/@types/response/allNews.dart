@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:feedapp/utils/common.dart';
+import 'package:stolk/utils/common.dart';
 
 class SingleCategory extends Equatable {
   final int id;

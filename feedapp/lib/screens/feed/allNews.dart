@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:feedapp/logic/blocs/newsBloc/utils/NewsBloc.dart';
-import 'package:feedapp/screens/feed/widgets/categoryList.dart';
-import 'package:feedapp/screens/feed/widgets/singleNews.dart';
-import 'package:feedapp/screens/feed/widgets/allNewsShimmer.dart';
-import 'package:feedapp/utils/debounce.dart';
-import 'package:feedapp/utils/services/server/newsService.dart';
+import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
+import 'package:stolk/screens/feed/widgets/categoryList.dart';
+import 'package:stolk/screens/feed/widgets/singleNews.dart';
+import 'package:stolk/screens/feed/widgets/allNewsShimmer.dart';
+import 'package:stolk/utils/debounce.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

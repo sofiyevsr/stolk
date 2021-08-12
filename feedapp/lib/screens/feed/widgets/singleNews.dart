@@ -1,11 +1,11 @@
-import 'package:feedapp/components/common/notFoundImage.dart';
-import 'package:feedapp/screens/feed/widgets/newsView.dart';
-import 'package:feedapp/screens/feed/widgets/singleNewsActions.dart';
-import 'package:feedapp/screens/feed/widgets/singleNewsHeader.dart';
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
-import 'package:feedapp/utils/transparentImage.dart';
+import 'package:stolk/components/common/notFoundImage.dart';
+import 'package:stolk/screens/feed/widgets/newsView.dart';
+import 'package:stolk/screens/feed/widgets/singleNewsActions.dart';
+import 'package:stolk/screens/feed/widgets/singleNewsHeader.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/transparentImage.dart';
 import 'package:flutter/material.dart';
 
 const NEWS_HEIGHT = 300.0;

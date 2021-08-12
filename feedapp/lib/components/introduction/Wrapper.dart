@@ -1,7 +1,7 @@
-import 'package:feedapp/screens/home.dart';
+import 'package:stolk/screens/home.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:feedapp/screens/intro.dart';
+import 'package:stolk/screens/intro.dart';
 import "package:flutter/material.dart";
 
 class IntroductionWrapper extends StatelessWidget {

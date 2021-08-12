@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/auth/views/AuthView.dart';
-import 'package:feedapp/logic/blocs/authBloc/utils/AuthBloc.dart';
-import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
+import 'package:stolk/components/auth/views/AuthView.dart';
+import 'package:stolk/logic/blocs/authBloc/utils/AuthBloc.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeago/timeago.dart' as timeago;

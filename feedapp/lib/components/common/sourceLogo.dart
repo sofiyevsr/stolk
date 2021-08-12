@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stolk/utils/constants.dart';
+
+import 'customCachedImage.dart';
 
 class SourceLogo extends StatelessWidget {
   final String logoSuffix;
@@ -13,18 +16,19 @@ class SourceLogo extends StatelessWidget {
         margin: const EdgeInsets.all(8),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
-          child: Image.asset(
-            "assets/sources/" + logoSuffix,
+          child: CustomCachedImage(
+            url: sourceLogosPrefix + logoSuffix,
             fit: BoxFit.cover,
             height: 50,
+            width: 50,
           ),
         ),
       );
     return Container(
-      child: Image.asset(
-        "assets/sources/" + logoSuffix,
+      child: CustomCachedImage(
+        url: sourceLogosPrefix + logoSuffix,
         fit: BoxFit.cover,
-        // height: 50,
+        height: 50,
       ),
     );
   }

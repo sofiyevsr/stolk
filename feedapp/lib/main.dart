@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/screens/splash.dart';
-import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/themes/index.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:stolk/screens/splash.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/logger.dart';
+import 'package:stolk/utils/themes/index.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,6 @@ Future<void> _loadInternalization() async {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runZonedGuarded(() async {
     await _loadInternalization();
 
@@ -39,7 +40,7 @@ void main() {
     await Firebase.initializeApp();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen((event) {});
-
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     runApp(
       EasyLocalization(
         supportedLocales: [
@@ -54,16 +55,8 @@ void main() {
       ),
     );
   }, (exception, trace) {
-    print(exception);
-    print(trace);
+    FirebaseCrashlytics.instance.recordError(exception, trace);
   });
-  FlutterError.onError = (details, {bool forceReport = false}) {
-    print(details);
-    // sentry.captureException(
-    //   exception: details.exception,
-    //   stackTrace: details.stack,
-    // );
-  };
 }
 
 class App extends StatelessWidget {
@@ -93,6 +86,9 @@ class App extends StatelessWidget {
               scaffoldMessengerKey: ToastService.key,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
+              navigatorObservers: [
+                AppLogger.instance.getFirebaseAnalyticsObserver()
+              ],
               locale: context.locale,
               // TODO implement
               // onGenerateTitle: ,

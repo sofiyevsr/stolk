@@ -1,4 +1,4 @@
-import 'package:feedapp/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
 
 class NewsModel {
   final List<SingleNews> news;

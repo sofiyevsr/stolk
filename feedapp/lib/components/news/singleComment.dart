@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/utils/@types/response/comments.dart';
-import 'package:feedapp/utils/common.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/utils/@types/response/comments.dart';
+import 'package:stolk/utils/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

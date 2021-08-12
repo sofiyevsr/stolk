@@ -1,10 +1,10 @@
-import 'package:feedapp/utils/@types/request/checkToken.dart';
-import 'package:feedapp/utils/@types/request/login.dart';
-import 'package:feedapp/utils/@types/request/register.dart';
-import 'package:feedapp/utils/@types/response/checkToken.dart';
-import 'package:feedapp/utils/@types/response/login.dart';
-import 'package:feedapp/utils/@types/response/register.dart';
-import 'package:feedapp/utils/services/server/apiService.dart';
+import 'package:stolk/utils/@types/request/checkToken.dart';
+import 'package:stolk/utils/@types/request/login.dart';
+import 'package:stolk/utils/@types/request/register.dart';
+import 'package:stolk/utils/@types/response/checkToken.dart';
+import 'package:stolk/utils/@types/response/login.dart';
+import 'package:stolk/utils/@types/response/register.dart';
+import 'package:stolk/utils/services/server/apiService.dart';
 
 class AuthService extends ApiService {
   AuthService() : super(enableErrorHandler: false);
@@ -26,7 +26,7 @@ class AuthService extends ApiService {
     return CheckTokenResponse.fromJSON(response.data['body']);
   }
 
-  Future<void> saveToken(String token, String? authToken) async {
+  Future<void> saveToken(String token, String authToken) async {
     await this.request.post(
       "/notification/save-token",
       {"token": token},

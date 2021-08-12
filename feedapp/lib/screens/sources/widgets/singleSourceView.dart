@@ -1,6 +1,7 @@
-import 'package:feedapp/components/common/sourceLogo.dart';
-import 'package:feedapp/utils/@types/response/allSources.dart';
-import 'package:feedapp/utils/services/server/sourceService.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/utils/@types/response/allSources.dart';
+import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 
 final service = SourceService();
@@ -71,7 +72,9 @@ class _SingleSourceViewState extends State<SingleSourceView> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             onPressed: _isRequestOn ? null : onFinish,
-            child: _isFollowing == true ? Text("following") : Text("follow"),
+            child: _isFollowing == true
+                ? Text("commons.following").tr()
+                : Text("commons.follow").tr(),
           ),
         ],
       ),

@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/logic/blocs/sourcesBloc/sources.dart';
-import 'package:feedapp/utils/constants.dart';
+import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

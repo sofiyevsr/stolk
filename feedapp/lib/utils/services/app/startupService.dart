@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/utils/services/app/secureStorage.dart';
-import 'package:feedapp/utils/services/server/authService.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/utils/services/app/secureStorage.dart';
+import 'package:stolk/utils/services/server/authService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class StartupService {
@@ -16,6 +16,7 @@ class StartupService {
       // Get the token each time the application loads
       String? token = await FirebaseMessaging.instance.getToken();
 
+      print(token);
       // Save the initial token to the database
       await _saveTokenToDatabase(token, authToken);
 
@@ -38,7 +39,8 @@ class StartupService {
 
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {
     final authService = AuthService();
-    if (token != null) await authService.saveToken(token, authToken);
+    if (token != null && authToken != null)
+      await authService.saveToken(token, authToken);
   }
 
   Future<void> _checkToken(String? token) async {

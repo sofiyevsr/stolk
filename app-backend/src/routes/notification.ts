@@ -15,6 +15,7 @@ r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
   }
 });
 
+/*
 // TODO apply admin permission
 r.post(
   "/send",
@@ -54,4 +55,5 @@ r.post(
   }
 );
 
+*/
 export default r;

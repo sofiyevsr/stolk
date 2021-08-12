@@ -1,11 +1,11 @@
-import 'package:feedapp/components/common/scaleButton.dart';
-import 'package:feedapp/components/common/sourceLogo.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/common.dart';
-import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
-import 'package:feedapp/utils/services/server/sourceService.dart';
+import 'package:stolk/components/common/scaleButton.dart';
+import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/common.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,11 +26,6 @@ class SingleNewsHeader extends StatefulWidget {
 
 class _SingleNewsHeaderState extends State<SingleNewsHeader> {
   bool _isRequestOn = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void onFinish() async {
     final news = context.read<NewsBloc>();
@@ -68,16 +63,20 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
         GestureDetector(
           onTap: () {
             NavigationService.push(
-                SourceFeed(
-                  sourceID: widget.feed.sourceID,
-                  sourceName: widget.feed.sourceName,
-                  logoSuffix: widget.feed.sourceLogoSuffix,
-                ),
-                RouteNames.SOURCE_NEWS_FEED);
+              SourceFeed(
+                sourceID: widget.feed.sourceID,
+                sourceName: widget.feed.sourceName,
+                logoSuffix: widget.feed.sourceLogoSuffix,
+              ),
+              RouteNames.SOURCE_NEWS_FEED,
+            );
           },
           child: Row(
             children: [
-              SourceLogo(logoSuffix: widget.feed.sourceLogoSuffix),
+              SourceLogo(
+                isCircle: true,
+                logoSuffix: widget.feed.sourceLogoSuffix,
+              ),
               Column(
                 children: [
                   Text(
@@ -113,13 +112,26 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
                     ),
               onFinish: onFinish,
             ),
-            PopupMenuButton(
+            PopupMenuButton<String>(
               offset: Offset(0, 40),
               iconSize: _iconSize,
+              onSelected: (v) async {
+                await showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: Text("report"),
+                        content: Container(
+                          child: TextField(),
+                        ),
+                      );
+                    });
+              },
               itemBuilder: (entry) {
                 return [
                   PopupMenuItem(
-                    child: Text("test"),
+                    child: Text("report"),
+                    value: "report",
                   ),
                 ];
               },

@@ -20,15 +20,18 @@ class CustomCachedImage extends StatelessWidget {
   Widget build(ctx) {
     return CachedNetworkImage(
       progressIndicatorBuilder: (context, url, downloadProgress) => Container(),
-      errorWidget: (context, url, error) => FittedBox(
-        child: Tooltip(
-          message: tr("errors.image_fetch_failed"),
-          child: Icon(
-            Icons.error,
-            color: Colors.red,
+      errorWidget: (context, url, error) {
+        print("image error $error");
+        return FittedBox(
+          child: Tooltip(
+            message: tr("errors.image_fetch_failed"),
+            child: Icon(
+              Icons.error,
+              color: Colors.red,
+            ),
           ),
-        ),
-      ),
+        );
+      },
       imageBuilder: (ctx, provider) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(this.radius),

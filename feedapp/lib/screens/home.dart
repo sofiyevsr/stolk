@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/logic/blocs/sourcesBloc/sources.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,10 +11,10 @@ import 'settings/settings.dart';
 import 'sources/sources.dart';
 
 final navItems = [
-  {"icon": Icons.home, "title": "home"},
-  {"icon": Icons.explore, "title": "explore"},
-  {"icon": Icons.chat, "title": "discussion"},
-  {"icon": Icons.account_box, "title": "profile"},
+  {"icon": Icons.home, "title": "navbar.home"},
+  {"icon": Icons.explore, "title": "navbar.explore"},
+  {"icon": Icons.folder, "title": "navbar.history"},
+  {"icon": Icons.account_box, "title": "navbar.account"},
 ];
 
 class Home extends StatefulWidget {
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
           (e) => BottomNavyBarItem(
             title: Text(
               e["title"] as String,
-            ),
+            ).tr(),
             icon: Icon(e["icon"] as IconData),
             activeColor: theme.primaryColorLight,
             textAlign: TextAlign.center,
@@ -59,7 +60,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Image.asset("assets/icons/logo.png"),
+        title: Text(
+          "Stolk",
+          style: TextStyle(
+            fontSize: 32,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: PageView(
           controller: _controller,

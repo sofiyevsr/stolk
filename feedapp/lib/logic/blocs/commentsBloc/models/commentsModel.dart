@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:feedapp/utils/@types/response/comments.dart';
+import 'package:stolk/utils/@types/response/comments.dart';
 
 class CommentsModel extends Equatable {
   final List<SingleComment> comments;

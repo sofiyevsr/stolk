@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:feedapp/components/common/centerLoadingWidget.dart';
-import 'package:feedapp/components/news/singleComment.dart';
-import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
-import 'package:feedapp/utils/debounce.dart';
+import 'package:stolk/components/common/centerLoadingWidget.dart';
+import 'package:stolk/components/news/singleComment.dart';
+import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
+import 'package:stolk/utils/debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

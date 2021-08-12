@@ -1,5 +1,5 @@
-import 'package:feedapp/logic/blocs/sourcesBloc/models/sourcesModel.dart';
-import 'package:feedapp/utils/services/server/sourceService.dart';
+import 'package:stolk/logic/blocs/sourcesBloc/models/sourcesModel.dart';
+import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
 

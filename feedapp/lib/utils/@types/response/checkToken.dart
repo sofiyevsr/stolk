@@ -1,4 +1,4 @@
-import 'package:feedapp/logic/blocs/authBloc/models/user.dart';
+import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 
 class CheckTokenResponse {
   final User user;

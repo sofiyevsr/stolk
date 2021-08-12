@@ -1,8 +1,8 @@
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/screens/home.dart';
-import 'package:feedapp/utils/constants.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
-import 'package:feedapp/utils/services/app/startupService.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/home.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/app/startupService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +21,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-    print("wrapper");
     StartupService.instance
         .checkTokenAndSaveDeviceToken()
         .catchError((error) {});

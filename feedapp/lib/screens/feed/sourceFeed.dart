@@ -1,6 +1,6 @@
-import 'package:feedapp/components/common/sourceLogo.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
+import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,9 +37,11 @@ class _SourceFeedState extends State<SourceFeed> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
           controller: _scrollController,
           slivers: [
             SliverAppBar(
@@ -55,6 +57,8 @@ class _SourceFeedState extends State<SourceFeed> {
                     RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                   ),
                   elevation: MaterialStateProperty.all(0),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(theme.primaryColor),
                 ),
                 child: Icon(Icons.arrow_back),
               ),

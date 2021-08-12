@@ -1,6 +1,6 @@
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/logic/blocs/newsBloc/news.dart';
-import 'package:feedapp/screens/history/widgets/singleNewsHistoryUnit.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/screens/history/widgets/singleNewsHistoryUnit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return Row(
       children: [
         NavigationRail(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
           minWidth: 55,
           destinations: [
             NavigationRailDestination(
@@ -66,14 +66,16 @@ class _HistoryPageState extends State<HistoryPage> {
           ],
           selectedIndex: _currentIndex,
           onDestinationSelected: (s) {
-            setState(() {
-              _currentIndex = s;
-            });
-            _pageController.animateToPage(
-              s,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
+            if (_pageController.hasClients) {
+              setState(() {
+                _currentIndex = s;
+              });
+              _pageController.animateToPage(
+                s,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            }
           },
         ),
         VerticalDivider(

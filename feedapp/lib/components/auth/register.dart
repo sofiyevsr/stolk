@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/common/buttonWithLoader.dart';
-import 'package:feedapp/components/common/inputs/email.dart';
-import 'package:feedapp/components/common/inputs/lastName.dart';
-import 'package:feedapp/components/common/inputs/firstName.dart';
-import 'package:feedapp/components/common/inputs/password.dart';
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/components/common/buttonWithLoader.dart';
+import 'package:stolk/components/common/inputs/email.dart';
+import 'package:stolk/components/common/inputs/lastName.dart';
+import 'package:stolk/components/common/inputs/firstName.dart';
+import 'package:stolk/components/common/inputs/password.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 

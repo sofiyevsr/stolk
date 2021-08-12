@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/introduction/DotsIndicator.dart';
-import 'package:feedapp/components/introduction/IntroPage.dart';
+import 'package:stolk/components/introduction/DotsIndicator.dart';
+import 'package:stolk/components/introduction/IntroPage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

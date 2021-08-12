@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // final apiUrl = "http://167.99.136.121:4500/";
 final apiUrl = "http://localhost:4500/";
+final sourceLogosPrefix =
+    "https://stolk.s3.eu-west-3.amazonaws.com/source-logos/";
 
 const Map<int, String> LANGS = {0: "az", 1: "tr", 2: "ru", 3: "en"};
 

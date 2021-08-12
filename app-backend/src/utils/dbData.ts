@@ -215,7 +215,7 @@ export const sources = [
   {
     id: 30,
     name: "haberturk.com",
-    logo_suffix: "haberturk-com-tr.jpg",
+    logo_suffix: "haberturk-com.jpg",
     link: "https://www.haberturk.com/rss",
     lang_id: 1,
   },

@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/auth/views/AuthView.dart';
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/utils/services/app/navigationService.dart';
+import 'package:stolk/components/auth/views/AuthView.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:feedapp/components/common/tilesHeader.dart';
+import 'package:stolk/components/common/tilesHeader.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:feedapp/utils/constants.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'widgets/AboutDialog.dart';

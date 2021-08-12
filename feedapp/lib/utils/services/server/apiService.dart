@@ -1,4 +1,4 @@
-import 'package:feedapp/utils/customDio.dart';
+import 'package:stolk/utils/customDio.dart';
 
 abstract class ApiService {
   late CustomDio request;

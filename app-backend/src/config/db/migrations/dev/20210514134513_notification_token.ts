@@ -7,6 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     t.increments("id");
     t.string("token").notNullable().unique();
     t.integer("user_id")
+      .notNullable()
       .references("id")
       .inTable(tables.app_user)
       .onUpdate("CASCADE")

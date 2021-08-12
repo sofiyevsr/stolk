@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/utils/constants.dart';
+import 'package:stolk/utils/constants.dart';
 import "package:flutter/material.dart";
 
 class PasswordInput extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:feedapp/components/auth/login.dart';
-import 'package:feedapp/components/auth/register.dart';
+import 'package:stolk/components/auth/login.dart';
+import 'package:stolk/components/auth/register.dart';
 import "package:flutter/material.dart";
-import 'package:feedapp/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 
 class AuthView extends StatefulWidget {
   final bool isLogin;
@@ -94,8 +94,8 @@ class _AuthViewState extends State<AuthView>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          child:
-                              Text("Welcome", style: theme.textTheme.headline3),
+                          child: Text(tr("auth:welcome"),
+                              style: theme.textTheme.headline3),
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10),

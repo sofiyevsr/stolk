@@ -1,7 +1,7 @@
-import 'package:feedapp/logic/blocs/newsBloc/models/newsModel.dart';
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/common.dart';
-import 'package:feedapp/utils/services/server/newsService.dart';
+import 'package:stolk/logic/blocs/newsBloc/models/newsModel.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/common.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
 

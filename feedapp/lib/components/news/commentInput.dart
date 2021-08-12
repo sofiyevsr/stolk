@@ -1,5 +1,5 @@
-import 'package:feedapp/logic/blocs/authBloc/auth.dart';
-import 'package:feedapp/logic/blocs/commentsBloc/comments.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

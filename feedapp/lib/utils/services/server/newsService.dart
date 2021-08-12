@@ -1,7 +1,7 @@
-import 'package:feedapp/utils/@types/response/allNews.dart';
-import 'package:feedapp/utils/@types/response/comments.dart';
-import 'package:feedapp/utils/common.dart';
-import 'package:feedapp/utils/services/server/apiService.dart';
+import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/@types/response/comments.dart';
+import 'package:stolk/utils/common.dart';
+import 'package:stolk/utils/services/server/apiService.dart';
 
 class NewsService extends ApiService {
   NewsService() : super(enableErrorHandler: true);

@@ -1,4 +1,4 @@
-import 'package:feedapp/utils/error.dart';
+import 'package:stolk/utils/error.dart';
 import 'package:location/location.dart';
 
 class LocationService {

@@ -6,7 +6,7 @@ import errorHandler from "src/middlewares/errorHandler";
 const app = express();
 
 app.disable("x-powered-by");
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
 app.use(routes);

@@ -20,9 +20,18 @@ class ThemeSelector extends StatelessWidget {
             final theme = gBox.get("theme", defaultValue: "system");
             return ToggleButtons(
               children: [
-                Icon(Icons.phone_android),
-                Icon(Icons.dark_mode),
-                Icon(Icons.light_mode),
+                Tooltip(
+                  message: tr("tooltips.theme.system"),
+                  child: Icon(Icons.phone_android),
+                ),
+                Tooltip(
+                  message: tr("tooltips.theme.dark"),
+                  child: Icon(Icons.dark_mode),
+                ),
+                Tooltip(
+                  message: tr("tooltips.theme.light"),
+                  child: Icon(Icons.light_mode),
+                ),
               ],
               isSelected: [
                 theme == "system",
