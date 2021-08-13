@@ -1,33 +1,16 @@
-const withImages = require('next-images');
+const { i18n } = require("./next-i18next.config");
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
-module.exports = withImages({
-  TrailingSlash: true,
-  exportPathMap: function() {
-    return {
-      '/': { page: '/' },
-      '/contact': { page: '/contact' },
-      '/blank-page': { page: '/blank-page' },
-    };
-  },
-  publicRuntimeConfig: {
-    localeSubpaths: typeof process.env.LOCALE_SUBPATHS === 'string'
-      ? process.env.LOCALE_SUBPATHS
-      : 'none',
-  },
-  webpack: (config, options) => {
-    cssModules: true,
-    //      config.module.rules.push({
-    //          enforce: 'pre',
-    //          test: /\.js?$/,
-    //          exclude: [/node_modules/],
-    //          loader: 'eslint-loader',
-    //          options: {
-    //            quiet: true,
-    //          }
-    //      });
-    config.node = {
-      fs: 'empty'
-    }
-    return config;
-  },
+module.exports = withBundleAnalyzer({
+  poweredByHeader: false,
+  trailingSlash: true,
+  basePath: "",
+  i18n,
+  distDir: "build",
+  // The starter code load resources from `public` folder with `router.basePath` in React components.
+  // So, the source code is "basePath-ready".
+  // You can remove `basePath` if you don't need it.
+  // reactStrictMode: true,
 });

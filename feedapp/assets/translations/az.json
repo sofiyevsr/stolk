@@ -105,7 +105,8 @@
     "save": "Yadda saxla"
   },
   "categories": {
-    "all": "Hamısı"
+    "all": "Hamısı",
+    "sport": "Idman"
   },
   "messages": {
     "no_data": "Məlumat yoxdur"

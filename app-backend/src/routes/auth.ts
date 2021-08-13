@@ -49,8 +49,8 @@ r.post("/check-token", async (req, res, next) => {
 r.post("/forgot-password", async (req, res, next) => {
   responseSuccess(res, {});
   try {
+    responseSuccess(res, {});
     await createResetToken(req.body);
-    return;
   } catch (e) {
     console.log(e);
   }

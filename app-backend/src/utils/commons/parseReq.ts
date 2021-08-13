@@ -1,3 +1,4 @@
+import i18next from "@translate/i18next";
 import Joi from "joi";
 
 export async function parseRequest(
@@ -5,7 +6,13 @@ export async function parseRequest(
   entity_id: unknown
 ) {
   const user_id = user as number;
-  const id = await Joi.number().required().validateAsync(entity_id);
+  const id = await Joi.number()
+    .required()
+    .messages({
+      "number.base": i18next.t("errors.validation.id.number"),
+      "any.required": i18next.t("errors.validation.id.required"),
+    })
+    .validateAsync(entity_id);
   return {
     user_id,
     id,

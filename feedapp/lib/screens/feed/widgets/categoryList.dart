@@ -36,41 +36,29 @@ class _CategoryListState extends State<CategoryList> {
 
   Widget _buildItem(SingleCategory category) {
     final theme = Theme.of(context);
-    if (category.id == widget.current) {
-      return Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              tr("categories.${category.name}"),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+    final isCurrent = category.id == widget.current;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text(
+            tr("categories.${category.name}"),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: isCurrent ? FontWeight.bold : null,
             ),
-            Container(
-              height: 4,
-              width: 4,
-              decoration: BoxDecoration(
-                color: theme.iconTheme.color,
-                borderRadius: BorderRadius.circular(3),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Text(
-          category.name,
-          style: TextStyle(
-            fontSize: 20,
           ),
         ),
-      ),
+        Container(
+          height: 4,
+          width: 4,
+          decoration: BoxDecoration(
+            color: isCurrent ? theme.iconTheme.color : null,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+      ],
     );
   }
 
