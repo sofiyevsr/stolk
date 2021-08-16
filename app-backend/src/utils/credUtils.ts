@@ -57,6 +57,12 @@ export async function generateResetToken() {
   return { hash, plain: token };
 }
 
+export async function generateConfirmationToken() {
+  const token = v4();
+  const hash = await hashPassword(token);
+  return { hash, plain: token };
+}
+
 export async function hashResetToken(token: string) {
   return hashPassword(token);
 }

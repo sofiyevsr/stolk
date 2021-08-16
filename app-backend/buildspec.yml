@@ -1,8 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    NODE_ENV: "production"
 phases:
   install:
     runtime-versions:
@@ -13,14 +10,14 @@ phases:
       - yarn install --frozen-lockfile
   pre_build:
     commands:
-      - echo pre build 
+      - echo "pre build"
       # - yarn test
   build:
     commands:
-      - echo building...
+      - echo "building..."
       - yarn build
     finally:
-      - echo build done
+      - echo "build done"
 artifacts:
   files:
     - dist/**/*
@@ -28,3 +25,6 @@ artifacts:
     - yarn.lock
     - scripts/*
   name: dist
+cache:
+  paths:
+    - "node_modules/**/*"

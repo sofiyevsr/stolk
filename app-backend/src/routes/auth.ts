@@ -1,5 +1,9 @@
 import auth from "@controllers/auth";
 import {
+  createConfirmationToken,
+  verifyEmail,
+} from "@controllers/auth/confirmationToken";
+import {
   createResetToken,
   resetPassword,
   validateResetToken,
@@ -49,7 +53,6 @@ r.post("/check-token", async (req, res, next) => {
 r.post("/forgot-password", async (req, res, next) => {
   responseSuccess(res, {});
   try {
-    responseSuccess(res, {});
     await createResetToken(req.body);
   } catch (e) {
     console.log(e);
@@ -74,4 +77,21 @@ r.post("/reset-password", async (req, res, next) => {
   }
 });
 
+r.post("/verify-email", async (req, res, next) => {
+  try {
+    await verifyEmail(req.body);
+    return responseSuccess(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
+
+r.post("/email-verification", async (req, res, next) => {
+  try {
+    await createConfirmationToken(req.body);
+    return responseSuccess(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
 export default r;

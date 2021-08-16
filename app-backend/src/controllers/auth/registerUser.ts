@@ -4,6 +4,7 @@ import db from "@db/db";
 import { generateAccessToken, hashPassword } from "@utils/credUtils";
 import { tables } from "@utils/constants";
 import i18next from "@translate/i18next";
+import { createConfirmationToken } from "./confirmationToken";
 
 export default async function registerUser(body: any) {
   // Validate user
@@ -37,6 +38,7 @@ export default async function registerUser(body: any) {
       "service_type_id",
     ]
   );
+  await createConfirmationToken({ email: user.email });
 
   // TODO send verification code to email
   const token = await generateAccessToken({

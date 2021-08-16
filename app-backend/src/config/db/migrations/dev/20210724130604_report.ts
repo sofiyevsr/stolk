@@ -5,7 +5,7 @@ import { tables } from "../../../../utils/constants";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.report, (t) => {
     t.increments("id");
-    t.string("message").notNullable();
+    t.specificType("message", "VARCHAR(300)").notNullable();
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

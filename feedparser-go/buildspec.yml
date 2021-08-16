@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.16
+  pre_build:
+    commands:
+      - echo "pre build"
+      - ls
+      # - go test -race
+      # - go get ./...
+  build:
+    commands:
+      - echo "building..."
+      # - go build -o feedparser main.go
+    finally:
+      - echo "build done"
+# artifacts:
+#   files:
+    # - feedparser

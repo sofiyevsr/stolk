@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	TOTAL_PARSE_TIME_LIMIT = time.Millisecond * 10000
+	TOTAL_PARSE_TIME_LIMIT = time.Millisecond * 15000
 	SINGLE_PARSE_LIMIT     = time.Millisecond * 4500
 )
 
@@ -23,6 +23,7 @@ func main() {
 	env := os.Getenv("GO_ENV")
 	if env == "development" || env == "staging" {
 		err := godotenv.Load()
+		// if default dotenv not found try env_path variable
 		if err != nil {
 			err := godotenv.Load(os.Getenv("ENV_PATH"))
 			if err != nil {
@@ -85,9 +86,11 @@ func handleLambda() (string, error) {
 					catsColl = append(catsColl, feed.Aliases...)
 				}
 			}
-		// TODO probably useless
+			// Skips single channel
+			// useful to skip long taking channel
+			// allows to make total timeout longer
 		case <-time.After(SINGLE_PARSE_LIMIT):
-			fmt.Printf("didn't get single result in %s, so skipping...\n", TOTAL_PARSE_TIME_LIMIT.String())
+			fmt.Printf("didn't get single result in %s, so skipping...\n", SINGLE_PARSE_LIMIT.String())
 		case <-timeout:
 			fmt.Printf("couldn't finish in %s finishing...\n", TOTAL_PARSE_TIME_LIMIT.String())
 			br = true
@@ -150,10 +153,12 @@ func saveToDB(items []utils.CustomFeed) sql.Result {
 		}
 	}
 
+	// Insert new news
+	// when feed_link is same update pub_date
 	inserts, err := db.NamedExec(`INSERT INTO
 	 news_feed(title,source_id,image_link,pub_date,feed_link,category_alias_id)
 	 VALUES(:title,:source_id,:image_link,:pub_date,:feed_link,:category_alias_id)
-	 ON CONFLICT(feed_link) DO NOTHING;
+	 ON CONFLICT(feed_link) DO UPDATE SET pub_date=EXCLUDED.pub_date;
 	`, items)
 	if err != nil {
 		log.Fatalln(err)

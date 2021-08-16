@@ -12,7 +12,9 @@ export async function up(knex: Knex): Promise<void> {
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
     t.string("token").notNullable();
-    t.timestamp("issued_at", { useTz: true }).notNullable();
+    t.timestamp("issued_at", { useTz: true })
+      .notNullable()
+      .defaultTo(knex.fn.now());
   });
 }
 

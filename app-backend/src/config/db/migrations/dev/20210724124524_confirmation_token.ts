@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
     t.integer("user_id")
       .references("id")
       .inTable(tables.app_user)
+      .unique()
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());

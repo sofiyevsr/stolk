@@ -13,7 +13,7 @@ const transport = {
 const service = nodeMail.createTransport(transport);
 
 const sendMail = async (to: string, subject: string, html: string) => {
-  return service.sendMail({
+  return console.log({
     from: '"Support" <support@pzzle.icu>',
     to,
     subject,

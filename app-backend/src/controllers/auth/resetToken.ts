@@ -25,7 +25,6 @@ export async function createResetToken(body: any) {
   const data = await db(tables.reset_token)
     .insert({
       token: token.hash,
-      issued_at: db.fn.now(),
       user_id: user.id,
     })
     .onConflict("user_id")
