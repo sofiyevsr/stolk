@@ -7,15 +7,15 @@ phases:
   pre_build:
     commands:
       - echo "pre build"
-      - ls
-      # - go test -race
-      # - go get ./...
+      - cd feedparser-go
+      - go test -race
+      - go get ./...
   build:
     commands:
       - echo "building..."
-      # - go build -o feedparser main.go
+      - go build -o feedparser main.go
     finally:
       - echo "build done"
-# artifacts:
-#   files:
-    # - feedparser
+artifacts:
+  files:
+    - feedparser
