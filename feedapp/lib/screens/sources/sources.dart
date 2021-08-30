@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,9 @@ class _SourcesPageState extends State<SourcesPage> {
                     item: sources[i],
                   ),
                 );
+              }
+              if (state is SourcesStateLoading) {
+                return CenterLoadingWidget();
               }
               return Container();
             }),

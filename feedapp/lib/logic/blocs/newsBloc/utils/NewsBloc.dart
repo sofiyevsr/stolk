@@ -36,6 +36,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         else
           yield NewsStateNoData();
       } catch (e) {
+        print(e);
         yield NewsStateError();
       }
     }

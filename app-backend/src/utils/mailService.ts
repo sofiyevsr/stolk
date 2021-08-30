@@ -1,24 +1,35 @@
-import nodeMail, { TransportOptions } from "nodemailer";
+import {
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SESClient,
+} from "@aws-sdk/client-ses";
 
-const transport = {
-  host: process.env.EMAIL_HOST as string,
-  port: process.env.EMAIL_PORT as string,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER as string,
-    pass: process.env.EMAIL_PASSWORD as string,
+const isProd =
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
+const ses = new SESClient({
+  region: "eu-west-3",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY as string,
+    secretAccessKey: process.env.AWS_SECRET_KEY as string,
   },
-} as TransportOptions;
-
-const service = nodeMail.createTransport(transport);
+});
 
 const sendMail = async (to: string, subject: string, html: string) => {
-  return console.log({
-    from: '"Support" <support@pzzle.icu>',
-    to,
-    subject,
-    html,
-  });
+  const input: SendEmailCommandInput = {
+    Source: "no-reply@stolk.app",
+    Message: {
+      Subject: {
+        Data: subject,
+      },
+      Body: { Html: { Data: html } },
+    },
+    Destination: {
+      ToAddresses: isProd ? [to] : [],
+    },
+  };
+
+  const emailCommand = new SendEmailCommand(input);
+  return ses.send(emailCommand);
 };
 
 export default { sendMail };

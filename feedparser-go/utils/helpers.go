@@ -12,6 +12,11 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
+const (
+	MAX_TITLE_LENGTH = 1000
+	MAX_LINK_LENGTH  = 1000
+)
+
 func ConvertFeedsToLogFeeds(feeds []Feed) []int {
 	initial := make([]int, 0)
 	for _, v := range feeds {
@@ -58,6 +63,9 @@ func tryParseLink(rawLink string) (string, error) {
 	if rawLink == "" {
 		return "", errors.New("link is nil")
 	}
+	if len(rawLink) > MAX_LINK_LENGTH {
+		return "", errors.New("link is too long")
+	}
 	if strings.HasPrefix(rawLink, "//") {
 		return "http:" + rawLink, nil
 	}
@@ -76,6 +84,10 @@ func tryParseLink(rawLink string) (string, error) {
 }
 
 func stripHTMLTags(str string, unescape bool) (string, error) {
+	if len(str) > MAX_TITLE_LENGTH {
+		return "", errors.New("string is too long")
+	}
+
 	a := bluemonday.StrictPolicy()
 	// escape some characters manually
 	str = strings.ReplaceAll(str, "\\", "")

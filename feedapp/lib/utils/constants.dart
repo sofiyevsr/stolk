@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// final apiUrl = "http://167.99.136.121:4500/";
-final apiUrl = "http://localhost:4500/";
+final apiUrl = "http://167.99.136.121:4500/";
+// final apiUrl = "http://localhost:4500/";
 final sourceLogosPrefix =
     "https://stolk.s3.eu-west-3.amazonaws.com/source-logos/";
 
@@ -19,11 +19,6 @@ class SessionType {
 
 class ServiceType {
   static const APP = 0;
-}
-
-class AccountType {
-  static const USER = 0;
-  static const PARTNER = 1;
 }
 
 String platformToName(int p) {

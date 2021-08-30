@@ -29,11 +29,9 @@ export async function createResetToken(body: any) {
     })
     .onConflict("user_id")
     .merge();
-  await mailService.sendMail(
-    user.email,
-    "Reset Password",
-    `<div>${token.plain}</div>`
-  );
+  await mailService
+    .sendMail(user.email, "Reset Password", `<div>${token.plain}</div>`)
+    .catch((e) => {});
   return true;
 }
 

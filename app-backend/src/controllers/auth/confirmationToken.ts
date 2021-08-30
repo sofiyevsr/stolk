@@ -25,11 +25,9 @@ export async function createConfirmationToken(body: any) {
     })
     .onConflict("user_id")
     .merge();
-  await mailService.sendMail(
-    user.email,
-    "Confirm Email",
-    `<div>${token.plain}</div>`
-  );
+  await mailService
+    .sendMail(user.email, "Confirm Email", `<div>${token.plain}</div>`)
+    .catch((e) => {});
   return true;
 }
 

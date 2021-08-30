@@ -1,23 +1,14 @@
-import Link from 'next/link';
+import { useTranslation } from "next-i18next";
+import { CTABanner } from "../cta/CTABanner";
+import { Section } from "../layout/Section";
 
-import { Button } from '../button/Button';
-import { CTABanner } from '../cta/CTABanner';
-import { Section } from '../layout/Section';
-
-const Banner = () => (
-  <Section>
-    <CTABanner
-      title="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-      subtitle="Start your Free Trial."
-      button={
-        <Link href="https://creativedesignsguru.com/category/nextjs/">
-          <a>
-            <Button>Get Started</Button>
-          </a>
-        </Link>
-      }
-    />
-  </Section>
-);
+const Banner = () => {
+  const { t } = useTranslation();
+  return (
+    <Section id="app-links">
+      <CTABanner title={t("home.use_now")} subtitle={t("home.use_now_free")} />
+    </Section>
+  );
+};
 
 export { Banner };

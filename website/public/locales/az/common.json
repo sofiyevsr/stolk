@@ -1,4 +1,10 @@
 {
-  "title": "Bütün xəbərlər tək mənbədə",
-  "for-who": "kim ucun"
+  "home": {
+    "cta-title": "Hər gün yüzlərlə xəbər",
+    "cta-subtitle": "Tək mənbədə",
+    "cta-description": "Ancaq istədiyiniz xəbərləri oxuyun",
+    "cta-button": "Yüklə",
+    "use_now": "İstifadə etməyə başla",
+    "use_now_free": ""
+  }
 }

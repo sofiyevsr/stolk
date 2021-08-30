@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Krita: https://krita.org -->
+<svg xmlns="http://www.w3.org/2000/svg" 
+    width="72pt"
+    height="72pt"
+    viewBox="0 0 72 72">
+<defs/>
+<g id="group0">
+  <path id="shape1" transform="matrix(0.999999983696028 0 0 0.999999983696028 0.0199999996738995 0)" fill="#0398DC" stroke="#000000" stroke-opacity="0" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M7.10543e-15 0L7.10543e-15 11.92C27.7197 11.9751 50.168 34.4502 50.19 62.17L62.19 62.17C62.1514 27.8443 34.3257 0.0320421 0 0.01Z"/>
+  <path id="shape2" transform="matrix(0.999999983696028 0 0 0.999999983696028 0 21.1299996554971)" fill="#0398DC" stroke="#000000" stroke-opacity="0" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M0 0L0 11.91C16.0708 11.9376 29.0811 24.9792 29.07 41.05L41.07 41.05C41.048 18.4073 22.7126 0.0495839 0.07 0Z"/>
+  <path id="shape3" transform="matrix(0.999999983696028 0 0 0.999999983696028 0.279999483482278 45.5899992565203)" fill="#0398DC" stroke="#000000" stroke-opacity="0" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M8.23 1.81579e-10C3.67207 0.0165543 -0.0110015 3.72198 2.46927e-05 8.27993C0.0110509 12.8379 3.71201 16.5254 8.26996 16.5199C12.8279 16.5144 16.52 12.818 16.52 8.26C16.5035 3.69328 12.7968 -2.99026e-05 8.23 1.81579e-10Z"/>
+ </g>
+</svg>

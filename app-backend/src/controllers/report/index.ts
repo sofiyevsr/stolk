@@ -15,7 +15,7 @@ const news = async (news_id: number, user_id: number, body: any) => {
       {
         message: value.message,
       },
-      "id"
+      ["id"]
     );
     await trx(tables.news_report).insert({
       report_id: report.id,
@@ -41,7 +41,7 @@ const comment = async (comment_id: number, user_id: number, body: any) => {
       {
         message: value.message,
       },
-      "id"
+      ["id"]
     );
     await trx(tables.comment_report).insert({
       report_id: report.id,

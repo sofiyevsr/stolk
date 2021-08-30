@@ -19,23 +19,12 @@ const Footer = () => (
                 </svg>
               </a>
             </Link>
-            
           </>
         }
       >
         <li>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/">
-            <a>About</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/">
-            <a>Docs</a>
+          <Link href="/privacy-policy">
+            <a>Privacy Policy</a>
           </Link>
         </li>
       </CenteredFooter>

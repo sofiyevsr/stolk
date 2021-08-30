@@ -158,7 +158,7 @@ func saveToDB(items []utils.CustomFeed) sql.Result {
 	inserts, err := db.NamedExec(`INSERT INTO
 	 news_feed(title,source_id,image_link,pub_date,feed_link,category_alias_id)
 	 VALUES(:title,:source_id,:image_link,:pub_date,:feed_link,:category_alias_id)
-	 ON CONFLICT(feed_link) DO UPDATE SET pub_date=EXCLUDED.pub_date;
+	 ON CONFLICT(feed_link) DO UPDATE SET pub_date=EXCLUDED.pub_date, title=EXCLUDED.title;
 	`, items)
 	if err != nil {
 		log.Fatalln(err)

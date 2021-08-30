@@ -1,20 +1,21 @@
-import className from 'classnames';
+import className from "classnames";
 
 type IButtonProps = {
   xl?: boolean;
   children: string;
+  onClick?: () => void;
 };
 
 const Button = (props: IButtonProps) => {
   const btnClass = className({
     btn: true,
-    'btn-xl': props.xl,
-    'btn-base': !props.xl,
-    'btn-primary': true,
+    "btn-xl": props.xl,
+    "btn-base": !props.xl,
+    "btn-primary": true,
   });
 
   return (
-    <div className={btnClass}>
+    <div onClick={props.onClick} className={btnClass}>
       {props.children}
 
       <style jsx>

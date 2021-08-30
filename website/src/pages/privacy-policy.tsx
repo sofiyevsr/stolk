@@ -1,19 +1,17 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
+import PrivacyPolicyContent from "../content/PrivacyPolicyContent";
 import { Meta } from "../layout/Meta";
-import { Banner } from "../templates/Banner";
 import Navbar from "../navigation/Navbar";
+import { Banner } from "../templates/Banner";
 import { Footer } from "../templates/Footer";
-import { Hero } from "../templates/Hero";
-import { VerticalFeatures } from "../templates/VerticalFeatures";
 import { AppConfig } from "../utils/AppConfig";
 
-const Index = () => (
+const PrivacyPolicy = () => (
   <div className="antialiased text-gray-600">
     <Meta title={AppConfig.title} description={AppConfig.description} />
     <Navbar />
-    <Hero />
-    <VerticalFeatures />
+    <PrivacyPolicyContent />
     <Banner />
     <Footer />
   </div>
@@ -27,4 +25,4 @@ export async function getStaticProps({ locale }: { locale: string }) {
   };
 }
 
-export default Index;
+export default PrivacyPolicy;
