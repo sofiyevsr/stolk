@@ -7,10 +7,11 @@ phases:
     commands:
       - echo starting install
       - npm install -g yarn
-      - yarn install --frozen-lockfile
+      - cd app-backend
   pre_build:
     commands:
       - echo "pre build"
+      - yarn install --frozen-lockfile
       # - yarn test
   build:
     commands:

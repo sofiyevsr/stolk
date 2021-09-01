@@ -1,7 +1,11 @@
 import db from "@db/db";
 import dayjs from "dayjs";
 import i18next from "@translate/i18next";
-import { tables, tokenExpirationMinutes } from "@utils/constants";
+import {
+  tables,
+  resetTokenExpirationMinutes,
+  resetTokenBackoffMinutes,
+} from "@utils/constants";
 import {
   comparePassword,
   generateResetToken,
@@ -9,7 +13,7 @@ import {
 } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import resetToken from "@utils/validations/auth/resetToken";
-import mailService from "@utils/mailService";
+import forgotPasswordEmail from "@utils/email/forgotPassword";
 
 export async function createResetToken(body: any) {
   const { value, error } = resetToken.createResetToken.validate(body);
@@ -21,6 +25,21 @@ export async function createResetToken(body: any) {
     .select(["id", "email"])
     .where({ email });
   if (user == null) return false;
+
+  const resetTokenSession = await db(tables.reset_token)
+    .select(["issued_at"])
+    .where({
+      user_id: user.id,
+    })
+    .first();
+  if (resetTokenSession != null) {
+    const issuedAt = dayjs(resetTokenSession.issued_at);
+    const difference = issuedAt.diff(dayjs(), "minute");
+    if (difference < resetTokenBackoffMinutes) {
+      throw new SoftError(i18next.t("errors.backoff_reset_token"));
+    }
+  }
+
   const token = await generateResetToken();
   const data = await db(tables.reset_token)
     .insert({
@@ -29,9 +48,7 @@ export async function createResetToken(body: any) {
     })
     .onConflict("user_id")
     .merge();
-  await mailService
-    .sendMail(user.email, "Reset Password", `<div>${token.plain}</div>`)
-    .catch((e) => {});
+  await forgotPasswordEmail().catch((e) => {});
   return true;
 }
 
@@ -55,7 +72,7 @@ export async function validateResetToken(body: any) {
   }
   const issuedAt = dayjs(resetTokenSession.issued_at);
   const difference = issuedAt.diff(dayjs(), "minute");
-  if (difference > tokenExpirationMinutes) {
+  if (difference > resetTokenExpirationMinutes) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }
 }
@@ -81,7 +98,7 @@ export async function resetPassword(body: any) {
   }
   const issuedAt = dayjs(resetTokenSession.issued_at);
   const difference = issuedAt.diff(dayjs(), "minute");
-  if (difference > tokenExpirationMinutes) {
+  if (difference > resetTokenExpirationMinutes) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }
   const hash = await hashPassword(password);

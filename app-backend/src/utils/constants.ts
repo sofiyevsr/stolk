@@ -1,4 +1,6 @@
-export const tokenExpirationMinutes = 60;
+export const resetTokenExpirationMinutes = 60;
+export const resetTokenBackoffMinutes = 3;
+export const confirmationTokenBackoffMinutes = 3;
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
 
@@ -9,6 +11,11 @@ export enum AppPlatform {
 
 export enum ServiceType {
   APP,
+}
+
+export enum NotificationOptoutType {
+  // Unless user optouts latest news from one of sources user follow will be sent each ... days
+  SourceFollow,
 }
 
 export enum SessionType {
@@ -52,6 +59,8 @@ export const tables = {
   notification_token: "notification_token",
   news_comment: "news_comment",
   news_read_history: "news_read_history",
+  notification_optout_type: "notification_optout_type",
+  notification_optout: "notification_optout",
 };
 
 export const functions = {
@@ -72,6 +81,6 @@ export const notification_topics = {
   news: "news",
 };
 
-// Used for pagination of campaigns and business
 export const DEFAULT_PERPAGE = 10;
 export const MAX_PERPAGE = 30;
+export const MAX_CATEGORIES_COUNT = 5;

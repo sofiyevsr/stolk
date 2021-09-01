@@ -1,20 +1,26 @@
 import { Knex } from "knex";
-
 import { tables } from "../../../../utils/constants";
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable(tables.confirmation_token, (t) => {
+  return knex.schema.createTable(tables.notification_optout, (t) => {
     t.increments("id");
-    t.string("token").notNullable().unique();
     t.integer("user_id")
+      .notNullable()
       .references("id")
       .inTable(tables.app_user)
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    t.integer("notification_optout_type")
+      .notNullable()
+      .references("id")
+      .inTable(tables.notification_optout_type)
+      .onDelete("NO ACTION")
+      .onUpdate("CASCADE");
+    t.unique(["notification_optout_type", "user_id"]);
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return knex.schema.raw(`DROP TABLE ${tables.confirmation_token} CASCADE`);
+  return knex.schema.raw(`DROP TABLE ${tables.notification_optout} CASCADE`);
 }

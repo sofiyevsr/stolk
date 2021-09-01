@@ -15,6 +15,9 @@ const ses = new SESClient({
 });
 
 const sendMail = async (to: string, subject: string, html: string) => {
+  if (!isProd) {
+    return;
+  }
   const input: SendEmailCommandInput = {
     Source: "no-reply@stolk.app",
     Message: {
@@ -24,7 +27,7 @@ const sendMail = async (to: string, subject: string, html: string) => {
       Body: { Html: { Data: html } },
     },
     Destination: {
-      ToAddresses: isProd ? [to] : [],
+      ToAddresses: [to],
     },
   };
 

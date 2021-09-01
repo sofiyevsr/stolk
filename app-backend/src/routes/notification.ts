@@ -1,6 +1,6 @@
 import { Router } from "express";
 import notification from "@controllers/notification/index";
-import { responseContentCreated, responseSuccess } from "@utils/responses";
+import { responseContentCreated } from "@utils/responses";
 import authenticateMiddleware from "src/middlewares/authenticate";
 
 const r = Router();
@@ -9,6 +9,16 @@ r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
   try {
     const user_id = req.session?.user_id!;
     await notification.create(req.body.token, user_id);
+    return responseContentCreated(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
+
+r.post("/optout", authenticateMiddleware(), async (req, res, next) => {
+  try {
+    const user_id = req.session?.user_id!;
+    await notification.optout(req.body, user_id);
     return responseContentCreated(res, {});
   } catch (e) {
     return next(e);

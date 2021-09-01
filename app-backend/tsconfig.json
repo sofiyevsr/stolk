@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "outDir": "./dist",
     "strict": true,
     "baseUrl": ".",
+    "noEmit": true,
+    "removeComments": true,
     "paths": {
       "@translate/*": ["src/config/i18n/*"],
       "@utils/*": ["src/utils/*"],

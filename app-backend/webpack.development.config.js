@@ -1,9 +1,10 @@
 const nodeExternals = require("webpack-node-externals");
 const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   target: "node",
   externals: [nodeExternals()],
   entry: "./index.ts",
@@ -20,6 +21,17 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+        mode: "write-references",
+      },
+    }),
+  ],
   resolve: {
     extensions: [".ts"],
     plugins: [

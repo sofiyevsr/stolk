@@ -1,10 +1,11 @@
 import db from "@db/db";
 import i18next from "@translate/i18next";
-import { tables } from "@utils/constants";
+import { confirmationTokenBackoffMinutes, tables } from "@utils/constants";
 import { comparePassword, generateConfirmationToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import confirmationToken from "@utils/validations/auth/confirmationToken";
-import mailService from "@utils/mailService";
+import accountConfirmationEmail from "@utils/email/accountConfirmation";
+import dayjs from "dayjs";
 
 export async function createConfirmationToken(body: any) {
   const { value, error } =
@@ -17,6 +18,19 @@ export async function createConfirmationToken(body: any) {
     .select(["id", "email"])
     .where({ email, confirmed_at: null });
   if (user == null) return false;
+  const confirmationTokenSession = await db(tables.confirmation_token)
+    .select(["issued_at"])
+    .where({
+      user_id: user.id,
+    })
+    .first();
+  if (confirmationToken != null) {
+    const issuedAt = dayjs(confirmationTokenSession.issued_at);
+    const difference = issuedAt.diff(dayjs(), "minute");
+    if (difference < confirmationTokenBackoffMinutes) {
+      throw new SoftError(i18next.t("errors.backoff_reset_token"));
+    }
+  }
   const token = await generateConfirmationToken();
   const data = await db(tables.confirmation_token)
     .insert({
@@ -25,9 +39,9 @@ export async function createConfirmationToken(body: any) {
     })
     .onConflict("user_id")
     .merge();
-  await mailService
-    .sendMail(user.email, "Confirm Email", `<div>${token.plain}</div>`)
-    .catch((e) => {});
+  await accountConfirmationEmail().catch((e) => {
+    console.log("mail error", e);
+  });
   return true;
 }
 
@@ -38,11 +52,12 @@ export async function verifyEmail(body: any) {
     throw new SoftError(error.message);
   }
   const { id, token } = value;
-  const [confirmationTokenSession] = await db(tables.confirmation_token)
+  const confirmationTokenSession = await db(tables.confirmation_token)
     .select(["token"])
     .where({
       user_id: id,
-    });
+    })
+    .first();
   if (confirmationTokenSession == null) {
     throw new SoftError(i18next.t("errors.confirmation_fail"));
   }
