@@ -15,7 +15,8 @@ export async function createConfirmationToken(body: any) {
   }
   const { email } = value;
   const [user] = await db(tables.app_user)
-    .select(["id", "email"])
+    // first name required for email
+    .select(["id", "email", "first_name"])
     .where({ email, confirmed_at: null });
   if (user == null) return false;
   const confirmationTokenSession = await db(tables.confirmation_token)
@@ -24,7 +25,7 @@ export async function createConfirmationToken(body: any) {
       user_id: user.id,
     })
     .first();
-  if (confirmationToken != null) {
+  if (confirmationTokenSession != null) {
     const issuedAt = dayjs(confirmationTokenSession.issued_at);
     const difference = issuedAt.diff(dayjs(), "minute");
     if (difference < confirmationTokenBackoffMinutes) {
@@ -32,14 +33,18 @@ export async function createConfirmationToken(body: any) {
     }
   }
   const token = await generateConfirmationToken();
-  const data = await db(tables.confirmation_token)
+  await db(tables.confirmation_token)
     .insert({
       token: token.hash,
       user_id: user.id,
     })
     .onConflict("user_id")
     .merge();
-  await accountConfirmationEmail().catch((e) => {
+  await accountConfirmationEmail({
+    token: token.plain,
+    to: user.email,
+    firstName: user.first_name,
+  }).catch((e) => {
     console.log("mail error", e);
   });
   return true;

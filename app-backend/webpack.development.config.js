@@ -17,7 +17,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: "asset/source",
+        type: "asset/source",
       },
     ],
   },

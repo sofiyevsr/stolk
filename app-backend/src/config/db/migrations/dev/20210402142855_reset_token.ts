@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.app_user)
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    t.string("token").notNullable();
+    t.string("token").notNullable().unique();
     t.timestamp("issued_at", { useTz: true })
       .notNullable()
       .defaultTo(knex.fn.now());

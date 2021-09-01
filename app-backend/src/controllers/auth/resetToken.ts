@@ -13,7 +13,7 @@ import {
 } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import resetToken from "@utils/validations/auth/resetToken";
-import forgotPasswordEmail from "@utils/email/forgotPassword";
+import resetPasswordEmail from "@utils/email/resetPassword";
 
 export async function createResetToken(body: any) {
   const { value, error } = resetToken.createResetToken.validate(body);
@@ -41,14 +41,16 @@ export async function createResetToken(body: any) {
   }
 
   const token = await generateResetToken();
-  const data = await db(tables.reset_token)
+  await db(tables.reset_token)
     .insert({
       token: token.hash,
       user_id: user.id,
     })
     .onConflict("user_id")
     .merge();
-  await forgotPasswordEmail().catch((e) => {});
+  await resetPasswordEmail({ token: token.plain, to: user.email }).catch(() => {
+    console.log("email error");
+  });
   return true;
 }
 

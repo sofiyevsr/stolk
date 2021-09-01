@@ -1,6 +1,15 @@
+// LINKS
+export const websiteLink = "https://stolk.app/";
+export const forgotPasswordLink = websiteLink + "forgot-password/";
+export const emailConfirmationLink = websiteLink + "email-confirmation/";
+export const emailAssetS3Link =
+  "https://stolk.s3.eu-west-3.amazonaws.com/email-images/";
+
+// LIMITS
 export const resetTokenExpirationMinutes = 60;
 export const resetTokenBackoffMinutes = 3;
 export const confirmationTokenBackoffMinutes = 3;
+
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
 

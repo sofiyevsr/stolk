@@ -3,9 +3,10 @@ import {
   SendEmailCommandInput,
   SESClient,
 } from "@aws-sdk/client-ses";
+import { emailAssetS3Link } from "@utils/constants";
 
-const isProd =
-  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging";
+const isProd = process.env.NODE_ENV === "production";
+
 const ses = new SESClient({
   region: "eu-west-3",
   credentials: {
@@ -18,13 +19,14 @@ const sendMail = async (to: string, subject: string, html: string) => {
   if (!isProd) {
     return;
   }
+  const readyHTML = html.replace(/{{asset_link}}/g, emailAssetS3Link);
   const input: SendEmailCommandInput = {
-    Source: "no-reply@stolk.app",
+    Source: "Stolk <no-reply@stolk.app>",
     Message: {
       Subject: {
         Data: subject,
       },
-      Body: { Html: { Data: html } },
+      Body: { Html: { Data: readyHTML } },
     },
     Destination: {
       ToAddresses: [to],

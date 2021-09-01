@@ -12,11 +12,14 @@
       "@config/*": ["src/config/*"],
       "@db/*": ["src/config/db/*"],
       "@routes/*": ["src/routes/*"],
-      "@controllers/*": ["src/controllers/*"]
+      "@controllers/*": ["src/controllers/*"],
+      "@static/*": ["static/*"]
     },
     "typeRoots": ["node_modules/@types", "src/@types"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["index.ts", "src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
