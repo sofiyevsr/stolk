@@ -42,6 +42,16 @@ final darkTheme = ThemeData.dark().copyWith(
   primaryColorDark: CustomColorScheme.primaryDark,
   primaryColorLight: CustomColorScheme.primaryLight,
   indicatorColor: CustomColorScheme.primaryLight,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateColor.resolveWith((states) {
+        if (states.contains(MaterialState.disabled)) {
+          return CustomColorScheme.main.withAlpha(205);
+        }
+        return CustomColorScheme.main;
+      }),
+    ),
+  ),
   appBarTheme: AppBarTheme(
     elevation: 5,
     textTheme: const TextTheme(

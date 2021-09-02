@@ -1,5 +1,6 @@
 import create from "./create";
 import * as send from "./send";
-import optout from "./optout";
+import * as manage from "./optout";
+import * as retrieve from "./retrieve";
 
-export default { create, send, optout };
+export default { create, send, manage, retrieve };

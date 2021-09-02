@@ -10,13 +10,13 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.app_user)
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    t.integer("notification_optout_type")
+    t.integer("notification_type_id")
       .notNullable()
       .references("id")
-      .inTable(tables.notification_optout_type)
+      .inTable(tables.notification_type)
       .onDelete("NO ACTION")
       .onUpdate("CASCADE");
-    t.unique(["notification_optout_type", "user_id"]);
+    t.unique(["notification_optout_type_id", "user_id"]);
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

@@ -1,3 +1,4 @@
+import 'package:stolk/components/common/dialogs/reportDialog.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
@@ -117,15 +118,9 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
               iconSize: _iconSize,
               onSelected: (v) async {
                 await showDialog(
-                    context: context,
-                    builder: (ctx) {
-                      return AlertDialog(
-                        title: Text("report"),
-                        content: Container(
-                          child: TextField(),
-                        ),
-                      );
-                    });
+                  context: context,
+                  builder: (ctx) => ReportDialog(newsID: widget.feed.id),
+                );
               },
               itemBuilder: (entry) {
                 return [

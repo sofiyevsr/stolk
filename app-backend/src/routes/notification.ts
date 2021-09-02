@@ -1,9 +1,28 @@
 import { Router } from "express";
 import notification from "@controllers/notification/index";
-import { responseContentCreated } from "@utils/responses";
+import { responseContentCreated, responseSuccess } from "@utils/responses";
 import authenticateMiddleware from "src/middlewares/authenticate";
 
 const r = Router();
+
+r.get("/fcm-topics", async (req, res, next) => {
+  try {
+    await notification.retrieve.getAllSubcriptions(req.body.token);
+    return responseSuccess(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
+
+r.get("/my-preferences", authenticateMiddleware(), async (req, res, next) => {
+  try {
+    const user_id = req.session?.user_id!;
+    await notification.retrieve.getAllNotificationTypesWithOptouts(user_id);
+    return responseSuccess(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
 
 r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
   try {
@@ -18,8 +37,18 @@ r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
 r.post("/optout", authenticateMiddleware(), async (req, res, next) => {
   try {
     const user_id = req.session?.user_id!;
-    await notification.optout(req.body, user_id);
+    await notification.manage.optout(req.body, user_id);
     return responseContentCreated(res, {});
+  } catch (e) {
+    return next(e);
+  }
+});
+
+r.post("/optin", authenticateMiddleware(), async (req, res, next) => {
+  try {
+    const user_id = req.session?.user_id!;
+    await notification.manage.optout(req.body, user_id);
+    return responseSuccess(res, {});
   } catch (e) {
     return next(e);
   }

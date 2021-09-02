@@ -20,6 +20,7 @@ export default async function loginUser(body: any) {
       "first_name",
       "last_name",
       "banned_at",
+      "confirmed_at",
     ])
     .where({ email: value.email })
     .first();

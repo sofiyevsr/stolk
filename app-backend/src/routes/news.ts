@@ -1,6 +1,6 @@
 import news from "@controllers/news";
 import { parseRequest } from "@utils/commons/parseReq";
-import { responseSuccess } from "@utils/responses";
+import { responseContentCreated, responseSuccess } from "@utils/responses";
 import { Router } from "express";
 import authenticateMiddleware from "src/middlewares/authenticate";
 
@@ -46,18 +46,35 @@ r.get("/:id/comments", async (req, res, next) => {
   }
 });
 
-r.post("/:id/comment", authenticateMiddleware(), async (req, res, next) => {
+r.post("/:id/read", authenticateMiddleware(), async (req, res, next) => {
   try {
     const { user_id, id } = await parseRequest(
       req.session?.user_id,
       req.params.id
     );
-    const comment = await news.actions.comment(id, user_id, req.body);
-    return responseSuccess(res, { comment });
+    const read = await news.actions.read(id, user_id);
+    return responseContentCreated(res, { read });
   } catch (error) {
     return next(error);
   }
 });
+
+r.post(
+  "/:id/comment",
+  authenticateMiddleware(false, true),
+  async (req, res, next) => {
+    try {
+      const { user_id, id } = await parseRequest(
+        req.session?.user_id,
+        req.params.id
+      );
+      const comment = await news.actions.comment(id, user_id, req.body);
+      return responseSuccess(res, { comment });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
 
 r.post("/:id/bookmark", authenticateMiddleware(), async (req, res, next) => {
   try {

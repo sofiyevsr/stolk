@@ -68,7 +68,7 @@ export const tables = {
   notification_token: "notification_token",
   news_comment: "news_comment",
   news_read_history: "news_read_history",
-  notification_optout_type: "notification_optout_type",
+  notification_type: "notification_type",
   notification_optout: "notification_optout",
 };
 

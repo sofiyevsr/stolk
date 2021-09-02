@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart';
 
 import '../../throttle.dart';
 
-const duration = const Duration(seconds: 3);
+const duration = const Duration(seconds: 7);
 
 class ToastService {
   static final instance = ToastService._();
   static final _key = GlobalKey<ScaffoldMessengerState>();
   static GlobalKey<ScaffoldMessengerState> get key => _key;
-  final _throttler = Throttler(duration: duration * 4);
+  final _throttler = Throttler(duration: duration);
 
   ToastService._();
 

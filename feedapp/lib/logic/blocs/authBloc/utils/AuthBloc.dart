@@ -45,6 +45,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: response.user.email,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
+            confirmedAt: response.user.confirmedAt,
+            bannedAt: response.user.bannedAt,
           ),
           token: response.token,
         );
@@ -71,6 +73,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: response.user.email,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
+            confirmedAt: response.user.confirmedAt,
+            bannedAt: response.user.bannedAt,
           ),
           token: response.token,
         );
@@ -90,6 +94,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: response.user.email,
             createdAt: response.user.createdAt,
             serviceTypeId: response.user.serviceTypeId,
+            confirmedAt: response.user.confirmedAt,
+            bannedAt: response.user.bannedAt,
           ),
           token: event.token,
         );

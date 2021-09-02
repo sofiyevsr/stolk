@@ -42,6 +42,11 @@ class NewsService extends ApiService {
     await this.request.post("/news/$newsID/like", {}, {});
   }
 
+  Future<void> markRead(int newsID) async {
+    authorize(pushAuthView: false);
+    await this.request.post("/news/$newsID/read", {}, {});
+  }
+
   Future<void> unlike(int newsID) async {
     authorize();
     await this.request.post("/news/$newsID/unlike", {}, {});

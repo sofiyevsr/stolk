@@ -16,7 +16,7 @@ class StartupService {
       // Get the token each time the application loads
       String? token = await FirebaseMessaging.instance.getToken();
 
-      print(token);
+      print('token $token');
       // Save the initial token to the database
       await _saveTokenToDatabase(token, authToken);
 
@@ -33,7 +33,9 @@ class StartupService {
     final storage = SecureStorage();
     final token = await storage.getToken();
     // if check token fails it is okay to stop store device token
-    storeDeviceToken(token).catchError((e) {});
+    storeDeviceToken(token).catchError((e) {
+      print('error while getting device token $e');
+    });
     await _checkToken(token);
   }
 

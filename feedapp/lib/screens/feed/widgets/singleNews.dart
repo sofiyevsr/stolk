@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:stolk/components/common/notFoundImage.dart';
 import 'package:stolk/screens/feed/widgets/newsView.dart';
 import 'package:stolk/screens/feed/widgets/singleNewsActions.dart';
@@ -5,16 +6,30 @@ import 'package:stolk/screens/feed/widgets/singleNewsHeader.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:stolk/utils/transparentImage.dart';
 import 'package:flutter/material.dart';
 
-const NEWS_HEIGHT = 300.0;
+const NEWS_HEIGHT = 280.0;
+
+final newsService = NewsService();
 
 class SingleNewsView extends StatelessWidget {
   final SingleNews feed;
   final int index;
   const SingleNewsView({Key? key, required this.feed, required this.index})
       : super(key: key);
+
+  void _goToNewsWebview() async {
+    NavigationService.push(
+      NewsView(link: feed.feedLink),
+      RouteNames.SINGLE_NEWS,
+    );
+    await newsService.markRead(this.feed.id).catchError((e) {
+      FirebaseCrashlytics.instance
+          .log('Couldn\'t mark news read ${e.toString}');
+    });
+  }
 
   Widget _buildNews(ThemeData theme) {
     return Container(
@@ -29,10 +44,7 @@ class SingleNewsView extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            NavigationService.push(
-                NewsView(link: feed.feedLink), RouteNames.SINGLE_NEWS);
-          },
+          onTap: _goToNewsWebview,
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

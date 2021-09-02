@@ -64,10 +64,13 @@ class LimitRangeTextInputFormatter extends TextInputFormatter {
 }
 
 // When user is not logged in push AuthView
-authorize() {
+// pushAuthView meaning request won't be send but error thrown to stop request
+authorize({bool pushAuthView = true}) {
   final auth = AuthBloc.instance.state;
   if (auth is! AuthorizedState) {
-    NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+    if (pushAuthView == true) {
+      NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+    }
     throw Error();
   }
 }

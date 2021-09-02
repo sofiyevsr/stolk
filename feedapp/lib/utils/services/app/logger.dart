@@ -4,18 +4,18 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class AppLogger {
   static final instance = AppLogger._();
-  static final firebase = FirebaseAnalytics();
+  static final analytics = FirebaseAnalytics();
   AppLogger._();
 
   FirebaseAnalyticsObserver getFirebaseAnalyticsObserver() {
-    return FirebaseAnalyticsObserver(analytics: firebase);
+    return FirebaseAnalyticsObserver(analytics: analytics);
   }
 
   Future<void> logEvent({
     required String name,
     Map<String, dynamic>? parameters,
   }) {
-    return firebase.logEvent(
+    return analytics.logEvent(
       name: name,
       parameters: parameters,
     );

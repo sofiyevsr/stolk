@@ -109,7 +109,6 @@ class _AuthViewState extends State<AuthView>
                           child: TabBar(
                             controller: _controller,
                             indicatorSize: TabBarIndicatorSize.tab,
-                            unselectedLabelColor: Theme.of(context).accentColor,
                             labelStyle:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       fontWeight: FontWeight.bold,

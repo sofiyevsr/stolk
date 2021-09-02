@@ -31,11 +31,13 @@ export default async function registerUser(body: any) {
     },
     [
       "id as user_id",
-      "first_name",
-      "last_name",
+      "service_type_id",
       "email",
       "created_at",
-      "service_type_id",
+      "first_name",
+      "last_name",
+      "banned_at",
+      "confirmed_at",
     ]
   );
   await createConfirmationToken({ email: user.email });
