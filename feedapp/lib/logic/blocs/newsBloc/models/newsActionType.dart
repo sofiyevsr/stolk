@@ -1,3 +1,11 @@
 part of "../utils/NewsBloc.dart";
 
-enum NewsActionType { LIKE, UNLIKE, BOOKMARK, UNBOOKMARK, FOLLOW, UNFOLLOW }
+enum NewsActionType {
+  LIKE,
+  UNLIKE,
+  BOOKMARK,
+  UNBOOKMARK,
+  FOLLOW,
+  UNFOLLOW,
+  READ,
+}

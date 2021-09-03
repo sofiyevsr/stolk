@@ -7,7 +7,7 @@ import authenticateMiddleware from "src/middlewares/authenticate";
 const r = Router();
 
 r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
-  const { limit, pub_date, source_id, category, filter_by } = req.query as {
+  const { limit, pub_date, source_id, category } = req.query as {
     [key: string]: string | undefined;
   };
   try {
@@ -17,7 +17,24 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
       pub_date,
       category,
       user_id,
-      source_id,
+      source_id
+    );
+    return responseSuccess(res, allNews);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.get("/my-history", authenticateMiddleware(true), async (req, res, next) => {
+  const { limit, id, source_id, filter_by } = req.query as {
+    [key: string]: string | undefined;
+  };
+  try {
+    const userID = req.session?.user_id;
+    const allNews = await news.retrieve.usersNewsHistory(
+      limit,
+      id,
+      userID,
       filter_by
     );
     return responseSuccess(res, allNews);

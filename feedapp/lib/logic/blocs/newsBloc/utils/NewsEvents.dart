@@ -5,15 +5,29 @@ class NewsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+// Used for fetching users news history
+class FetchHistoryNewsEvent extends NewsEvent {
+  final String filterBy;
+  FetchHistoryNewsEvent({required this.filterBy});
+
+  List<Object?> get props => [filterBy];
+}
+
+class FetchNextHistoryNewsEvent extends NewsEvent {
+  final String filterBy;
+  final bool? force;
+  FetchNextHistoryNewsEvent({required this.filterBy, this.force});
+
+  List<Object?> get props => [filterBy, force];
+}
+
 // Only one should be not null maybe assert
 class FetchNewsEvent extends NewsEvent {
   final int? category;
-  final String? filterBy;
   final int? sourceID;
-  FetchNewsEvent(
-      {required this.category, required this.filterBy, required this.sourceID});
+  FetchNewsEvent({required this.category, required this.sourceID});
 
-  List<Object?> get props => [filterBy, category];
+  List<Object?> get props => [sourceID, category];
 }
 
 class RefreshNewsEvent extends NewsEvent {
@@ -28,17 +42,16 @@ class RefreshNewsEvent extends NewsEvent {
 // Only one should be not null maybe assert
 class FetchNextNewsEvent extends NewsEvent {
   final int? category;
-  final String? filterBy;
   final int? sourceID;
+  // Force to load next batch even though state is not success
   final bool? force;
   FetchNextNewsEvent({
     required this.category,
-    required this.filterBy,
     required this.sourceID,
     this.force,
   });
 
-  List<Object?> get props => [filterBy, category, sourceID, force];
+  List<Object?> get props => [category, sourceID, force];
 }
 
 class NewsActionEvent extends NewsEvent {

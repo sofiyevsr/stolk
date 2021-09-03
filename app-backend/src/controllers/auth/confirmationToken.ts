@@ -1,6 +1,10 @@
 import db from "@db/db";
 import i18next from "@translate/i18next";
-import { confirmationTokenBackoffMinutes, tables } from "@utils/constants";
+import {
+  confirmationTokenBackoffMinutes,
+  ServiceType,
+  tables,
+} from "@utils/constants";
 import { comparePassword, generateConfirmationToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import confirmationToken from "@utils/validations/auth/confirmationToken";
@@ -23,6 +27,7 @@ export async function createConfirmationToken(body: any) {
     .select(["issued_at"])
     .where({
       user_id: user.id,
+      service_type_id: ServiceType.APP,
     })
     .first();
   if (confirmationTokenSession != null) {

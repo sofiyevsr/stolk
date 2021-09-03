@@ -6,7 +6,7 @@ import 'package:stolk/screens/feed/widgets/singleNews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const SINGLE_NEWS_HEIGHT = 400.0;
+const SINGLE_NEWS_HEIGHT = 300.0;
 
 class SingleNewsHistoryUnit extends StatefulWidget {
   final String filterBy;
@@ -32,16 +32,16 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
         _timer = Timer(
           Duration(milliseconds: 50),
           () {
-            final maxScroll = _scrollController.position.maxScrollExtent;
-            final currentScroll = _scrollController.position.pixels;
-            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
-              context.read<NewsBloc>().add(
-                    FetchNextNewsEvent(
-                      category: null,
-                      sourceID: null,
-                      filterBy: widget.filterBy,
-                    ),
-                  );
+            if (_scrollController.hasClients) {
+              final maxScroll = _scrollController.position.maxScrollExtent;
+              final currentScroll = _scrollController.position.pixels;
+              if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
+                context.read<NewsBloc>().add(
+                      FetchNextHistoryNewsEvent(
+                        filterBy: widget.filterBy,
+                      ),
+                    );
+              }
             }
           },
         );
@@ -63,7 +63,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
       child: BlocBuilder<NewsBloc, NewsState>(
         builder: (ctx, state) {
           if (state is NewsStateLoading) return CenterLoadingWidget();
-          if (state is NewsStateSuccess) {
+          if (state is NewsStateWithData) {
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               controller: _scrollController,
@@ -72,7 +72,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                   : state.data.news.length + 1,
               itemBuilder: (ctx, index) => index >= state.data.news.length
                   ? Container(
-                      height: 50,
+                      height: 70,
                       child: Center(
                         child: CircularProgressIndicator.adaptive(
                           strokeWidth: 8,

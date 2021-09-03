@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../throttle.dart';
 
@@ -19,20 +18,26 @@ class ToastService {
         _key.currentState?.showSnackBar(
           SnackBar(
             elevation: 5,
-            behavior: SnackBarBehavior.floating,
+            padding: EdgeInsets.zero,
             content: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Icon(
-                    Icons.warning,
+                    Icons.warning_amber_rounded,
+                    size: 26,
                     color: Colors.white,
                   ),
                 ),
                 Expanded(
                   child: Text(
                     content,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

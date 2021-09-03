@@ -18,7 +18,7 @@ class AnimatedSingleComment extends StatelessWidget {
         ? child
         : TweenAnimationBuilder<int>(
             onEnd: onEnd,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 200),
             tween: IntTween(begin: -100, end: 0),
             builder: (_, int val, __) => Transform.translate(
               offset: Offset(val.toDouble(), 0),

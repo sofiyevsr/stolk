@@ -9,7 +9,7 @@ import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const SINGLE_NEWS_HEIGHT = 400.0;
+const SINGLE_NEWS_HEIGHT = 300.0;
 
 final service = NewsService();
 
@@ -57,7 +57,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   FetchNextNewsEvent(
                     category: _currentCategory,
                     sourceID: null,
-                    filterBy: null,
                   ),
                 );
           }
@@ -78,7 +77,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
       FetchNextNewsEvent(
         category: _currentCategory,
         sourceID: null,
-        filterBy: null,
         force: true,
       ),
     );
@@ -87,7 +85,9 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   Future<void> onRefresh() async {
     try {
       final data = await service.getAllNews(
-          pubDate: null, category: _currentCategory, filterBy: null);
+        pubDate: null,
+        category: _currentCategory,
+      );
       BlocProvider.of<NewsBloc>(context).add(
         RefreshNewsEvent(
           data: data,
@@ -102,7 +102,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     );
     final bloc = context.read<NewsBloc>();
     bloc.add(
-      FetchNewsEvent(category: id, sourceID: null, filterBy: null),
+      FetchNewsEvent(
+        category: id,
+        sourceID: null,
+      ),
     );
     setState(() {
       _currentCategory = id;

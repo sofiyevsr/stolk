@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/debounce.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'singleNews.dart';
 
-const SINGLE_NEWS_HEIGHT = 400;
+const SINGLE_NEWS_HEIGHT = 300;
 
 class SourceNewsSliver extends StatefulWidget {
   final ScrollController scrollController;
@@ -41,7 +39,6 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
                     FetchNextNewsEvent(
                       category: null,
                       sourceID: widget.sourceID,
-                      filterBy: null,
                     ),
                   );
             }
@@ -56,7 +53,6 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
       FetchNextNewsEvent(
         category: null,
         sourceID: widget.sourceID,
-        filterBy: null,
         force: true,
       ),
     );

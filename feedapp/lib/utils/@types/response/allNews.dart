@@ -31,6 +31,8 @@ class SingleNews extends Equatable {
   final int? likeID;
   final int? bookmarkID;
   final int? followID;
+  final int? commentID;
+  final int? readID;
   final String? imageLink;
   SingleNews._({
     required this.id,
@@ -45,13 +47,16 @@ class SingleNews extends Equatable {
     required this.commentCount,
     required this.likeID,
     required this.followID,
+    required this.commentID,
+    required this.readID,
     required this.bookmarkID,
     required this.imageLink,
   });
 
   SingleNews.fromJson(Map<String, dynamic> json)
       : this._(
-          id: json['id'],
+          // We have to parse it manually because news id is bigint on db and json can't send it as bigint
+          id: int.parse(json['id']),
           sourceID: json['source_id'],
           title: json['title'],
           sourceName: json['source_name'],
@@ -62,6 +67,8 @@ class SingleNews extends Equatable {
           feedLink: json['feed_link'],
           likeID: json["like_id"],
           followID: json["follow_id"],
+          commentID: json["comment_id"],
+          readID: json["read_history_id"],
           likeCount: json["like_count"],
           commentCount: json["comment_count"],
           bookmarkID: json["bookmark_id"],
@@ -83,6 +90,8 @@ class SingleNews extends Equatable {
     Nullable<int>? likeID,
     Nullable<int>? bookmarkID,
     Nullable<int>? followID,
+    Nullable<int>? readID,
+    Nullable<int>? commentID,
   }) =>
       SingleNews._(
         id: id ?? this.id,
@@ -99,6 +108,8 @@ class SingleNews extends Equatable {
         likeID: likeID == null ? this.likeID : likeID.value,
         followID: followID == null ? this.followID : followID.value,
         bookmarkID: bookmarkID == null ? this.bookmarkID : bookmarkID.value,
+        readID: readID == null ? this.readID : readID.value,
+        commentID: commentID == null ? this.commentID : commentID.value,
       );
 
   @override
@@ -113,6 +124,7 @@ class SingleNews extends Equatable {
         likeCount,
         commentCount,
         likeID,
+        readID,
         bookmarkID,
         imageLink,
         followID
@@ -127,7 +139,6 @@ class AllNewsResponse {
     if (json['news'] == null) {
       return;
     }
-
     for (int i = 0; i < json['news'].length; i++) {
       news.add(SingleNews.fromJson(json['news'][i]));
     }

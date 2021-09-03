@@ -93,9 +93,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     key: Key(_pages[i]),
                     create: (ctx) => NewsBloc()
                       ..add(
-                        FetchNewsEvent(
-                          category: null,
-                          sourceID: null,
+                        FetchHistoryNewsEvent(
                           filterBy: _pages[i],
                         ),
                       ),

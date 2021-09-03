@@ -17,6 +17,71 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   @override
   Stream<NewsState> mapEventToState(NewsEvent event) async* {
+    yield* handleMainNewsFeed(event);
+    yield* handleHistoryNewsFeed(event);
+  }
+
+  Stream<NewsState> handleHistoryNewsFeed(NewsEvent event) async* {
+    if (event is FetchHistoryNewsEvent) {
+      try {
+        yield NewsStateLoading();
+        final data = await service.getAllHistoryNews(
+          filterBy: event.filterBy,
+        );
+        if (data.news.length != 0)
+          yield NewsStateSuccess(
+            data: NewsModel(
+              news: data.news,
+              hasReachedEnd: data.hasReachedEnd,
+            ),
+          );
+        else
+          yield NewsStateNoData();
+      } catch (e) {
+        yield NewsStateError();
+      }
+    }
+
+    // Fetch next batch
+    else if (event is FetchNextHistoryNewsEvent) {
+      if (state is NewsStateWithData &&
+          (state as NewsStateWithData).data.hasReachedEnd == false) {
+        if (state is NewsNextFetchError && event.force != true) {
+          return;
+        }
+        if (state is NewsNextFetchLoading) {
+          return;
+        }
+
+        try {
+          yield NewsNextFetchLoading(data: (state as NewsStateWithData).data);
+          final existing = (state as NewsStateWithData);
+          final lastID = findCurrentFilteryByContentID(
+            existing.data.news[existing.data.news.length - 1],
+            event.filterBy,
+          );
+          if (lastID == null) {
+            throw Error();
+          }
+          // set Loading and fetch data then
+          final data = await service.getAllHistoryNews(
+            id: lastID,
+            filterBy: event.filterBy,
+          );
+          yield NewsStateSuccess(
+            data: existing.data.addNewNews(
+              incomingNews: data.news,
+              hasReachedEnd: data.hasReachedEnd,
+            ),
+          );
+        } catch (e) {
+          yield NewsNextFetchError(data: (state as NewsStateWithData).data);
+        }
+      }
+    }
+  }
+
+  Stream<NewsState> handleMainNewsFeed(NewsEvent event) async* {
     if (event is FetchNewsEvent) {
       try {
         yield NewsStateLoading();
@@ -24,7 +89,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           pubDate: null,
           category: event.category,
           sourceID: event.sourceID,
-          filterBy: event.filterBy,
         );
         if (data.news.length != 0)
           yield NewsStateSuccess(
@@ -82,7 +146,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             pubDate: lastPub,
             sourceID: event.sourceID,
             category: event.category,
-            filterBy: event.filterBy,
           );
           yield NewsStateSuccess(
             data: existing.data.addNewNews(
@@ -122,6 +185,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           case NewsActionType.UNFOLLOW:
             modifItem = item.copyWith(followID: Nullable(value: null));
             break;
+          case NewsActionType.READ:
+            modifItem = item.copyWith(readID: Nullable(value: 0));
+            break;
         }
         yield NewsStateSuccess(
           data: existing.data.modifySingle(
@@ -130,6 +196,19 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           ),
         );
       }
+    }
+  }
+
+  int? findCurrentFilteryByContentID(SingleNews news, String filterBy) {
+    switch (filterBy) {
+      case "like":
+        return news.likeID;
+      case "comment":
+        return news.commentID;
+      case "bookmark":
+        return news.bookmarkID;
+      case "read":
+        return news.readID;
     }
   }
 }

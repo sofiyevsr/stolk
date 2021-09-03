@@ -1,5 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/notFoundImage.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/feed/widgets/newsView.dart';
 import 'package:stolk/screens/feed/widgets/singleNewsActions.dart';
 import 'package:stolk/screens/feed/widgets/singleNewsHeader.dart';
@@ -10,7 +12,7 @@ import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:stolk/utils/transparentImage.dart';
 import 'package:flutter/material.dart';
 
-const NEWS_HEIGHT = 280.0;
+const NEWS_HEIGHT = 300.0;
 
 final newsService = NewsService();
 
@@ -20,18 +22,26 @@ class SingleNewsView extends StatelessWidget {
   const SingleNewsView({Key? key, required this.feed, required this.index})
       : super(key: key);
 
-  void _goToNewsWebview() async {
+  void _goToNewsWebview(BuildContext context) {
     NavigationService.push(
       NewsView(link: feed.feedLink),
       RouteNames.SINGLE_NEWS,
     );
-    await newsService.markRead(this.feed.id).catchError((e) {
-      FirebaseCrashlytics.instance
-          .log('Couldn\'t mark news read ${e.toString}');
-    });
+    if (feed.readID == null)
+      newsService.markRead(this.feed.id).then((value) {
+        final newsBloc = BlocProvider.of<NewsBloc>(context);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.READ),
+        );
+      }).catchError((e) {
+        FirebaseCrashlytics.instance
+            .log('Couldn\'t mark news read ${e.toString}');
+      });
   }
 
-  Widget _buildNews(ThemeData theme) {
+  Widget _buildNews(BuildContext context) {
+    final theme = Theme.of(context);
+    final readBefore = feed.readID != null;
     return Container(
       height: NEWS_HEIGHT,
       decoration: BoxDecoration(
@@ -44,7 +54,7 @@ class SingleNewsView extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: _goToNewsWebview,
+          onTap: () => _goToNewsWebview(context),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,25 +78,20 @@ class SingleNewsView extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                    ),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            feed.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                          ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        feed.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: readBefore ? Colors.grey : null,
                         ),
-                      ],
+                        textAlign: TextAlign.center,
+                        maxLines: 3,
+                      ),
                     ),
                   ),
                 ),
@@ -100,11 +105,10 @@ class SingleNewsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
       children: [
         SingleNewsHeader(feed: this.feed, index: index),
-        _buildNews(theme),
+        _buildNews(context),
         SingleNewsActions(feed: this.feed, index: index),
       ],
     );

@@ -38,7 +38,7 @@ class AllNewsShimmer extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  height: NEWS_HEIGHT * 2 / 3,
+                  height: NEWS_HEIGHT,
                   decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.all(

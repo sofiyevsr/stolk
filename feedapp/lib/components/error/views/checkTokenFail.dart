@@ -51,28 +51,36 @@ class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
             children: [
               Expanded(
                 child: Center(
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.error_outline,
+                        Icons.warning_amber_rounded,
                         color: Colors.red,
-                        size: 64,
+                        size: 128,
                       ),
                       Text(
-                        tr("errors.default"),
+                        tr("errors.auth_check_failed"),
                         overflow: TextOverflow.ellipsis,
-                      )
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
                     ],
                   ),
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: ElevatedButton(
                   onPressed: isLoading == true ? null : retryCheckToken,
-                  child: Text(
-                    tr("errors.retry_check_token"),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      tr("errors.retry_check_token"),
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            fontSize: 18,
+                          ),
+                    ),
                   ),
                 ),
               )

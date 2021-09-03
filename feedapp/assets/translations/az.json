@@ -109,13 +109,15 @@
     "sport": "Idman"
   },
   "messages": {
-    "no_data": "Məlumat yoxdur"
+    "no_data": "Məlumat yoxdur",
+    "confirm_to_comment": "Şərh yazmaq üçün hesabı təsdiqləyin"
   },
   "errors": {
     "default": "Xəta baş verdi",
     "network_error": "İnternet xətası",
     "fetch_failed": "Xəta baş verdi",
-    "retry_check_token": "Təkrar yoxla"
+    "retry_check_token": "Təkrar yoxla",
+    "cannot_launch_url": "Link yüklənə bilmədi"
   },
 
   "fields": {

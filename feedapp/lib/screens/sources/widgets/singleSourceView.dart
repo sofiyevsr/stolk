@@ -57,12 +57,12 @@ class _SingleSourceViewState extends State<SingleSourceView> {
             textAlign: TextAlign.center,
           ),
           Expanded(
-            child: SizedBox.expand(
-              child: Container(
-                margin: const EdgeInsets.all(8),
+            child: Container(
+              child: Center(
                 child: SourceLogo(
                   logoSuffix: widget.item.logoSuffix,
-                  isCircle: false,
+                  isCircle: true,
+                  radius: 100,
                 ),
               ),
             ),

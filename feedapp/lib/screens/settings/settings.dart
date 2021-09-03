@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:stolk/utils/constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:stolk/utils/services/app/toastService.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/AboutDialog.dart';
 import 'widgets/LanguageSelector.dart';
@@ -30,6 +32,16 @@ class _SettingsPageState extends State<SettingsPage> {
         content: CustomAboutDialog(details: details),
       ),
     );
+  }
+
+  Future<void> launchURL(String url) async {
+    try {
+      await launch(url);
+    } catch (e) {
+      ToastService.instance.showAlert(
+        tr("errors.cannot_launch_url"),
+      );
+    }
   }
 
   Widget buildHeaderSection() {
@@ -174,16 +186,12 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.info_outlined,
             ),
             SettingsTile(
-              onTap: () {
-                // TODO redirect to web page
-              },
+              onTap: () => launchURL(privacyPolicyURL),
               title: tr("settings.privacy"),
               icon: Icons.privacy_tip_outlined,
             ),
             SettingsTile(
-              onTap: () {
-                // TODO redirect to web page
-              },
+              onTap: () => launchURL(termsOfUseURL),
               title: tr("settings.terms"),
               icon: Icons.description_outlined,
             ),

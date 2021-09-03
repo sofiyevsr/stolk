@@ -82,7 +82,9 @@ class _HomeState extends State<Home> {
               create: (ctx) => NewsBloc()
                 ..add(
                   FetchNewsEvent(
-                      category: null, sourceID: null, filterBy: null),
+                    category: null,
+                    sourceID: null,
+                  ),
                 ),
               child: AllNewsScreen(),
             ),

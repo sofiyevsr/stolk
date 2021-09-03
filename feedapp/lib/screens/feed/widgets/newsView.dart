@@ -21,6 +21,7 @@ class _NewsViewState extends State<NewsView>
     with SingleTickerProviderStateMixin {
   final _controller = Completer<InAppWebViewController>();
   String _title = "";
+  bool _canBrowseBack = false;
 
   double loadingPer = 0;
   late AnimationController _loadingController;
@@ -65,19 +66,22 @@ class _NewsViewState extends State<NewsView>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ScaleButton(
-              onFinish: () async {
-                final view = await _controller.future;
-                await view.goBack();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Tooltip(
-                  message: tr("tooltip.go_back_webview"),
-                  child: Icon(Icons.arrow_back, size: 32),
+            if (_canBrowseBack == true)
+              ScaleButton(
+                onFinish: () async {
+                  final view = await _controller.future;
+                  await view.goBack();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Tooltip(
+                    message: tr("tooltip.go_back_webview"),
+                    child: Icon(Icons.arrow_back, size: 32),
+                  ),
                 ),
               ),
-            ),
+            // A placeholder for Row to place buttons in both case of canBrowseBack
+            if (_canBrowseBack == false) Container(height: 0),
             Row(
               children: [
                 ScaleButton(
@@ -156,6 +160,17 @@ class _NewsViewState extends State<NewsView>
                   setState(() {
                     _title = title;
                   });
+                }
+                // Maybe avoid rerender when value is already target
+                if (s != null) {
+                  if (s.toString() != widget.link)
+                    setState(() {
+                      _canBrowseBack = true;
+                    });
+                  else
+                    setState(() {
+                      _canBrowseBack = false;
+                    });
                 }
               },
               initialUrlRequest: URLRequest(
