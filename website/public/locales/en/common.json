@@ -1,4 +1,20 @@
 {
-  "title": "All news",
-  "for-who": "For"
+  "home": {
+    "cta-title": "Hundreds of news every day",
+    "cta-subtitle": "Together",
+    "cta-description": "Read only what you choose",
+    "cta-button": "Download",
+    "use_now": "Get started now",
+    "use_now_free": "",
+    "features": {
+      "title": "Features",
+      "description": "Get access to unlimited features",
+      "top_publishers": "Top publishers",
+      "top_publishers_description": "Top publishers from Azerbaijan, Turkey, Russia and etc.",
+      "save_time": "Save time",
+      "save_time_description": "Only subscribe to your favorite websites to avoid news overload",
+      "frequently_updated": "Frequently updated",
+      "frequently_updated_description": "Read news updated every couple of minutes"
+    }
+  }
 }

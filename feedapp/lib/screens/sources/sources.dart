@@ -17,85 +17,67 @@ class SourcesPage extends StatefulWidget {
 }
 
 class _SourcesPageState extends State<SourcesPage> {
-  HashSet<int> _langs = HashSet.from(LANGS.keys);
-
-  void onSelected(bool s, int key) {
-    if (s == false && _langs.remove(key)) {
-      final modifLangSet = HashSet<int>.from(_langs);
-      setState(() {
-        _langs = modifLangSet;
-      });
-    }
-    if (s == true && _langs.add(key)) {
-      final modifLangSet = HashSet<int>.from(_langs);
-      setState(() {
-        _langs = modifLangSet;
-      });
-    }
-  }
+  int _currentLangID = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: LANGS.entries
-                  .map<Widget>(
-                    (e) => Container(
-                      margin: const EdgeInsets.all(8),
-                      child: FilterChip(
-                        avatar: CircleAvatar(
-                          backgroundImage: AssetImage(
-                            'assets/flags/${e.value}.png',
-                          ),
-                        ),
-                        label: Text(
-                          "languages.${e.value}".tr(),
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        selected: _langs.contains(e.key),
-                        onSelected: (s) => onSelected(s, e.key),
+    return Column(
+      children: [
+        DefaultTabController(
+          length: LANGS.length,
+          child: TabBar(
+            isScrollable: true,
+            unselectedLabelColor: Colors.black54,
+            labelColor: Colors.black,
+            onTap: (i) {
+              setState(() {
+                _currentLangID = i;
+              });
+            },
+            tabs: LANGS.entries
+                .map<Widget>(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(
+                        'assets/flags/${e.value}.png',
                       ),
                     ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        Expanded(
+          child:
+              BlocBuilder<SourcesBloc, SourcesState>(builder: (context, state) {
+            if (state is SourcesStateSuccess) {
+              final sources = state.data.sources
+                  .where(
+                    (element) => element.langID == _currentLangID,
                   )
-                  .toList(),
-            ),
-          ),
-          Expanded(
-            child: BlocBuilder<SourcesBloc, SourcesState>(
-                builder: (context, state) {
-              if (state is SourcesStateSuccess) {
-                final sources = state.data.sources
-                    .where(
-                      (element) => _langs.contains(element.langID),
-                    )
-                    .toList();
-                return GridView.builder(
-                  physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  .toList();
+              return GridView.builder(
+                physics: BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemCount: sources.length,
+                itemBuilder: (ctx, i) => SingleSourceView(
+                  key: Key(
+                    sources[i].id.toString(),
                   ),
-                  itemCount: sources.length,
-                  itemBuilder: (ctx, i) => SingleSourceView(
-                    key: Key(
-                      sources[i].id.toString(),
-                    ),
-                    item: sources[i],
-                  ),
-                );
-              }
-              if (state is SourcesStateLoading) {
-                return CenterLoadingWidget();
-              }
-              return Container();
-            }),
-          ),
-        ],
-      ),
+                  item: sources[i],
+                ),
+              );
+            }
+            if (state is SourcesStateLoading) {
+              return CenterLoadingWidget();
+            }
+            return Container();
+          }),
+        ),
+      ],
     );
   }
 }

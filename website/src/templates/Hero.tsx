@@ -8,7 +8,7 @@ const Hero = () => {
   const { t } = useTranslation();
   return (
     <Background color="bg-gray-100">
-      <Section yPadding="pt-20 pb-32">
+      <Section yPadding="pt-20 pb-10">
         <HeroOneButton
           title={
             <>

@@ -1,6 +1,12 @@
 part of "./index.dart";
 
 final darkTheme = ThemeData.dark().copyWith(
+  pageTransitionsTheme: PageTransitionsTheme(
+    builders: {
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+    },
+  ),
   dividerTheme: DividerThemeData(
     space: 0,
     thickness: 1,
@@ -10,8 +16,8 @@ final darkTheme = ThemeData.dark().copyWith(
     bodyText2: TextStyle(fontSize: 16),
   ),
   tabBarTheme: TabBarTheme(
-    unselectedLabelStyle: TextStyle(fontSize: 16),
-    labelStyle: TextStyle(fontSize: 18),
+    unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+    labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     indicator: BoxDecoration(
       border: Border(
         bottom: const BorderSide(
@@ -20,6 +26,7 @@ final darkTheme = ThemeData.dark().copyWith(
         ),
       ),
     ),
+    labelPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: CustomColorScheme.main,

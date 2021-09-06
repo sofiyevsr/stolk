@@ -1,6 +1,12 @@
 part of "./index.dart";
 
 final lightTheme = ThemeData(
+  pageTransitionsTheme: PageTransitionsTheme(
+    builders: {
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+    },
+  ),
   chipTheme: ChipThemeData.fromDefaults(
     brightness: Brightness.light,
     labelStyle: TextStyle(),
@@ -21,10 +27,11 @@ final lightTheme = ThemeData(
   ),
   primaryColor: CustomColorScheme.main,
   tabBarTheme: TabBarTheme(
-    unselectedLabelStyle: TextStyle(fontSize: 16),
-    labelStyle: TextStyle(fontSize: 17),
+    unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+    labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+    labelColor: Colors.black,
+    unselectedLabelColor: Colors.black54,
     indicator: BoxDecoration(
-      color: CustomColorScheme.main,
       border: Border(
         bottom: const BorderSide(
           color: Colors.orange,

@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/screens/feed/sourceFeed.dart';
 import 'package:stolk/utils/@types/response/allSources.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 
@@ -51,19 +54,37 @@ class _SingleSourceViewState extends State<SingleSourceView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            widget.item.name,
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center,
-          ),
           Expanded(
-            child: Container(
-              child: Center(
-                child: SourceLogo(
-                  logoSuffix: widget.item.logoSuffix,
-                  isCircle: true,
-                  radius: 100,
-                ),
+            child: GestureDetector(
+              onTap: () {
+                NavigationService.push(
+                  SourceFeed(
+                    sourceID: widget.item.id,
+                    sourceName: widget.item.name,
+                    logoSuffix: widget.item.logoSuffix,
+                  ),
+                  RouteNames.SOURCE_NEWS_FEED,
+                );
+              },
+              child: Column(
+                children: [
+                  Text(
+                    widget.item.name,
+                    style: Theme.of(context).textTheme.headline6,
+                    textAlign: TextAlign.center,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Center(
+                        child: SourceLogo(
+                          logoSuffix: widget.item.logoSuffix,
+                          isCircle: true,
+                          radius: 100,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

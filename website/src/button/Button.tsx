@@ -15,7 +15,7 @@ const Button = (props: IButtonProps) => {
   });
 
   return (
-    <div onClick={props.onClick} className={btnClass}>
+    <div onClick={props.onClick} className={className(btnClass,)}>
       {props.children}
 
       <style jsx>
@@ -29,7 +29,7 @@ const Button = (props: IButtonProps) => {
           }
 
           .btn-xl {
-            @apply font-extrabold text-xl py-4 px-6;
+            @apply font-extrabold text-xl py-4 px-24;
           }
 
           .btn-primary {

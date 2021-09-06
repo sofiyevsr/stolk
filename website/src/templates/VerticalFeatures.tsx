@@ -1,31 +1,35 @@
-import { VerticalFeatureRow } from '../feature/VerticalFeatureRow';
-import { Section } from '../layout/Section';
+import { useTranslation } from "next-i18next";
+import { VerticalFeatureRow } from "../feature/VerticalFeatureRow";
+import { Section } from "../layout/Section";
 
-const VerticalFeatures = () => (
-  <Section
-    title="Your title here"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at."
-  >
-    <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
-      image="/assets/vectors/feature.svg"
-      imageAlt="First feature alt text"
-    />
-    <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
-      image="/assets/vectors/feature2.svg"
-      imageAlt="Second feature alt text"
-      reverse
-    />
-    <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
-      image="/assets/vectors/feature3.svg"
-      imageAlt="Third feature alt text"
-    />
-  </Section>
-);
+const VerticalFeatures = () => {
+  const { t } = useTranslation();
+  return (
+    <Section
+      title={t("home.features.title")}
+      description={t("home.features.description")}
+    >
+      <VerticalFeatureRow
+        title={t("home.features.save_time")}
+        description={t("home.features.save_time_description")}
+        image="/assets/images/time-save.png"
+        imageAlt="Save time"
+      />
+      <VerticalFeatureRow
+        title={t("home.features.frequently_updated")}
+        description={t("home.features.frequently_updated_description")}
+        image="/assets/images/daily-news.png"
+        imageAlt="Updated news"
+        reverse
+      />
+      <VerticalFeatureRow
+        title={t("home.features.top_publishers")}
+        description={t("home.features.top_publishers_description")}
+        image="/assets/images/astronaut.png"
+        imageAlt="Astronaut reading news from earth"
+      />
+    </Section>
+  );
+};
 
 export { VerticalFeatures };

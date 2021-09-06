@@ -27,6 +27,11 @@ const Footer = () => (
             <a>Privacy Policy</a>
           </Link>
         </li>
+        <li>
+          <Link href="/terms-of-use">
+            <a>Terms of use</a>
+          </Link>
+        </li>
       </CenteredFooter>
     </Section>
   </Background>

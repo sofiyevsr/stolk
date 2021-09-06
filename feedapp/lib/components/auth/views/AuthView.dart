@@ -1,9 +1,13 @@
+import 'dart:ui';
+
+import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/auth/login.dart';
 import 'package:stolk/components/auth/register.dart';
 import "package:flutter/material.dart";
 import 'package:stolk/utils/services/app/navigationService.dart';
 
+//TODO move
 class AuthView extends StatefulWidget {
   final bool isLogin;
   const AuthView({Key? key, this.isLogin = true}) : super(key: key);
@@ -12,8 +16,7 @@ class AuthView extends StatefulWidget {
   _AuthViewState createState() => _AuthViewState();
 }
 
-class _AuthViewState extends State<AuthView>
-    with SingleTickerProviderStateMixin {
+class _AuthViewState extends State<AuthView> with TickerProviderStateMixin {
   late TabController _controller;
   bool _isLogin = true;
 
@@ -123,15 +126,11 @@ class _AuthViewState extends State<AuthView>
                             ],
                           ),
                         ),
-                        AnimatedCrossFade(
-                          firstChild: LoginPage(),
-                          secondChild: RegisterPage(),
-                          secondCurve: Curves.easeIn,
-                          firstCurve: Curves.easeIn,
-                          crossFadeState: _isLogin
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                          duration: const Duration(milliseconds: 450),
+                        AnimatedSize(
+                          vsync: this,
+                          child: _isLogin ? LoginPage() : RegisterPage(),
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
                         )
                       ],
                     ),

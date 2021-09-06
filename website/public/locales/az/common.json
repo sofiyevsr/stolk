@@ -2,9 +2,19 @@
   "home": {
     "cta-title": "Hər gün yüzlərlə xəbər",
     "cta-subtitle": "Tək mənbədə",
-    "cta-description": "Ancaq istədiyiniz xəbərləri oxuyun",
+    "cta-description": "Ancaq seçdiyiniz mənbələrdən xəbərləri oxuyun",
     "cta-button": "Yüklə",
     "use_now": "İstifadə etməyə başla",
-    "use_now_free": ""
+    "use_now_free": "",
+    "features": {
+      "title": "Xüsusiyyətləri",
+      "description": "Limitsiz funksiyalardan istifadə edin",
+      "top_publishers": "Ən yaxşı mənbələr",
+      "top_publishers_description": "Azərbaycan, Rusiya, Türkiyə və s. ölkələrin ən yaxşı mənbələri",
+      "save_time": "Vaxta qənaət et",
+      "save_time_description": "Sadəcə sevdiyiniz mənbələrin xəbərləri",
+      "frequently_updated": "Tez-tez yenilənən",
+      "frequently_updated_description": "Hər dəqiqə yenilənən xəbərlər"
+    }
   }
 }
