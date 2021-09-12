@@ -66,6 +66,7 @@ func handleLambda() (string, error) {
 		catsColl []utils.CatAlias
 	)
 
+	uniqueFeedLinks := make(map[string]bool)
 	processedFeeds := utils.ConvertFeedsToLogFeeds(data.Feeds)
 
 	timeout := time.After(TOTAL_PARSE_TIME_LIMIT)
@@ -74,19 +75,16 @@ func handleLambda() (string, error) {
 		var br bool
 		select {
 		case feed := <-ch:
-			if feed.Err != nil {
-				fmt.Printf("feed received error %s \n", feed.Err)
-			} else {
-				items = append(items, feed.Feed...)
-				// mark source as processed
-				if len(feed.Feed) > 0 {
-					utils.MarkFeedAsProcessed(feed.Feed[0].Source, &processedFeeds)
-				}
-				if len(feed.Aliases) > 0 {
-					catsColl = append(catsColl, feed.Aliases...)
-				}
+			filteredItems := saveFeedInMemory(feed, &uniqueFeedLinks)
+			items = append(items, filteredItems...)
+			// mark source as processed
+			if len(feed.Feed) > 0 {
+				utils.MarkFeedAsProcessed(feed.Feed[0].Source, &processedFeeds)
 			}
-			// Skips single channel
+			if len(feed.Aliases) > 0 {
+				catsColl = append(catsColl, feed.Aliases...)
+			}
+			//Skips single channel
 			// useful to skip long taking channel
 			// allows to make total timeout longer
 		case <-time.After(SINGLE_PARSE_LIMIT):
@@ -112,6 +110,22 @@ func handleLambda() (string, error) {
 		lastID, _ = result.LastInsertId()
 	}
 	return fmt.Sprintf("last id: %d, inserted rows: %d \n", lastID, affectedRows), nil
+}
+
+// Save only feeds with unique feed_link
+func saveFeedInMemory(feed utils.Result, uniqueLinks *map[string]bool) []utils.CustomFeed {
+	var items []utils.CustomFeed
+	if feed.Err != nil {
+		fmt.Printf("feed received error %s \n", feed.Err)
+	} else {
+		for _, v := range feed.Feed {
+			if _, ok := (*uniqueLinks)[v.Link]; !ok {
+				(*uniqueLinks)[v.Link] = true
+				items = append(items, v)
+			}
+		}
+	}
+	return items
 }
 
 // Last Step
@@ -152,6 +166,7 @@ func saveToDB(items []utils.CustomFeed) sql.Result {
 			}
 		}
 	}
+	fmt.Printf("length %d", len(items))
 
 	// Insert new news
 	// when feed_link is same update pub_date

@@ -22,6 +22,7 @@ export async function up(knex: Knex): Promise<void> {
       .onUpdate("CASCADE");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
     t.timestamp("pub_date", { useTz: true }).notNullable();
+    t.timestamp("hidden_at", { useTz: true });
     t.index("pub_date");
   });
   return knex.schema.raw(`ALTER TABLE

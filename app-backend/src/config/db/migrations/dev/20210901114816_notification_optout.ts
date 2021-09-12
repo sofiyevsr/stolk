@@ -16,7 +16,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.notification_type)
       .onDelete("NO ACTION")
       .onUpdate("CASCADE");
-    t.unique(["notification_optout_type_id", "user_id"]);
+    t.unique(["notification_type_id", "user_id"]);
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

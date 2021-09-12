@@ -9,7 +9,7 @@ const Dashboard: React.FC = () => {
   return (
     <Layout>
       <SEO />
-      <Content>
+      <Content fullHeight>
         <WelcomeArea />
         <LeftRowThree />
       </Content>

@@ -25,10 +25,9 @@ import {
 
 interface IProps {
   hasSidebar?: boolean;
-  sidebarLayout?: 1 | 2;
 }
 
-const Header: FC<IProps> = ({ hasSidebar, sidebarLayout }) => {
+const Header: FC<IProps> = ({ hasSidebar }) => {
   const dispatch = useAppDispatch();
   const { sidebar, isBody } = useAppSelector((state) => state.ui);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -66,30 +65,7 @@ const Header: FC<IProps> = ({ hasSidebar, sidebarLayout }) => {
   return (
     <>
       <StyledHeader>
-        {hasSidebar && sidebarLayout === 1 && (
-          <>
-            <StyledMenuBtn
-              variant="texted"
-              onClick={menuHandler}
-              $hasSidebar={hasSidebar}
-              $sidebarOpen={sidebar}
-              $bodyOpen={isBody}
-              className="menu-btn"
-            >
-              <Menu size={20} strokeWidth="2.5px" />
-            </StyledMenuBtn>
-            <StyledSidebarBtn
-              variant="texted"
-              onClick={!isBody ? sidebarHandler : bodyHandler}
-              $sidebarOpen={sidebar}
-              $bodyOpen={isBody}
-              className="sidebar-btn"
-            >
-              <ArrowLeft size={20} strokeWidth="2.5px" />
-            </StyledSidebarBtn>
-          </>
-        )}
-        {hasSidebar && sidebarLayout === 2 && (
+        {hasSidebar && (
           <>
             <StyledMenuBtn
               variant="texted"
@@ -139,21 +115,6 @@ const Header: FC<IProps> = ({ hasSidebar, sidebarLayout }) => {
           </StyledNavbarMenu>
         </StyledNavbarWrap>
         <StyleNavbarRight>
-          <StyledNavbarElement>
-            <Button
-              variant="texted"
-              onClick={searchHandler}
-              className="search-btn"
-            >
-              <Search className="header-icon" />
-            </Button>
-          </StyledNavbarElement>
-          <StyledNavbarElement ml={["8px", "15px"]}>
-            <MessageDropdown />
-          </StyledNavbarElement>
-          <StyledNavbarElement ml={["8px", "15px"]}>
-            <NotificationDropdown />
-          </StyledNavbarElement>
           <StyledNavbarElement ml={["15px", "20px", "30px"]}>
             <ProfileDropdown />
           </StyledNavbarElement>
@@ -164,8 +125,5 @@ const Header: FC<IProps> = ({ hasSidebar, sidebarLayout }) => {
   );
 };
 
-Header.defaultProps = {
-  sidebarLayout: 1,
-};
 
 export default Header;

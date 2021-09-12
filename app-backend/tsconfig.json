@@ -12,8 +12,11 @@
       "@config/*": ["src/config/*"],
       "@db/*": ["src/config/db/*"],
       "@routes/*": ["src/routes/*"],
+      "@static/*": ["static/*"],
       "@controllers/*": ["src/controllers/*"],
-      "@static/*": ["static/*"]
+      "@admin/controllers/*": ["src/admin/controllers/*"],
+      "@admin/routes/*": ["src/admin/routes/*"],
+      "@admin/utils/*": ["src/admin/utils/*"],
     },
     "typeRoots": ["node_modules/@types", "src/@types"],
     "esModuleInterop": true,

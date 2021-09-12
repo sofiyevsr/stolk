@@ -1,4 +1,11 @@
 declare namespace Express {
+  export interface IAdmin {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    created_at: string;
+  }
   export interface IUser {
     user_id: number;
     first_name: string;
@@ -14,5 +21,6 @@ declare namespace Express {
   }
   interface Request {
     session?: IUser & ISession;
+    adminSession?: IAdmin;
   }
 }

@@ -52,6 +52,7 @@ export const StyledTable = styled(
         ...props
     }) => <table {...props} />
 )<ITableProps>`
+    height: 500px;
     width: 100%;
     margin-bottom: 1rem;
     color: ${themeGet("colors.text")};

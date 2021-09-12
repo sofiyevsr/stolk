@@ -21,20 +21,19 @@ export async function createConfirmationToken(body: any) {
   const [user] = await db(tables.app_user)
     // first name required for email
     .select(["id", "email", "first_name"])
-    .where({ email, confirmed_at: null });
+    .where({ email, confirmed_at: null, service_type_id: ServiceType.APP });
   if (user == null) return false;
   const confirmationTokenSession = await db(tables.confirmation_token)
     .select(["issued_at"])
     .where({
       user_id: user.id,
-      service_type_id: ServiceType.APP,
     })
     .first();
   if (confirmationTokenSession != null) {
     const issuedAt = dayjs(confirmationTokenSession.issued_at);
     const difference = issuedAt.diff(dayjs(), "minute");
     if (difference < confirmationTokenBackoffMinutes) {
-      throw new SoftError(i18next.t("errors.backoff_reset_token"));
+      throw new SoftError(i18next.t("errors.backoff_confirmation_token"));
     }
   }
   const token = await generateConfirmationToken();

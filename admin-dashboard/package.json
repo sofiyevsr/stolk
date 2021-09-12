@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@coreui/coreui": "^4.0.1",
+    "@coreui/react": "^3.4.6",
     "@reduxjs/toolkit": "^1.5.1",
     "@styled-system/theme-get": "^5.1.2",
+    "add": "^2.0.6",
+    "axios": "^0.21.4",
     "classnames": "^2.3.1",
+    "joi": "^17.4.2",
     "moment": "^2.29.1",
+    "qs": "^6.10.1",
     "react": "^17.0.2",
-    "react-calendar": "^3.4.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "react-helmet": "^6.1.0",
@@ -20,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-tabs": "^3.2.2",
+    "react-toastify": "^8.0.2",
     "react-tooltip": "^4.2.19",
     "react-transition-group": "^4.4.1",
     "styled-bootstrap-grid": "^3.1.0",
@@ -28,7 +34,8 @@
     "tinycolor2": "^1.4.2",
     "typescript": "^4.1.2",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -36,6 +43,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
+    "@types/qs": "^6.9.7",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-helmet": "^6.1.1",
@@ -49,7 +57,8 @@
     "@types/styled-system": "^5.1.10",
     "@types/styled-system__theme-get": "^5.0.1",
     "@types/tinycolor2": "^1.4.2",
-    "@types/uuid": "^8.3.0"
+    "@types/uuid": "^8.3.0",
+    "node-sass": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

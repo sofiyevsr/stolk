@@ -4,7 +4,6 @@ import { GlobalStyle } from "./utils/css";
 import { TTheme } from "./utils/types";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { toggleTheme } from "./redux/slices/ui";
-import SettingsCard from "./components/settings";
 
 const Theme: FC = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -16,7 +15,6 @@ const Theme: FC = ({ children }) => {
   return (
     <ThemeProvider theme={themes[theme]}>
       <GlobalStyle />
-      <SettingsCard themeHandler={themeHandler} curTheme={theme} />
       {children}
     </ThemeProvider>
   );

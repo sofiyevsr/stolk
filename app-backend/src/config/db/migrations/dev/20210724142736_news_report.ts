@@ -3,6 +3,7 @@ import { tables } from "../../../../utils/constants";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.news_report, (t) => {
+    t.unique(["news_id", "user_id"]);
     t.integer("report_id")
       .primary()
       .references("id")

@@ -301,7 +301,7 @@ export const sources = [
     id: 42,
     name: "publika.az",
     logo_suffix: "publika-az.jpg",
-    link: "https://publika.az/rss",
+    link: "https://publika.az/rss/",
     lang_id: 0,
   },
   {
@@ -387,7 +387,7 @@ export const sources = [
     lang_id: 3,
   },
   {
-    id: 53,
+    id: 54,
     name: "TEAMTalk",
     logo_suffix: "teamtalk-com.jpg",
     link: "https://www.teamtalk.com/rss",
@@ -395,7 +395,7 @@ export const sources = [
     lang_id: 3,
   },
   {
-    id: 54,
+    id: 55,
     name: "Goal",
     logo_suffix: "goal-com.jpg",
     link: "https://goal.com/feeds/en/news",
@@ -403,7 +403,7 @@ export const sources = [
     lang_id: 3,
   },
   {
-    id: 55,
+    id: 56,
     name: "Goal Türkçe",
     logo_suffix: "goal-com.jpg",
     link: "https://goal.com/feeds/tr/news",
@@ -411,7 +411,7 @@ export const sources = [
     lang_id: 1,
   },
   {
-    id: 56,
+    id: 57,
     name: "BBC World",
     logo_suffix: "bbc-com.jpg",
     link: "https://feeds.bbci.co.uk/news/world/rss.xml",
@@ -419,7 +419,7 @@ export const sources = [
     lang_id: 3,
   },
   {
-    id: 57,
+    id: 58,
     name: "BBC Edition",
     logo_suffix: "bbc-com.jpg",
     link: "https://feeds.bbci.co.uk/news/rss.xml",

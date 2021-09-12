@@ -51,6 +51,7 @@ export const tables = {
   language: "language",
   service_type: "service_type",
   app_user: "app_user",
+  admin_user: "admin_user",
   user_session: "user_session",
   session_type: "session_type",
   report: "report",

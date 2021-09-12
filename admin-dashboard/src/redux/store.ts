@@ -1,10 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import uiReducer from "./slices/ui";
-import chatUISlice from "./slices/chat-ui";
+import userReducer from "./slices/user";
 
 const rootReducer = combineReducers({
   ui: uiReducer,
-  chatUI: chatUISlice,
+  user: userReducer,
 });
 
 export const store = configureStore({

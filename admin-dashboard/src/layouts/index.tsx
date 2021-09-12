@@ -3,28 +3,22 @@ import Header from "./header";
 import Footer from "./footer";
 
 interface IProps {
-    hasSidebar?: boolean;
-    hideFooter?: boolean;
-    sidebarLayout?: 1 | 2;
+  hasSidebar?: boolean;
+  hideFooter?: boolean;
 }
 
-const Layout: React.FC<IProps> = ({
-    children,
-    hasSidebar,
-    hideFooter,
-    sidebarLayout,
-}) => {
-    return (
-        <>
-            <Header hasSidebar={hasSidebar} sidebarLayout={sidebarLayout} />
-            {children}
-            {!hideFooter && <Footer />}
-        </>
-    );
+const Layout: React.FC<IProps> = ({ children, hasSidebar, hideFooter }) => {
+  return (
+    <>
+      <Header hasSidebar={hasSidebar} />
+      {children}
+      {!hideFooter && <Footer />}
+    </>
+  );
 };
 
 Layout.defaultProps = {
-    hideFooter: false,
+  hideFooter: false,
 };
 
 export default Layout;
