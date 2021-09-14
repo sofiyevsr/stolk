@@ -21,10 +21,11 @@ const userSlice = createSlice({
   reducers: {
     login(state, action: PayloadAction<User>) {
       const { payload } = action;
-      state = { data: payload, isAuthorized: true };
+      state.data = payload;
+      state.isAuthorized = true;
     },
     logout(state) {
-      state = { isAuthorized: false };
+      state.isAuthorized = false;
     },
   },
 });

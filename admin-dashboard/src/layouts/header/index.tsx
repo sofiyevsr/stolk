@@ -1,9 +1,7 @@
 import { FC, useState, useCallback, useEffect } from "react";
-import { Search, Menu, X, ArrowLeft } from "react-feather";
+import { Menu, X, ArrowLeft } from "react-feather";
 import { Navbar, Button } from "../../widgets";
 import menuData from "../../utils/data/menu";
-import MessageDropdown from "../../components/header/message-dropdown";
-import NotificationDropdown from "../../components/header/notification-dropdown";
 import ProfileDropdown from "../../components/header/profile-dropdown";
 import NavSearch from "../../components/header/nav-search";
 import Logo from "../../components/logo";
@@ -29,7 +27,7 @@ interface IProps {
 
 const Header: FC<IProps> = ({ hasSidebar }) => {
   const dispatch = useAppDispatch();
-  const { sidebar, isBody } = useAppSelector((state) => state.ui);
+  const { sidebar } = useAppSelector((state) => state.ui);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchHandler = useCallback(() => {
     setSearchOpen((prev) => !prev);
@@ -124,6 +122,5 @@ const Header: FC<IProps> = ({ hasSidebar }) => {
     </>
   );
 };
-
 
 export default Header;

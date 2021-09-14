@@ -28,7 +28,6 @@ import {
 import { Media, MediaLeft, MediaBody } from "./ui/media/media";
 import { Breadcrumb, BreadcrumbItem } from "./ui/breadcrumb/breadcrumb";
 import { Container, Row, Col } from "./grid/grid";
-import { Table } from "./ui/table/table";
 import { ButtonGroup, ButtonToolbar } from "./ui/button-group/button-group";
 import { ListGroup, ListGroupItem } from "./ui/list-group/list-group";
 import {
@@ -97,7 +96,6 @@ export {
   Container,
   Row,
   Col,
-  Table,
   ButtonGroup,
   ButtonToolbar,
   ListGroup,

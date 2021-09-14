@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { Plus } from "react-feather";
 import Breadcrumb from "../../../components/breadcrumb";
-import ModalCreateTicket from "../../../components/dashboard/modal-create-ticket";
 import {
   StyledWelcomeArea,
   StyledWelcomeLeft,
@@ -27,7 +26,6 @@ const WelcomeArea: FC = () => {
           </StyledButton>
         </StyledWelcomeRight>
       </StyledWelcomeArea>
-      <ModalCreateTicket show={showTicketModal} onClose={handleTicketModal} />
     </>
   );
 };

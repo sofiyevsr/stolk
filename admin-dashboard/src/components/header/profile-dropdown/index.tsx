@@ -1,76 +1,52 @@
 import React from "react";
+import { LogOut } from "react-feather";
+import { useAppSelector } from "../../../redux/hooks";
+import AuthApi from "../../../utils/api/auth";
 import {
-    Edit3,
-    User,
-    HelpCircle,
-    LifeBuoy,
-    Settings,
-    LogOut,
-} from "react-feather";
-import {
-    DropdownToggle,
-    Dropdown,
-    Avatar,
-    AvatarInitial,
+  DropdownToggle,
+  Dropdown,
+  Avatar,
+  AvatarInitial,
+  Button,
 } from "../../../widgets";
 import {
-    StyledDropMenu,
-    StyledAuthorName,
-    StyledAuthorRole,
-    StyledDropItem,
-    StyledDivider,
-    StyledAvatar,
+  StyledDropMenu,
+  StyledAuthorName,
+  StyledAuthorRole,
+  StyledAvatar,
 } from "./style";
 
+const authService = new AuthApi();
 const ProfileDropdown: React.FC = () => {
-    return (
-        <Dropdown direction="down" className="dropdown-profile">
-            <DropdownToggle variant="texted">
-                <StyledAvatar size="sm" shape="circle">
-                    <AvatarInitial>df</AvatarInitial>
-                </StyledAvatar>
-            </DropdownToggle>
-            <StyledDropMenu>
-                <Avatar size="lg" shape="circle">
-                    <AvatarInitial>df</AvatarInitial>
-                </Avatar>
-                <StyledAuthorName>Katherine Pechon</StyledAuthorName>
-                <StyledAuthorRole>Administrator</StyledAuthorRole>
-                <StyledDropItem path="/profile-view">
-                    <Edit3 size="24" />
-                    Edit Profile
-                </StyledDropItem>
-                <StyledDropItem path="/profile-view" mt="10px">
-                    <User size="24" />
-                    View Profile
-                </StyledDropItem>
-                <StyledDivider />
-                <StyledDropItem
-                    path="https://hasthemes.com/contact-us/"
-                    mt="10px"
-                >
-                    <HelpCircle size="24" />
-                    Help Center
-                </StyledDropItem>
-                <StyledDropItem path="/" mt="10px">
-                    <LifeBuoy size="24" />
-                    Forum
-                </StyledDropItem>
-                <StyledDropItem path="/profile-view" mt="10px">
-                    <Settings size="24" />
-                    Account Settings
-                </StyledDropItem>
-                <StyledDropItem path="/profile-view" mt="10px">
-                    <Settings size="24" />
-                    Privacy Settings
-                </StyledDropItem>
-                <StyledDropItem path="/signin" mt="10px">
-                    <LogOut size="24" />
-                    Sign Out
-                </StyledDropItem>
-            </StyledDropMenu>
-        </Dropdown>
-    );
+  const user = useAppSelector((state) => state.user.data);
+  return (
+    <Dropdown direction="down" className="dropdown-profile">
+      <DropdownToggle variant="texted">
+        <StyledAvatar size="sm" shape="circle">
+          <AvatarInitial>RS</AvatarInitial>
+        </StyledAvatar>
+      </DropdownToggle>
+      <StyledDropMenu>
+        <Avatar size="lg" shape="circle">
+          <AvatarInitial>RS</AvatarInitial>
+        </Avatar>
+        {user && (
+          <StyledAuthorName>
+            {user.first_name + " " + user.last_name}
+          </StyledAuthorName>
+        )}
+        <StyledAuthorRole>Administrator</StyledAuthorRole>
+        <Button
+          onClick={() => {
+            authService.logout();
+          }}
+        >
+          <LogOut size="24" style={{ margin: "0 10px" }} />
+          Sign Out
+        </Button>
+      </StyledDropMenu>
+    </Dropdown>
+  );
 };
 
 export default ProfileDropdown;

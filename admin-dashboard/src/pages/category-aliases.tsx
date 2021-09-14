@@ -2,18 +2,18 @@ import React from "react";
 import Layout from "../layouts";
 import Content from "../layouts/content";
 import SEO from "../components/seo";
-import UsersTable from "../containers/users/table";
+import CategoryAliasesTable from "../containers/category-aliases/table";
 
-const Users: React.FC = () => {
+const CategoriesPage: React.FC = () => {
   return (
     <Layout>
       <SEO />
       <Content fullHeight align="top">
-        <h2>Users</h2>
-        <UsersTable />
+        <h2>Category Aliases</h2>
+        <CategoryAliasesTable />
       </Content>
     </Layout>
   );
 };
 
-export default Users;
+export default CategoriesPage;

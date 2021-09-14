@@ -18,9 +18,7 @@ class CustomAxios {
       (config) => {
         const { user } = redux.getState();
         if (user.isAuthorized === true && user.data) {
-          config.headers["Authorization"] = {
-            Authorization: `Bearer ${user.data.token}`,
-          };
+          config.headers["Authorization"] = `Bearer ${user.data.token}`;
         }
         return config;
       },
@@ -39,10 +37,9 @@ class CustomAxios {
         // Unauthorized
         if (error.response?.status === 401) {
           this.storage.logout();
-          logout();
-        } else if (error.response?.status === 403) {
-          return Promise.reject(error);
+          redux.dispatch(logout());
         }
+        toast("Xəta", { type: "error" });
         return Promise.reject(error);
       }
     );

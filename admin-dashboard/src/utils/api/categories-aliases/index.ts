@@ -1,22 +1,11 @@
 import { IPaginate, TableInterface } from "../@types/paginate";
 import ApiClient from "../apiClient";
 
-type CategoryAliasesResponse = {
-  email: string;
-  first_name: string;
-  last_name: string;
-  token: string;
-};
-
 class CategoryAliasesApi extends ApiClient implements TableInterface {
-  public async getAll({ limit, page }: IPaginate) {
-    const data = await this.axios.get<CategoryAliasesResponse>(
-      "/category-aliases",
-      {
-        limit,
-        page,
-      }
-    );
+  public async getAll({ lastID }: IPaginate) {
+    const data = await this.axios.get("/news/category-aliases", {
+      last_id: lastID,
+    });
     return data;
   }
 }

@@ -1,4 +1,14 @@
-import { Rss, Link, Bell, PieChart, File, Users } from "react-feather";
+import {
+  Rss,
+  Link,
+  Bell,
+  PieChart,
+  File,
+  Users,
+  Cast,
+  Columns,
+  Flag,
+} from "react-feather";
 
 const menus = [
   {
@@ -16,8 +26,22 @@ const menus = [
   {
     id: 3,
     label: "Reports",
-    url: "/reports",
+    url: "#",
     Icon: File,
+    submenu: [
+      {
+        id: 30,
+        label: "News Reports",
+        url: "/news-reports",
+        Icon: File,
+      },
+      {
+        id: 31,
+        label: "Comment Reports",
+        url: "/comment-reports",
+        Icon: Flag,
+      },
+    ],
   },
   {
     id: 4,
@@ -36,6 +60,26 @@ const menus = [
     label: "News",
     url: "/news",
     Icon: Rss,
+  },
+  {
+    id: 7,
+    label: "Category",
+    Icon: Columns,
+    url: "#",
+    submenu: [
+      {
+        id: 70,
+        label: "Categories",
+        url: "/categories",
+        Icon: Columns,
+      },
+      {
+        id: 71,
+        label: "Category Aliases",
+        url: "/category-aliases",
+        Icon: Link,
+      },
+    ],
   },
 ];
 
