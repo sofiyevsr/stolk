@@ -7,14 +7,18 @@ import SoftError from "@utils/softError";
 
 async function hideNews(id: string | undefined) {
   const val = await Joi.number().validateAsync(id);
-  await db(tables.news_feed)
-    .update({ hidden_at: db.fn.now() })
+  const [hidden_at] = await db(tables.news_feed)
+    .update({ hidden_at: db.fn.now() }, ["hidden_at"])
     .where({ id: val });
+  return hidden_at;
 }
 
 async function unhideNews(id: string | undefined) {
   const val = await Joi.number().validateAsync(id);
-  await db(tables.news_feed).update({ hidden_at: null }).where({ id: val });
+  const [hidden_at] = await db(tables.news_feed)
+    .update({ hidden_at: null }, ["hidden_at"])
+    .where({ id: val });
+  return hidden_at;
 }
 
 async function deleteComment(id: string | undefined) {
@@ -32,10 +36,10 @@ async function insertCategory(body: unknown) {
   if (error) {
     throw new SoftError(error.message);
   }
-  const category = await db(tables.news_category).insert({ name: value.name }, [
-    "id",
-    "name",
-  ]);
+  const [category] = await db(tables.news_category).insert(
+    { name: value.name },
+    ["id", "name", "created_at"]
+  );
   return category;
 }
 

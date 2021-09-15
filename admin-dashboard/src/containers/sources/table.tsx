@@ -22,7 +22,7 @@ function SourcesTable() {
       rows={(data?.items as any[]) ?? []}
       pageSize={10}
       rowsPerPageOptions={[10]}
-      columns={headers}
+      columns={headers.map((d) => ({ ...d, sortable: true, filterable: true }))}
     />
   );
 }

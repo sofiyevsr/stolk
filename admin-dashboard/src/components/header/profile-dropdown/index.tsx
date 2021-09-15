@@ -18,7 +18,8 @@ import {
 
 const authService = new AuthApi();
 const ProfileDropdown: React.FC = () => {
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.user);
+  if (user.isAuthorized !== true) return null;
   return (
     <Dropdown direction="down" className="dropdown-profile">
       <DropdownToggle variant="texted">
@@ -30,15 +31,15 @@ const ProfileDropdown: React.FC = () => {
         <Avatar size="lg" shape="circle">
           <AvatarInitial>RS</AvatarInitial>
         </Avatar>
-        {user && (
+        {user.data && (
           <StyledAuthorName>
-            {user.first_name + " " + user.last_name}
+            {user.data.first_name + " " + user.data.last_name}
           </StyledAuthorName>
         )}
         <StyledAuthorRole>Administrator</StyledAuthorRole>
         <Button
           onClick={() => {
-            authService.logout();
+            authService.logout().catch((e) => {});
           }}
         >
           <LogOut size="24" style={{ margin: "0 10px" }} />

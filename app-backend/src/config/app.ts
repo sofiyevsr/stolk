@@ -12,7 +12,7 @@ app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
 // TODO
-app.use("/admin", cors({ origin: "*" }), adminRoutes);
+app.use("/admin", cors({ origin: "http://localhost:3000" }), adminRoutes);
 app.use(routes);
 
 app.use(errorHandler);

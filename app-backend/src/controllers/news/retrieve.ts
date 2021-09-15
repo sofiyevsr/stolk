@@ -62,6 +62,7 @@ async function all(
       "n.category_alias_id"
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
+    .where({ "n.hidden_at": null })
     .orderBy("pub_date", "desc")
     .groupBy("n.id", "s.id", "c.id");
 
@@ -185,6 +186,7 @@ async function usersNewsHistory(
       this.on("h.news_id", "n.id");
       this.andOnVal("h.user_id", "=", values.userID);
     })
+    .where({ "n.hidden_at": null })
     .groupBy("n.id", "s.id", "c.id");
 
   if (values.filterBy === "like") {

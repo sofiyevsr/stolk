@@ -38,7 +38,7 @@ export interface IModal extends IProps {
    * Callback function for close modal
    */
   onClose: () => void;
-  onAction: () => void;
+  onAction: () => Promise<any>;
 }
 
 export const Modal: FC<IModal> = ({
@@ -86,7 +86,15 @@ export const Modal: FC<IModal> = ({
                     <Button color="secondary" onClick={onClose}>
                       Close
                     </Button>
-                    <Button color="primary" onClick={onAction}>
+                    <Button
+                      color="primary"
+                      onClick={async () => {
+                        try {
+                          await onAction();
+                          onClose();
+                        } catch (error) {}
+                      }}
+                    >
                       Save changes
                     </Button>
                   </ModalFooter>

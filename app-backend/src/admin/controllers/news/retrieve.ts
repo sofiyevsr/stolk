@@ -12,20 +12,20 @@ async function all(lastID: string | undefined) {
   let result: NewsResult;
   let query = db
     .select([
-      "s.id AS source_id",
-      "s.name AS source_name",
-      "s.logo_suffix AS source_logo_suffix",
       "n.id",
       "n.title",
       "n.image_link",
       "n.pub_date",
       "n.created_at",
       "n.feed_link",
-      "c.id as category_id",
-      "c.name as category_name",
       "n.like_count",
       "n.comment_count",
       "n.hidden_at",
+      "s.id AS source_id",
+      "s.name AS source_name",
+      "s.logo_suffix AS source_logo_suffix",
+      "c.id as category_id",
+      "c.name as category_name",
     ])
     .from(`${tables.news_feed} as n`)
     .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")

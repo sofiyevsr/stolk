@@ -1,11 +1,15 @@
+import { Tooltip } from "@material-ui/core";
 import { GridColDef, GridColumns } from "@mui/x-data-grid";
 import qs from "qs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import translations from "../translations";
+
+type SingleItem<T> = T & { id: number };
 
 type DataType<T> = {
   hasReachedEnd: boolean;
-  items: T[];
+  items: SingleItem<T>[];
 };
 
 type Props = {
@@ -29,6 +33,14 @@ function useTableLoader<T>({ fetchData, isFullScan = false }: Props) {
     retrieveData(last_id ? Number.parseInt(last_id as string) : null);
   }, [history.location]);
 
+  const rowCount = useMemo(() => {
+    if (!data) {
+      return 0;
+    }
+    if (data.hasReachedEnd === true) return data.items.length;
+    return data.items.length + 10;
+  }, [data]);
+
   const retrieveData = (lastID: number | null) => {
     setLoading(true);
     fetchData<T>({ lastID })
@@ -49,6 +61,31 @@ function useTableLoader<T>({ fetchData, isFullScan = false }: Props) {
       });
   };
 
+  const modifyData = (
+    index: number,
+    dataToModify: { [key: string]: any } | null
+  ) => {
+    if (!data) return;
+    const modifItems = [...data.items];
+    for (let i = 0; i < modifItems.length; i++) {
+      if (modifItems[i].id === index) {
+        if (dataToModify == null) modifItems.splice(i, 1);
+        else modifItems[i] = { ...modifItems[i], ...dataToModify };
+        break;
+      }
+    }
+    setData({
+      items: modifItems,
+      hasReachedEnd: data.hasReachedEnd,
+    });
+  };
+
+  const addItem = (item: { [key: string]: any }) => {
+    if (!data) return;
+    const modifItems = [...data.items, item];
+    setData({ items: modifItems as any, hasReachedEnd: data.hasReachedEnd });
+  };
+
   const onPageChange = (index: number) => {
     if (isFullScan || lastPage.current > index) {
       return;
@@ -65,7 +102,20 @@ function useTableLoader<T>({ fetchData, isFullScan = false }: Props) {
       return [];
     }
     return Object.keys(data.items[0]).map(
-      (d): GridColDef => ({ field: d, width: 200 })
+      (d): GridColDef => ({
+        field: d,
+        headerName: translations[d] ?? d,
+        minWidth: 200,
+        renderCell: (params) => {
+          return (
+            <Tooltip title={params.value ?? ""}>
+              <div>{params.value}</div>
+            </Tooltip>
+          );
+        },
+        sortable: false,
+        filterable: false,
+      })
     );
   }, [data]);
 
@@ -74,6 +124,9 @@ function useTableLoader<T>({ fetchData, isFullScan = false }: Props) {
     isLoading,
     headers,
     onPageChange,
+    modifyData,
+    addItem,
+    rowCount,
   };
 }
 

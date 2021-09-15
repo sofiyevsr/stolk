@@ -20,9 +20,9 @@ const SEO: FC<IProps> = ({ title, titleTemplate, description }) => {
 };
 
 SEO.defaultProps = {
-    title: "Doar",
-    titleTemplate: "Responsive React Admin Template",
-    description: "Responsive React Admin Template",
+    title: "Stolk",
+    titleTemplate: "Control Panel",
+    description: "Dashboard",
 };
 
 export default SEO;

@@ -26,6 +26,7 @@ const userSlice = createSlice({
     },
     logout(state) {
       state.isAuthorized = false;
+      delete state.data;
     },
   },
 });

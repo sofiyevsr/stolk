@@ -17,7 +17,7 @@ r.post("/login", Recaptchaverify, async (req, res, next) => {
 
 r.post("/logout", authenticateMiddleware, async (req, res, next) => {
   try {
-    const session = await auth.logout(req.session?.id);
+    const session = await auth.logout(req.adminSession?.id);
     return responseSuccess(res, {});
   } catch (e) {
     return next(e);

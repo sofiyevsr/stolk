@@ -8,6 +8,19 @@ class CategoryAliasesApi extends ApiClient implements TableInterface {
     });
     return data;
   }
+  public async link({
+    category_id,
+    category_alias_id,
+  }: {
+    category_id: number | null;
+    category_alias_id: number;
+  }) {
+    const data = await this.axios.patch("/news/category-aliases/link", {
+      category_alias_id,
+      category_id,
+    });
+    return data;
+  }
 }
 
 export default CategoryAliasesApi;

@@ -1,6 +1,6 @@
 import useTableLoader from "../../utils/hooks/table-data-loader";
-import { DataGrid } from "@mui/x-data-grid";
 import CommentReportsApi from "../../utils/api/comment-reports";
+import StyledDataGrid from "../../components/data-grid/dataGrid";
 
 function CommentReportsTable() {
   const commentReportsApi = new CommentReportsApi();
@@ -10,14 +10,15 @@ function CommentReportsTable() {
     }: any = await commentReportsApi.getAll({ lastID });
     return { items: reports, hasReachedEnd: has_reached_end };
   };
-  const { data, headers, isLoading, onPageChange } = useTableLoader({
+  const { data, rowCount, headers, isLoading, onPageChange } = useTableLoader({
     fetchData: getAll as any,
   });
   return (
-    <DataGrid
+    <StyledDataGrid
       onPageChange={onPageChange}
       loading={isLoading}
       autoHeight={true}
+      rowCount={rowCount}
       rows={(data?.items as any[]) ?? []}
       pageSize={10}
       columns={headers}

@@ -8,6 +8,7 @@ import {
   Cast,
   Columns,
   Flag,
+  Terminal,
 } from "react-feather";
 
 const menus = [
@@ -58,9 +59,24 @@ const menus = [
   {
     id: 6,
     label: "News",
-    url: "/news",
+    url: "#",
     Icon: Rss,
+    submenu: [
+      {
+        id: 60,
+        label: "All News",
+        url: "/news",
+        Icon: Rss,
+      },
+      {
+        id: 61,
+        label: "All Comments",
+        url: "/comments",
+        Icon: Terminal,
+      },
+    ],
   },
+
   {
     id: 7,
     label: "Category",

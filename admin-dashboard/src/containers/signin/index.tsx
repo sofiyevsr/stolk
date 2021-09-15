@@ -1,5 +1,5 @@
 import { FC } from "react";
-import loginImage from "../../utils/images/img15.png";
+import loginImage from "../../utils/images/login.png";
 import SigninForm from "../../components/signin-form";
 import {
   StyledMedia,
@@ -13,7 +13,7 @@ const AuthContainer: FC = () => {
     <StyledMedia>
       <StyledMediaBody>
         <StyledImage>
-          <img src={loginImage} alt="Login" />
+          <img src={loginImage} width={400} alt="Login" />
         </StyledImage>
       </StyledMediaBody>
       <StyledSignin>

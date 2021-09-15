@@ -20,8 +20,8 @@ r.get("/", authenticateMiddleware, async (req, res, next) => {
 r.patch("/:id/ban", authenticateMiddleware, async (req, res, next) => {
   try {
     const id = req.params.id;
-    await user.actions.ban(id);
-    return responseSuccess(res);
+    const ban = await user.actions.ban(id);
+    return responseSuccess(res, ban);
   } catch (error) {
     return next(error);
   }
@@ -30,8 +30,8 @@ r.patch("/:id/ban", authenticateMiddleware, async (req, res, next) => {
 r.patch("/:id/unban", authenticateMiddleware, async (req, res, next) => {
   try {
     const id = req.params.id;
-    await user.actions.unban(id);
-    return responseSuccess(res);
+    const unban = await user.actions.unban(id);
+    return responseSuccess(res, unban);
   } catch (error) {
     return next(error);
   }
