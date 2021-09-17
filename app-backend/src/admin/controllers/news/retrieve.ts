@@ -36,8 +36,7 @@ async function all(lastID: string | undefined) {
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
     .orderBy("n.id", "desc")
-    .limit(PAGINATION_LIMIT + 1)
-    .groupBy("n.id", "s.id", "c.id");
+    .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {
     const val = await Joi.number().validateAsync(lastID);
     query = query.andWhere("n.id", "<", val);

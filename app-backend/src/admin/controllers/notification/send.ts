@@ -1,5 +1,6 @@
 import db from "@config/db/db";
-import app from "@utils/gcadmin-sdk";
+// import app from "@utils/gcadmin-sdk";
+import admin from "firebase-admin";
 import { notification_topics, tables } from "@utils/constants";
 
 import notifValidate from "@admin/utils/validations/notification";
@@ -13,7 +14,7 @@ const highAvailibilityOptions = (
   tokens,
   data,
   android: {
-    priority: "high",
+    priority: "normal",
   },
   // Add APNS (Apple) config
   apns: {
@@ -25,7 +26,7 @@ const highAvailibilityOptions = (
     headers: {
       "apns-push-type": "background",
       "apns-priority": "5", // Must be `5` when `contentAvailable` is set to true.
-      "apns-topic": "app.stolk", // bundle identifier
+      "apns-topic": "app.stolk.ios", // bundle identifier
     },
   },
 });
@@ -49,7 +50,7 @@ const deleteObsoleteTokens = async (
       .delete()
       .whereIn("token", tokens);
     if (deletedRows === 0) {
-      throw new SoftError("errors.no_token_deleted");
+      // throw new SoftError("errors.no_token_deleted");
     }
   }
 };
@@ -59,20 +60,24 @@ export const sendToEveryone = async (body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  let tokens = await db(tables.notification_token).select("token");
-  tokens = tokens.map((to) => to.token);
+  const tokens = await db
+    .select("t.token")
+    .from(`${tables.notification_token} as t`)
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
+    .where({ "no.id": null });
 
+  console.log("tokens", tokens);
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
 
-  const res = await app.messaging().sendMulticast({
+  const res = await admin.messaging().sendMulticast({
     tokens,
     notification: {
       ...value,
     },
   });
-  if (res.failureCount > 0) deleteObsoleteTokens(res.responses, tokens);
+  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
 };
 
 export const sendNews = async (body: any) => {
@@ -80,39 +85,42 @@ export const sendNews = async (body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  await app
+  await admin
     .messaging()
-    .sendToTopic(notification_topics.news, { notification: value });
+    .sendToTopic(
+      notification_topics.news,
+      { notification: value },
+      { dryRun: process.env.NODE_ENV !== "production" }
+    );
 };
 
 /*
  * Send data only notif to user
- * This has to be translated on app
  */
 export const sendToUser = async (id: string, body: any) => {
   const { value, error } = notifValidate.message.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
   }
-  const parsedID = Number.parseInt(id, 10);
+  const parsedID = Number.parseInt(id);
   if (Number.isNaN(parsedID) === true) {
     throw new SoftError("errors.invalid_id");
   }
   const tokens = await db
-    .select("u.id", "t.token", "no.id")
-    .from(`${tables.app_user} as u`)
-    // TODO
-    .leftJoin(`${tables.notification_token} as t`, "u.id", "t.user_id")
-    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "u.id")
-    .where({ "u.id": id });
+    .select("t.token")
+    .from(`${tables.notification_token} as t`)
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
+    .where({ "t.user_id": id, "no.id": null });
+
+  console.log("tokens", tokens);
 
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
 
-  const res = await app.messaging().sendMulticast({
+  const res = await admin.messaging().sendMulticast({
     tokens,
     notification: value,
   });
-  if (res.failureCount > 0) deleteObsoleteTokens(res.responses, tokens);
+  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
 };

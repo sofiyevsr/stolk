@@ -5,15 +5,17 @@ import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
-r.post("/send", authenticateMiddleware, async (req, res, next) => {
-  try {
-    await notification.send.sendToEveryone(req.body);
-    return responseSuccess(res, {});
-  } catch (e) {
-    return next(e);
-  }
-});
+// r.post("/send", authenticateMiddleware, async (req, res, next) => {
+//   try {
+//     await notification.send.sendToEveryone(req.body);
+//     return responseSuccess(res, {});
+//   } catch (e) {
+//     return next(e);
+//   }
+// });
 
+// Send through news topic
+// intended for general news, campaigns and etc...
 r.post("/send/news", authenticateMiddleware, async (req, res, next) => {
   try {
     await notification.send.sendNews(req.body);
