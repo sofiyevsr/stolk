@@ -39,10 +39,12 @@ export interface IModal extends IProps {
    */
   onClose: () => void;
   onAction: () => Promise<any>;
+  buttonDisabled?: boolean;
 }
 
 export const Modal: FC<IModal> = ({
   className,
+  buttonDisabled,
   show,
   size,
   centered,
@@ -88,6 +90,7 @@ export const Modal: FC<IModal> = ({
                     </Button>
                     <Button
                       color="primary"
+                      disabled={buttonDisabled}
                       onClick={async () => {
                         try {
                           await onAction();

@@ -18,7 +18,7 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitting, errors },
   } = useForm<FormData>();
 
   const formHandler = async (data: FormData) => {
@@ -31,6 +31,7 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
     <Modal
       show={show}
       onClose={onClose}
+      buttonDisabled={isSubmitting}
       onAction={handleSubmit(formHandler, (e) => {
         throw e;
       })}

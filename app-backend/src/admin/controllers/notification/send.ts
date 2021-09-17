@@ -1,6 +1,5 @@
 import db from "@config/db/db";
-// import app from "@utils/gcadmin-sdk";
-import admin from "firebase-admin";
+import app from "@utils/gcadmin-sdk";
 import { notification_topics, tables } from "@utils/constants";
 
 import notifValidate from "@admin/utils/validations/notification";
@@ -71,7 +70,7 @@ export const sendToEveryone = async (body: any) => {
     throw new SoftError("errors.empty_tokens");
   }
 
-  const res = await admin.messaging().sendMulticast({
+  const res = await app.messaging().sendMulticast({
     tokens,
     notification: {
       ...value,
@@ -85,7 +84,7 @@ export const sendNews = async (body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  await admin
+  await app
     .messaging()
     .sendToTopic(
       notification_topics.news,
@@ -118,7 +117,7 @@ export const sendToUser = async (id: string, body: any) => {
     throw new SoftError("errors.empty_tokens");
   }
 
-  const res = await admin.messaging().sendMulticast({
+  const res = await app.messaging().sendMulticast({
     tokens,
     notification: value,
   });

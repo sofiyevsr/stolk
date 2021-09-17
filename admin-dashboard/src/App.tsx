@@ -59,11 +59,7 @@ const App: React.FC = () => {
                 path="/category-aliases"
                 component={CategoryAliases}
               />
-              <ProtectedRoute
-                exact
-                path="/comments"
-                component={Comments}
-              />
+              <ProtectedRoute exact path="/comments" component={Comments} />
               <ProtectedRoute
                 exact
                 path="/news-reports"

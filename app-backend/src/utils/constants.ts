@@ -87,6 +87,12 @@ export const triggers = {
   unlike_trigger: "unlike_trigger",
 };
 
+export const materializedViews = {
+  analytics_by_source: "analytics_by_source",
+  analytics_by_category: "analytics_by_category",
+  analytics_by_overall: "analytics_by_overall",
+};
+
 export const notification_topics = {
   news: "news",
 };
