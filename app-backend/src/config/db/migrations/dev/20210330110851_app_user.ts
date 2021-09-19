@@ -8,14 +8,14 @@ export async function up(knex: Knex): Promise<void> {
     t.string("last_name").notNullable();
     t.string("email").unique().notNullable();
     t.string("password").notNullable();
-    t.timestamp("banned_at", { useTz: true });
-    t.timestamp("confirmed_at", { useTz: true });
     t.integer("service_type_id")
       .notNullable()
       .references("id")
       .inTable(tables.service_type)
       .onDelete("NO ACTION")
       .onUpdate("CASCADE");
+    t.timestamp("banned_at", { useTz: true });
+    t.timestamp("confirmed_at", { useTz: true });
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

@@ -32,7 +32,6 @@ final darkTheme = ThemeData.dark().copyWith(
     backgroundColor: CustomColorScheme.main,
     foregroundColor: Colors.white,
   ),
-  primaryColor: CustomColorScheme.main,
   scaffoldBackgroundColor: Colors.black54,
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
@@ -45,12 +44,21 @@ final darkTheme = ThemeData.dark().copyWith(
     ),
     // prefixStyle: TextStyle(color: Colors.white),
   ),
-  iconTheme: IconThemeData(color: Colors.white),
-  primaryColorDark: CustomColorScheme.primaryDark,
-  primaryColorLight: CustomColorScheme.primaryLight,
-  indicatorColor: CustomColorScheme.primaryLight,
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: ButtonStyle(
+      minimumSize: MaterialStateProperty.all(
+        Size(0, 50),
+      ),
+    ),
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
+      minimumSize: MaterialStateProperty.all(
+        Size(0, 50),
+      ),
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        TextStyle(color: Colors.white),
+      ),
       backgroundColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return CustomColorScheme.main.withAlpha(205);
@@ -59,12 +67,13 @@ final darkTheme = ThemeData.dark().copyWith(
       }),
     ),
   ),
+  iconTheme: IconThemeData(color: Colors.white),
+  primaryColorDark: CustomColorScheme.primaryDark,
+  primaryColorLight: CustomColorScheme.primaryLight,
+  indicatorColor: CustomColorScheme.primaryLight,
   appBarTheme: AppBarTheme(
     elevation: 5,
-    textTheme: const TextTheme(
-      headline5: TextStyle(fontWeight: FontWeight.w700),
-    ),
+    titleTextStyle: TextStyle(fontWeight: FontWeight.w700),
     centerTitle: true,
   ),
-  accentColor: CustomColorScheme.accent,
 );

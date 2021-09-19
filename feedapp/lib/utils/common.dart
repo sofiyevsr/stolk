@@ -69,7 +69,8 @@ authorize({bool pushAuthView = true}) {
   final auth = AuthBloc.instance.state;
   if (auth is! AuthorizedState) {
     if (pushAuthView == true) {
-      NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+      //TODO
+      NavigationService.push(AuthView(), RouteNames.AUTH);
     }
     throw Error();
   }

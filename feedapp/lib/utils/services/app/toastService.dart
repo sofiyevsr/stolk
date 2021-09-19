@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../throttle.dart';
 
-const duration = const Duration(seconds: 7);
+const throttleDuration = const Duration(seconds: 7);
 
 class ToastService {
   static final instance = ToastService._();
   static final _key = GlobalKey<ScaffoldMessengerState>();
   static GlobalKey<ScaffoldMessengerState> get key => _key;
-  final _throttler = Throttler(duration: duration);
+  final _throttler = Throttler(duration: throttleDuration);
 
   ToastService._();
 
   showAlert(String content) {
+    print(content);
     _throttler.run(
       () {
         _key.currentState?.showSnackBar(
@@ -42,7 +43,7 @@ class ToastService {
                 ),
               ],
             ),
-            duration: duration,
+            duration: Duration(milliseconds: 3500),
             backgroundColor: Colors.red,
           ),
         );

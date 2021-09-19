@@ -1,144 +1,66 @@
-import 'dart:ui';
-
-import 'package:animations/animations.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/auth/login.dart';
-import 'package:stolk/components/auth/register.dart';
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 
-//TODO move
-class AuthView extends StatefulWidget {
-  final bool isLogin;
-  const AuthView({Key? key, this.isLogin = true}) : super(key: key);
+import '../loginButtons.dart';
 
-  @override
-  _AuthViewState createState() => _AuthViewState();
-}
-
-class _AuthViewState extends State<AuthView> with TickerProviderStateMixin {
-  late TabController _controller;
-  bool _isLogin = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = TabController(
-      length: 2,
-      vsync: this,
-      initialIndex: widget.isLogin == true ? 0 : 1,
-    )..addListener(() {
-        final kIndex = _controller.index == 0;
-        if (_isLogin != kIndex) {
-          setState(() {
-            _isLogin = kIndex;
-          });
-        }
-      });
-
-    setState(() {
-      _isLogin = _controller.index == 0;
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class AuthView extends StatelessWidget {
+  const AuthView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final canPop = NavigationService.key.currentState?.canPop();
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          children: [
+            Container(
+              child: Stack(
                 children: [
-                  if (canPop == true)
-                    AppBar(
-                      leading: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_sharp,
-                          size: 30,
-                          color: theme.iconTheme.color,
-                        ),
-                        onPressed: () {
-                          NavigationService.pop();
-                        },
-                      ),
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
+                  Image.asset("assets/static/satellite.jpg"),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent,
                     ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
+                    child: Icon(
+                      Icons.arrow_back_sharp,
+                      size: 30,
                     ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Text(tr("auth:welcome"),
-                              style: theme.textTheme.headline3),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(.4),
-                            ),
-                          ),
-                          child: TabBar(
-                            controller: _controller,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            labelStyle:
-                                Theme.of(context).textTheme.headline6?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                            tabs: [
-                              Tab(
-                                text: tr("login.title"),
-                              ),
-                              Tab(
-                                text: tr("register.title"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        AnimatedSize(
-                          vsync: this,
-                          child: _isLogin ? LoginPage() : RegisterPage(),
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                        )
-                      ],
-                    ),
+                    onPressed: () {
+                      NavigationService.pop();
+                    },
                   ),
                 ],
               ),
             ),
-          ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).cardColor,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text("Sign in",
+                          style: Theme.of(context).textTheme.headline3),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 70.0),
+                      child: Text(
+                        "Please log in using one of options below for better and personalized experience",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: LoginButtons(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

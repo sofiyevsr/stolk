@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/dialogs/reportDialog.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
@@ -119,13 +120,23 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
               onSelected: (v) async {
                 await showDialog(
                   context: context,
-                  builder: (ctx) => ReportDialog(newsID: widget.feed.id),
+                  builder: (ctx) => ReportDialog(onConfirmed: () {}),
                 );
               },
               itemBuilder: (entry) {
                 return [
                   PopupMenuItem(
-                    child: Text("report"),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Icon(Icons.report, color: Colors.red),
+                        ),
+                        Text(
+                          tr("report"),
+                        ),
+                      ],
+                    ),
                     value: "report",
                   ),
                 ];

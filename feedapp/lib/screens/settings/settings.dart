@@ -45,13 +45,13 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildHeaderSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (ctx, state) {
-          if (state is AuthorizedState) {
-            final user = state.user;
-            return Column(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (ctx, state) {
+        if (state is AuthorizedState) {
+          final user = state.user;
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
@@ -81,11 +81,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ],
-            );
-          }
-          return Container();
-        },
-      ),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -126,14 +126,15 @@ class _SettingsPageState extends State<SettingsPage> {
       children: [
         SettingsTile(
           onTap: () {
-            NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+            NavigationService.push(AuthView(), RouteNames.AUTH);
           },
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
         ),
         SettingsTile(
           onTap: () {
-            NavigationService.push(AuthView(isLogin: false), RouteNames.AUTH);
+            //TODO
+            NavigationService.push(AuthView(), RouteNames.AUTH);
           },
           title: tr("settings.register"),
           icon: Icons.app_registration_outlined,

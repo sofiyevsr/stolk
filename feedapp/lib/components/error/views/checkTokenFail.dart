@@ -77,9 +77,6 @@ class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Text(
                       tr("errors.retry_check_token"),
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontSize: 18,
-                          ),
                     ),
                   ),
                 ),

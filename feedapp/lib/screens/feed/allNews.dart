@@ -97,9 +97,11 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   }
 
   void _changeCategory(int id) {
-    _scrollController.jumpTo(
-      0,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(
+        0,
+      );
+    }
     final bloc = context.read<NewsBloc>();
     bloc.add(
       FetchNewsEvent(
@@ -145,6 +147,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                       child: Center(
                                         child: ElevatedButton(
                                           onPressed: forceFetchNext,
+                                          //TODO
                                           child: Text("missing"),
                                         ),
                                       ),

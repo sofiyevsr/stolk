@@ -52,17 +52,17 @@ class _IntroScreenState extends State<IntroScreen> {
                 onPageChanged: onPageChange,
                 children: <Widget>[
                   IntroPage(
-                    image: "assets/static/baku.png",
+                    image: "assets/static/hand-phone.png",
                     title: tr("intro.first.title"),
                     subtitle: tr("intro.first.subtitle"),
                   ),
                   IntroPage(
-                    image: "assets/static/explore.png",
+                    image: "assets/static/paper-illustration.png",
                     title: tr("intro.second.title"),
                     subtitle: tr("intro.second.subtitle"),
                   ),
                   IntroPage(
-                    image: "assets/static/reserve.png",
+                    image: "assets/static/phone-news.png",
                     title: tr("intro.third.title"),
                     subtitle: tr("intro.third.subtitle"),
                   ),
@@ -78,6 +78,13 @@ class _IntroScreenState extends State<IntroScreen> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: prevPage,
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                      ),
                       child: Text(
                         tr("intro.prev"),
                       ),
@@ -86,6 +93,13 @@ class _IntroScreenState extends State<IntroScreen> {
                   DotsIndicator(length: _length, current: _current),
                   Expanded(
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                      ),
                       onPressed: () {
                         if (_current == (_length - 1)) {
                           skipIntro(ctx);

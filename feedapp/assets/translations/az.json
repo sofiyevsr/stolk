@@ -82,6 +82,7 @@
     }
   },
   "auth": { "welcome": "Xoş gəlmisiniz" },
+  "report_dialog": { "title": "Bildir" },
   "navbar": {
     "home": "Əsas",
     "explore": "Kəşf",
