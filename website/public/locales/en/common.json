@@ -1,5 +1,32 @@
 {
+  "reset-password": {
+    "seo": {
+      "title": "Reset password - Stolk",
+      "description": "Thousands of news from most popular news sources together"
+    }
+  },
+  "terms-of-use": {
+    "seo": {
+      "title": "Terms of use - Stolk",
+      "description": "Thousands of news from most popular news sources together"
+    }
+  },
+  "privacy-policy": {
+    "seo": {
+      "title": "Privacy policy - Stolk",
+      "description": "Thousands of news from most popular news sources together"
+    }
+  },
   "home": {
+    "seo": {
+      "title": "Home - Stolk",
+      "description": "Thousands of news from most popular news sources together"
+    },
+    "screenshots": "Screenshots",
+    "countdowns": {
+      "news": "Daily news count",
+      "sources": "Source count"
+    },
     "cta-title": "Hundreds of news every day",
     "cta-subtitle": "Together",
     "cta-description": "Read only what you choose",

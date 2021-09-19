@@ -15,6 +15,7 @@ const VerticalFeatureRow = (props: IVerticalFeatureRowProps) => {
     'flex',
     'flex-wrap',
     'items-center',
+    "justify-center",
     {
       'flex-row-reverse': props.reverse,
     }
@@ -24,12 +25,12 @@ const VerticalFeatureRow = (props: IVerticalFeatureRowProps) => {
 
   return (
     <div className={verticalFeatureClass}>
-      <div className="w-full sm:w-1/2 text-center sm:px-6">
-        <h3 className="text-3xl text-gray-900 font-semibold">{props.title}</h3>
+      <div className="w-full text-center sm:w-1/2 sm:px-6">
+        <h3 className="text-3xl font-semibold text-gray-900">{props.title}</h3>
         <div className="mt-6 text-xl leading-9">{props.description}</div>
       </div>
 
-      <div className="w-full sm:w-1/2 p-6">
+      <div >
         <img src={`${router.basePath}${props.image}`} alt={props.imageAlt} />
       </div>
     </div>

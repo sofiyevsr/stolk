@@ -1,6 +1,6 @@
 // LINKS
 export const websiteLink = "https://stolk.app/";
-export const forgotPasswordLink = websiteLink + "forgot-password/";
+export const forgotPasswordLink = websiteLink + "reset-password/";
 export const emailConfirmationLink = websiteLink + "email-confirmation/";
 export const emailAssetS3Link =
   "https://stolk.s3.eu-west-3.amazonaws.com/email-images/";

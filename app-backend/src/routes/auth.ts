@@ -9,10 +9,15 @@ import {
   validateResetToken,
 } from "@controllers/auth/resetToken";
 import { responseContentCreated, responseSuccess } from "@utils/responses";
+import cors from "cors";
 import { Router } from "express";
 import authenticateMiddleware from "src/middlewares/authenticate";
 
+const isProd = process.env.NODE_ENV === "production";
 const r = Router();
+
+// TODO
+r.use(cors({ origin: isProd ? "https://stolk.app" : "http://localhost:3000" }));
 
 r.post("/login", async (req, res, next) => {
   try {
@@ -54,9 +59,7 @@ r.post("/forgot-password", async (req, res, next) => {
   responseSuccess(res, {});
   try {
     await createResetToken(req.body);
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 });
 
 r.post("/forgot-password/check-token", async (req, res, next) => {

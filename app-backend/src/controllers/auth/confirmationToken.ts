@@ -48,6 +48,7 @@ export async function createConfirmationToken(body: any) {
     token: token.plain,
     to: user.email,
     firstName: user.first_name,
+    id: user.id,
   }).catch((e) => {
     console.log("mail error", e);
   });

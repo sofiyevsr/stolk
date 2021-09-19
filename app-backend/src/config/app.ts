@@ -12,7 +12,16 @@ app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
 // TODO
-app.use("/admin", cors({ origin: "http://localhost:3000" }), adminRoutes);
+app.use(
+  "/admin",
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://flare.stolk.app"
+        : "http://localhost:3000",
+  }),
+  adminRoutes
+);
 app.use(routes);
 
 app.use(errorHandler);

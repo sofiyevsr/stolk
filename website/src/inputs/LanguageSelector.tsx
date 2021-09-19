@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import React from "react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
 
 const languages = [
   { code: "az", value: "Azərbaycanca" },
@@ -33,7 +33,7 @@ function LanguageSelector() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-0"
       >
-        <Menu.Items className="absolute right-0 mt-1 origin-top-right bg-white divide-y divide-gray-300 rounded-md shadow-lg focus:outline-none">
+        <Menu.Items className="absolute right-0 mt-1 bg-white shadow-lg origin-top-right divide-y divide-gray-300 rounded-md focus:outline-none">
           {languages.map(({ value, code }) => (
             <Menu.Item key={code}>
               {({ active }) => (

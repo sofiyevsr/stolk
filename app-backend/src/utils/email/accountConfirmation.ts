@@ -6,13 +6,20 @@ interface Props {
   token: string;
   to: string;
   firstName: string;
+  id: number;
 }
 
 const emailVerificationSubject = "Verify your email";
 
-async function sendAccountConfirmationEmail({ token, to, firstName }: Props) {
+async function sendAccountConfirmationEmail({
+  token,
+  to,
+  id,
+  firstName,
+}: Props) {
   const readyHTML = confirmHTML
-    .replace(/{{link}}/g, emailConfirmationLink + token)
+    .replace(/{{link}}/g, emailConfirmationLink + "?t=" + token + "&i=" + id)
+
     .replace("{{user_first_name}}", firstName);
   return mail.sendMail(to, emailVerificationSubject, readyHTML);
 }
