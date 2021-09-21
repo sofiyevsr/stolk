@@ -1,7 +1,8 @@
-import { FC, useState } from "react";
-import { Plus } from "react-feather";
+import { FC } from "react";
+import { RefreshCcw } from "react-feather";
+import { toast } from "react-toastify";
 import Breadcrumb from "../../../components/breadcrumb";
-import ModalCreateTicket from "../../../components/dashboard/modal-create-ticket";
+import AnalyticsApi from "../../../utils/api/analytics";
 import {
   StyledWelcomeArea,
   StyledWelcomeLeft,
@@ -9,25 +10,33 @@ import {
   StyledButton,
 } from "./style";
 
+const analytics = new AnalyticsApi();
 const WelcomeArea: FC = () => {
-  const [showTicketModal, setShowTicketModal] = useState(false);
-  const handleTicketModal = () => {
-    setShowTicketModal((prev) => !prev);
-  };
   return (
     <>
       <StyledWelcomeArea>
         <StyledWelcomeLeft>
-          <Breadcrumb prev={[]} title="Home" wcText="Welcome" />
+          <Breadcrumb prev={[]} title="Home" wcText="Analytics" />
         </StyledWelcomeLeft>
         <StyledWelcomeRight>
-          <StyledButton size="sm" ml="10px" hasIcon onClick={handleTicketModal}>
-            <Plus />
-            Add New Ticket
+          <StyledButton
+            size="sm"
+            ml="10px"
+            hasIcon
+            onClick={() => {
+              analytics
+                .refresh()
+                .then(() => {
+                  toast.success("Update requested, this can take a while");
+                })
+                .catch(() => {});
+            }}
+          >
+            <RefreshCcw />
+            Refresh data on server
           </StyledButton>
         </StyledWelcomeRight>
       </StyledWelcomeArea>
-      <ModalCreateTicket show={showTicketModal} onClose={handleTicketModal} />
     </>
   );
 };

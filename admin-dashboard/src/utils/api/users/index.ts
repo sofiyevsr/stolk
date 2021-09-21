@@ -1,21 +1,26 @@
 import { IPaginate, TableInterface } from "../@types/paginate";
 import ApiClient from "../apiClient";
 
-type SourcesResponse = {
-  email: string;
-  first_name: string;
-  last_name: string;
-  token: string;
+type BanResponse = {
+  body: {
+    banned_at: string | null;
+  };
 };
-
-class SourcesApi extends ApiClient implements TableInterface {
-  public async getAll({ limit, page }: IPaginate) {
-    const data = await this.axios.get<SourcesResponse>("/sources", {
-      limit,
-      page,
+class UsersApi extends ApiClient implements TableInterface {
+  public async getAll({ lastID }: IPaginate) {
+    const data = await this.axios.get("/users", {
+      last_id: lastID,
     });
+    return data;
+  }
+  public async ban(id: number) {
+    const data = await this.axios.patch<BanResponse>(`/users/${id}/ban`, {});
+    return data;
+  }
+  public async unban(id: number) {
+    const data = await this.axios.patch<BanResponse>(`/users/${id}/unban`, {});
     return data;
   }
 }
 
-export default SourcesApi;
+export default UsersApi;

@@ -18,6 +18,25 @@ module.exports = {
       "7xl": "5rem",
     },
     extend: {
+      keyframes: {
+        reveal: {
+          "0%": { transform: "scale(0)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "reveal-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        "reveal-left": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        reveal: "reveal 400ms ease-in-out",
+        "reveal-right": "reveal-right 400ms ease-in-out",
+        "reveal-left": "reveal-left 400ms ease-in-out",
+      },
       colors: {
         primary: {
           100: "#E6F6FE",

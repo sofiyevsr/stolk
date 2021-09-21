@@ -1,19 +1,25 @@
 import { IPaginate, TableInterface } from "../@types/paginate";
 import ApiClient from "../apiClient";
 
-type CategoriesResponse = {
-  email: string;
-  first_name: string;
-  last_name: string;
-  token: string;
-};
+interface AllResponse {
+  body: { categories: { id: number; name: string; created_at: string }[] };
+}
 
 class CategoriesApi extends ApiClient implements TableInterface {
-  public async getAll({ limit, page }: IPaginate) {
-    const data = await this.axios.get<CategoriesResponse>("/sources", {
-      limit,
-      page,
+  public async getAll({ lastID }: IPaginate) {
+    const data = await this.axios.get<AllResponse>("/news/categories", {
+      last_id: lastID,
     });
+    return data;
+  }
+  public async insert({ name }: { name: string }) {
+    const data = await this.axios.post(`/news/category`, { name });
+    console.log(data);
+    return data;
+  }
+
+  public async delete(id: number) {
+    const data = await this.axios.delete(`/news/category/${id}`, {});
     return data;
   }
 }

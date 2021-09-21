@@ -11,7 +11,7 @@ export default async function middleware(
 ) {
   try {
     const { user } = await auth.checkToken(req.headers);
-    req.session = user;
+    req.adminSession = user;
     return next();
   } catch (err) {
     return next(err);

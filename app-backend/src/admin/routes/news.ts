@@ -26,8 +26,8 @@ r.get("/all", authenticateMiddleware, async (req, res, next) => {
 r.patch("/:id/hide", async (req, res, next) => {
   try {
     const id = req.params.id;
-    await news.actions.news.hide(id);
-    return responseSuccess(res);
+    const data = await news.actions.news.hide(id);
+    return responseSuccess(res, data);
   } catch (error) {
     return next(error);
   }
@@ -36,8 +36,8 @@ r.patch("/:id/hide", async (req, res, next) => {
 r.patch("/:id/unhide", async (req, res, next) => {
   try {
     const id = req.params.id;
-    await news.actions.news.hide(id);
-    return responseSuccess(res);
+    const data = await news.actions.news.unhide(id);
+    return responseSuccess(res, data);
   } catch (error) {
     return next(error);
   }
@@ -101,7 +101,7 @@ r.delete("/category/:id", async (req, res, next) => {
   }
 });
 
-r.delete("/comment/:id", async (req, res, next) => {
+r.delete("/comments/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     await news.actions.comment.delete(id);

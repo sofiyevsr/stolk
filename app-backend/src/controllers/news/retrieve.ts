@@ -62,17 +62,17 @@ async function all(
       "n.category_alias_id"
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
-    .orderBy("pub_date", "desc")
-    .groupBy("n.id", "s.id", "c.id");
+    .where({ "n.hidden_at": null })
+    .orderBy("pub_date", "desc");
 
   if (userID != null) {
     query = query
       .select(
-        db.raw("min(bo.id) as bookmark_id"),
-        db.raw("min(l.id) as like_id"),
-        db.raw("min(f.id) as follow_id"),
-        db.raw("min(h.id) as read_history_id"),
-        db.raw("min(co.id) as comment_id")
+        "bo.id as bookmark_id",
+        "l.id as like_id",
+        "f.id as follow_id",
+        "h.id as read_history_id",
+        "co.id as comment_id"
       )
       .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
       .leftJoin(`${tables.news_bookmark} as bo`, function () {
@@ -154,11 +154,11 @@ async function usersNewsHistory(
       "c.name as category_name",
       "n.like_count",
       "n.comment_count",
-      db.raw("min(bo.id) as bookmark_id"),
-      db.raw("min(l.id) as like_id"),
-      db.raw("min(f.id) as follow_id"),
-      db.raw("min(h.id) as read_history_id"),
-      db.raw("min(co.id) as comment_id"),
+      "bo.id as bookmark_id",
+      "l.id as like_id",
+      "f.id as follow_id",
+      "h.id as read_history_id",
+      "co.id as comment_id",
     ])
     .from(`${tables.news_feed} as n`)
     .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")
@@ -185,37 +185,25 @@ async function usersNewsHistory(
       this.on("h.news_id", "n.id");
       this.andOnVal("h.user_id", "=", values.userID);
     })
-    .groupBy("n.id", "s.id", "c.id");
+    .where({ "n.hidden_at": null });
 
   if (values.filterBy === "like") {
-    query = query
-      .where({ "l.user_id": userID })
-      .orderBy("l.id", "desc")
-      .groupBy("l.id");
+    query = query.where({ "l.user_id": userID }).orderBy("l.id", "desc");
     if (values.id != null) {
       query = query.where("l.id", "<", values.id);
     }
   } else if (values.filterBy === "bookmark") {
-    query = query
-      .where({ "bo.user_id": userID })
-      .orderBy("bo.id", "desc")
-      .groupBy("bo.id");
+    query = query.where({ "bo.user_id": userID }).orderBy("bo.id", "desc");
     if (values.id != null) {
       query = query.where("bo.id", "<", values.id);
     }
   } else if (values.filterBy === "history") {
-    query = query
-      .where({ "h.user_id": userID })
-      .orderBy("h.id", "desc")
-      .groupBy("h.id");
+    query = query.where({ "h.user_id": userID }).orderBy("h.id", "desc");
     if (values.id != null) {
       query = query.where("h.id", "<", values.id);
     }
   } else if (values.filterBy === "comment") {
-    query = query
-      .where({ "co.user_id": userID })
-      .orderBy("co.id", "desc")
-      .groupBy("co.id");
+    query = query.where({ "co.user_id": userID }).orderBy("co.id", "desc");
     if (values.id != null) {
       query = query.where("co.id", "<", values.id);
     }

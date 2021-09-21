@@ -1,6 +1,6 @@
 // LINKS
 export const websiteLink = "https://stolk.app/";
-export const forgotPasswordLink = websiteLink + "forgot-password/";
+export const forgotPasswordLink = websiteLink + "reset-password/";
 export const emailConfirmationLink = websiteLink + "email-confirmation/";
 export const emailAssetS3Link =
   "https://stolk.s3.eu-west-3.amazonaws.com/email-images/";
@@ -85,6 +85,12 @@ export const triggers = {
   uncomment_trigger: "uncomment_trigger",
   like_trigger: "like_trigger",
   unlike_trigger: "unlike_trigger",
+};
+
+export const materializedViews = {
+  analytics_by_source: "analytics_by_source",
+  analytics_by_category: "analytics_by_category",
+  analytics_by_overall: "analytics_by_overall",
 };
 
 export const notification_topics = {

@@ -5,19 +5,24 @@ import { Banner } from "../templates/Banner";
 import Navbar from "../navigation/Navbar";
 import { Footer } from "../templates/Footer";
 import { Hero } from "../templates/Hero";
-import { VerticalFeatures } from "../templates/VerticalFeatures";
-import { AppConfig } from "../utils/AppConfig";
+import VerticalFeatures from "../templates/VerticalFeatures";
+import PhoneShowcase from "../carousel/PhoneShowcase";
+import { useTranslation } from "next-i18next";
 
-const Index = () => (
-  <div className="antialiased text-gray-600">
-    <Meta title={AppConfig.title} description={AppConfig.description} />
-    <Navbar />
-    <Hero />
-    <VerticalFeatures />
-    <Banner />
-    <Footer />
-  </div>
-);
+const Index = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="antialiased text-gray-600">
+      <Meta title={t("home.seo.title")} description={t("home.seo.description")} />
+      <Navbar />
+      <Hero />
+      <VerticalFeatures />
+      <PhoneShowcase />
+      <Banner />
+      <Footer />
+    </div>
+  );
+};
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {

@@ -1,11 +1,63 @@
 {
+  "general": {
+    "success": "Əməliyyat müvəffəqiyyətlə tamamlandı",
+    "error": "Xəta baş verdi",
+    "submit": "Təsdiqlə"
+  },
+  "errors": {
+    "password_match": "Şifrələr eyni deyil",
+    "password_pattern": "Şifrə ən az 7 simvol, bir kiçik, bir böyük hərf və bir rəqəmdən ibarət olmalıdır",
+    "password_required": "Şifrə daxil edin",
+    "repassword_required": "Şifrə təkrarı daxil edin",
+    "repassword_pattern": "Şifrə ən az 7 simvol, bir kiçik, bir böyük hərf və bir rəqəmdən ibarət olmalıdır"
+  },
+  "fields": {
+    "password": "Şifrə",
+    "password_placeholder": "Şifrə daxil edin...",
+    "repassword": "Şifrə təkrarı",
+    "repassword_placeholder": "Şifrə təkrarı daxil edin"
+  },
+  "reset-password": {
+    "title": "Şifrə dəyiş",
+    "seo": {
+      "title": "Şifrə dəyiş - Stolk",
+      "description": "Minlərlə xəbər tək mənbədə"
+    }
+  },
+  "email-confirmation": {
+    "seo": {
+      "title": "Hesabı təsdiqlə - Stolk",
+      "description": "Minlərlə xəbər tək mənbədə"
+    }
+  },
+  "terms-of-use": {
+    "seo": {
+      "title": "İstifadə şərtləri - Stolk",
+      "description": "Minlərlə xəbər tək mənbədə"
+    }
+  },
+  "privacy-policy": {
+    "seo": {
+      "title": "Gizlilik hüquqları - Stolk",
+      "description": "Minlərlə xəbər tək mənbədə"
+    }
+  },
   "home": {
+    "seo": {
+      "title": "Əsas səhifə - Stolk",
+      "description": "Minlərlə xəbər tək mənbədə"
+    },
     "cta-title": "Hər gün yüzlərlə xəbər",
     "cta-subtitle": "Tək mənbədə",
     "cta-description": "Ancaq seçdiyiniz mənbələrdən xəbərləri oxuyun",
     "cta-button": "Yüklə",
     "use_now": "İstifadə etməyə başla",
     "use_now_free": "",
+    "screenshots": "Ekran görüntüləri",
+    "countdowns": {
+      "news": "Gündəlik xəbər sayı",
+      "sources": "Mənbə sayı"
+    },
     "features": {
       "title": "Xüsusiyyətləri",
       "description": "Limitsiz funksiyalardan istifadə edin",

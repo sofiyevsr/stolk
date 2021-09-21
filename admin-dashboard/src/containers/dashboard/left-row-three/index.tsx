@@ -1,15 +1,15 @@
 import { FC } from "react";
 import { Col } from "../../../widgets";
-import RecentActivities from "../../../components/dashboard/recent-activities";
+import Analytics from "../../../components/dashboard/analytics";
 
 const LeftRowThree: FC = () => {
-    return (
-        <>
-            <Col md={12} mt="10px">
-                <RecentActivities />
-            </Col>
-        </>
-    );
+  return (
+    <>
+      <Col md={12} mt="10px">
+        <Analytics />
+      </Col>
+    </>
+  );
 };
 
 export default LeftRowThree;

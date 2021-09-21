@@ -26,8 +26,15 @@ const news = async (lastID: string | undefined) => {
     const id = await Joi.date().validateAsync(lastID);
     query = query.andWhere("nr.report_id", "<", id);
   }
-  const reports = await query;
-  return reports;
+  let reports = await query;
+  const hasReachedEnd = reports.length !== PAGINATION_LIMIT + 1;
+  reports = reports.slice(0, PAGINATION_LIMIT);
+
+  const result = {
+    reports,
+    has_reached_end: hasReachedEnd,
+  };
+  return result;
 };
 
 const comments = async (lastID: string | undefined) => {
@@ -49,13 +56,21 @@ const comments = async (lastID: string | undefined) => {
     .leftJoin(`${tables.news_comment} as c`, "cr.comment_id", "c.id")
     .leftJoin(`${tables.app_user} as cu`, "c.user_id", "cu.id")
     .orderBy("cr.report_id", "desc")
-    .limit(PAGINATION_LIMIT);
+    .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {
     const id = await Joi.date().validateAsync(lastID);
     query = query.andWhere("cr.report_id", "<", id);
   }
-  const reports = await query;
-  return reports;
+  let reports = await query;
+  const hasReachedEnd = reports.length !== PAGINATION_LIMIT + 1;
+  reports = reports.slice(0, PAGINATION_LIMIT);
+
+  const result = {
+    reports,
+    has_reached_end: hasReachedEnd,
+  };
+
+  return result;
 };
 
 export default { news, comments };

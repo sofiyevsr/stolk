@@ -5,12 +5,16 @@ import { forgotPasswordLink } from "@utils/constants";
 interface Props {
   token: string;
   to: string;
+  id: number;
 }
 
 const forgotPasswordSubject = "Reset your password";
 
-async function sendResetPasswordEmail({ token, to }: Props) {
-  const readyHTML = resetHTML.replace(/{{link}}/g, forgotPasswordLink + token);
+async function sendResetPasswordEmail({ token, id, to }: Props) {
+  const readyHTML = resetHTML.replace(
+    /{{link}}/g,
+    forgotPasswordLink + "?t=" + token + "&i=" + id
+  );
   return mail.sendMail(to, forgotPasswordSubject, readyHTML);
 }
 

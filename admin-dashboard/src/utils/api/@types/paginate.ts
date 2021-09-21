@@ -1,5 +1,5 @@
 export interface IPaginate {
-  lastID: number;
+  lastID: number | null;
 }
 
 export interface TableInterface {

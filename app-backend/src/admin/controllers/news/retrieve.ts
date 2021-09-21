@@ -12,20 +12,20 @@ async function all(lastID: string | undefined) {
   let result: NewsResult;
   let query = db
     .select([
-      "s.id AS source_id",
-      "s.name AS source_name",
-      "s.logo_suffix AS source_logo_suffix",
       "n.id",
       "n.title",
       "n.image_link",
       "n.pub_date",
       "n.created_at",
       "n.feed_link",
-      "c.id as category_id",
-      "c.name as category_name",
       "n.like_count",
       "n.comment_count",
       "n.hidden_at",
+      "s.id AS source_id",
+      "s.name AS source_name",
+      "s.logo_suffix AS source_logo_suffix",
+      "c.id as category_id",
+      "c.name as category_name",
     ])
     .from(`${tables.news_feed} as n`)
     .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")
@@ -36,8 +36,7 @@ async function all(lastID: string | undefined) {
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
     .orderBy("n.id", "desc")
-    .limit(PAGINATION_LIMIT + 1)
-    .groupBy("n.id", "s.id", "c.id");
+    .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {
     const val = await Joi.number().validateAsync(lastID);
     query = query.andWhere("n.id", "<", val);

@@ -22,7 +22,7 @@ class ToastService {
             content: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Icon(
                     Icons.warning_amber_rounded,
                     size: 26,

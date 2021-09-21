@@ -49,7 +49,11 @@ export async function createResetToken(body: any) {
     })
     .onConflict("user_id")
     .merge();
-  await resetPasswordEmail({ token: token.plain, to: user.email }).catch(() => {
+  await resetPasswordEmail({
+    token: token.plain,
+    to: user.email,
+    id: user.id,
+  }).catch(() => {
     console.log("email error");
   });
   return true;
