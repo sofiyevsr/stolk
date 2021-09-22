@@ -15,6 +15,15 @@ class AppPlatform {
   static const ANDROID = 1;
 }
 
+Map<String, String> fcmNotificationChannels = {
+  "news": "news",
+};
+
+class NotificationOptoutType {
+  // Unless user optouts latest news from one of sources user follow will be sent each ... days
+  static const SourceFollow = 0;
+}
+
 class SessionType {
   static const IOS = 0;
   static const ANDROID = 1;

@@ -6,6 +6,7 @@ class SingleLoginButton extends StatelessWidget {
   final String text;
   final Widget icon;
   final Color color;
+  final bool? disabled;
   final OnPressed onPressed;
   const SingleLoginButton({
     Key? key,
@@ -13,6 +14,7 @@ class SingleLoginButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onPressed,
+    this.disabled,
   }) : super(key: key);
 
   @override
@@ -22,15 +24,18 @@ class SingleLoginButton extends StatelessWidget {
       height: 55,
       child: ElevatedButton.icon(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.blue[700]),
+          backgroundColor: MaterialStateProperty.all(this.color),
           shadowColor: MaterialStateProperty.all(
             Colors.grey,
           ),
+          textStyle: MaterialStateProperty.all(
+            TextStyle(color: Colors.white),
+          ),
         ),
-        onPressed: onPressed,
-        icon: Icon(Icons.login),
+        onPressed: disabled == true ? null : onPressed,
+        icon: this.icon,
         label: Text(
-          "Local login",
+          this.text,
           style: TextStyle(
             fontSize: 18,
           ),

@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/components/introduction/DotsIndicator.dart';
 import 'package:stolk/components/introduction/IntroPage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:stolk/utils/constants.dart';
 
 class IntroScreen extends StatefulWidget {
   @override
@@ -31,7 +33,9 @@ class _IntroScreenState extends State<IntroScreen> {
   void skipIntro(BuildContext ctx) {
     final gBox = Hive.box("settings");
     gBox.put("skipIntro", true);
-    // FirebaseMessaging.instance.subscribeToTopic("news");
+    FirebaseMessaging.instance.subscribeToTopic(
+      fcmNotificationChannels["news"]!,
+    );
   }
 
   void onPageChange(int i) {

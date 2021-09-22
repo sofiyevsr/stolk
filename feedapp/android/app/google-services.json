@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "826163589727-ndi5l086964g10ef35hq2g56akv6781l.apps.googleusercontent.com",
+          "client_id": "826163589727-o28ummlnlogde7fk1ka8p0tlftrncqv0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.stolk.android",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "826163589727-9hbpdarsmppeq059lt58r4l8drkd5k87.apps.googleusercontent.com",
+          "client_id": "826163589727-p3s4256mdfhhd5jddev8lvu1oijdn41g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "826163589727-9hbpdarsmppeq059lt58r4l8drkd5k87.apps.googleusercontent.com",
+              "client_id": "826163589727-p3s4256mdfhhd5jddev8lvu1oijdn41g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -4,6 +4,7 @@ import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
 import 'package:stolk/utils/services/server/authService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:stolk/utils/services/server/notificationService.dart';
 
 class StartupService {
   static final instance = StartupService._();
@@ -40,9 +41,9 @@ class StartupService {
   }
 
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {
-    final authService = AuthService();
+    final notificationService = NotificationService();
     if (token != null && authToken != null)
-      await authService.saveToken(token, authToken);
+      await notificationService.saveToken(token, authToken);
   }
 
   Future<void> _checkToken(String? token) async {

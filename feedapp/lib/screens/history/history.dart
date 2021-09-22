@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/history/widgets/singleNewsHistoryUnit.dart';
@@ -102,8 +103,22 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 scrollDirection: Axis.vertical,
               );
-            return Center(
-              child: Text("no data"),
+            return Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset("assets/static/lock.png"),
+                  Text(
+                    tr("missing"),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             );
           }),
         ),

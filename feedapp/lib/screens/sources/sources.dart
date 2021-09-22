@@ -74,6 +74,27 @@ class _SourcesPageState extends State<SourcesPage> {
             if (state is SourcesStateLoading) {
               return CenterLoadingWidget();
             }
+            if (state is SourcesStateError)
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      color: Colors.red[700],
+                      size: 100,
+                    ),
+                    //TODO
+                    Text(
+                      tr("missing"),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              );
             return Container();
           }),
         ),

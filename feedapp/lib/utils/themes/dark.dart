@@ -73,7 +73,10 @@ final darkTheme = ThemeData.dark().copyWith(
   indicatorColor: CustomColorScheme.primaryLight,
   appBarTheme: AppBarTheme(
     elevation: 5,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: 20,
+    ),
     centerTitle: true,
   ),
 );

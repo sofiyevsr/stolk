@@ -1,100 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/components/auth/singleLoginButton.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/oauth/google.dart';
 
 class LoginButtons extends StatelessWidget {
   const LoginButtons({Key? key}) : super(key: key);
 
   void _googleSignin() async {
-    await signInGoogle.signOut();
-    final data = await signInGoogle.signIn();
-    final headers = await data?.authentication;
-    await data?.clearAuthCache();
-    print(headers?.idToken);
+    try {
+      await signInGoogle.signOut();
+      final data = await signInGoogle.signIn();
+      final headers = await data?.authentication;
+      if (headers?.idToken == null) throw Error();
+      AuthBloc.instance.add(GoogleLogin(idToken: (headers!.idToken)!));
+    } catch (e) {
+      // Add Message that request failed
+
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            height: 55,
-            child: ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.black),
-                shadowColor: MaterialStateProperty.all(
-                  Colors.grey,
-                ),
-              ),
-              onPressed: () {},
+      child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+        final buttonsDisabled = state is AuthLoadingState;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SingleLoginButton(
+              text: "Apple login",
               icon: Image.asset(
                 "assets/icons/apple.png",
                 width: 30,
                 height: 30,
               ),
-              label: Text(
-                "Apple login",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+              color: Colors.black,
+              disabled: buttonsDisabled,
+              onPressed: () {},
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            height: 55,
-            child: ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red[700]),
-                shadowColor: MaterialStateProperty.all(
-                  Colors.grey,
-                ),
-              ),
-              onPressed: _googleSignin,
+            SingleLoginButton(
+              text: "Google Login",
               icon: Image.asset(
                 "assets/icons/google.png",
                 width: 30,
                 height: 30,
               ),
-              label: Text(
-                "Google login",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+              color: Colors.red[700]!,
+              disabled: buttonsDisabled,
+              onPressed: _googleSignin,
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            height: 55,
-            child: ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue[700]),
-                shadowColor: MaterialStateProperty.all(
-                  Colors.grey,
-                ),
-              ),
-              onPressed: () {},
+            SingleLoginButton(
+              text: "Local Login",
               icon: Icon(Icons.login),
-              label: Text(
-                "Local login",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+              color: Colors.blue[700]!,
+              disabled: buttonsDisabled,
+              onPressed: () {},
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text("agree"),
               ),
             ),
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Text("agree"),
-            ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }

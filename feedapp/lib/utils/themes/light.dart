@@ -83,7 +83,10 @@ final lightTheme = ThemeData(
   primaryColorDark: CustomColorScheme.primaryDark,
   appBarTheme: AppBarTheme(
     elevation: 3,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: 20,
+    ),
     centerTitle: true,
   ),
 );

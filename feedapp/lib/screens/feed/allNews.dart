@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
@@ -172,8 +173,50 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                       );
                     }
 
-                    if (state is NewsStateNoData) {}
-                    if (state is NewsStateError) {}
+                    if (state is NewsStateNoData) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.assessment,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 100,
+                            ),
+                            //TODO try following more sources
+                            Text(
+                              tr("missing"),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    if (state is NewsStateError) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.error,
+                              color: Colors.red[700],
+                              size: 100,
+                            ),
+                            //TODO
+                            Text(
+                              tr("missing"),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                     return Container();
                   },
                 ),

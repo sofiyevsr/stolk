@@ -11,9 +11,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'notification/NotificationPreferences.dart';
 import 'widgets/AboutDialog.dart';
 import 'widgets/LanguageSelector.dart';
-import 'widgets/NotificationPreferences.dart';
 import 'widgets/SettingsTile.dart';
 import 'widgets/SingleSetting.dart';
 import 'widgets/ThemeSelector.dart';
