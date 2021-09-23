@@ -5,13 +5,16 @@ import 'package:stolk/components/common/inputs/password.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/screens/auth/forgotPassword.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginSection extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginSectionState createState() => _LoginSectionState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginSectionState extends State<LoginSection> {
   String? _email, _password;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -25,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       child: FocusScope(
         child: Form(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.disabled,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -38,6 +41,18 @@ class _LoginPageState extends State<LoginPage> {
                 onSaved: (s) {
                   _password = s;
                 },
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    NavigationService.push(
+                      ForgotPasswordPage(),
+                      RouteNames.FORGOT_PASSWORD,
+                    );
+                  },
+                  child: Text("forgot_password"),
+                ),
               ),
               ButtonWithLoader(
                 isLoading: isLoading,

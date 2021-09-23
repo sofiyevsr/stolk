@@ -80,8 +80,8 @@ class _SourcesPageState extends State<SourcesPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.error,
-                      color: Colors.red[700],
+                      Icons.wifi_off,
+                      color: Colors.blue[700],
                       size: 100,
                     ),
                     //TODO

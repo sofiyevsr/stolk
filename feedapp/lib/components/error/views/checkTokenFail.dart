@@ -13,18 +13,6 @@ class CheckTokenFailScreen extends StatefulWidget {
 
 class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
   bool isLoading = false;
-  bool isMounted = false;
-  @override
-  void initState() {
-    super.initState();
-    isMounted = true;
-  }
-
-  @override
-  void dispose() {
-    isMounted = false;
-    super.dispose();
-  }
 
   void retryCheckToken() {
     StartupService.instance.checkTokenAndSaveDeviceToken();
@@ -32,7 +20,7 @@ class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
       isLoading = true;
     });
     Timer(const Duration(milliseconds: 5000), () {
-      if (isMounted == true)
+      if (mounted == true)
         setState(() {
           isLoading = false;
         });

@@ -5,7 +5,10 @@
     "ru": "По русский",
     "en": "English"
   },
-  "buttons": {},
+  "buttons": {
+    "retry_request": "Təkrar yoxla",
+    "back_to_login": "Girişə geri dön"
+  },
   "server_errors": {
     "invalid_token": "",
     "account_banned": "",
@@ -82,7 +85,12 @@
     }
   },
   "auth": { "welcome": "Xoş gəlmisiniz" },
-  "report_dialog": { "title": "Bildir" },
+  "report_dialog": {
+    "title": "Şikayət et",
+    "message_placeholder": "Şikayətinizi daxil edin",
+    "success": "Şikayətiniz qeydə alındı"
+  },
+  "report": { "menu": "Şikayət" },
   "navbar": {
     "home": "Əsas",
     "explore": "Kəşf",
@@ -91,6 +99,7 @@
   },
   "commons": {
     "guest": "Qonaq",
+    "welcome": "Xoş gəlmisiniz",
     "categories": "Kateqoriyalar",
     "count": "Say",
     "open": "Aç",
@@ -103,7 +112,8 @@
     "false": "Xeyr",
     "true": "Bəli",
     "is_active": "Aktivdir",
-    "save": "Yadda saxla"
+    "save": "Yadda saxla",
+    "confirm": "Təsdiqlə"
   },
   "categories": {
     "all": "Hamısı",
@@ -115,12 +125,14 @@
   },
   "errors": {
     "default": "Xəta baş verdi",
+    "report_message_empty": "Şikayətinizi daxil edin",
     "network_error": "İnternet xətası",
+    "image_fetch_failed": "Şəkil yüklənə bilmədi",
     "fetch_failed": "Xəta baş verdi",
+    "auth_check_failed": "Hesaba daxil olarkən xəta baş verdi",
     "retry_check_token": "Təkrar yoxla",
     "cannot_launch_url": "Link yüklənə bilmədi"
   },
-
   "fields": {
     "email": "Email",
     "first_name": "Ad",
@@ -150,15 +162,13 @@
     "login_button_label": "Daxil ol",
     "title": "Daxil ol"
   },
-
-  "hide_password": "Gizlət",
-  "show_password": "Göstər",
-
   "register": {
     "register_button_label": "Qeydiyyat",
     "title": "Qeydiyyat"
   },
   "tooltips": {
+    "hide_password": "Şifrəni gizlət",
+    "show_password": "Şifrəni göstər",
     "theme": {
       "dark": "Gecə modu",
       "light": "Gündüz modu",
@@ -171,7 +181,6 @@
       "bookmarks": "Qeydlər"
     }
   },
-
   "settings": {
     "language": "Dil",
     "general": "Ümumi",
@@ -182,9 +191,13 @@
     "language_select": "Dil seç",
     "title": "Tənzimləmələr",
     "login": "Daxil ol",
+    "logout": "Çıxış",
     "register": "Qeydiyyat",
     "theme": "Görünüş",
-    "notifications": { "news": "Xəbərlər" },
+    "notifications": {
+      "app_news": "Özəlləşdirilmiş xəbərlər",
+      "fcm_news": "Yeniliklər"
+    },
     "about_fields": {
       "name": "Ad",
       "version": "Versiya"
@@ -192,10 +205,11 @@
   },
   "validations": {
     "first_name_empty": "Ad daxil edin",
-    "first_name_min2_max30": "Ad minimum 2 maksimum 30 simvol ola bilər",
+    "first_name_min2_max30": "Ad minimum 2 simvol ola bilər",
     "invalid_email": "Yanlış email",
-    "invalid_password": "Yanlış şifrə (Ən az 8 simvol)",
+    "invalid_password": "Yanlış şifrə (Ən az 7 simvol)",
+    "invalid_regex": "Ən az 7 simvol, 1 kiçik, 1 böyük hərf və 1 rəqəm",
     "last_name_empty": "Ad daxil edin",
-    "last_name_min2_max30": "Soyad minimum 2 maksimum 30 simvol ola bilər"
+    "last_name_min2_max30": "Soyad minimum 2 simvol ola bilər"
   }
 }

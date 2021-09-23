@@ -1,6 +1,8 @@
 part of "./index.dart";
 
-final darkTheme = ThemeData.dark().copyWith(
+final _base = ThemeData.dark();
+
+final darkTheme = _base.copyWith(
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),
@@ -39,8 +41,8 @@ final darkTheme = ThemeData.dark().copyWith(
     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-          // color: Colors.red,
-          ),
+        color: Colors.blue,
+      ),
     ),
     // prefixStyle: TextStyle(color: Colors.white),
   ),

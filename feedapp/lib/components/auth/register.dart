@@ -8,12 +8,12 @@ import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterSection extends StatefulWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _RegisterSectionState createState() => _RegisterSectionState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterSectionState extends State<RegisterSection> {
   String? _email, _password, _firstName, _lastName;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -30,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               EmailInput(
                 onSaved: (s) {
@@ -50,6 +51,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 onSaved: (s) {
                   _password = s;
                 },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  tr("register.agree"),
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
               ),
               ButtonWithLoader(
                 isLoading: isLoading,

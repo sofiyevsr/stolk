@@ -61,6 +61,8 @@ class RouteNames {
   static const SINGLE_NEWS = "single_news";
   static const HOME = "home";
   static const AUTH = "auth";
+  static const LOCAL_AUTH = "local_auth";
+  static const FORGOT_PASSWORD = "forgot_password";
 }
 
 final passwordRegex =

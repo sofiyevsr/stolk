@@ -4,9 +4,9 @@ import { NotificationOptoutType } from "@utils/constants";
 
 export default joi
   .object<{
-    notification_optout_type: number;
+    notification_type_id: number;
   }>({
-    notification_optout_type: joi
+    notification_type_id: joi
       .number()
       .required()
       .valid(NotificationOptoutType.SourceFollow)

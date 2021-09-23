@@ -92,6 +92,7 @@ class _CommentInputState extends State<CommentInput> {
                   icon: Icon(Icons.send_sharp, color: Colors.white),
                 ),
               ),
+              counterStyle: TextStyle(color: Colors.white),
               contentPadding: const EdgeInsets.all(10),
               focusColor: Colors.transparent,
               focusedBorder: OutlineInputBorder(

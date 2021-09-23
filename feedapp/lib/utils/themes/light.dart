@@ -62,10 +62,10 @@ final lightTheme = ThemeData(
     ),
   ),
   scaffoldBackgroundColor: Colors.grey[300],
-  colorScheme: ColorScheme.light(
-    primary: CustomColorScheme.main,
-    secondary: CustomColorScheme.accent,
-  ),
+  colorScheme: ThemeData().colorScheme.copyWith(
+        primary: CustomColorScheme.main,
+        secondary: CustomColorScheme.accent,
+      ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     // labelStyle: TextStyle(fontSize: 18, color: Color(0xfffefae0)),

@@ -115,7 +115,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.error,
+                    Icons.wifi_off,
                     color: Colors.red[700],
                     size: 100,
                   ),

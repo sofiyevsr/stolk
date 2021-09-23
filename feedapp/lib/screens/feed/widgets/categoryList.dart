@@ -23,14 +23,16 @@ class _CategoryListState extends State<CategoryList> {
   void initState() {
     super.initState();
     news.getAllCategories().then((value) {
-      setState(() {
-        _categories = value.categories;
-        _isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          _categories = value.categories;
+          _isLoading = false;
+        });
     }).catchError((e) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          _isLoading = false;
+        });
     });
   }
 
@@ -66,7 +68,7 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     if (_isLoading == true) {
       return SizedBox(
-        height: 80,
+        height: 60,
       );
     }
 

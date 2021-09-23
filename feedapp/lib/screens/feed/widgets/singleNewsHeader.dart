@@ -7,6 +7,7 @@ import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/server/reportService.dart';
 import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +121,10 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
               onSelected: (v) async {
                 await showDialog(
                   context: context,
-                  builder: (ctx) => ReportDialog(onConfirmed: () {}),
+                  builder: (ctx) => ReportDialog(onConfirmed: (String message) {
+                    final api = ReportService();
+                    return api.newsReport(message, widget.feed.id);
+                  }),
                 );
               },
               itemBuilder: (entry) {
@@ -133,7 +137,7 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
                           child: Icon(Icons.report, color: Colors.red),
                         ),
                         Text(
-                          tr("report"),
+                          tr("report.menu"),
                         ),
                       ],
                     ),

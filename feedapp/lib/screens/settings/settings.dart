@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/auth/views/AuthView.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/tilesHeader.dart';
@@ -74,11 +74,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                Text(
-                  '${user.firstName} ${user.lastName}',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${user.firstName} ${user.lastName}',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    if (user.confirmedAt != null)
+                      Tooltip(
+                        message: tr("tooltips.account_verified"),
+                        child: Icon(Icons.verified, color: Colors.blue),
+                      ),
+                  ],
                 ),
               ],
             ),
@@ -114,7 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
           Divider(),
           SettingsTile(
             onTap: () {
-              AuthBloc.instance.add(AppLogout());
+              AuthBloc.instance.add(
+                AppLogout(),
+              );
             },
             title: tr("settings.logout"),
             icon: Icons.logout_outlined,
@@ -126,7 +138,7 @@ class _SettingsPageState extends State<SettingsPage> {
       children: [
         SettingsTile(
           onTap: () {
-            NavigationService.push(AuthView(), RouteNames.AUTH);
+            NavigationService.push(AuthPage(), RouteNames.AUTH);
           },
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
@@ -134,7 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
         SettingsTile(
           onTap: () {
             //TODO
-            NavigationService.push(AuthView(), RouteNames.AUTH);
+            NavigationService.push(AuthPage(), RouteNames.AUTH);
           },
           title: tr("settings.register"),
           icon: Icons.app_registration_outlined,

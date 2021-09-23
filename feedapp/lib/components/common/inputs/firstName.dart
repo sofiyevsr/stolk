@@ -10,7 +10,7 @@ class FirstNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: TextFormField(
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
@@ -29,7 +29,8 @@ class FirstNameInput extends StatelessWidget {
             labelText: tr('fields.first_name'),
             hintText: tr('fields.first_name')),
         onSaved: (s) => _onSaved(s?.trim()),
-        validator: (s) {
+        validator: (value) {
+          final s = value?.trim();
           if (s != null && s.isNotEmpty) {
             if (s.length >= 2 && s.length <= 30)
               return null;

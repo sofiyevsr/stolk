@@ -105,7 +105,7 @@ class _HistoryPageState extends State<HistoryPage> {
               );
             return Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 45),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

@@ -110,9 +110,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         sourceID: null,
       ),
     );
-    setState(() {
-      _currentCategory = id;
-    });
+    if (mounted)
+      setState(() {
+        _currentCategory = id;
+      });
   }
 
   @override
@@ -143,18 +144,25 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                           itemBuilder: (ctx, index) => index >=
                                   state.data.news.length
                               ? state is NewsNextFetchError
-                                  ? Container(
-                                      height: 50,
-                                      child: Center(
-                                        child: ElevatedButton(
+                                  ? Center(
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        height: 50,
+                                        child: ElevatedButton.icon(
                                           onPressed: forceFetchNext,
                                           //TODO
-                                          child: Text("missing"),
+                                          icon: Icon(Icons.refresh),
+                                          label: Text("buttons.retry_request"),
                                         ),
                                       ),
                                     )
                                   : Container(
                                       height: 50,
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
                                       child: Center(
                                         child:
                                             CircularProgressIndicator.adaptive(
@@ -201,8 +209,8 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.error,
-                              color: Colors.red[700],
+                              Icons.wifi_off,
+                              color: Colors.blue[700],
                               size: 100,
                             ),
                             //TODO

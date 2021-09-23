@@ -126,9 +126,10 @@ class _NewsViewState extends State<NewsView>
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            CircularProgressIndicator.adaptive(
+            CircularProgressIndicator(
               value: loadingPer / 100,
               strokeWidth: 10,
+              color: Colors.white,
             )
           ],
         ),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/auth/singleLoginButton.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/auth/localAuth.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/oauth/google.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 
 class LoginButtons extends StatelessWidget {
   const LoginButtons({Key? key}) : super(key: key);
@@ -56,7 +59,9 @@ class LoginButtons extends StatelessWidget {
               icon: Icon(Icons.login),
               color: Colors.blue[700]!,
               disabled: buttonsDisabled,
-              onPressed: () {},
+              onPressed: () {
+                NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
+              },
             ),
             Expanded(
               child: Align(

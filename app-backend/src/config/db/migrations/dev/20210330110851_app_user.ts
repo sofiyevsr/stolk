@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
     t.increments("id");
     t.string("first_name").notNullable();
     t.string("last_name").notNullable();
-    t.string("email").unique().notNullable();
+    t.string("email").notNullable();
     t.string("password").notNullable();
     t.integer("service_type_id")
       .notNullable()
@@ -14,9 +14,12 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.service_type)
       .onDelete("NO ACTION")
       .onUpdate("CASCADE");
+    t.string("oauth_id");
     t.timestamp("banned_at", { useTz: true });
     t.timestamp("confirmed_at", { useTz: true });
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
+    t.unique(["service_type_id", "email"]);
+    t.unique(["service_type_id", "oauth_id"]);
   });
 }
 

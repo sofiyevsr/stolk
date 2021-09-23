@@ -12,7 +12,7 @@ const saveTokenToDb = async (token: string, user_id: number) => {
     user_id,
   });
   if (dbTokens.length != 0) {
-    throw new SoftError(i18next.t("errors.invalid_token"));
+    return;
   }
   const userTokensCount = await db(tables.notification_token)
     .select(db.raw("count(token) as token_count"))
