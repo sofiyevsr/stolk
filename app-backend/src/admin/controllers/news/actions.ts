@@ -31,15 +31,46 @@ async function deleteCategory(id: string | undefined) {
   await db(tables.news_category).where({ id: val }).del();
 }
 
+async function hideCategory(id: string | undefined) {
+  const val = await Joi.number().validateAsync(id);
+  const [hidden_at] = await db(tables.news_category)
+    .update({ hidden_at: db.fn.now() }, ["hidden_at"])
+    .where({ id: val });
+  return hidden_at;
+}
+
+async function unhideCategory(id: string | undefined) {
+  const val = await Joi.number().validateAsync(id);
+  await db(tables.news_category).update({ hidden_at: null }).where({ id: val });
+}
+
 async function insertCategory(body: unknown) {
   const { error, value } = categoryValidation.validate(body);
   if (error) {
     throw new SoftError(error.message);
   }
   const [category] = await db(tables.news_category).insert(
-    { name: value.name },
-    ["id", "name", "created_at"]
+    { name: value.name, image_suffix: value.image_suffix },
+    ["id", "name", "created_at", "image_suffix", "hidden_at"]
   );
+  return category;
+}
+
+async function updateCategory(body: unknown, id: unknown) {
+  const val = await Joi.number().validateAsync(id);
+  const { error, value } = categoryValidation.validate(body);
+  if (error) {
+    throw new SoftError(error.message);
+  }
+  const [category] = await db(tables.news_category)
+    .update({ name: value.name, image_suffix: value.image_suffix }, [
+      "id",
+      "name",
+      "created_at",
+      "image_suffix",
+      "hidden_at",
+    ])
+    .where({ id: val });
   return category;
 }
 
@@ -63,5 +94,8 @@ export {
   deleteComment,
   deleteCategory,
   insertCategory,
+  updateCategory,
   linkCategory,
+  hideCategory,
+  unhideCategory,
 };

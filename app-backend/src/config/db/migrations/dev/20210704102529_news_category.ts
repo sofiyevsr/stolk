@@ -6,6 +6,9 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.news_category, (t) => {
     t.increments("id");
     t.string("name").unique().notNullable();
+    t.string("image_suffix").notNullable();
+    // Start new category hidden
+    t.timestamp("hidden_at", { useTz: true }).defaultTo(knex.fn.now());
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

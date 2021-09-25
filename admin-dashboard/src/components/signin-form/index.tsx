@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from "react";
-import { FormGroup, Label, Input, Anchor, Button } from "../../widgets";
+import { FormGroup, Label, Input, Button } from "../../widgets";
 import { useForm } from "react-hook-form";
 import { hasKey } from "../../utils/methods";
 import { StyledWrap, StyledTitle, StyledDesc, StyledLabelWrap } from "./style";
