@@ -43,7 +43,7 @@ class ToastService {
                 ),
               ],
             ),
-            duration: Duration(milliseconds: 3500),
+            duration: Duration(milliseconds: 3000),
             backgroundColor: Colors.green,
           ),
         );

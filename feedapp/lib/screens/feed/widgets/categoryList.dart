@@ -37,30 +37,41 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   Widget _buildItem(SingleCategory category) {
-    final theme = Theme.of(context);
     final isCurrent = category.id == widget.current;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text(
-            tr("categories.${category.name}"),
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: isCurrent ? FontWeight.bold : null,
+    return Container(
+      width: 140,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Colors.white,
+          width: 5,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                "assets/static/satellite.jpg",
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
+            Positioned.fill(
+              child: Center(
+                child: Text(
+                  tr("categories.${category.name}"),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: isCurrent ? FontWeight.bold : null,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        Container(
-          height: 4,
-          width: 4,
-          decoration: BoxDecoration(
-            color: isCurrent ? theme.iconTheme.color : null,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -68,7 +79,7 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     if (_isLoading == true) {
       return SizedBox(
-        height: 60,
+        height: 100,
       );
     }
 
@@ -78,7 +89,7 @@ class _CategoryListState extends State<CategoryList> {
     ];
 
     return SizedBox(
-      height: 60,
+      height: 100,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,

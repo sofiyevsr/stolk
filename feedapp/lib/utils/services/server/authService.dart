@@ -7,12 +7,10 @@ import 'package:stolk/utils/@types/response/register.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class AuthService extends ApiService {
-  AuthService() : super(enableErrorHandler: false);
+  AuthService() : super(enableErrorHandler: true);
 
-  Future<LoginResponse> forgotPassword(String email) async {
-    final response =
-        await this.request.post("/auth/forgotPassword", {"email": email}, {});
-    return LoginResponse.fromJSON(response.data['body']);
+  Future<void> forgotPassword(String email) async {
+    await this.request.post("/auth/forgot-password", {"email": email}, {});
   }
 
   Future<LoginResponse> login(LoginRequest data) async {

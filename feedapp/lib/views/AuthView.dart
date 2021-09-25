@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -36,16 +37,16 @@ class AuthView extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text("Sign in",
+                  child: Text(tr("login.title"),
                       style: Theme.of(context).textTheme.headline3),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 70.0),
                   child: Text(
-                    "Please log in using one of options below for better and personalized experience",
+                    tr("login.description"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.grey[400],
+                      color: Colors.grey[500],
                       fontSize: 16,
                     ),
                   ),

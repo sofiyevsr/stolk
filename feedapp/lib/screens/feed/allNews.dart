@@ -98,6 +98,9 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   }
 
   void _changeCategory(int id) {
+    if (id == _currentCategory) {
+      return;
+    }
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(
         0,

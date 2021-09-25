@@ -33,42 +33,42 @@ class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.red,
-                        size: 128,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.red,
+                  size: 128,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
+                  tr("errors.auth_check_failed"),
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline6?.copyWith(
+                        fontWeight: FontWeight.w800,
                       ),
-                      Text(
-                        tr("errors.auth_check_failed"),
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              fontWeight: FontWeight.w800,
-                            ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: ElevatedButton(
+                  onPressed: isLoading == true ? null : retryCheckToken,
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ],
+                    ),
+                  ),
+                  child: Text(
+                    tr("errors.retry_check_token"),
                   ),
                 ),
               ),
-              Container(
-                child: ElevatedButton(
-                  onPressed: isLoading == true ? null : retryCheckToken,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Text(
-                      tr("errors.retry_check_token"),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),

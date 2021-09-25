@@ -11,13 +11,8 @@
   },
   "server_errors": {
     "invalid_token": "",
-    "account_banned": "",
     "login_fail": "",
-    "invalid_session_id": "",
-    "unique_email": "",
-    "reset_fail": "",
-    "news_id_required": "",
-    "source_id_required": "",
+    "recaptcha_fail": "",
     "validation": {
       "email": {
         "string": "",
@@ -30,6 +25,42 @@
         "empty": "",
         "required": "",
         "invalid_pattern": ""
+      },
+      "category_name": {
+        "string": "",
+        "empty": "",
+        "min": "",
+        "max": "",
+        "required": ""
+      },
+      "category_id": {
+        "string": "",
+        "required": ""
+      },
+      "category_alias_id": {
+        "string": "",
+        "required": ""
+      },
+      "title": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "body": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "id": {
+        "number": "",
+        "required": ""
+      },
+      "token": {
+        "string": "",
+        "empty": "",
+        "required": ""
       },
       "service_type": {
         "number": "",
@@ -55,34 +86,35 @@
         "min2": "",
         "max30": ""
       },
-      "id": {
-        "number": "",
-        "required": ""
-      },
-      "token": {
-        "string": "",
-        "empty": "",
-        "required": ""
-      },
       "comment": {
         "string": "",
         "empty": "",
         "required": "",
         "max300": ""
       },
-      "title": {
-        "string": "",
-        "empty": "",
+      "notification_optout_type": {
+        "number": "",
         "required": "",
-        "max20": ""
+        "invalid": ""
       },
-      "body": {
+      "message": {
         "string": "",
         "empty": "",
         "required": "",
-        "max20": ""
+        "max300": ""
       }
-    }
+    },
+    "account_banned": "",
+    "backoff_confirmation_token": "",
+    "confirmation_fail": "",
+    "invalid_session_id": "",
+    "google_data_not_complete": "",
+    "unique_email": "Bu email artıq istifadə olunur",
+    "backoff_reset_token": "",
+    "reset_fail": "",
+    "news_id_required": "",
+    "source_id_required": "",
+    "user_not_confirmed": ""
   },
   "auth": { "welcome": "Xoş gəlmisiniz" },
   "report_dialog": {
@@ -125,6 +157,7 @@
   },
   "errors": {
     "default": "Xəta baş verdi",
+    "try_again_later": "Xəta baş verdi, daha sonra yoxlayın",
     "report_message_empty": "Şikayətinizi daxil edin",
     "network_error": "İnternet xətası",
     "image_fetch_failed": "Şəkil yüklənə bilmədi",
@@ -160,7 +193,12 @@
   },
   "login": {
     "login_button_label": "Daxil ol",
-    "title": "Daxil ol"
+    "google_sign_in": "Google ilə daxil ol",
+    "apple_sign_in": "Apple ilə daxil ol",
+    "agree": "Hesab yaradaraq istifadə şərtləri və gizlilik hüquqlarına razı olmuş olursunuz",
+    "description": "Daha yaxşı və daha özəl təcrübə üçün aşağıdakı seçimlərdən istifadə edərək daxil olun",
+    "title": "Daxil ol",
+    "email_sign_in": "Email ilə daxil ol"
   },
   "register": {
     "register_button_label": "Qeydiyyat",
@@ -180,6 +218,9 @@
       "reads": "Oxuduqlarım",
       "bookmarks": "Qeydlər"
     }
+  },
+  "forgot_password": {
+    "success": "Poçt qutunuzu yoxlayın"
   },
   "settings": {
     "language": "Dil",

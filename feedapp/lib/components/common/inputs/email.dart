@@ -2,14 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import "package:flutter/material.dart";
 
 class EmailInput extends StatelessWidget {
-  final TextEditingController? _controller;
-  final void Function(String?)? _onSaved;
-  const EmailInput({
-    Key? key,
-    void Function(String?)? onSaved,
-    TextEditingController? controller,
-  })  : this._onSaved = onSaved,
-        this._controller = controller,
+  final void Function(String?) _onSaved;
+  const EmailInput({Key? key, required void Function(String?) onSaved})
+      : this._onSaved = onSaved,
         super(key: key);
 
   @override
@@ -34,8 +29,7 @@ class EmailInput extends StatelessWidget {
           labelText: tr('fields.email'),
           hintText: tr('fields.email'),
         ),
-        controller: _controller,
-        onSaved: (s) => _onSaved == null ? null : _onSaved!(s?.trim()),
+        onSaved: (s) => _onSaved(s?.trim()),
         validator: (value) {
           final s = value?.trim();
           if (s != null && s.isNotEmpty) {

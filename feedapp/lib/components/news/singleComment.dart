@@ -19,6 +19,7 @@ class SingleCommentView extends StatefulWidget {
 }
 
 class _SingleCommentViewState extends State<SingleCommentView> {
+  final reportApi = ReportService();
   bool _isExtended = false;
   late TapGestureRecognizer _showMoreRecognizer;
 
@@ -164,16 +165,18 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                       offset: Offset(-40, 0),
                       iconSize: 30,
                       onSelected: (v) async {
-                        await showDialog(
-                          context: context,
-                          builder: (ctx) => ReportDialog(
-                            onConfirmed: (message) {
-                              final api = ReportService();
-                              return api.commentReport(
-                                  message, widget.comment.id);
-                            },
-                          ),
-                        );
+                        try {
+                          authorize();
+                          await showDialog(
+                            context: context,
+                            builder: (ctx) => ReportDialog(
+                              onConfirmed: (message) async {
+                                await reportApi.commentReport(
+                                    message, widget.comment.id);
+                              },
+                            ),
+                          );
+                        } catch (_) {}
                       },
                       itemBuilder: (entry) {
                         return [

@@ -59,15 +59,12 @@ async function googleLoginUser(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  console.log(value.token);
   const client = new OAuth2Client(process.env.GOOGLE_WEB_CLIENT_ID);
   const ticket = await client.verifyIdToken({
     idToken: value.token,
     audience: process.env.GOOGLE_WEB_CLIENT_ID,
   });
   const payload = ticket.getPayload();
-
-  console.log(payload);
 
   if (
     payload == null ||

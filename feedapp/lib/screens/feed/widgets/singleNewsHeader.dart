@@ -28,6 +28,7 @@ class SingleNewsHeader extends StatefulWidget {
 }
 
 class _SingleNewsHeaderState extends State<SingleNewsHeader> {
+  final reportApi = ReportService();
   bool _isRequestOn = false;
 
   void onFinish() async {
@@ -119,13 +120,17 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
               offset: Offset(0, 40),
               iconSize: _iconSize,
               onSelected: (v) async {
-                await showDialog(
-                  context: context,
-                  builder: (ctx) => ReportDialog(onConfirmed: (String message) {
-                    final api = ReportService();
-                    return api.newsReport(message, widget.feed.id);
-                  }),
-                );
+                try {
+                  authorize();
+                  await showDialog(
+                    context: context,
+                    builder: (ctx) => ReportDialog(
+                      onConfirmed: (String message) {
+                        return reportApi.newsReport(message, widget.feed.id);
+                      },
+                    ),
+                  );
+                } catch (_) {}
               },
               itemBuilder: (entry) {
                 return [

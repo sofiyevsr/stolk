@@ -7,7 +7,6 @@ const r = Router();
 
 r.get("/fcm-topics", async (req, res, next) => {
   try {
-    console.log(req.query.token);
     const data = await notification.retrieve.getAllSubcriptions(
       req.query.token
     );
