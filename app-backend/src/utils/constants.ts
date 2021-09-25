@@ -19,7 +19,6 @@ export enum AppPlatform {
 }
 
 export enum ServiceType {
-  APP,
   GOOGLE,
   APPLE,
 }
@@ -52,7 +51,9 @@ export type IJWTUser = {
 export const tables = {
   language: "language",
   service_type: "service_type",
+  base_user: "base_user",
   app_user: "app_user",
+  oauth_user: "oauth_user",
   admin_user: "admin_user",
   user_session: "user_session",
   session_type: "session_type",

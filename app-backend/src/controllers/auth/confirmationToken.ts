@@ -1,10 +1,6 @@
 import db from "@db/db";
 import i18next from "@translate/i18next";
-import {
-  confirmationTokenBackoffMinutes,
-  ServiceType,
-  tables,
-} from "@utils/constants";
+import { confirmationTokenBackoffMinutes, tables } from "@utils/constants";
 import { comparePassword, generateConfirmationToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import confirmationToken from "@utils/validations/auth/confirmationToken";
@@ -18,10 +14,11 @@ export async function createConfirmationToken(body: any) {
     throw new SoftError(error.message);
   }
   const { email } = value;
-  const [user] = await db(tables.app_user)
+  const [user] = await db(`${tables.app_user} as au`)
     // first name required for email
-    .select(["id", "email", "first_name"])
-    .where({ email, confirmed_at: null, service_type_id: ServiceType.APP });
+    .select(["au.id", "au.email", "bu.first_name"])
+    .leftJoin(`${tables.base_user} as bu`, "bu.id", "au.id")
+    .where({ "au.email": email, "bu.confirmed_at": null });
   if (user == null) return false;
   const confirmationTokenSession = await db(tables.confirmation_token)
     .select(["issued_at"])
@@ -77,7 +74,7 @@ export async function verifyEmail(body: any) {
   }
   const trx = await db.transaction();
   try {
-    await trx(tables.app_user)
+    await trx(tables.base_user)
       .update({ confirmed_at: trx.fn.now() })
       .where({ id });
     await trx(tables.confirmation_token).where({ user_id: id }).del();
