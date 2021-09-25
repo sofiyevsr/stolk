@@ -39,7 +39,7 @@ class CustomAxios {
           this.storage.logout();
           redux.dispatch(logout());
         }
-        toast("Xəta", { type: "error" });
+        toast("Error occured", { type: "error" });
         return Promise.reject(error);
       }
     );

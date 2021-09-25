@@ -12,6 +12,7 @@ export default {
   created_at: "Creation Date",
   confirmed_at: "Confirmation Date",
   logo_suffix: "Logo link",
+  image_suffix: "Image link",
   link: "Link",
   lang_id: "Language",
   language: "Language name",

@@ -85,7 +85,7 @@ async function comments(lastID: string | undefined) {
 
 async function allCategories() {
   const categories = await db
-    .select("id", "name", "created_at")
+    .select("id", "name", "created_at", "hidden_at", "image_suffix")
     .from(tables.news_category);
   return { categories };
 }

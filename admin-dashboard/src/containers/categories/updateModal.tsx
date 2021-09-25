@@ -6,7 +6,8 @@ import { Modal } from "../../widgets";
 interface Props {
   show: boolean;
   onClose: () => void;
-  alterInMemory: (item: { [key: string]: any }) => void;
+  alterInMemory: (index: number, item: { [key: string]: any }) => void;
+  categoryID: number | undefined;
 }
 
 type FormData = {
@@ -15,7 +16,12 @@ type FormData = {
 };
 
 const categoryApi = new CategoriesApi();
-function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
+function UpdateCategoryModal({
+  show,
+  onClose,
+  alterInMemory,
+  categoryID,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -24,13 +30,15 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
   } = useForm<FormData>();
 
   const formHandler = async (data: FormData) => {
-    const res: any = await categoryApi.insert({
+    if (categoryID == null) return;
+    const res: any = await categoryApi.update({
+      id: categoryID,
       name: data.name,
       image_suffix: data.image_suffix,
     });
     reset({ name: "", image_suffix: "" });
-    toast.success("Category created");
-    alterInMemory(res.body);
+    toast.success("Category updated");
+    alterInMemory(categoryID, res.body);
   };
 
   return (
@@ -69,4 +77,4 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
   );
 }
 
-export default AddCategoryModal;
+export default UpdateCategoryModal;

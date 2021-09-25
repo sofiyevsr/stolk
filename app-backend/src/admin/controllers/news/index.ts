@@ -1,10 +1,13 @@
 import {
   deleteCategory,
   deleteComment,
+  hideCategory,
   hideNews,
   insertCategory,
   linkCategory,
+  unhideCategory,
   unhideNews,
+  updateCategory,
 } from "./actions";
 import retrieve from "./retrieve";
 
@@ -18,6 +21,9 @@ export default {
     category: {
       insert: insertCategory,
       delete: deleteCategory,
+      update: updateCategory,
+      hide: hideCategory,
+      unhide: unhideCategory,
     },
     categoryAlias: {
       link: linkCategory,

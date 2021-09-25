@@ -25,7 +25,7 @@ r.get("/all", authenticateMiddleware, async (req, res, next) => {
 
 r.patch("/:id/hide", async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     const data = await news.actions.news.hide(id);
     return responseSuccess(res, data);
   } catch (error) {
@@ -35,7 +35,7 @@ r.patch("/:id/hide", async (req, res, next) => {
 
 r.patch("/:id/unhide", async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     const data = await news.actions.news.unhide(id);
     return responseSuccess(res, data);
   } catch (error) {
@@ -93,8 +93,38 @@ r.post("/category", async (req, res, next) => {
 
 r.delete("/category/:id", async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     await news.actions.category.delete(id);
+    return responseSuccess(res);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.patch("/category/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const category = await news.actions.category.update(req.body, id);
+    return responseContentCreated(res, category);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.patch("/category/:id/hide", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await news.actions.category.hide(id);
+    return responseSuccess(res, data);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.patch("/category/:id/unhide", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await news.actions.category.unhide(id);
     return responseSuccess(res);
   } catch (error) {
     return next(error);
@@ -103,7 +133,7 @@ r.delete("/category/:id", async (req, res, next) => {
 
 r.delete("/comments/:id", async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     await news.actions.comment.delete(id);
     return responseSuccess(res);
   } catch (error) {
