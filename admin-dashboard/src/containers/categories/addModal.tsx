@@ -54,7 +54,9 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
         })}
       />
       <div style={{ color: "red" }}>{errors.name && errors.name.message}</div>
-      <label htmlFor="image-suffix">Image filename (example: image.jpg)</label>
+      <label htmlFor="image-suffix">
+        Image filename (example: image.jpg)(ideal size 140x80(WxH))
+      </label>
       <input
         id="image-suffix"
         {...register("image_suffix", {

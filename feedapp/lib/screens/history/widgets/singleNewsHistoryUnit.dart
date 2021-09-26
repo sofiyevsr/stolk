@@ -98,9 +98,8 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                   color: Theme.of(context).colorScheme.primary,
                   size: 100,
                 ),
-                //TODO try following more sources
                 Text(
-                  tr("missing"),
+                  tr("news.no_news"),
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -119,9 +118,8 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                     color: Colors.red[700],
                     size: 100,
                   ),
-                  //TODO
                   Text(
-                    tr("missing"),
+                    tr("errors.network_error"),
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -131,7 +129,6 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
               ),
             );
           }
-
           return Container();
         },
       ),

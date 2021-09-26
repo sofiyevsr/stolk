@@ -6,6 +6,8 @@ import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+const _padding = 12.0;
+
 class NewsView extends StatefulWidget {
   final String link;
   NewsView({
@@ -73,9 +75,9 @@ class _NewsViewState extends State<NewsView>
                   await view.goBack();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(_padding),
                   child: Tooltip(
-                    message: tr("tooltip.go_back_webview"),
+                    message: tr("tooltips.go_back_in_browser"),
                     child: Icon(Icons.arrow_back, size: 32),
                   ),
                 ),
@@ -87,9 +89,9 @@ class _NewsViewState extends State<NewsView>
                 ScaleButton(
                   onFinish: _share,
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(_padding),
                     child: Tooltip(
-                      message: tr("tooltip.share"),
+                      message: tr("tooltips.share"),
                       child: Icon(Icons.share_outlined, size: 32),
                     ),
                   ),
@@ -104,10 +106,10 @@ class _NewsViewState extends State<NewsView>
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(_padding),
                     child: Tooltip(
-                      message: tr("tooltip.load_news_url"),
-                      child: Icon(Icons.refresh, size: 32),
+                      message: tr("tooltips.reload_news_url"),
+                      child: Icon(Icons.restore_rounded, size: 32),
                     ),
                   ),
                 ),

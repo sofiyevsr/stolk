@@ -3,36 +3,34 @@ import 'package:stolk/utils/common.dart';
 
 class SingleCategory extends Equatable {
   final int id;
-  final String name;
-  SingleCategory._({required this.id, required this.name});
+  final String name, imageSuffix;
+  SingleCategory._({
+    required this.id,
+    required this.name,
+    required this.imageSuffix,
+  });
   SingleCategory.fromJSON(Map<String, dynamic> json)
       : this._(
-          id: json["id"],
-          name: json["name"],
-        );
+            id: json["id"],
+            name: json["name"],
+            imageSuffix: json["image_suffix"]);
   @override
   List get props => [
         id,
         name,
+        imageSuffix,
       ];
 }
 
 class SingleNews extends Equatable {
-  final int id;
-  final int sourceID;
-  final String title;
-  final String sourceName;
-  final String sourceLogoSuffix;
-  final String publishedDate;
-  final String createdAt;
-  final String feedLink;
-  final int likeCount;
-  final int commentCount;
-  final int? likeID;
-  final int? bookmarkID;
-  final int? followID;
-  final int? commentID;
-  final int? readID;
+  final int id, sourceID, likeCount, commentCount;
+  final String title,
+      sourceName,
+      sourceLogoSuffix,
+      publishedDate,
+      createdAt,
+      feedLink;
+  final int? likeID, bookmarkID, followID, commentID, readID;
   final String? imageLink;
   SingleNews._({
     required this.id,

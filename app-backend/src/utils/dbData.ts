@@ -336,7 +336,7 @@ export const sources = [
     name: "The Guardian UK",
     logo_suffix: "theguardian-com.jpg",
     link: "https://theguardian.com/uk/rss",
-    category_alias_name: "uk",
+    category_alias_name: "united kingdom",
     lang_id: 3,
   },
   {
@@ -344,7 +344,6 @@ export const sources = [
     name: "The Guardian World",
     logo_suffix: "theguardian-com.jpg",
     link: "https://theguardian.com/world/rss",
-    category_alias_name: "us",
     lang_id: 3,
   },
   {
@@ -423,5 +422,12 @@ export const sources = [
     logo_suffix: "bbc-com.jpg",
     link: "https://feeds.bbci.co.uk/news/rss.xml",
     lang_id: 3,
+  },
+  {
+    id: 59,
+    name: "Kulis.az",
+    logo_suffix: "kulis-az.jpg",
+    link: "https://kulis.az/rss",
+    lang_id: 0,
   },
 ];

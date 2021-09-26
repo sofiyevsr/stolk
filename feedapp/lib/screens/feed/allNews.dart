@@ -196,7 +196,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                             ),
                             //TODO try following more sources
                             Text(
-                              tr("missing"),
+                              tr("news.no_news_follow_more"),
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -216,9 +216,8 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                               color: Colors.blue[700],
                               size: 100,
                             ),
-                            //TODO
                             Text(
-                              tr("missing"),
+                              tr("errors.network_error"),
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -240,6 +239,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
             bottom: 10,
             right: 10,
             child: FloatingActionButton(
+              tooltip: tr("tooltips.back_to_top"),
               onPressed: () {
                 _scrollController.animateTo(
                   0,

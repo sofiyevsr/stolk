@@ -41,21 +41,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       children: [
                         Image.asset("assets/static/forgot-password.png",
                             height: 250),
-                        Text(
-                          tr("forgot_password.title"),
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.headline4?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            tr("forgot_password.title"),
+                            textAlign: TextAlign.center,
+                            style:
+                                Theme.of(context).textTheme.headline4?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
                         ),
-                        Text(
-                          tr("forgot_password.description"),
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.subtitle1?.copyWith(
-                                    color: Colors.grey[300],
-                                  ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            tr("forgot_password.description"),
+                            textAlign: TextAlign.center,
+                            style:
+                                Theme.of(context).textTheme.subtitle1?.copyWith(
+                                      color: Colors.grey[400],
+                                    ),
+                          ),
                         ),
                         if (_isDone == false)
                           Form(

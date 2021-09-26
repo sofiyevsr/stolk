@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
@@ -84,9 +82,8 @@ class _SourcesPageState extends State<SourcesPage> {
                       color: Colors.blue[700],
                       size: 100,
                     ),
-                    //TODO
                     Text(
-                      tr("missing"),
+                      tr("errors.network_error"),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

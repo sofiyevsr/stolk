@@ -103,18 +103,21 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
         ),
         Row(
           children: [
-            ScaleButton(
-              disabled: _isRequestOn,
-              child: widget.feed.followID != null
-                  ? Icon(
-                      Icons.done_all,
-                      size: _iconSize,
-                    )
-                  : Icon(
-                      Icons.add,
-                      size: _iconSize,
-                    ),
-              onFinish: onFinish,
+            Tooltip(
+              message: tr("tooltips.follow"),
+              child: ScaleButton(
+                disabled: _isRequestOn,
+                child: widget.feed.followID != null
+                    ? Icon(
+                        Icons.done_all,
+                        size: _iconSize,
+                      )
+                    : Icon(
+                        Icons.add,
+                        size: _iconSize,
+                      ),
+                onFinish: onFinish,
+              ),
             ),
             PopupMenuButton<String>(
               offset: Offset(0, 40),

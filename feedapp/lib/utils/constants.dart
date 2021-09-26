@@ -7,6 +7,8 @@ final privacyPolicyURL = websiteURL + "privacy-policy";
 final termsOfUseURL = websiteURL + "terms-of-use";
 final sourceLogosPrefix =
     "https://stolk.s3.eu-west-3.amazonaws.com/source-logos/";
+final categoryImagesPrefix =
+    "https://stolk.s3.eu-west-3.amazonaws.com/category-images/";
 
 const Map<int, String> LANGS = {0: "az", 1: "tr", 2: "ru", 3: "en"};
 

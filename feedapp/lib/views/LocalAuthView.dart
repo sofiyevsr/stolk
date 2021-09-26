@@ -36,7 +36,7 @@ class LocalAuthView extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  tr("commons:welcome"),
+                  tr("commons.welcome"),
                   style: TextStyle(fontSize: 24),
                 ),
               ),

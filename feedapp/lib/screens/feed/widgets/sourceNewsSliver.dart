@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/debounce.dart';
@@ -82,7 +83,9 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
                           child: Center(
                             child: ElevatedButton(
                               onPressed: forceFetchNext,
-                              child: Text("missing"),
+                              child: Text(
+                                tr("buttons.retry_request"),
+                              ),
                             ),
                           ),
                         )

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/components/news/animatedSingleComment.dart';
 import 'package:stolk/components/news/commentInput.dart';
@@ -90,8 +91,9 @@ class _CommentsViewState extends State<CommentsView> {
                                         child: Center(
                                           child: ElevatedButton(
                                             onPressed: forceFetchNext,
-                                            //TODO
-                                            child: Text("missing"),
+                                            child: Text(
+                                              tr("buttons.retry_request"),
+                                            ),
                                           ),
                                         ),
                                       )

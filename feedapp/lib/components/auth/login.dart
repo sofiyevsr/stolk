@@ -51,7 +51,9 @@ class _LoginSectionState extends State<LoginSection> {
                       RouteNames.FORGOT_PASSWORD,
                     );
                   },
-                  child: Text("forgot_password"),
+                  child: Text(
+                    tr("login.forgot_password"),
+                  ),
                 ),
               ),
               ButtonWithLoader(

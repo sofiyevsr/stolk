@@ -111,11 +111,12 @@ class _HistoryPageState extends State<HistoryPage> {
                 children: [
                   Image.asset("assets/static/lock.png"),
                   Text(
-                    tr("missing"),
+                    tr("errors.login_to_track"),
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

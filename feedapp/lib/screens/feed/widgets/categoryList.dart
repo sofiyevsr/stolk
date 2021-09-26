@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/customCachedImage.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 
@@ -40,11 +42,12 @@ class _CategoryListState extends State<CategoryList> {
     final isCurrent = category.id == widget.current;
     return Container(
       width: 140,
+      height: 80,
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: Colors.white,
+          color: isCurrent == true ? Colors.white : Colors.transparent,
           width: 5,
         ),
       ),
@@ -53,9 +56,9 @@ class _CategoryListState extends State<CategoryList> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Image.asset(
-                "assets/static/satellite.jpg",
-                fit: BoxFit.fill,
+              child: CustomCachedImage(
+                url: categoryImagesPrefix + category.imageSuffix,
+                fit: BoxFit.cover,
               ),
             ),
             Positioned.fill(
@@ -64,6 +67,7 @@ class _CategoryListState extends State<CategoryList> {
                   tr("categories.${category.name}"),
                   style: TextStyle(
                     fontSize: 20,
+                    color: Colors.white,
                     fontWeight: isCurrent ? FontWeight.bold : null,
                   ),
                 ),
@@ -84,7 +88,9 @@ class _CategoryListState extends State<CategoryList> {
     }
 
     final cats = [
-      SingleCategory.fromJSON({"id": 0, "name": "all"}),
+      SingleCategory.fromJSON(
+        {"id": 0, "name": "all", "image_suffix": "all.png"},
+      ),
       ..._categories
     ];
 
