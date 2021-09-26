@@ -89,9 +89,10 @@ class _CommentInputState extends State<CommentInput> {
                 color: theme.primaryColor.withOpacity(0.7),
                 child: IconButton(
                   onPressed: isInputEnabled ? submitComment : null,
-                  icon: Icon(Icons.send_sharp),
+                  icon: Icon(Icons.send_sharp, color: Colors.white),
                 ),
               ),
+              counterStyle: TextStyle(color: Colors.white),
               contentPadding: const EdgeInsets.all(10),
               focusColor: Colors.transparent,
               focusedBorder: OutlineInputBorder(

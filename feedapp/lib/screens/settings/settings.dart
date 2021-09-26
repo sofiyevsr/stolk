@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/auth/views/AuthView.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/tilesHeader.dart';
@@ -11,9 +11,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'notification/NotificationPreferences.dart';
 import 'widgets/AboutDialog.dart';
 import 'widgets/LanguageSelector.dart';
-import 'widgets/NotificationPreferences.dart';
 import 'widgets/SettingsTile.dart';
 import 'widgets/SingleSetting.dart';
 import 'widgets/ThemeSelector.dart';
@@ -45,13 +45,13 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildHeaderSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (ctx, state) {
-          if (state is AuthorizedState) {
-            final user = state.user;
-            return Column(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (ctx, state) {
+        if (state is AuthorizedState) {
+          final user = state.user;
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
@@ -74,18 +74,28 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                Text(
-                  '${user.firstName} ${user.lastName}',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${user.firstName} ${user.lastName}',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    if (user.confirmedAt != null)
+                      Tooltip(
+                        message: tr("tooltips.account_verified"),
+                        child: Icon(Icons.verified, color: Colors.blue),
+                      ),
+                  ],
                 ),
               ],
-            );
-          }
-          return Container();
-        },
-      ),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -114,7 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
           Divider(),
           SettingsTile(
             onTap: () {
-              AuthBloc.instance.add(AppLogout());
+              AuthBloc.instance.add(
+                AppLogout(),
+              );
             },
             title: tr("settings.logout"),
             icon: Icons.logout_outlined,
@@ -126,14 +138,15 @@ class _SettingsPageState extends State<SettingsPage> {
       children: [
         SettingsTile(
           onTap: () {
-            NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+            NavigationService.push(AuthPage(), RouteNames.AUTH);
           },
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
         ),
         SettingsTile(
           onTap: () {
-            NavigationService.push(AuthView(isLogin: false), RouteNames.AUTH);
+            //TODO
+            NavigationService.push(AuthPage(), RouteNames.AUTH);
           },
           title: tr("settings.register"),
           icon: Icons.app_registration_outlined,

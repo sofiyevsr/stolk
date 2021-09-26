@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "34398439979",
-    "project_id": "stolk-app",
-    "storage_bucket": "stolk-app.appspot.com"
+    "project_number": "826163589727",
+    "project_id": "stolk-id",
+    "storage_bucket": "stolk-id.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:34398439979:android:31e3534bb16fd1ba81f86e",
+        "mobilesdk_app_id": "1:826163589727:android:6f3ea4158de155f2f1e1ea",
         "android_client_info": {
           "package_name": "app.stolk.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "34398439979-ss4juec27rrkpf2mpuvb8qf3r6hg272v.apps.googleusercontent.com",
+          "client_id": "826163589727-o28ummlnlogde7fk1ka8p0tlftrncqv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.stolk.android",
+            "certificate_hash": "3cbe93c0daf4fe59b8eb09d51b0ec1ec8d270303"
+          }
+        },
+        {
+          "client_id": "826163589727-p3s4256mdfhhd5jddev8lvu1oijdn41g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCPGNBBMr6xxF8rtzyQUaNcuvzQueAQ8Kg"
+          "current_key": "AIzaSyCVvYB3VKg_AYFFwuGynYexbbBr4u3zKKE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "34398439979-ss4juec27rrkpf2mpuvb8qf3r6hg272v.apps.googleusercontent.com",
+              "client_id": "826163589727-p3s4256mdfhhd5jddev8lvu1oijdn41g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

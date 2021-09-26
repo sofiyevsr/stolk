@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:stolk/views/commentsView.dart';
+import 'package:stolk/views/CommentsView.dart';
 
 final news = NewsService();
 const _iconSize = 30.0;
@@ -172,18 +173,30 @@ class SingleNewsActions extends StatelessWidget {
             Container(
               child: Row(
                 children: [
-                  _buildLikeButton(context),
-                  _buildIconButton(
-                    Icons.comment_outlined,
-                    () => _comment(context),
+                  Tooltip(
+                    message: tr("tooltips.like"),
+                    child: _buildLikeButton(context),
+                  ),
+                  Tooltip(
+                    message: tr("tooltips.comment"),
+                    child: _buildIconButton(
+                      Icons.comment_outlined,
+                      () => _comment(context),
+                    ),
                   ),
                 ],
               ),
             ),
             Row(
               children: [
-                _buildBookmarkButton(context),
-                _buildIconButton(Icons.share_outlined, _share),
+                Tooltip(
+                  message: tr("tooltips.bookmark"),
+                  child: _buildBookmarkButton(context),
+                ),
+                Tooltip(
+                  message: tr("tooltips.share"),
+                  child: _buildIconButton(Icons.share_outlined, _share),
+                ),
               ],
             ),
           ],

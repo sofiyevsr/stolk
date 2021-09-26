@@ -11,6 +11,13 @@ class CheckTokenEvent extends AuthEvent {
   get props => [token];
 }
 
+class GoogleLogin extends AuthEvent {
+  final String idToken;
+  GoogleLogin({required this.idToken});
+  @override
+  get props => [idToken];
+}
+
 class AppLogin extends AuthEvent {
   final String email, password;
   AppLogin({required this.email, required this.password});

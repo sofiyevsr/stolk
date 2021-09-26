@@ -1,6 +1,6 @@
 import db from "@config/db/db";
 import i18next from "@translate/i18next";
-import { tables } from "@utils/constants";
+import { ServiceType, tables } from "@utils/constants";
 import { comparePassword, generateAccessToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import login from "@utils/validations/auth/login";
@@ -22,7 +22,7 @@ export default async function loginUser(body: any) {
       "banned_at",
       "confirmed_at",
     ])
-    .where({ email: value.email })
+    .where({ email: value.email, service_type_id: ServiceType.APP })
     .first();
 
   if (dbUser == null) {

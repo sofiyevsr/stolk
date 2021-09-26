@@ -17,15 +17,11 @@ final lightTheme = ThemeData(
     thickness: 1,
   ),
   fontFamily: 'Roboto',
-  textTheme: TextTheme(
-    headline1: TextStyle(fontWeight: FontWeight.bold),
-  ),
   brightness: Brightness.light,
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: CustomColorScheme.main,
     foregroundColor: Colors.white,
   ),
-  primaryColor: CustomColorScheme.main,
   tabBarTheme: TabBarTheme(
     unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -42,14 +38,21 @@ final lightTheme = ThemeData(
     labelPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
     // unselectedLabelColor: Colors.white,
   ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: ButtonStyle(
+      minimumSize: MaterialStateProperty.all(
+        Size(0, 50),
+      ),
+    ),
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      // foregroundColor: MaterialStateProperty.resolveWith((states) {
-      //   if (states.contains(MaterialState.disabled)) {
-      //     return Colors.white70;
-      //   }
-      //   return Colors.white;
-      // }),
+      minimumSize: MaterialStateProperty.all(
+        Size(0, 50),
+      ),
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        TextStyle(color: Colors.white),
+      ),
       backgroundColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return CustomColorScheme.main.withAlpha(205);
@@ -59,7 +62,10 @@ final lightTheme = ThemeData(
     ),
   ),
   scaffoldBackgroundColor: Colors.grey[300],
-  accentColor: CustomColorScheme.accent,
+  colorScheme: ThemeData().colorScheme.copyWith(
+        primary: CustomColorScheme.main,
+        secondary: CustomColorScheme.accent,
+      ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     // labelStyle: TextStyle(fontSize: 18, color: Color(0xfffefae0)),
@@ -77,8 +83,9 @@ final lightTheme = ThemeData(
   primaryColorDark: CustomColorScheme.primaryDark,
   appBarTheme: AppBarTheme(
     elevation: 3,
-    textTheme: const TextTheme(
-      headline5: TextStyle(fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: 20,
     ),
     centerTitle: true,
   ),

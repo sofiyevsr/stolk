@@ -54,6 +54,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield FailedAuthState(error: e.toString());
       }
     }
+    if (event is GoogleLogin) {
+      try {
+        yield AuthLoadingState();
+        final response = await _auth.googleLogin(event.idToken);
+        final storage = SecureStorage();
+        await storage.setToken(response.token);
+        yield AuthorizedState(
+          user: User(
+            id: response.user.id,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            email: response.user.email,
+            createdAt: response.user.createdAt,
+            serviceTypeId: response.user.serviceTypeId,
+            confirmedAt: response.user.confirmedAt,
+            bannedAt: response.user.bannedAt,
+          ),
+          token: response.token,
+        );
+      } catch (e) {
+        yield FailedAuthState(error: e.toString());
+      }
+    }
     if (event is AppRegister) {
       final data = RegisterRequest(
           firstName: event.firstName,

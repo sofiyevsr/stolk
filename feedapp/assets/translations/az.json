@@ -5,16 +5,14 @@
     "ru": "По русский",
     "en": "English"
   },
-  "buttons": {},
+  "buttons": {
+    "retry_request": "Təkrar yoxla",
+    "back_to_login": "Girişə geri dön"
+  },
   "server_errors": {
     "invalid_token": "",
-    "account_banned": "",
     "login_fail": "",
-    "invalid_session_id": "",
-    "unique_email": "",
-    "reset_fail": "",
-    "news_id_required": "",
-    "source_id_required": "",
+    "recaptcha_fail": "",
     "validation": {
       "email": {
         "string": "",
@@ -27,6 +25,42 @@
         "empty": "",
         "required": "",
         "invalid_pattern": ""
+      },
+      "category_name": {
+        "string": "",
+        "empty": "",
+        "min": "",
+        "max": "",
+        "required": ""
+      },
+      "category_id": {
+        "string": "",
+        "required": ""
+      },
+      "category_alias_id": {
+        "string": "",
+        "required": ""
+      },
+      "title": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "body": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "id": {
+        "number": "",
+        "required": ""
+      },
+      "token": {
+        "string": "",
+        "empty": "",
+        "required": ""
       },
       "service_type": {
         "number": "",
@@ -52,36 +86,47 @@
         "min2": "",
         "max30": ""
       },
-      "id": {
-        "number": "",
-        "required": ""
-      },
-      "token": {
-        "string": "",
-        "empty": "",
-        "required": ""
-      },
       "comment": {
         "string": "",
         "empty": "",
         "required": "",
         "max300": ""
       },
-      "title": {
-        "string": "",
-        "empty": "",
+      "notification_optout_type": {
+        "number": "",
         "required": "",
-        "max20": ""
+        "invalid": ""
       },
-      "body": {
+      "message": {
         "string": "",
         "empty": "",
         "required": "",
-        "max20": ""
+        "max300": ""
       }
-    }
+    },
+    "account_banned": "",
+    "backoff_confirmation_token": "",
+    "confirmation_fail": "",
+    "invalid_session_id": "",
+    "google_data_not_complete": "",
+    "unique_email": "Bu email artıq istifadə olunur",
+    "backoff_reset_token": "",
+    "reset_fail": "",
+    "news_id_required": "",
+    "source_id_required": "",
+    "user_not_confirmed": ""
+  },
+  "news": {
+    "no_news_follow_more": "Heç bir xəbər tapılmadı, daha çox mənbə izləməyi yoxlayın",
+    "no_news": "Heç bir xəbər tapılmadı"
   },
   "auth": { "welcome": "Xoş gəlmisiniz" },
+  "report_dialog": {
+    "title": "Şikayət et",
+    "message_placeholder": "Şikayətinizi daxil edin",
+    "success": "Şikayətiniz qeydə alındı"
+  },
+  "report": { "menu": "Şikayət" },
   "navbar": {
     "home": "Əsas",
     "explore": "Kəşf",
@@ -90,6 +135,7 @@
   },
   "commons": {
     "guest": "Qonaq",
+    "welcome": "Xoş gəlmisiniz",
     "categories": "Kateqoriyalar",
     "count": "Say",
     "open": "Aç",
@@ -102,7 +148,8 @@
     "false": "Xeyr",
     "true": "Bəli",
     "is_active": "Aktivdir",
-    "save": "Yadda saxla"
+    "save": "Yadda saxla",
+    "confirm": "Təsdiqlə"
   },
   "categories": {
     "all": "Hamısı",
@@ -114,12 +161,16 @@
   },
   "errors": {
     "default": "Xəta baş verdi",
+    "try_again_later": "Xəta baş verdi, daha sonra yoxlayın",
+    "login_to_track": "Daha özəl təcrübə üçün hesab yaradın",
+    "report_message_empty": "Şikayətinizi daxil edin",
     "network_error": "İnternet xətası",
+    "image_fetch_failed": "Şəkil yüklənə bilmədi",
     "fetch_failed": "Xəta baş verdi",
+    "auth_check_failed": "Hesaba daxil olarkən xəta baş verdi",
     "retry_check_token": "Təkrar yoxla",
     "cannot_launch_url": "Link yüklənə bilmədi"
   },
-
   "fields": {
     "email": "Email",
     "first_name": "Ad",
@@ -147,17 +198,30 @@
   },
   "login": {
     "login_button_label": "Daxil ol",
-    "title": "Daxil ol"
+    "google_sign_in": "Google ilə daxil ol",
+    "apple_sign_in": "Apple ilə daxil ol",
+    "agree": "Hesab yaradaraq istifadə şərtləri və gizlilik hüquqlarına razı olmuş olursunuz",
+    "description": "Daha yaxşı və daha özəl təcrübə üçün aşağıdakı seçimlərdən istifadə edərək daxil olun",
+    "title": "Daxil ol",
+    "email_sign_in": "Email ilə daxil ol",
+    "forgot_password": "Şifrəni unutmusunuz?"
   },
-
-  "hide_password": "Gizlət",
-  "show_password": "Göstər",
-
   "register": {
     "register_button_label": "Qeydiyyat",
-    "title": "Qeydiyyat"
+    "title": "Qeydiyyat",
+    "agree": "Hesab yaradaraq istifadə şərtləri və gizlilik hüquqlarına razı olmuş olursunuz"
   },
   "tooltips": {
+    "hide_password": "Şifrəni gizlət",
+    "show_password": "Şifrəni göstər",
+    "reload_news_url": "Xəbərə geri dön",
+    "go_back_in_browser": "Brauzerdə geri dön",
+    "back_to_top": "Yuxarı get",
+    "follow": "İzlə",
+    "like": "Bəyən",
+    "comment": "Şərh yaz",
+    "share": "Paylaş",
+    "bookmark": "Qeydə al",
     "theme": {
       "dark": "Gecə modu",
       "light": "Gündüz modu",
@@ -170,7 +234,12 @@
       "bookmarks": "Qeydlər"
     }
   },
-
+  "forgot_password": {
+    "success": "Poçt qutunuzu yoxlayın",
+    "title": "Şifrəni unutmusunuz?",
+    "description": "Şifrəni yeniləmə təlimatlarını göndərilməsi üçün qeydiyyatdan keçdiyiniz emaili daxil edin",
+    "submit": "Təsdiqlə"
+  },
   "settings": {
     "language": "Dil",
     "general": "Ümumi",
@@ -181,9 +250,13 @@
     "language_select": "Dil seç",
     "title": "Tənzimləmələr",
     "login": "Daxil ol",
+    "logout": "Çıxış",
     "register": "Qeydiyyat",
     "theme": "Görünüş",
-    "notifications": { "news": "Xəbərlər" },
+    "notifications": {
+      "app_news": "Özəlləşdirilmiş xəbərlər",
+      "fcm_news": "Yeniliklər"
+    },
     "about_fields": {
       "name": "Ad",
       "version": "Versiya"
@@ -191,10 +264,11 @@
   },
   "validations": {
     "first_name_empty": "Ad daxil edin",
-    "first_name_min2_max30": "Ad minimum 2 maksimum 30 simvol ola bilər",
+    "first_name_min2_max30": "Ad minimum 2 simvol ola bilər",
     "invalid_email": "Yanlış email",
-    "invalid_password": "Yanlış şifrə (Ən az 8 simvol)",
+    "invalid_password": "Yanlış şifrə (Ən az 7 simvol)",
+    "invalid_regex": "Ən az 7 simvol, 1 kiçik, 1 böyük hərf və 1 rəqəm",
     "last_name_empty": "Ad daxil edin",
-    "last_name_min2_max30": "Soyad minimum 2 maksimum 30 simvol ola bilər"
+    "last_name_min2_max30": "Soyad minimum 2 simvol ola bilər"
   }
 }

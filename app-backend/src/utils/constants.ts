@@ -20,6 +20,8 @@ export enum AppPlatform {
 
 export enum ServiceType {
   APP,
+  GOOGLE,
+  APPLE,
 }
 
 export enum NotificationOptoutType {

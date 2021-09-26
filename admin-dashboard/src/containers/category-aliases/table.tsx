@@ -1,7 +1,7 @@
 import useTableLoader from "../../utils/hooks/table-data-loader";
 import { DataGrid } from "@mui/x-data-grid";
 import CategoryAliasesApi from "../../utils/api/categories-aliases";
-import { Button, Modal } from "../../widgets";
+import { Button } from "../../widgets";
 import LinkCategoryModal from "./link";
 import { useState } from "react";
 

@@ -89,13 +89,16 @@ class _SingleSourceViewState extends State<SingleSourceView> {
             ),
           ),
           ElevatedButton(
-            style: ButtonStyle(
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
             onPressed: _isRequestOn ? null : onFinish,
-            child: _isFollowing == true
-                ? Text("commons.following").tr()
-                : Text("commons.follow").tr(),
+            child: Text(
+              _isFollowing == true
+                  ? tr("commons.following")
+                  : tr("commons.follow"),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

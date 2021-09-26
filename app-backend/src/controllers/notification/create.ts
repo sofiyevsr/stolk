@@ -7,15 +7,15 @@ const saveTokenToDb = async (token: string, user_id: number) => {
   if (token == null || typeof token !== "string" || token.length < 15) {
     throw new SoftError(i18next.t("errors.invalid_token"));
   }
-  const dbTokens = await db(tables.notification_token).select("id").where({
+  const dbTokens = await db(tables.notification_token).select("token").where({
     token,
     user_id,
   });
   if (dbTokens.length != 0) {
-    throw new SoftError(i18next.t("errors.invalid_token"));
+    return;
   }
   const userTokensCount = await db(tables.notification_token)
-    .select(db.raw("count(id) as token_count"))
+    .select(db.raw("count(token) as token_count"))
     .where({
       user_id,
     })

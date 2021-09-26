@@ -227,7 +227,10 @@ async function usersNewsHistory(
 }
 
 async function allCategories() {
-  const categories = await db.select("id", "name").from(tables.news_category);
+  const categories = await db
+    .select("id", "name", "image_suffix")
+    .from(tables.news_category)
+    .where({ hidden_at: null });
   return { categories };
 }
 

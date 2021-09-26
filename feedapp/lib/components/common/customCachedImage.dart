@@ -21,7 +21,6 @@ class CustomCachedImage extends StatelessWidget {
     return CachedNetworkImage(
       progressIndicatorBuilder: (context, url, downloadProgress) => Container(),
       errorWidget: (context, url, error) {
-        print("image error $error");
         return FittedBox(
           child: Tooltip(
             message: tr("errors.image_fetch_failed"),

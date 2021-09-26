@@ -10,26 +10,28 @@ class EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            isDense: true,
-            alignLabelWithHint: true,
-            prefixIcon: Icon(
-              Icons.email_outlined,
-              size: 26,
+          isDense: true,
+          alignLabelWithHint: true,
+          prefixIcon: Icon(
+            Icons.email_outlined,
+            size: 26,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            labelText: tr('fields.email'),
-            hintText: tr('fields.email')),
+          ),
+          labelText: tr('fields.email'),
+          hintText: tr('fields.email'),
+        ),
         onSaved: (s) => _onSaved(s?.trim()),
-        validator: (s) {
+        validator: (value) {
+          final s = value?.trim();
           if (s != null && s.isNotEmpty) {
             RegExp emailRegex =
                 RegExp(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)');

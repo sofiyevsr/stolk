@@ -2,7 +2,7 @@ import SoftError from "@utils/softError";
 import register from "@utils/validations/auth/register";
 import db from "@db/db";
 import { generateAccessToken, hashPassword } from "@utils/credUtils";
-import { tables } from "@utils/constants";
+import { ServiceType, tables } from "@utils/constants";
 import i18next from "@translate/i18next";
 import { createConfirmationToken } from "./confirmationToken";
 
@@ -15,7 +15,7 @@ export default async function registerUser(body: any) {
   // Check if user exists
   const existingUsers = await db(tables.app_user)
     .select("id")
-    .where({ email: value.email });
+    .where({ email: value.email, service_type_id: ServiceType.APP });
   if (existingUsers.length !== 0)
     throw new SoftError(i18next.t("errors.unique_email"));
   // Hash Password
@@ -27,7 +27,7 @@ export default async function registerUser(body: any) {
       last_name: value.last_name,
       email: value.email,
       password: hash,
-      service_type_id: value.service_type,
+      service_type_id: ServiceType.APP,
     },
     [
       "id as user_id",

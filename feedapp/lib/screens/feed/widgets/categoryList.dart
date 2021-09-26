@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/customCachedImage.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 
@@ -23,42 +25,57 @@ class _CategoryListState extends State<CategoryList> {
   void initState() {
     super.initState();
     news.getAllCategories().then((value) {
-      setState(() {
-        _categories = value.categories;
-        _isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          _categories = value.categories;
+          _isLoading = false;
+        });
     }).catchError((e) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          _isLoading = false;
+        });
     });
   }
 
   Widget _buildItem(SingleCategory category) {
-    final theme = Theme.of(context);
     final isCurrent = category.id == widget.current;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text(
-            tr("categories.${category.name}"),
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: isCurrent ? FontWeight.bold : null,
+    return Container(
+      width: 140,
+      height: 80,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: isCurrent == true ? Colors.white : Colors.transparent,
+          width: 5,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CustomCachedImage(
+                url: categoryImagesPrefix + category.imageSuffix,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
+            Positioned.fill(
+              child: Center(
+                child: Text(
+                  tr("categories.${category.name}"),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: isCurrent ? FontWeight.bold : null,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        Container(
-          height: 4,
-          width: 4,
-          decoration: BoxDecoration(
-            color: isCurrent ? theme.iconTheme.color : null,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -66,17 +83,19 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     if (_isLoading == true) {
       return SizedBox(
-        height: 80,
+        height: 100,
       );
     }
 
     final cats = [
-      SingleCategory.fromJSON({"id": 0, "name": "all"}),
+      SingleCategory.fromJSON(
+        {"id": 0, "name": "all", "image_suffix": "all.png"},
+      ),
       ..._categories
     ];
 
     return SizedBox(
-      height: 60,
+      height: 100,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
   final String image;
   final String title;
   final String subtitle;
@@ -11,17 +11,41 @@ class IntroPage extends StatelessWidget {
   });
 
   @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.fastOutSlowIn,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+  }
+
+  @override
   Widget build(ctx) {
     final height = MediaQuery.of(ctx).size.height;
     return SizedBox.expand(
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
-              height: height / 1.5,
+          ScaleTransition(
+            scale: _animation,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              child: Image.asset(
+                widget.image,
+                fit: BoxFit.contain,
+                height: height / 1.5,
+              ),
             ),
           ),
           Container(
@@ -30,7 +54,7 @@ class IntroPage extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 32,
@@ -41,7 +65,7 @@ class IntroPage extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: Text(
-                    subtitle,
+                    widget.subtitle,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22,

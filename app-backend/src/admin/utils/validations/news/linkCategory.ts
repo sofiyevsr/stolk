@@ -11,14 +11,14 @@ export default joi
       .allow(null)
       .required()
       .messages({
-        "number.base": i18next.t("errors.validation.category_id.string"),
+        "number.base": i18next.t("errors.validation.category_id.number"),
         "any.required": i18next.t("errors.validation.category_id.required"),
       }),
     category_alias_id: joi
       .number()
       .required()
       .messages({
-        "number.base": i18next.t("errors.validation.category_alias_id.string"),
+        "number.base": i18next.t("errors.validation.category_alias_id.number"),
         "any.required": i18next.t(
           "errors.validation.category_alias_id.required"
         ),

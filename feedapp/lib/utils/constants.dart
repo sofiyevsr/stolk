@@ -7,12 +7,23 @@ final privacyPolicyURL = websiteURL + "privacy-policy";
 final termsOfUseURL = websiteURL + "terms-of-use";
 final sourceLogosPrefix =
     "https://stolk.s3.eu-west-3.amazonaws.com/source-logos/";
+final categoryImagesPrefix =
+    "https://stolk.s3.eu-west-3.amazonaws.com/category-images/";
 
 const Map<int, String> LANGS = {0: "az", 1: "tr", 2: "ru", 3: "en"};
 
 class AppPlatform {
   static const IOS = 0;
   static const ANDROID = 1;
+}
+
+Map<String, String> fcmNotificationChannels = {
+  "news": "news",
+};
+
+class NotificationOptoutType {
+  // Unless user optouts latest news from one of sources user follow will be sent each ... days
+  static const SourceFollow = 0;
 }
 
 class SessionType {
@@ -52,6 +63,8 @@ class RouteNames {
   static const SINGLE_NEWS = "single_news";
   static const HOME = "home";
   static const AUTH = "auth";
+  static const LOCAL_AUTH = "local_auth";
+  static const FORGOT_PASSWORD = "forgot_password";
 }
 
 final passwordRegex =

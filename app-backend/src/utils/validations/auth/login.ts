@@ -6,7 +6,6 @@ export default joi
   .object<{
     email: string;
     password: string;
-    service_type: number;
     session_type: number;
   }>({
     email: joi
@@ -32,15 +31,15 @@ export default joi
           "errors.validation.password.invalid_pattern"
         ),
       }),
-    service_type: joi
-      .number()
-      .required()
-      .valid(ServiceType.APP)
-      .messages({
-        "number.base": i18next.t("errors.validation.service_type.number"),
-        "any.required": i18next.t("errors.validation.service_type.required"),
-        "any.only": i18next.t("errors.validation.service_type.invalid"),
-      }),
+    // service_type: joi
+    //   .number()
+    //   .required()
+    //   .valid(ServiceType.APP)
+    //   .messages({
+    //     "number.base": i18next.t("errors.validation.service_type.number"),
+    //     "any.required": i18next.t("errors.validation.service_type.required"),
+    //     "any.only": i18next.t("errors.validation.service_type.invalid"),
+    //   }),
 
     session_type: joi
       .number()

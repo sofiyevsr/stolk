@@ -1,4 +1,3 @@
-import { IPaginate, TableInterface } from "../@types/paginate";
 import ApiClient from "../apiClient";
 
 class NotificationApi extends ApiClient {

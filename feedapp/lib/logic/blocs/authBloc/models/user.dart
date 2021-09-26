@@ -3,7 +3,8 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   final String firstName, lastName, email, createdAt;
   final String? confirmedAt, bannedAt;
-  final int serviceTypeId, id;
+  final int? serviceTypeId;
+  final int id;
   const User({
     required this.id,
     required this.firstName,

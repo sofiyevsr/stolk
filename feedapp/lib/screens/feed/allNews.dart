@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
@@ -97,9 +98,14 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   }
 
   void _changeCategory(int id) {
-    _scrollController.jumpTo(
-      0,
-    );
+    if (id == _currentCategory) {
+      return;
+    }
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(
+        0,
+      );
+    }
     final bloc = context.read<NewsBloc>();
     bloc.add(
       FetchNewsEvent(
@@ -107,9 +113,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         sourceID: null,
       ),
     );
-    setState(() {
-      _currentCategory = id;
-    });
+    if (mounted)
+      setState(() {
+        _currentCategory = id;
+      });
   }
 
   @override
@@ -140,17 +147,25 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                           itemBuilder: (ctx, index) => index >=
                                   state.data.news.length
                               ? state is NewsNextFetchError
-                                  ? Container(
-                                      height: 50,
-                                      child: Center(
-                                        child: ElevatedButton(
+                                  ? Center(
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        height: 50,
+                                        child: ElevatedButton.icon(
                                           onPressed: forceFetchNext,
-                                          child: Text("missing"),
+                                          //TODO
+                                          icon: Icon(Icons.refresh),
+                                          label: Text("buttons.retry_request"),
                                         ),
                                       ),
                                     )
                                   : Container(
                                       height: 50,
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
                                       child: Center(
                                         child:
                                             CircularProgressIndicator.adaptive(
@@ -169,8 +184,49 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                       );
                     }
 
-                    if (state is NewsStateNoData) {}
-                    if (state is NewsStateError) {}
+                    if (state is NewsStateNoData) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.assessment,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 100,
+                            ),
+                            //TODO try following more sources
+                            Text(
+                              tr("news.no_news_follow_more"),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    if (state is NewsStateError) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.wifi_off,
+                              color: Colors.blue[700],
+                              size: 100,
+                            ),
+                            Text(
+                              tr("errors.network_error"),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                     return Container();
                   },
                 ),
@@ -183,6 +239,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
             bottom: 10,
             right: 10,
             child: FloatingActionButton(
+              tooltip: tr("tooltips.back_to_top"),
               onPressed: () {
                 _scrollController.animateTo(
                   0,

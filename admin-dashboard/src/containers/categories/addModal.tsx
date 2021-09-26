@@ -11,6 +11,7 @@ interface Props {
 
 type FormData = {
   name: string;
+  image_suffix: string;
 };
 
 const categoryApi = new CategoriesApi();
@@ -18,11 +19,16 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<FormData>();
 
   const formHandler = async (data: FormData) => {
-    const res: any = await categoryApi.insert({ name: data.name });
+    const res: any = await categoryApi.insert({
+      name: data.name,
+      image_suffix: data.image_suffix,
+    });
+    reset({ name: "", image_suffix: "" });
     toast.success("Category created");
     alterInMemory(res.body);
   };
@@ -36,7 +42,9 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
         throw e;
       })}
     >
-      <label htmlFor="category-name">Name</label>
+      <label htmlFor="category-name">
+        Name (name should be translated on apps)
+      </label>
       <input
         id="category-name"
         {...register("name", {
@@ -45,7 +53,20 @@ function AddCategoryModal({ show, onClose, alterInMemory }: Props) {
           required: { message: "Name is required", value: true },
         })}
       />
-      <span style={{ color: "red" }}>{errors.name && errors.name.message}</span>
+      <div style={{ color: "red" }}>{errors.name && errors.name.message}</div>
+      <label htmlFor="image-suffix">
+        Image filename (example: image.jpg)(ideal size 140x80(WxH))
+      </label>
+      <input
+        id="image-suffix"
+        {...register("image_suffix", {
+          minLength: { message: "Minimum 2 length", value: 2 },
+          required: { message: "Image suffix is required", value: true },
+        })}
+      />
+      <div style={{ color: "red" }}>
+        {errors.image_suffix && errors.image_suffix.message}
+      </div>
     </Modal>
   );
 }

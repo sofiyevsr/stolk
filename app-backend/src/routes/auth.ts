@@ -3,6 +3,7 @@ import {
   createConfirmationToken,
   verifyEmail,
 } from "@controllers/auth/confirmationToken";
+import oauth from "@controllers/auth/oauth";
 import {
   createResetToken,
   resetPassword,
@@ -22,6 +23,15 @@ r.use(cors({ origin: isProd ? "https://stolk.app" : "http://localhost:3000" }));
 r.post("/login", async (req, res, next) => {
   try {
     const session = await auth.login(req.body);
+    return responseSuccess(res, session);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+r.post("/login/google", async (req, res, next) => {
+  try {
+    const session = await oauth.googleLoginUser(req.body);
     return responseSuccess(res, session);
   } catch (error) {
     return next(error);

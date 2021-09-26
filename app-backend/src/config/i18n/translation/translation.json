@@ -1,13 +1,8 @@
 {
   "errors": {
     "invalid_token": "",
-    "account_banned": "",
     "login_fail": "",
-    "invalid_session_id": "",
-    "unique_email": "",
-    "reset_fail": "",
-    "news_id_required": "",
-    "source_id_required": "",
+    "recaptcha_fail": "",
     "validation": {
       "email": {
         "string": "",
@@ -20,6 +15,42 @@
         "empty": "",
         "required": "",
         "invalid_pattern": ""
+      },
+      "category_name": {
+        "string": "",
+        "empty": "",
+        "min": "",
+        "max": "",
+        "required": ""
+      },
+      "category_id": {
+        "string": "",
+        "required": ""
+      },
+      "category_alias_id": {
+        "string": "",
+        "required": ""
+      },
+      "title": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "body": {
+        "string": "",
+        "empty": "",
+        "required": "",
+        "max20": ""
+      },
+      "id": {
+        "number": "",
+        "required": ""
+      },
+      "token": {
+        "string": "",
+        "empty": "",
+        "required": ""
       },
       "service_type": {
         "number": "",
@@ -45,33 +76,34 @@
         "min2": "",
         "max30": ""
       },
-      "id": {
-        "number": "",
-        "required": ""
-      },
-      "token": {
-        "string": "",
-        "empty": "",
-        "required": ""
-      },
       "comment": {
         "string": "",
         "empty": "",
         "required": "",
         "max300": ""
       },
-      "title": {
-        "string": "",
-        "empty": "",
+      "notification_optout_type": {
+        "number": "",
         "required": "",
-        "max20": ""
+        "invalid": ""
       },
-      "body": {
+      "message": {
         "string": "",
         "empty": "",
         "required": "",
-        "max20": ""
+        "max300": ""
       }
-    }
+    },
+    "account_banned": "",
+    "backoff_confirmation_token": "",
+    "confirmation_fail": "",
+    "invalid_session_id": "",
+    "google_data_not_complete": "",
+    "unique_email": "",
+    "backoff_reset_token": "",
+    "reset_fail": "",
+    "news_id_required": "",
+    "source_id_required": "",
+    "user_not_confirmed": ""
   }
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/dialogs/reportDialog.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
@@ -6,6 +7,7 @@ import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/services/server/reportService.dart';
 import 'package:stolk/utils/services/server/sourceService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +28,7 @@ class SingleNewsHeader extends StatefulWidget {
 }
 
 class _SingleNewsHeaderState extends State<SingleNewsHeader> {
+  final reportApi = ReportService();
   bool _isRequestOn = false;
 
   void onFinish() async {
@@ -100,32 +103,52 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
         ),
         Row(
           children: [
-            ScaleButton(
-              disabled: _isRequestOn,
-              child: widget.feed.followID != null
-                  ? Icon(
-                      Icons.done_all,
-                      size: _iconSize,
-                    )
-                  : Icon(
-                      Icons.add,
-                      size: _iconSize,
-                    ),
-              onFinish: onFinish,
+            Tooltip(
+              message: tr("tooltips.follow"),
+              child: ScaleButton(
+                disabled: _isRequestOn,
+                child: widget.feed.followID != null
+                    ? Icon(
+                        Icons.done_all,
+                        size: _iconSize,
+                      )
+                    : Icon(
+                        Icons.add,
+                        size: _iconSize,
+                      ),
+                onFinish: onFinish,
+              ),
             ),
             PopupMenuButton<String>(
               offset: Offset(0, 40),
               iconSize: _iconSize,
               onSelected: (v) async {
-                await showDialog(
-                  context: context,
-                  builder: (ctx) => ReportDialog(newsID: widget.feed.id),
-                );
+                try {
+                  authorize();
+                  await showDialog(
+                    context: context,
+                    builder: (ctx) => ReportDialog(
+                      onConfirmed: (String message) {
+                        return reportApi.newsReport(message, widget.feed.id);
+                      },
+                    ),
+                  );
+                } catch (_) {}
               },
               itemBuilder: (entry) {
                 return [
                   PopupMenuItem(
-                    child: Text("report"),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Icon(Icons.report, color: Colors.red),
+                        ),
+                        Text(
+                          tr("report.menu"),
+                        ),
+                      ],
+                    ),
                     value: "report",
                   ),
                 ];

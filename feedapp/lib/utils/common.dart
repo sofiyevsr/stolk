@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/auth/views/AuthView.dart';
 import 'package:stolk/logic/blocs/authBloc/utils/AuthBloc.dart';
+import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,8 @@ authorize({bool pushAuthView = true}) {
   final auth = AuthBloc.instance.state;
   if (auth is! AuthorizedState) {
     if (pushAuthView == true) {
-      NavigationService.push(AuthView(isLogin: true), RouteNames.AUTH);
+      //TODO
+      NavigationService.push(AuthPage(), RouteNames.AUTH);
     }
     throw Error();
   }
