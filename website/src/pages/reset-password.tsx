@@ -40,7 +40,7 @@ export async function getServerSideProps({
 
   try {
   } catch (error) {}
-  const data = await fetch(`${API_URL}auth/forgot-password/check-token`, {
+  const data = await fetch(`${API_URL}/auth/forgot-password/check-token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

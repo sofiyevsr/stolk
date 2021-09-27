@@ -34,7 +34,10 @@ class CustomCachedImage extends StatelessWidget {
       imageBuilder: (ctx, provider) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(this.radius),
-          image: DecorationImage(image: provider, fit: fit),
+          image: DecorationImage(
+            image: provider,
+            fit: fit,
+          ),
         ),
       ),
       imageUrl: url,

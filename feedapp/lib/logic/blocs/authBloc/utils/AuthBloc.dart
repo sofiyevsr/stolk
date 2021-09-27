@@ -3,6 +3,7 @@ import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
 import 'package:stolk/utils/@types/request/register.dart';
+import 'package:stolk/utils/services/app/logger.dart';
 import 'package:stolk/utils/services/app/startupService.dart';
 import 'package:stolk/utils/services/server/authService.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
@@ -50,6 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           token: response.token,
         );
+        AppLogger.analytics.logLogin(loginMethod: "local");
       } catch (e) {
         yield FailedAuthState(error: e.toString());
       }
@@ -73,6 +75,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           token: response.token,
         );
+        AppLogger.analytics.logLogin(loginMethod: "google");
       } catch (e) {
         yield FailedAuthState(error: e.toString());
       }
@@ -101,6 +104,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           token: response.token,
         );
+        AppLogger.analytics.logSignUp(signUpMethod: "local");
       } catch (e) {
         yield FailedAuthState(error: e.toString());
       }

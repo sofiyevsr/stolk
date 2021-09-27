@@ -43,16 +43,16 @@ class _CategoryListState extends State<CategoryList> {
     return Container(
       width: 140,
       height: 80,
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: isCurrent == true ? Colors.white : Colors.transparent,
+          color: isCurrent == true ? Colors.blue.shade500 : Colors.transparent,
           width: 5,
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(10),
         child: Stack(
           children: [
             Positioned.fill(
@@ -62,14 +62,21 @@ class _CategoryListState extends State<CategoryList> {
               ),
             ),
             Positioned.fill(
+              child: Opacity(
+                opacity: 0.45,
+                child: Container(color: Colors.black),
+              ),
+            ),
+            Positioned.fill(
               child: Center(
                 child: Text(
                   tr("categories.${category.name}"),
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
-                    fontWeight: isCurrent ? FontWeight.bold : null,
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
@@ -89,7 +96,7 @@ class _CategoryListState extends State<CategoryList> {
 
     final cats = [
       SingleCategory.fromJSON(
-        {"id": 0, "name": "all", "image_suffix": "all.png"},
+        {"id": 0, "name": "all", "image_suffix": "all.jpg"},
       ),
       ..._categories
     ];

@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // final apiUrl = "http://167.99.136.121:4500/";
-final apiUrl = "http://localhost:4500/";
+final apiUrl =
+    kReleaseMode ? "https://api.stolk.app/" : "http://localhost:4500/";
 final websiteURL = "https://stolk.app/";
 final privacyPolicyURL = websiteURL + "privacy-policy";
 final termsOfUseURL = websiteURL + "terms-of-use";

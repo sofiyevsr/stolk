@@ -21,7 +21,7 @@ type Result struct {
 // fp Parser
 // c chan CustomFeed -> channel to receive feeds
 
-func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []CatAlias, c chan Result) {
+func ParseFeed(i int, v Feed, categoryAliases []CatAlias, c chan Result) {
 
 	fp := gofeed.NewParser()
 	beforeParse := time.Now()
@@ -30,7 +30,7 @@ func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []
 	bctx := context.Background()
 	ctx, cancel := context.WithTimeout(bctx, PARSE_TIMEOUT)
 	defer cancel()
-	remoteFeed, err := fp.ParseURLWithContext(v.Feed, ctx)
+	remoteFeed, err := fp.ParseURLWithContext(v.Link, ctx)
 	fmt.Printf("parsing %s took %v \n", v.Name, time.Since(beforeParse))
 
 	if err != nil {
@@ -43,34 +43,33 @@ func ParseFeed(i int, v Feed, sources []LastPubDateForSource, categoryAliases []
 	}
 	fmt.Printf("parsing feed: %s, len: %d \n", v.Name, remoteFeed.Len())
 
-	// lookup for source and its last pub_date
+	// check if pub date of last news of source okay
 	var current time.Time
-	for _, source := range sources {
-		if source.Source == v.Id {
-			if source.PubDate.Valid {
-				temp, err := time.Parse(time.RFC3339, source.PubDate.String)
-				if err != nil {
-					c <- Result{
-						Feed: []CustomFeed{},
-						Err:  err,
-					}
-				}
-				current = temp
+	if v.PubDate.Valid {
+		temp, err := time.Parse(time.RFC3339, v.PubDate.String)
+		if err != nil {
+			c <- Result{
+				Feed: []CustomFeed{},
+				Err:  err,
 			}
 		}
+		current = temp
 	}
 
-	var cats []CatAlias
-	var feeds []CustomFeed
-	duplicateFeedTracker := make(map[string]bool)
-
+	var (
+		cats  []CatAlias
+		feeds []CustomFeed
+	)
 	for _, item := range remoteFeed.Items {
-		if feedResult, err := ProcessFeed(item, current, &v); err == nil {
+		feedResult, err := ProcessFeed(item, current, &v)
+		if err != nil {
+			// not guaranteed to have items sorted, most are not sorted by pub_date
+			// if err.Error() == "old_feed" {
+			// 	break
+			// }
+		} else {
 			addCatAlias(&cats, feedResult.CatAliasName)
-			if duplicateFeedTracker[feedResult.Link] == false {
-				duplicateFeedTracker[feedResult.Link] = true
-				feeds = append(feeds, feedResult)
-			}
+			feeds = append(feeds, feedResult)
 		}
 	}
 	filteredCats := filterDuplicateAliases(cats, categoryAliases)

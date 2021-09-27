@@ -40,7 +40,7 @@ export async function getServerSideProps({
 
   try {
   } catch (error) {}
-  const data = await fetch(`${API_URL}auth/verify-email`, {
+  const data = await fetch(`${API_URL}/auth/verify-email`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -76,6 +76,7 @@ export const tables = {
 };
 
 export const functions = {
+  read_news: "read_news",
   comment_news: "comment_news",
   uncomment_news: "uncomment_news",
   like_news: "like_news",
@@ -83,6 +84,7 @@ export const functions = {
 };
 
 export const triggers = {
+  read_trigger: "read_trigger",
   comment_trigger: "comment_trigger",
   uncomment_trigger: "uncomment_trigger",
   like_trigger: "like_trigger",

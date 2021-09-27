@@ -49,16 +49,21 @@ func handleLambda() (string, error) {
 
 	fmt.Printf("start time %s \n", startTime.UTC())
 
+	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		return "DB connection failed", err
+	}
+
 	// get Data from db
-	data, err := utils.Startup()
+	data, err := utils.Startup(db)
 
 	if err != nil {
-		return "", err
+		return "Startup failed", err
 	}
 
 	ch := make(chan utils.Result)
 	for i, v := range data.Feeds {
-		go utils.ParseFeed(i, v, data.LastPubDates, data.CatAliases, ch)
+		go utils.ParseFeed(i, v, data.CatAliases, ch)
 	}
 
 	var (
@@ -84,7 +89,7 @@ func handleLambda() (string, error) {
 			if len(feed.Aliases) > 0 {
 				catsColl = append(catsColl, feed.Aliases...)
 			}
-			//Skips single channel
+			// Skips single channel
 			// useful to skip long taking channel
 			// allows to make total timeout longer
 		case <-time.After(SINGLE_PARSE_LIMIT):
@@ -97,19 +102,17 @@ func handleLambda() (string, error) {
 			break
 		}
 	}
-	utils.SaveCategoryAlias(catsColl)
-	// fmt.Printf("New category aliases %v \n", catsColl)
+	utils.SaveCategoryAlias(db, catsColl)
 
-	result := saveToDB(items)
+	result := saveToDB(db, items)
 	duration := time.Since(startTime)
 	fmt.Printf("execution time: %v \n", duration)
 	fmt.Printf("sources that wasn't processed %v \n", processedFeeds)
-	var affectedRows, lastID int64
+	var affectedRows int64
 	if result != nil {
 		affectedRows, _ = result.RowsAffected()
-		lastID, _ = result.LastInsertId()
 	}
-	return fmt.Sprintf("last id: %d, inserted rows: %d \n", lastID, affectedRows), nil
+	return fmt.Sprintf("inserted rows: %d \n", affectedRows), nil
 }
 
 // Save only feeds with unique feed_link
@@ -129,13 +132,9 @@ func saveFeedInMemory(feed utils.Result, uniqueLinks *map[string]bool) []utils.C
 }
 
 // Last Step
-func saveToDB(items []utils.CustomFeed) sql.Result {
+func saveToDB(db *sqlx.DB, items []utils.CustomFeed) sql.Result {
 	if items == nil || len(items) == 0 {
 		return nil
-	}
-	db, err := sqlx.Connect("pgx", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		panic(err)
 	}
 
 	// Map id of category_alias from string
@@ -166,7 +165,7 @@ func saveToDB(items []utils.CustomFeed) sql.Result {
 			}
 		}
 	}
-	fmt.Printf("length %d", len(items))
+	fmt.Printf("length %d\n", len(items))
 
 	// Insert new news
 	// when feed_link is same update pub_date
