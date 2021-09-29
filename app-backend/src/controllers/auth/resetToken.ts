@@ -24,7 +24,7 @@ export async function createResetToken(body: any) {
   const { email } = value;
   const [user] = await db(tables.app_user)
     .select(["id", "email"])
-    .where({ email, service_type_id: ServiceType.APP });
+    .where({ email });
   if (user == null) return false;
 
   const resetTokenSession = await db(tables.reset_token)

@@ -8,7 +8,6 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex(tables.service_type).insert([
-    { id: ServiceType.APP, name: "app" },
     { id: ServiceType.GOOGLE, name: "google" },
     { id: ServiceType.APPLE, name: "apple" },
   ]);

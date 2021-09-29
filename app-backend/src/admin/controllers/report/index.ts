@@ -18,7 +18,7 @@ const news = async (lastID: string | undefined) => {
     )
     .from(`${tables.news_report} as nr`)
     .leftJoin(`${tables.report} as r`, "nr.report_id", "r.id")
-    .leftJoin(`${tables.app_user} as u`, "nr.user_id", "u.id")
+    .leftJoin(`${tables.base_user} as u`, "nr.user_id", "u.id")
     .leftJoin(`${tables.news_feed} as n`, "nr.news_id", "n.id")
     .orderBy("nr.report_id", "desc")
     .limit(PAGINATION_LIMIT);
@@ -52,9 +52,9 @@ const comments = async (lastID: string | undefined) => {
     )
     .from(`${tables.comment_report} as cr`)
     .leftJoin(`${tables.report} as r`, "cr.report_id", "r.id")
-    .leftJoin(`${tables.app_user} as u`, "cr.user_id", "u.id")
+    .leftJoin(`${tables.base_user} as u`, "cr.user_id", "u.id")
     .leftJoin(`${tables.news_comment} as c`, "cr.comment_id", "c.id")
-    .leftJoin(`${tables.app_user} as cu`, "c.user_id", "cu.id")
+    .leftJoin(`${tables.base_user} as cu`, "c.user_id", "cu.id")
     .orderBy("cr.report_id", "desc")
     .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {

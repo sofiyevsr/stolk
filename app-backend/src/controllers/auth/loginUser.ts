@@ -1,6 +1,6 @@
 import db from "@config/db/db";
 import i18next from "@translate/i18next";
-import { ServiceType, tables } from "@utils/constants";
+import { tables } from "@utils/constants";
 import { comparePassword, generateAccessToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import login from "@utils/validations/auth/login";
@@ -10,19 +10,19 @@ export default async function loginUser(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  const dbUser = await db(tables.app_user)
+  const dbUser = await db(`${tables.app_user} as au`)
     .select([
-      "id as user_id",
-      "password",
-      "service_type_id",
-      "email",
-      "created_at",
-      "first_name",
-      "last_name",
-      "banned_at",
-      "confirmed_at",
+      "u.id as user_id",
+      "au.password",
+      "au.email",
+      "u.created_at",
+      "u.first_name",
+      "u.last_name",
+      "u.banned_at",
+      "u.confirmed_at",
     ])
-    .where({ email: value.email, service_type_id: ServiceType.APP })
+    .where({ "au.email": value.email })
+    .leftJoin(`${tables.base_user} as u`, "u.id", "au.id")
     .first();
 
   if (dbUser == null) {
@@ -43,6 +43,8 @@ export default async function loginUser(body: any) {
     id: user.user_id,
     platform: value.session_type,
   });
+
+  console.log(value);
 
   const session = await db(tables.user_session).insert({
     session_type_id: value.session_type,

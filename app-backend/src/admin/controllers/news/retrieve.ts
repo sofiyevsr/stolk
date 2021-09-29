@@ -64,7 +64,7 @@ async function comments(lastID: string | undefined) {
       "c.created_at"
     )
     .from(`${tables.news_comment} as c`)
-    .leftJoin(`${tables.app_user} as u`, "c.user_id", "u.id")
+    .leftJoin(`${tables.base_user} as u`, "c.user_id", "u.id")
     .orderBy("id", "desc")
     .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {
