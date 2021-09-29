@@ -17,26 +17,6 @@ const (
 	MAX_LINK_LENGTH  = 1000
 )
 
-func ConvertFeedsToLogFeeds(feeds []Feed) []int {
-	initial := make([]int, 0)
-	for _, v := range feeds {
-		initial = append(initial, v.Id)
-	}
-	return initial
-}
-
-func MarkFeedAsProcessed(source_id int, processedFeeds *[]int) {
-	feeds := *processedFeeds
-	for i, fe := range feeds {
-		if fe == source_id {
-			feeds[i] = feeds[len(feeds)-1]
-			// We do not need to put s[i] at the end, as it will be discarded anyway
-			*processedFeeds = feeds[:len(feeds)-1]
-			return
-		}
-	}
-}
-
 func tryParseDate(date string) (time.Time, error) {
 	if date == "" {
 		return time.Time{}, errors.New("date is empty")
@@ -71,8 +51,8 @@ func tryParseLink(rawLink string) (string, error) {
 	}
 
 	// some sources has two scheme so replace it
-	if strings.Count(rawLink, "https:") > 1 {
-		rawLink = strings.Replace(rawLink, "https:", "", 1)
+	if strings.Contains(rawLink, "https:https:") {
+		rawLink = strings.Replace(rawLink, "https:https:", "https:", 1)
 	}
 
 	link, err := url.ParseRequestURI(rawLink)
@@ -104,6 +84,11 @@ func stripHTMLTags(str string, unescape bool) (string, error) {
 	return escaped, nil
 }
 
+// Specific corrections for each feed
+// Links that required further actions for now:
+// lent.az
+// apa.az
+// TODO write test for checking if corresponding feeds will work if problem solved
 func prepareFeed(feed *gofeed.Item, name string) {
 
 	if strings.Contains(feed.Link, "lent.az") && strings.HasSuffix(feed.Link, "/1") {

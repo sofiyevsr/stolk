@@ -245,7 +245,7 @@ async function comments(news_id: number, id?: string) {
       "c.created_at"
     )
     .from(`${tables.news_comment} as c`)
-    .leftJoin(`${tables.app_user} as u`, "u.id", "c.user_id")
+    .leftJoin(`${tables.base_user} as u`, "u.id", "c.user_id")
     .where({
       news_id,
     })

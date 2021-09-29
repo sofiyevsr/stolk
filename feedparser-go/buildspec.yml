@@ -8,8 +8,8 @@ phases:
     commands:
       - echo "pre build"
       - cd feedparser-go
-      - go test ./... -race
       - go get ./...
+      - go test ./... -race
   build:
     commands:
       - echo "building..."

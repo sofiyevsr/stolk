@@ -28,30 +28,43 @@ async function loginUser(id: number) {
 }
 
 async function registerUser(payload: TokenPayload) {
-  const [user] = await db(tables.app_user).insert(
-    {
-      first_name: payload.given_name,
-      last_name: payload.family_name,
-      email: payload.email,
-      oauth_id: payload.sub,
-      // Password is not null so workaround could be empty string
-      password: "",
-      service_type_id: ServiceType.GOOGLE,
-      confirmed_at: db.fn.now(),
-    },
-    [
-      "id as user_id",
-      "service_type_id",
-      "email",
-      "created_at",
-      "first_name",
-      "last_name",
-      "banned_at",
-      "confirmed_at",
-    ]
-  );
+  const trx = await db.transaction();
+  // DB data
+  let baseUser, user;
+  try {
+    const baseResult = await trx(tables.base_user).insert(
+      {
+        first_name: payload.given_name,
+        last_name: payload.family_name,
+        confirmed_at: db.fn.now(),
+      },
+      [
+        "id as user_id",
+        "first_name",
+        "last_name",
+        "confirmed_at",
+        "banned_at",
+        "created_at",
+      ]
+    );
+    baseUser = baseResult[0];
+    const oauthResult = await trx(tables.oauth_user).insert(
+      {
+        id: baseUser.user_id,
+        email: payload.email,
+        oauth_id: payload.sub,
+        service_type_id: ServiceType.GOOGLE,
+      },
+      ["service_type_id", "email"]
+    );
+    user = oauthResult[0];
+    await trx.commit();
+  } catch (error) {
+    await trx.rollback();
+    throw error;
+  }
   const { token } = await loginUser(user.user_id);
-  return { token, user };
+  return { token, user: { ...user, baseUser } };
 }
 
 async function googleLoginUser(body: any) {
@@ -76,18 +89,19 @@ async function googleLoginUser(body: any) {
 
   // Does user exist if does then login else register
 
-  const user = await db(tables.app_user)
+  const user = await db(`${tables.oauth_user} as ou`)
     .select([
-      "id as user_id",
-      "service_type_id",
-      "email",
-      "created_at",
-      "first_name",
-      "last_name",
-      "banned_at",
-      "confirmed_at",
+      "u.id as user_id",
+      "ou.service_type_id",
+      "ou.email",
+      "u.created_at",
+      "u.first_name",
+      "u.last_name",
+      "u.banned_at",
+      "u.confirmed_at",
     ])
     .where({ oauth_id: payload.sub, service_type_id: ServiceType.GOOGLE })
+    .leftJoin(`${tables.app_user} as u`, "u.id", "ou.id")
     .first();
 
   if (user == null) {

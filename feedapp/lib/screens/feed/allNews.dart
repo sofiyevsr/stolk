@@ -123,15 +123,15 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              CategoryList(
-                current: _currentCategory,
-                changeCategory: _changeCategory,
-              ),
-              Expanded(
+        Column(
+          children: [
+            CategoryList(
+              current: _currentCategory,
+              changeCategory: _changeCategory,
+            ),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 15),
                 child: BlocBuilder<NewsBloc, NewsState>(
                   builder: (ctx, state) {
                     if (state is NewsStateLoading) return AllNewsShimmer();
@@ -201,6 +201,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -231,8 +232,8 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         if (showFab)
           Positioned(

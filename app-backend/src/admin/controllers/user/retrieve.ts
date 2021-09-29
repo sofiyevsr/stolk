@@ -6,15 +6,17 @@ import Joi from "joi";
 async function users(lastID: string | undefined) {
   let query = db
     .select(
-      "id",
-      "first_name",
-      "last_name",
-      "email",
-      "banned_at",
-      "confirmed_at",
-      "created_at"
+      "bu.id",
+      "bu.first_name",
+      "bu.last_name",
+      db.raw("COALESCE(au.email, ou.email)"),
+      "bu.banned_at",
+      "bu.confirmed_at",
+      "bu.created_at"
     )
-    .from(`${tables.app_user}`)
+    .from(`${tables.base_user} as bu`)
+    .leftJoin(`${tables.app_user} as au`, "au.id", "bu.id")
+    .leftJoin(`${tables.oauth_user} as ou`, "ou.id", "bu.id")
     .orderBy("id", "desc")
     .limit(PAGINATION_LIMIT + 1);
   if (lastID != null) {

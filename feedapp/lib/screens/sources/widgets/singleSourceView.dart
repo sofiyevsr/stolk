@@ -70,7 +70,7 @@ class _SingleSourceViewState extends State<SingleSourceView> {
                 children: [
                   Text(
                     widget.item.name,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
@@ -95,7 +95,7 @@ class _SingleSourceViewState extends State<SingleSourceView> {
                   ? tr("commons.following")
                   : tr("commons.follow"),
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),

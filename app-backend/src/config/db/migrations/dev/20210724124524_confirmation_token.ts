@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
     t.string("token").notNullable().unique();
     t.integer("user_id")
       .references("id")
-      .inTable(tables.app_user)
+      .inTable(tables.base_user)
       .unique()
       .onUpdate("CASCADE")
       .onDelete("CASCADE");

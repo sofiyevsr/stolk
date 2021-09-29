@@ -33,7 +33,7 @@ function ResetForm() {
   const onSubmit = async (data: FormData) => {
     const { t: token, i: id } = router.query;
     try {
-      const res = await fetch(API_URL + "auth/reset-password", {
+      const res = await fetch(API_URL + "/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

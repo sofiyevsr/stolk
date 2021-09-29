@@ -10,6 +10,7 @@ export async function up(knex: Knex): Promise<void> {
     t.specificType("feed_link", "VARCHAR (1000)").unique().notNullable();
     t.integer("like_count").notNullable().defaultTo(0);
     t.integer("comment_count").notNullable().defaultTo(0);
+    t.integer("read_count").notNullable().defaultTo(0);
     t.integer("source_id")
       .notNullable()
       .references("id")

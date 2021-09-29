@@ -50,7 +50,7 @@ func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, er
 	} else {
 		parsedTime, err := tryParseDate(item.Published)
 		if err != nil || parsedTime.IsZero() {
-			fmt.Println("error while parsing pub_date")
+			fmt.Printf("error while parsing pub_date %v \n", item.Title)
 			return CustomFeed{}, err
 		}
 		feed.PubDate = parsedTime.UTC()
@@ -59,7 +59,7 @@ func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, er
 	currentDate := time.Now().UTC()
 
 	if !feed.PubDate.IsZero() && (feed.PubDate.Equal(lastTime) || feed.PubDate.Before(lastTime) || feed.PubDate.After(currentDate)) {
-		return CustomFeed{}, errors.New("old feed")
+		return CustomFeed{}, errors.New("old_feed")
 	}
 
 	var parsedImage string

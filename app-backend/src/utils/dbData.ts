@@ -431,3 +431,19 @@ export const sources = [
     lang_id: 0,
   },
 ];
+
+export const categories = [
+  {
+    name: "culture",
+    image_suffix: "culture.jpg",
+  },
+  { name: "economics", image_suffix: "economics.jpg" },
+  { name: "incident", image_suffix: "incident.jpg" },
+  { name: "interesting", image_suffix: "interesting.jpg" },
+  { name: "life", image_suffix: "life.jpg" },
+  { name: "politics", image_suffix: "politics.jpg" },
+  { name: "society", image_suffix: "society.jpg" },
+  { name: "sport", image_suffix: "sport.jpg" },
+  { name: "technology", image_suffix: "technology.jpg" },
+  { name: "world", image_suffix: "world.jpg" },
+];

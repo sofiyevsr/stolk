@@ -19,14 +19,16 @@ export default async function checkToken(headers: any) {
       "u.id as user_id",
       "u.first_name",
       "u.last_name",
-      "u.email",
-      "u.service_type_id",
+      db.raw("COALESCE(au.email, ou.email)"),
+      "ou.service_type_id",
       "u.created_at",
       "u.confirmed_at",
       "u.banned_at"
     )
     .from(`${tables.user_session} as s`)
-    .leftJoin(`${tables.app_user} as u`, "s.user_id", "u.id")
+    .leftJoin(`${tables.base_user} as u`, "s.user_id", "u.id")
+    .leftJoin(`${tables.app_user} as au`, "au.id", "u.id")
+    .leftJoin(`${tables.oauth_user} as ou`, "ou.id", "u.id")
     .where({
       "s.user_id": decoded.id,
       "s.token": token,
