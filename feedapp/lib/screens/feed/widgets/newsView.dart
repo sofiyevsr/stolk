@@ -26,7 +26,6 @@ class _NewsViewState extends State<NewsView>
   String _title = "";
   bool _canBrowseBack = false;
 
-  double loadingPer = 0;
   late AnimationController _loadingController;
 
   void _progressToTarget(double d) {
@@ -45,11 +44,6 @@ class _NewsViewState extends State<NewsView>
         milliseconds: 800,
       ),
     );
-    _loadingController.addListener(() {
-      setState(() {
-        loadingPer = _loadingController.value;
-      });
-    });
   }
 
   void _share() {
@@ -129,10 +123,15 @@ class _NewsViewState extends State<NewsView>
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            CircularProgressIndicator(
-              value: loadingPer / 100,
-              strokeWidth: 10,
-              color: Colors.white,
+            AnimatedBuilder(
+              animation: _loadingController,
+              builder: (context, child) {
+                return CircularProgressIndicator(
+                  value: _loadingController.value / 100,
+                  strokeWidth: 10,
+                  color: Colors.white,
+                );
+              },
             )
           ],
         ),

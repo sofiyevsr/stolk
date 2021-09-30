@@ -79,15 +79,9 @@ async function googleLoginUser(body: any) {
   });
   const payload = ticket.getPayload();
 
-  if (
-    payload == null ||
-    payload.email == null ||
-    payload.given_name == null ||
-    payload.family_name == null
-  )
-    throw new SoftError(i18next.t("errors.google_data_not_complete"));
-
   // Does user exist if does then login else register
+  if (payload == null)
+    throw new SoftError(i18next.t("errors.google_empty_payload"));
 
   const user = await db(`${tables.oauth_user} as ou`)
     .select([
@@ -105,6 +99,13 @@ async function googleLoginUser(body: any) {
     .first();
 
   if (user == null) {
+    if (
+      payload.email == null ||
+      payload.given_name == null ||
+      payload.family_name == null
+    )
+      throw new SoftError(i18next.t("errors.google_data_not_complete"));
+
     const { user: dbUser, token } = await registerUser(payload);
     return { user: dbUser, access_token: token };
   }

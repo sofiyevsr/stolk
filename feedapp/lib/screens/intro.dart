@@ -83,6 +83,9 @@ class _IntroScreenState extends State<IntroScreen> {
                     child: ElevatedButton(
                       onPressed: prevPage,
                       style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.transparent,
+                        ),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0),
@@ -98,6 +101,9 @@ class _IntroScreenState extends State<IntroScreen> {
                   Expanded(
                     child: ElevatedButton(
                       style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.transparent,
+                        ),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0),
