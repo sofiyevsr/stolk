@@ -44,8 +44,6 @@ export default async function loginUser(body: any) {
     platform: value.session_type,
   });
 
-  console.log(value);
-
   const session = await db(tables.user_session).insert({
     session_type_id: value.session_type,
     user_id: user.user_id,

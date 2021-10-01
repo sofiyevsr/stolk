@@ -8,10 +8,14 @@ import cors from "cors";
 const app = express();
 
 app.disable("x-powered-by");
+app.set("trust proxy", "loopback");
 app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
-// TODO
+app.use((req, _, next) => {
+  console.log(req.headers);
+  next();
+});
 app.use(
   "/admin",
   cors({

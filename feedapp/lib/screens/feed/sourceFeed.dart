@@ -38,6 +38,7 @@ class _SourceFeedState extends State<SourceFeed> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final media = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -46,7 +47,7 @@ class _SourceFeedState extends State<SourceFeed> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              expandedHeight: 200,
+              expandedHeight: media.size.width,
               elevation: 3,
               leading: ElevatedButton(
                 onPressed: () {

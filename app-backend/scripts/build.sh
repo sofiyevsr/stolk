@@ -1,3 +1,3 @@
 #!/bin/bash
 yarn build
-tar -czvf build.tgz ../dist/ ../package.json ../yarn.lock
+tar -czvf app-artifacts.tgz ../dist/ ../package.json ../yarn.lock

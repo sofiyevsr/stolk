@@ -16,7 +16,7 @@ const SigninForm: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const isRecaptchaLoaded = useRef(false);
 
@@ -99,7 +99,7 @@ const SigninForm: FC = () => {
             })}
           />
         </FormGroup>
-        <Button type="submit" color="brand2" fullwidth>
+        <Button type="submit" color="brand2" fullwidth disabled={isSubmitting}>
           Sign In
         </Button>
       </form>

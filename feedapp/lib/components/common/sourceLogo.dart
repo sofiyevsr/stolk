@@ -7,9 +7,12 @@ class SourceLogo extends StatelessWidget {
   final String logoSuffix;
   final bool isCircle;
   final double? radius;
-  const SourceLogo(
-      {Key? key, required this.logoSuffix, this.isCircle = true, this.radius})
-      : super(key: key);
+  const SourceLogo({
+    Key? key,
+    required this.logoSuffix,
+    this.isCircle = true,
+    this.radius,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class SourceLogo extends StatelessWidget {
         url: sourceLogosPrefix + logoSuffix,
         fit: BoxFit.cover,
         height: 50,
+        width: 50,
       ),
     );
   }

@@ -38,6 +38,23 @@ const config = {
       directory: "./src/config/db/seeds/stag",
     },
   },
+  production: {
+    client: "pg",
+    connection: {
+      port: process.env.SQL_PORT,
+      host: process.env.SQL_HOST,
+      database: process.env.SQL_DATABASE,
+      user: process.env.SQL_USER,
+      password: process.env.SQL_PASSWORD,
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./src/config/db/migrations/prod",
+    },
+    seeds: {
+      directory: "./src/config/db/seeds/prod",
+    },
+  },
 };
 
 export default config;

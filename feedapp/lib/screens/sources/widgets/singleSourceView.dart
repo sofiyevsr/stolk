@@ -74,8 +74,10 @@ class _SingleSourceViewState extends State<SingleSourceView> {
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
-                    child: Container(
-                      child: Center(
+                    child: Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
                         child: SourceLogo(
                           logoSuffix: widget.item.logoSuffix,
                           isCircle: true,

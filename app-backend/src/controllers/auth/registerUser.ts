@@ -2,7 +2,7 @@ import SoftError from "@utils/softError";
 import register from "@utils/validations/auth/register";
 import db from "@db/db";
 import { generateAccessToken, hashPassword } from "@utils/credUtils";
-import { ServiceType, tables } from "@utils/constants";
+import { tables } from "@utils/constants";
 import i18next from "@translate/i18next";
 import { createConfirmationToken } from "./confirmationToken";
 

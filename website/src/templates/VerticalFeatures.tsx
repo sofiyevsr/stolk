@@ -27,7 +27,7 @@ const countdowns = (t: TFunction) => [
 
 const VerticalFeatures = () => {
   const { t } = useTranslation();
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
 
   return (
     <div ref={ref} className="overflow-hidden">

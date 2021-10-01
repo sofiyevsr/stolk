@@ -63,8 +63,8 @@ async function registerUser(payload: TokenPayload) {
     await trx.rollback();
     throw error;
   }
-  const { token } = await loginUser(user.user_id);
-  return { token, user: { ...user, baseUser } };
+  const { token } = await loginUser(baseUser.user_id);
+  return { token, user: { ...user, ...baseUser } };
 }
 
 async function googleLoginUser(body: any) {
@@ -95,7 +95,7 @@ async function googleLoginUser(body: any) {
       "u.confirmed_at",
     ])
     .where({ oauth_id: payload.sub, service_type_id: ServiceType.GOOGLE })
-    .leftJoin(`${tables.app_user} as u`, "u.id", "ou.id")
+    .leftJoin(`${tables.base_user} as u`, "u.id", "ou.id")
     .first();
 
   if (user == null) {

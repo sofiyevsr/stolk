@@ -1,3 +1,7 @@
+# Custom builds
+app-artifacts.tgz
+db-artifacts.tgz
+
 # Logs
 logs
 *.log
