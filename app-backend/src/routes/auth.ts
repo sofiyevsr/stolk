@@ -17,7 +17,6 @@ import authenticateMiddleware from "src/middlewares/authenticate";
 const isProd = process.env.NODE_ENV === "production";
 const r = Router();
 
-// TODO
 r.use(cors({ origin: isProd ? "https://stolk.app" : "http://localhost:3000" }));
 
 r.post("/login", async (req, res, next) => {

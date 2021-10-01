@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,28 +37,30 @@ class LoginButtons extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SingleLoginButton(
-              text: tr("login.apple_sign_in"),
-              icon: Image.asset(
-                "assets/icons/apple.png",
-                width: 30,
-                height: 30,
+            if (Platform.isIOS)
+              SingleLoginButton(
+                text: tr("login.apple_sign_in"),
+                icon: Image.asset(
+                  "assets/icons/apple.png",
+                  width: 30,
+                  height: 30,
+                ),
+                color: Colors.black,
+                disabled: buttonsDisabled,
+                onPressed: () {},
               ),
-              color: Colors.black,
-              disabled: buttonsDisabled,
-              onPressed: () {},
-            ),
-            SingleLoginButton(
-              text: tr("login.google_sign_in"),
-              icon: Image.asset(
-                "assets/icons/google.png",
-                width: 30,
-                height: 30,
+            if (Platform.isAndroid)
+              SingleLoginButton(
+                text: tr("login.google_sign_in"),
+                icon: Image.asset(
+                  "assets/icons/google.png",
+                  width: 30,
+                  height: 30,
+                ),
+                color: Colors.red[700]!,
+                disabled: buttonsDisabled,
+                onPressed: _googleSignin,
               ),
-              color: Colors.red[700]!,
-              disabled: buttonsDisabled,
-              onPressed: _googleSignin,
-            ),
             SingleLoginButton(
               text: tr("login.email_sign_in"),
               icon: Icon(Icons.alternate_email, size: 30),

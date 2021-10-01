@@ -19,7 +19,7 @@ export default async function checkToken(headers: any) {
       "u.id as user_id",
       "u.first_name",
       "u.last_name",
-      db.raw("COALESCE(au.email, ou.email)"),
+      db.raw("COALESCE(au.email, ou.email) as email"),
       "ou.service_type_id",
       "u.created_at",
       "u.confirmed_at",

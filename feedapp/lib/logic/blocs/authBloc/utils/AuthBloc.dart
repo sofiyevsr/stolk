@@ -127,14 +127,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           token: event.token,
         );
       } on DioError catch (err) {
-        if (err.response == null || err.response?.statusCode == 400) {
-          yield CheckTokenFailed();
-        } else if (err.response?.statusCode == 500) {
+        if (err.response?.statusCode == 500) {
           final storage = SecureStorage();
           await storage.removeToken();
           yield UnathorizedState();
         }
-      } catch (e) {}
+      } catch (e) {
+        yield CheckTokenFailed();
+      }
     }
     if (event is StartupLogout) {
       yield UnathorizedState();
