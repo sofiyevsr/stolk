@@ -38,7 +38,7 @@ func ProcessFeed(item *gofeed.Item, lastTime time.Time, v *Feed) (CustomFeed, er
 	if err != nil {
 		return CustomFeed{}, err
 	}
-	feed.Name = feedName
+	feed.Name = strings.TrimSpace(feedName)
 
 	feed.Link, err = tryParseLink(item.Link)
 	if err != nil || feed.Link == "" {

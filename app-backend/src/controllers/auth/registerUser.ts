@@ -58,7 +58,6 @@ export default async function registerUser(body: any) {
 
   await createConfirmationToken({ email: user.email });
 
-  // TODO send verification code to email
   const token = await generateAccessToken({
     id: baseUser.user_id,
     platform: value.session_type,

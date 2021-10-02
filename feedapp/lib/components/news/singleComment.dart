@@ -81,29 +81,32 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                 Container(
                   constraints: BoxConstraints(maxWidth: 80),
                   margin: const EdgeInsets.only(right: 5),
-                  child:
-                      BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
-                    if (state is AuthorizedState) {
-                      if (state.user.id == widget.comment.userID) {
-                        return Text(
-                          tr(
-                            "commons.me",
-                          ),
-                          style: textTheme.bodyText2,
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                        );
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child:
+                        BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
+                      if (state is AuthorizedState) {
+                        if (state.user.id == widget.comment.userID) {
+                          return Text(
+                            tr(
+                              "commons.me",
+                            ),
+                            style: textTheme.bodyText2,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        }
                       }
-                    }
-                    return Text(
-                      fullName,
-                      style: textTheme.bodyText2,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                    );
-                  }),
+                      return Text(
+                        fullName,
+                        style: textTheme.bodyText2,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    }),
+                  ),
                 ),
               ],
             ),
@@ -113,7 +116,12 @@ class _SingleCommentViewState extends State<SingleCommentView> {
               padding: const EdgeInsets.all(12),
               margin: const EdgeInsets.only(right: 8.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.zero,
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
                 color: Theme.of(context).cardColor,
                 border: Border.all(color: Colors.grey.shade300),
               ),
@@ -126,7 +134,7 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                         children: [
                           Text(
                             convertDiffTime(widget.comment.createdAt, context),
-                            style: textTheme.bodyText1?.copyWith(
+                            style: textTheme.bodyText2?.copyWith(
                               color: Colors.grey[500],
                             ),
                           ),

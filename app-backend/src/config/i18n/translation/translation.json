@@ -23,12 +23,17 @@
         "max": "",
         "required": ""
       },
-      "category_id": {
+      "image_suffix": {
         "string": "",
+        "empty": "",
+        "required": ""
+      },
+      "category_id": {
+        "number": "",
         "required": ""
       },
       "category_alias_id": {
-        "string": "",
+        "number": "",
         "required": ""
       },
       "title": {
@@ -98,6 +103,7 @@
     "backoff_confirmation_token": "",
     "confirmation_fail": "",
     "invalid_session_id": "",
+    "google_empty_payload": "",
     "google_data_not_complete": "",
     "unique_email": "",
     "backoff_reset_token": "",

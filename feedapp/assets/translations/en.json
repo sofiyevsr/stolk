@@ -1,272 +1,255 @@
 {
-  "campaign": {
-    "name": "Ad",
-    "discount": "Endirim",
-    "starts_at": "Başlama vaxtı",
-    "expires_at": "Bitmə vaxtı",
-    "count": "Ümumi say",
-    "left_count": "Qalan say",
-    "booking_valid_for_hours": "Bilet aktivdir",
-    "count_field": "Say"
+  "languages": {
+    "az": "Azərbaycanca",
+    "tr": "Türkçe",
+    "ru": "По русский",
+    "en": "English"
   },
   "buttons": {
-    "book": "Rezerv et"
-  },
-  "tooltip": {
-    "choose_business_map": "Biznes seçilməyib, xəritədən biznes seçin"
-  },
-  "services": { "location_fail": "GPS aktiv deyil" },
-  "permissions": { "location_fail": "Ünvan üçün icazə verilmədi" },
-  "my_bookings": {
-    "banner": "Əməliyyatlar üçün bileti sola sürüşdürün"
-  },
-  "booking": {
-    "count": "Say",
-    "business_name": "Biznes",
-    "campaign_name": "Kampanya",
-    "expired": "Bitib",
-    "claimed_at": "Əldə edilib",
-    "read_qr_code": "QR kodu oxudun"
-  },
-  "business": {
-    "name": "Ad",
-    "address": "Ünvan",
-    "rating": "Reytinq",
-    "phone": "Əlaqə nömrəsi"
+    "retry_request": "Try again",
+    "back_to_login": "Back to login"
   },
   "server_errors": {
-    "invalid_token": "Sessiya bitib",
-    "account_banned": "Hesab banlanıb",
-    "login_fail": "Login olmadı",
-    "invalid_session_id": "Sessiya bitib",
-    "reset_fail": "Şifrə sıfırlama olmadı",
-    "user_not_found": "İstifadəçi tapılmadı",
-    "booking_limit_reached": "Limit aşılıb",
-    "campaign_not_found": "Kampanya tapılmadı",
-    "not_enough_place_booking": "Kifayət qədər yer yoxdur",
-    "already_has_one": "Booking artıq mövcuddur",
-    "booking_not_found": "Booking tapılmadı",
-    "campaign_is_not_active": "Kampanya aktiv deyil",
-    "business_is_not_active": "Biznes aktiv deyil",
-    "booking_is_claimed": "Booking təsdiq edilib",
-    "not_allowed": "İcazə çatmır",
-    "booking_expired": "Booking müddəti bitib",
-    "campaign_expired": "Kampanya müddəti bitib",
-    "image_upload_failed": "Şəkil yükləmə alınmadı",
-    "validations": {
-      "id": {
-        "required": "ID daxil edin"
+    "errors": {
+      "validation": {
+        "email": {
+          "string": "Enter email",
+          "empty": "Enter email",
+          "required": "Enter email",
+          "invalid_email": "Invalid email"
+        },
+        "password": {
+          "string": "Enter password",
+          "empty": "Enter password",
+          "required": "Enter password",
+          "invalid_pattern": "Invalid password (Minimum 7 symbols)"
+        },
+        "id": {
+          "number": "Enter ID",
+          "required": "Enter ID"
+        },
+        "token": {
+          "string": "Couldn't find token",
+          "empty": "Couldn't find token",
+          "required": "Couldn't find token"
+        },
+        "session_type": {
+          "number": "Couldn't find session type",
+          "required": "Couldn't find session type",
+          "invalid": "Invalid session type"
+        },
+        "first_name": {
+          "string": "Enter first name",
+          "empty": "Enter first name",
+          "required": "Enter first name",
+          "min2": "First name should have minimum 2 letters",
+          "max30": "First name should have maximum 30 letters"
+        },
+        "last_name": {
+          "string": "Enter last name",
+          "empty": "Enter last name",
+          "required": "Enter last name",
+          "min2": "Last name should have minimum 2 letters",
+          "max30": "Last name should have maximum 30 letters"
+        },
+        "comment": {
+          "string": "Enter comment",
+          "empty": "Enter comment",
+          "required": "Enter comment",
+          "max300": "Comment should have maximum 300 symbols"
+        },
+        "notification_optout_type": {
+          "number": "Notification type not found",
+          "required": "Notification type not found",
+          "invalid": "Notification type not found"
+        },
+        "message": {
+          "string": "Enter message",
+          "empty": "Enter message",
+          "required": "Enter message",
+          "max300": "Message should have maximum 300 symbols"
+        }
       },
-      "invalid_image": "Yanlış şəkil"
-    },
-    "id_not_found": "ID tapılmadı",
-    "business_not_found": "Biznes tapılmadı",
-    "business_not_updated": "Biznes yenilənmədi",
-    "campaign_not_created": "Kampanya yaradılmadı",
-    "campaign_not_stopped": "Kampanya dayandırılmadı",
-    "only_partner_business": "Sadəcə partnyor bizness yarada bilər",
-    "validation": {
-      "email": {
-        "string": "Email daxil edin",
-        "required": "Email daxil edin",
-        "invalid_email": "Email düzgün deyil"
-      },
-      "password": {
-        "string": "Şifrə daxil edin",
-        "required": "Şifrə daxil edin",
-        "invalid_pattern": "Şifrə düzgün deyil"
-      },
-      "service_type": {
-        "number": "Servis növü daxil edin",
-        "required": "Servis növü daxil edin",
-        "invalid": "Servis növü düzgün deyil"
-      },
-      "account_type": {
-        "number": "Hesab növü daxil edin",
-        "required": "Hesab növü daxil edin",
-        "invalid": "Hesab növü düzgün deyil"
-      },
-      "session_type": {
-        "number": "Sessiya növü daxil edin",
-        "required": "Sessiya növü daxil edin",
-        "invalid": "Sessiya növü düzgün deyil"
-      },
-      "first_name": {
-        "string": "Ad daxil edin",
-        "required": "Ad daxil edin",
-        "min2": "Ad minimum 2 simvol olmalıdır",
-        "max30": "Ad maksimum 30 simvol olmalıdır"
-      },
-      "last_name": {
-        "string": "Soyad daxil edin",
-        "required": "Soyad daxil edin",
-        "min2": "Soyad minimum 2 simvol olmalıdır",
-        "max30": "Soyad maksimum 30 simvol olmalıdır"
-      },
-      "id": {
-        "number": "ID daxil edin",
-        "required": "ID daxil edin"
-      },
-      "token": {
-        "string": "Token daxil edin",
-        "required": "Token daxil edin"
-      },
-      "booking_count": {
-        "string": "Booking sayı daxil edin",
-        "required": "Booking sayı daxil edin",
-        "max5": "Booking sayı maksimum 5 ola bilər"
-      },
-      "campaign_id": {
-        "number": "Kampanya ID daxil edin",
-        "required": "Kampanya ID daxil edin"
-      },
-      "lat": {
-        "number": "Latitude daxil edin",
-        "required": "Latitude daxil edin"
-      },
-      "lng": {
-        "number": "Longitude daxil edin",
-        "required": "Longitude daxil edin"
-      },
-      "location": {
-        "object": "Ünvan daxil edin"
-      },
-      "business_name": {
-        "string": "Biznes adı daxil edin",
-        "required": "Biznes adı daxil edin",
-        "max15": "Biznes adı maksimum 15 simvol ola bilər"
-      },
-      "address": {
-        "required": "Ünvan daxil edin",
-        "min5": "Ünvan minimum 5 simvol ola bilər",
-        "string": "Ünvan daxil edin"
-      },
-      "phone_number": {
-        "required": "Telefon daxil edin",
-        "invalid_pattern": "Telefon düzgün deyil",
-        "string": "Telefon daxil edin"
-      },
-      "business_type": {
-        "number": "Biznes növü daxil edin",
-        "required": "Biznes növü daxil edin",
-        "invalid": "Biznes növü yanlışdır"
-      },
-      "business_id": {
-        "number": "Biznes ID daxil edin",
-        "required": "Biznes ID daxil edin"
-      },
-      "radius": {
-        "number": "Radius daxil edin",
-        "required": "Radius daxil edin",
-        "min1000": "Radius minimum 1000 metr olmalıdır",
-        "max10000": "Radius maximum 10000 metr olmalıdır"
-      }
+      "invalid_token": "Session not available",
+      "login_fail": "Couldn't login",
+      "account_banned": "Account is banned",
+      "backoff_confirmation_token": "Try again later to send confirmation email",
+      "invalid_session_id": "Session not available",
+      "google_empty_payload": "Google data is not complete",
+      "google_data_not_complete": "Google data is not complete",
+      "unique_email": "This email is already in use",
+      "backoff_reset_token": "Try again later to send reset password email",
+      "news_id_required": "News ID not found",
+      "source_id_required": "Source ID not found",
+      "user_not_confirmed": "Account is not confirmed"
     }
   },
+  "news": {
+    "no_news_follow_more": "No news found, try following more sources",
+    "no_news": "No news found"
+  },
+  "auth": { "welcome": "Welcome" },
+  "report_dialog": {
+    "title": "Report",
+    "message_placeholder": "Enter your message",
+    "success": "Report recorded"
+  },
+  "report": { "menu": "Report" },
+  "navbar": {
+    "home": "Home",
+    "explore": "Explore",
+    "history": "History",
+    "account": "Account"
+  },
   "commons": {
-    "guest": "Qonaq",
-    "categories": "Kateqoriyalar",
-    "count": "Say",
-    "open": "Aç",
-    "rate": "Qiymət ver",
-    "dont_show_again": "Bir daha göstərmə",
-    "delete": "Sil",
-    "cancel": "İmtina",
-    "false": "Xeyr",
-    "true": "Bəli",
-    "is_active": "Aktivdir",
-    "save": "Yadda saxla"
+    "guest": "Guest",
+    "welcome": "Welcome",
+    "categories": "Categories",
+    "count": "Count",
+    "open": "Open",
+    "rate": "Rate",
+    "dont_show_again": "Don't show again",
+    "delete": "Delete",
+    "follow": "Follow",
+    "following": "Following",
+    "cancel": "Cancel",
+    "false": "No",
+    "true": "Yes",
+    "is_active": "Active",
+    "save": "Save",
+    "confirm": "Confirm"
+  },
+  "categories": {
+    "all": "All",
+    "sport": "Sport",
+    "culture": "Culture",
+    "economics": "Economics",
+    "incident": "Incident",
+    "interesting": "Interesting",
+    "life": "Life",
+    "politics": "Politics",
+    "society": "Society",
+    "technology": "Technology",
+    "world": "World"
   },
   "messages": {
-    "no_deals": "Kampanya yoxdur"
+    "no_data": "No data",
+    "confirm_to_comment": "Confirm your account to comment"
   },
   "errors": {
-    "default": "Xəta baş verdi",
-    "network_error": "İnternet xətası",
-    "fetch_failed": "Xəta baş verdi",
-    "campaign_fetch_failed": "Xəta baş verdi",
-    "booking_fetch_failed": "Xəta baş verdi",
-    "no_location": "Ünvan alına bilmədi",
-    "retry_check_token": "Təkrar yoxla"
-  },
-  "drawer": {
-    "home": "Əsas səhifə",
-    "settings": "Tənzimləmələr",
-    "bookings": "Mənim biletlərim",
-    "register": "Qeydiyyat",
-    "login": "Daxil ol",
-    "logout": "Çıxış"
+    "default": "Error occured",
+    "try_again_later": "Error occured, try again later",
+    "login_to_track": "Create account for personalized experience",
+    "report_message_empty": "Enter message",
+    "network_error": "Network error",
+    "image_fetch_failed": "Couldn't load image",
+    "fetch_failed": "Error occured",
+    "auth_check_failed": "Authorization failed",
+    "retry_check_token": "Try again",
+    "cannot_launch_url": "Couldn't launch url"
   },
   "fields": {
     "email": "Email",
-    "first_name": "Ad",
-    "last_name": "Soyad",
-    "password": "Şifrə",
-    "radius": "Radius"
+    "first_name": "First name",
+    "last_name": "Last name",
+    "password": "Password"
   },
   "home": {
-    "choose_list": { "title": "Kampanyalar" },
-    "choose_map": { "title": "Xəritə" },
-    "title": "Əsas səhifə"
-  },
-  "single_campaign": {
-    "business_details": "Biznes haqqında",
-    "campaign_details": "Kampanya haqqında"
+    "title": "Home"
   },
   "intro": {
-    "prev": "Geri",
-    "next": "İrəli",
+    "prev": "Back",
+    "next": "Forward",
+    "finish": "Finish",
     "first": {
-      "subtitle": "Kəşf et",
-      "title": "Kəşf"
+      "subtitle": "Popular sources together",
+      "title": "Convenient"
     },
     "second": {
-      "subtitle": "Booking əldə et",
-      "title": "Onlayn booking"
+      "subtitle": "Follow sources as many as you like",
+      "title": "Limitless"
     },
     "third": {
-      "subtitle": "Fürsətlər",
-      "title": "Fürsətləri qaçırma"
+      "subtitle": "Stay up to date with frequently updated news feed",
+      "title": "Latest news"
     }
   },
   "login": {
-    "login_button_label": "Daxil ol",
-    "title": "Login"
+    "login_button_label": "Login",
+    "google_sign_in": "Login with Google",
+    "apple_sign_in": "Login with Apple",
+    "agree": "By registering you accept terms of use and privacy policy",
+    "description": "Login using one of the options below to have better and personalized experience",
+    "title": "Login",
+    "email_sign_in": "Login with Email",
+    "forgot_password": "Forgot Password?"
   },
-
-  "hide_password": "Gizlət",
-  "show_password": "Göstər",
-
   "register": {
-    "register_button_label": "Qeydiyyat",
-    "title": "Qeydiyyat"
+    "register_button_label": "Register",
+    "title": "Register",
+    "agree": "By registering you accept terms of use and privacy policy"
   },
-
-  "business_type": {
-    "clothing": "Paltar",
-    "food": "Yemək"
+  "tooltips": {
+    "hide_password": "Hide password",
+    "show_password": "Show password",
+    "reload_news_url": "Back to initial news",
+    "go_back_in_browser": "Go back in browser",
+    "back_to_top": "Back to top",
+    "follow": "Follow",
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share",
+    "bookmark": "Bookmark",
+    "theme": {
+      "dark": "Night mode",
+      "light": "Light mode",
+      "system": "System"
+    },
+    "rails": {
+      "likes": "Likes",
+      "comments": "Comments",
+      "reads": "Reads",
+      "bookmarks": "Bookmarks"
+    }
+  },
+  "comments": {
+    "me": "Me"
+  },
+  "forgot_password": {
+    "success": "Check your inbox",
+    "title": "Forgot password?",
+    "description": "Enter email you registered with to send reset password instructions",
+    "submit": "Confirm"
   },
   "settings": {
-    "language": "Dil",
-    "general": "Ümumi",
-    "notification_preferences": "Bildirişlər",
-    "about": "Proqram haqqında",
-    "privacy": "Gizlilik",
-    "terms": "Şərtlər və qaydalar",
-    "language_select": "Dil seç",
-    "title": "Tənzimləmələr",
-    "notifications": { "news": "Xəbərlər" },
+    "language": "Language",
+    "general": "General",
+    "notification_preferences": "Notifications",
+    "about": "About app",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "language_select": "Choose language",
+    "title": "Settings",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "theme": "Theme",
+    "notifications": {
+      "app_news": "Personalized news",
+      "fcm_news": "Updates"
+    },
     "about_fields": {
-      "name": "Ad",
-      "version": "Versiya"
+      "name": "Name",
+      "version": "Version"
     }
   },
   "validations": {
-    "first_name_empty": "Ad daxil edin",
-    "first_name_min2_max30": "Ad minimum 2 maksimum 30 simvol ola bilər",
-    "invalid_email": "Yanlış email",
-    "invalid_password": "Yanlış şifrə (Ən az 8 simvol)",
-    "last_name_empty": "Ad daxil edin",
-    "last_name_min2_max30": "Soyad minimum 2 maksimum 30 simvol ola bilər"
+    "first_name_empty": "Enter first name",
+    "first_name_min2_max30": "First name should have minimum 2 characters",
+    "invalid_email": "Invalid email",
+    "invalid_password": "Invalid password (Minimum 7 symbols)",
+    "invalid_regex": "Password should have minimum 7 symbols (1 lower case, 1 upper case and 1 number)",
+    "last_name_empty": "Enter last name",
+    "last_name_min2_max30": "Last name should have minimum 2 characters"
   }
 }

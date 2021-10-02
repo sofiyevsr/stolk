@@ -131,7 +131,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final storage = SecureStorage();
           await storage.removeToken();
           yield UnathorizedState();
-        }
+        } else
+          yield CheckTokenFailed();
       } catch (e) {
         yield CheckTokenFailed();
       }

@@ -35,4 +35,5 @@ export default {
   commenter_full_name: "Commenter name",
   commenter_id: "Commenter ID",
   comment_id: "Comment ID",
+  service_type_id: "Service type (Google, Apple)",
 } as { [key: string]: string };

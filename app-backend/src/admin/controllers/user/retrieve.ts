@@ -12,7 +12,8 @@ async function users(lastID: string | undefined) {
       db.raw("COALESCE(au.email, ou.email) as email"),
       "bu.banned_at",
       "bu.confirmed_at",
-      "bu.created_at"
+      "bu.created_at",
+      "ou.service_type_id"
     )
     .from(`${tables.base_user} as bu`)
     .leftJoin(`${tables.app_user} as au`, "au.id", "bu.id")

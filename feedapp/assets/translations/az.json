@@ -10,111 +10,79 @@
     "back_to_login": "Girişə geri dön"
   },
   "server_errors": {
-    "invalid_token": "",
-    "login_fail": "",
-    "recaptcha_fail": "",
-    "validation": {
-      "email": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "invalid_email": ""
+    "errors": {
+      "validation": {
+        "email": {
+          "string": "Email daxil edin",
+          "empty": "Email daxil edin",
+          "required": "Email daxil edin",
+          "invalid_email": "Email düzgün deyil"
+        },
+        "password": {
+          "string": "Şifrə daxil edin",
+          "empty": "Şifrə daxil edin",
+          "required": "Şifrə daxil edin",
+          "invalid_pattern": "Yanlış şifrə (Ən az 7 simvol)"
+        },
+        "id": {
+          "number": "ID daxil edin",
+          "required": "ID daxil edin"
+        },
+        "token": {
+          "string": "Token tapılmadı",
+          "empty": "Token tapılmadı",
+          "required": "Token tapılmadı"
+        },
+        "session_type": {
+          "number": "Sessiya növü tapılmadı",
+          "required": "Sessiya növü tapılmadı",
+          "invalid": "Sessiya növü düzgün deyil"
+        },
+        "first_name": {
+          "string": "Ad daxil edin",
+          "empty": "Ad daxil edin",
+          "required": "Ad daxil edin",
+          "min2": "Ad minimum 2 hərf ola bilər",
+          "max30": "Ad maksimum 30 hərf ola bilər"
+        },
+        "last_name": {
+          "string": "Soyad daxil edin",
+          "empty": "Soyad daxil edin",
+          "required": "Soyad daxil edin",
+          "min2": "Soyad minimum 2 hərf ola bilər",
+          "max30": "Soyad maksimum 30 hərf ola bilər"
+        },
+        "comment": {
+          "string": "Şərh daxil edin",
+          "empty": "Şərh daxil edin",
+          "required": "Şərh daxil edin",
+          "max300": "Şərh maksimum 300 simvol ola bilər"
+        },
+        "notification_optout_type": {
+          "number": "Bildiriş növü tapılmadı",
+          "required": "Bildiriş növü tapılmadı",
+          "invalid": "Bildiriş növü tapılmadı"
+        },
+        "message": {
+          "string": "Mesaj daxil edin",
+          "empty": "Mesaj daxil edin",
+          "required": "Mesaj daxil edin",
+          "max300": "Mesaj maksimum 300 hərf ola bilər"
+        }
       },
-      "password": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "invalid_pattern": ""
-      },
-      "category_name": {
-        "string": "",
-        "empty": "",
-        "min": "",
-        "max": "",
-        "required": ""
-      },
-      "category_id": {
-        "string": "",
-        "required": ""
-      },
-      "category_alias_id": {
-        "string": "",
-        "required": ""
-      },
-      "title": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "max20": ""
-      },
-      "body": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "max20": ""
-      },
-      "id": {
-        "number": "",
-        "required": ""
-      },
-      "token": {
-        "string": "",
-        "empty": "",
-        "required": ""
-      },
-      "service_type": {
-        "number": "",
-        "required": "",
-        "invalid": ""
-      },
-      "session_type": {
-        "number": "",
-        "required": "",
-        "invalid": ""
-      },
-      "first_name": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "min2": "",
-        "max30": ""
-      },
-      "last_name": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "min2": "",
-        "max30": ""
-      },
-      "comment": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "max300": ""
-      },
-      "notification_optout_type": {
-        "number": "",
-        "required": "",
-        "invalid": ""
-      },
-      "message": {
-        "string": "",
-        "empty": "",
-        "required": "",
-        "max300": ""
-      }
-    },
-    "account_banned": "",
-    "backoff_confirmation_token": "",
-    "confirmation_fail": "",
-    "invalid_session_id": "",
-    "google_data_not_complete": "",
-    "unique_email": "Bu email artıq istifadə olunur",
-    "backoff_reset_token": "",
-    "reset_fail": "",
-    "news_id_required": "",
-    "source_id_required": "",
-    "user_not_confirmed": ""
+      "invalid_token": "Sessiya mövcud deyil",
+      "login_fail": "Hesaba daxil olmaq mümkün olmadı",
+      "account_banned": "Hesab qadağan edilib",
+      "backoff_confirmation_token": "Təsdiq emaili göndərmək üçün daha sonra cəhd edin",
+      "invalid_session_id": "Sessiya mövcud deyil",
+      "google_empty_payload": "Google məlumatları tam deyil",
+      "google_data_not_complete": "Google məlumatları tam deyil",
+      "unique_email": "Bu email artıq istifadə olunur",
+      "backoff_reset_token": "Şifrə yeniləmək üçün daha sonra cəhd edin",
+      "news_id_required": "Xəbər ID tapılmadı",
+      "source_id_required": "Mənbə ID tapılmadı",
+      "user_not_confirmed": "İstifadəçi email'i təsdiqlənməyib"
+    }
   },
   "news": {
     "no_news_follow_more": "Heç bir xəbər tapılmadı, daha çox mənbə izləməyi yoxlayın",
@@ -153,7 +121,16 @@
   },
   "categories": {
     "all": "Hamısı",
-    "sport": "Idman"
+    "sport": "Idman",
+    "culture": "Mədəniyyət",
+    "economics": "İqtisadiyyat",
+    "incident": "Hadisə",
+    "interesting": "Maraqlı",
+    "life": "Həyat",
+    "politics": "Siyasət",
+    "society": "Cəmiyyət",
+    "technology": "Texnologiya",
+    "world": "Dünya"
   },
   "messages": {
     "no_data": "Məlumat yoxdur",
@@ -183,8 +160,9 @@
   "intro": {
     "prev": "Geri",
     "next": "İrəli",
+    "finish": "Bitir",
     "first": {
-      "subtitle": "Bütün mənbələr tək yerdə",
+      "subtitle": "Məşhur mənbələr tək yerdə",
       "title": "Rahat"
     },
     "second": {
@@ -192,8 +170,8 @@
       "title": "Limitsiz"
     },
     "third": {
-      "subtitle": "Fürsətlər",
-      "title": "Fürsətləri qaçırma"
+      "subtitle": "Hər dəqiqə yenilənən xəbərlər ilə gündəmi izləyin",
+      "title": "Ən son xəbərlər"
     }
   },
   "login": {
@@ -214,7 +192,7 @@
   "tooltips": {
     "hide_password": "Şifrəni gizlət",
     "show_password": "Şifrəni göstər",
-    "reload_news_url": "Xəbərə geri dön",
+    "reload_news_url": "Əsas xəbərə geri dön",
     "go_back_in_browser": "Brauzerdə geri dön",
     "back_to_top": "Yuxarı get",
     "follow": "İzlə",
@@ -233,6 +211,9 @@
       "reads": "Oxuduqlarım",
       "bookmarks": "Qeydlər"
     }
+  },
+  "comments": {
+    "me": "Mən"
   },
   "forgot_password": {
     "success": "Poçt qutunuzu yoxlayın",
@@ -268,7 +249,7 @@
     "invalid_email": "Yanlış email",
     "invalid_password": "Yanlış şifrə (Ən az 7 simvol)",
     "invalid_regex": "Ən az 7 simvol, 1 kiçik, 1 böyük hərf və 1 rəqəm",
-    "last_name_empty": "Ad daxil edin",
+    "last_name_empty": "Soyad daxil edin",
     "last_name_min2_max30": "Soyad minimum 2 simvol ola bilər"
   }
 }

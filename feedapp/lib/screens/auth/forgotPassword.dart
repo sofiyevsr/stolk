@@ -59,7 +59,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             textAlign: TextAlign.center,
                             style:
                                 Theme.of(context).textTheme.subtitle1?.copyWith(
-                                      color: Colors.grey[400],
+                                      color: Colors.grey[500],
                                     ),
                           ),
                         ),
@@ -128,7 +128,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       child: Text(
                         tr("buttons.back_to_login"),
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                         ),
                       ),
                     ),

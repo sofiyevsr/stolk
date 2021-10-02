@@ -80,18 +80,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: ElevatedButton(
+                    child: TextButton(
                       onPressed: prevPage,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.transparent,
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                      ),
                       child: Text(
                         tr("intro.prev"),
                       ),
@@ -99,17 +89,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
                   DotsIndicator(length: _length, current: _current),
                   Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.transparent,
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                      ),
+                    child: TextButton(
                       onPressed: () {
                         if (_current == (_length - 1)) {
                           skipIntro(ctx);
@@ -117,7 +97,9 @@ class _IntroScreenState extends State<IntroScreen> {
                           nextPage();
                       },
                       child: Text(
-                        tr("intro.next"),
+                        (_current == (_length - 1))
+                            ? tr("intro.finish")
+                            : tr("intro.next"),
                       ),
                     ),
                   ),

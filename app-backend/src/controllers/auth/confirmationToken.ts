@@ -38,6 +38,7 @@ export async function createConfirmationToken(body: any) {
     .insert({
       token: token.hash,
       user_id: user.id,
+      issued_at: db.fn.now(),
     })
     .onConflict("user_id")
     .merge();

@@ -7,12 +7,12 @@ import "constants.dart";
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
+    final message = "server_errors.${err.response?.data['message']}";
     if (err.response != null) {
-      if (tr(err.response?.data["message"]) == err.response?.data["message"])
+      if (tr(message) == message)
         ToastService.instance.showAlert(tr("errors.default"));
       else {
-        ToastService.instance
-            .showAlert(tr('server_errors.${err.response?.data["message"]}'));
+        ToastService.instance.showAlert(tr(message));
       }
     } else
       ToastService.instance.showAlert(tr("errors.network_error"));
@@ -27,7 +27,7 @@ class CustomInterceptor extends Interceptor {
     if (err.response != null) {
       if (err.response?.statusCode == 401) {
         AuthBloc.instance.add(ApiForceLogout());
-        ToastService.instance.showAlert(tr("server_errors.session_expired"));
+        ToastService.instance.showAlert(tr("server_errors.invalid_token"));
       }
     }
     return super.onError(err, handler);

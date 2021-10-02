@@ -2,7 +2,7 @@ import 'package:stolk/utils/@types/response/notification.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class NotificationService extends ApiService {
-  NotificationService() : super(enableErrorHandler: false);
+  NotificationService() : super(enableErrorHandler: true);
 
 // FCM notification topics
   Future<AllLocalNotificationResponse> getMyNotificationPreferences() async {
@@ -30,10 +30,17 @@ class NotificationService extends ApiService {
   }
 
   Future<void> saveToken(String token, String authToken) async {
-    await this.request.post(
-      "/notification/save-token",
-      {"token": token},
-      {"authorization": 'Bearer $authToken'},
-    );
+    try {
+      this.disableErrorHandler();
+      await this.request.post(
+        "/notification/save-token",
+        {"token": token},
+        {"authorization": 'Bearer $authToken'},
+      );
+      this.enableErrorHandler();
+    } catch (e) {
+      this.enableErrorHandler();
+      rethrow;
+    }
   }
 }
