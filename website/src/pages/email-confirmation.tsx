@@ -11,13 +11,13 @@ import { API_URL } from "../utils/constants";
 
 const EmailConfirmation = ({}: any) => {
   const { t } = useTranslation();
-  const {
-    query: { t: token, i: id },
-  } = useRouter();
+  const { query, isReady } = useRouter();
   const [checkOkay, setCheckOkay] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isReady || isLoading === false) return;
+    const { t: token, i: id } = query;
     if (typeof token !== "string" || typeof id !== "string") {
       setLoading(false);
       return;
@@ -39,7 +39,7 @@ const EmailConfirmation = ({}: any) => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [query]);
 
   return (
     <div className="min-h-screen antialiased text-gray-600">
