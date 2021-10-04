@@ -18,7 +18,11 @@ const ResetPassword = () => {
   useEffect(() => {
     if (!isReady || isLoading === false) return;
     const { t: token, i: id } = query;
-    if (typeof token !== "string" || typeof id !== "string") {
+    if (
+      typeof token !== "string" ||
+      typeof id !== "string" ||
+      Number.isNaN(Number(id))
+    ) {
       setLoading(false);
       return;
     }
@@ -28,7 +32,7 @@ const ResetPassword = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token, id }),
+      body: JSON.stringify({ token, id: Number(id) }),
     })
       .then((data) => {
         if (data?.ok === true) {
