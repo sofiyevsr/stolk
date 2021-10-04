@@ -1,16 +1,46 @@
-import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import ResetLayout from "../content/ResetLayout";
 import { Meta } from "../layout/Meta";
 import Navbar from "../navigation/Navbar";
+import Spinner from "../spinner/Spinner";
 import { Footer } from "../templates/Footer";
 import { API_URL } from "../utils/constants";
 
-const ResetPassword = ({ checkOkay, data }: any) => {
+const ResetPassword = () => {
   const { t } = useTranslation();
-  console.log(data);
+  const {
+    query: { t: token, i: id },
+  } = useRouter();
+  const [checkOkay, setCheckOkay] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (typeof token !== "string" || typeof id !== "string") {
+      setLoading(false);
+      return;
+    }
+
+    fetch(`${API_URL}/auth/forgot-password/check-token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token, id }),
+    })
+      .then((data) => {
+        if (data?.ok === true) {
+          setCheckOkay(true);
+        }
+      })
+      .catch((_) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen antialiased text-gray-600">
       <Meta
@@ -18,55 +48,16 @@ const ResetPassword = ({ checkOkay, data }: any) => {
         description={t("reset-password.seo.description")}
       />
       <Navbar />
-      <ResetLayout checkOkay={checkOkay} />
+      {isLoading ? <Spinner /> : <ResetLayout checkOkay={checkOkay} />}
       <Footer />
     </div>
   );
 };
 
-export async function getServerSideProps({
-  locale,
-  query,
-}: GetServerSidePropsContext & { locale: string }) {
-  const { t, i } = query;
-  const localeProps = await serverSideTranslations(locale);
-
-  if (typeof t !== "string" || typeof i !== "string")
-    return {
-      props: {
-        checkOkay: false,
-        ...localeProps,
-      },
-    };
-  try {
-    const data = await fetch(`${API_URL}/auth/forgot-password/check-token`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token: t, id: i }),
-    });
-    if (data?.ok === true)
-      return {
-        props: {
-          checkOkay: true,
-          ...localeProps,
-        },
-      };
-  } catch (error) {
-    return {
-      props: {
-        data: JSON.stringify(error),
-        checkOkay: false,
-        ...localeProps,
-      },
-    };
-  }
-
+export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      checkOkay: false,
-      ...localeProps,
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
