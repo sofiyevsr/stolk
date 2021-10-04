@@ -8,8 +8,9 @@ import Navbar from "../navigation/Navbar";
 import { Footer } from "../templates/Footer";
 import { API_URL } from "../utils/constants";
 
-const ResetPassword = ({ checkOkay }: any) => {
+const ResetPassword = ({ checkOkay, data }: any) => {
   const { t } = useTranslation();
+  console.log(data);
   return (
     <div className="min-h-screen antialiased text-gray-600">
       <Meta
@@ -37,23 +38,31 @@ export async function getServerSideProps({
         ...localeProps,
       },
     };
-
   try {
-  } catch (error) {}
-  const data = await fetch(`${API_URL}/auth/forgot-password/check-token`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token: t, id: i }),
-  }).catch((_) => {});
-  if (data?.ok === true)
+    const data = await fetch(`${API_URL}/auth/forgot-password/check-token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: t, id: i }),
+    });
+    if (data?.ok === true)
+      return {
+        props: {
+          checkOkay: true,
+          ...localeProps,
+        },
+      };
+  } catch (error) {
     return {
       props: {
-        checkOkay: true,
+        data: JSON.stringify(error),
+        checkOkay: false,
         ...localeProps,
       },
     };
+  }
+
   return {
     props: {
       checkOkay: false,
