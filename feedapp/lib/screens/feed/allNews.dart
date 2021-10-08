@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/heightAnimationOnScroll.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
@@ -37,14 +38,16 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
       final currentScroll = _scrollController.position.pixels;
 
       if (currentScroll < 100 && showFab == true) {
-        setState(() {
-          showFab = false;
-        });
+        if (mounted)
+          setState(() {
+            showFab = false;
+          });
       }
       if (currentScroll > 100 && showFab == false) {
-        setState(() {
-          showFab = true;
-        });
+        if (mounted)
+          setState(() {
+            showFab = true;
+          });
       }
     });
     _scrollController.addListener(
@@ -125,9 +128,13 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
       children: [
         Column(
           children: [
-            CategoryList(
-              current: _currentCategory,
-              changeCategory: _changeCategory,
+            AnimationOnScroll(
+              scrollController: _scrollController,
+              maxHeight: 100,
+              child: CategoryList(
+                current: _currentCategory,
+                changeCategory: _changeCategory,
+              ),
             ),
             Expanded(
               child: Container(

@@ -101,19 +101,16 @@ class _CategoryListState extends State<CategoryList> {
       ..._categories
     ];
 
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: cats.length,
-        itemBuilder: (ctx, index) => GestureDetector(
-          key: Key(
-            cats[index].id.toString(),
-          ),
-          onTap: () => widget.changeCategory(cats[index].id),
-          child: _buildItem(cats[index]),
+    return ListView.builder(
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemCount: cats.length,
+      itemBuilder: (ctx, index) => GestureDetector(
+        key: Key(
+          cats[index].id.toString(),
         ),
+        onTap: () => widget.changeCategory(cats[index].id),
+        child: _buildItem(cats[index]),
       ),
     );
   }
