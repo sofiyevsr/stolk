@@ -9,6 +9,7 @@ async function users(lastID: string | undefined) {
       "bu.id",
       "bu.first_name",
       "bu.last_name",
+      "bu.ip_address",
       db.raw("COALESCE(au.email, ou.email) as email"),
       "bu.banned_at",
       "bu.confirmed_at",

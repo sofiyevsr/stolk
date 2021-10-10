@@ -12,6 +12,12 @@ app.set("trust proxy", "loopback");
 app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
+// TODO
+app.use((req, res, next) => {
+  req.headers["CF-Connecting-IP"] = "0.0.0.1";
+  next();
+});
+
 app.use(
   "/admin",
   cors({

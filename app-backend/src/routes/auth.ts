@@ -9,19 +9,23 @@ import {
   resetPassword,
   validateResetToken,
 } from "@controllers/auth/resetToken";
+import limitManager from "@utils/limitManager";
 import { responseContentCreated, responseSuccess } from "@utils/responses";
 import cors from "cors";
 import { Router } from "express";
 import authenticateMiddleware from "src/middlewares/authenticate";
+import ipExtractor from "src/middlewares/ipExtractor";
 
 const isProd = process.env.NODE_ENV === "production";
 const r = Router();
 
 r.use(cors({ origin: isProd ? "https://stolk.app" : "http://localhost:3000" }));
 
+r.use(ipExtractor);
+
 r.post("/login", async (req, res, next) => {
   try {
-    const session = await auth.login(req.body);
+    const session = await auth.login(req.body, req.realIP);
     return responseSuccess(res, session);
   } catch (error) {
     return next(error);
@@ -30,7 +34,7 @@ r.post("/login", async (req, res, next) => {
 
 r.post("/login/google", async (req, res, next) => {
   try {
-    const session = await oauth.googleLoginUser(req.body);
+    const session = await oauth.googleLoginUser(req.body, req.realIP);
     return responseSuccess(res, session);
   } catch (error) {
     return next(error);
@@ -39,7 +43,8 @@ r.post("/login/google", async (req, res, next) => {
 
 r.post("/register", async (req, res, next) => {
   try {
-    const session = await auth.register(req.body);
+    await limitManager.limitRegister(req.realIP);
+    const session = await auth.register(req.body, req.realIP);
     return responseContentCreated(res, session);
   } catch (e) {
     return next(e);

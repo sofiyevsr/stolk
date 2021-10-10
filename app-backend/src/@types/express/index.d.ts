@@ -22,5 +22,6 @@ declare namespace Express {
   interface Request {
     session?: IUser & ISession;
     adminSession?: IAdmin;
+    realIP: string;
   }
 }

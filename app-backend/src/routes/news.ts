@@ -1,8 +1,10 @@
 import news from "@controllers/news";
 import { parseRequest } from "@utils/commons/parseReq";
+import limitManager from "@utils/limitManager";
 import { responseContentCreated, responseSuccess } from "@utils/responses";
 import { Router } from "express";
 import authenticateMiddleware from "src/middlewares/authenticate";
+import ipExtractor from "src/middlewares/ipExtractor";
 
 const r = Router();
 
@@ -79,13 +81,20 @@ r.post("/:id/read", authenticateMiddleware(), async (req, res, next) => {
 r.post(
   "/:id/comment",
   authenticateMiddleware(false, true),
+  ipExtractor,
   async (req, res, next) => {
     try {
+      await limitManager.limitComment(req.realIP);
       const { user_id, id } = await parseRequest(
         req.session?.user_id,
         req.params.id
       );
-      const comment = await news.actions.comment(id, user_id, req.body);
+      const comment = await news.actions.comment(
+        id,
+        user_id,
+        req.body,
+        req.realIP
+      );
       return responseSuccess(res, { comment });
     } catch (error) {
       return next(error);

@@ -35,7 +35,7 @@ export async function createResetToken(body: any) {
     .first();
   if (resetTokenSession != null) {
     const issuedAt = dayjs(resetTokenSession.issued_at);
-    const difference = issuedAt.diff(dayjs(), "minute");
+    const difference = dayjs().diff(issuedAt, "minute");
     if (difference < resetTokenBackoffMinutes) {
       throw new SoftError(i18next.t("errors.backoff_reset_token"));
     }
@@ -79,7 +79,7 @@ export async function validateResetToken(body: any) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }
   const issuedAt = dayjs(resetTokenSession.issued_at);
-  const difference = issuedAt.diff(dayjs(), "minute");
+  const difference = dayjs().diff(issuedAt, "minute");
   if (difference > resetTokenExpirationMinutes) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }
@@ -105,7 +105,7 @@ export async function resetPassword(body: any) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }
   const issuedAt = dayjs(resetTokenSession.issued_at);
-  const difference = issuedAt.diff(dayjs(), "minute");
+  const difference = dayjs().diff(issuedAt, "minute");
   if (difference > resetTokenExpirationMinutes) {
     throw new SoftError(i18next.t("errors.reset_fail"));
   }

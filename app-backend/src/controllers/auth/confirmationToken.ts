@@ -28,7 +28,7 @@ export async function createConfirmationToken(body: any) {
     .first();
   if (confirmationTokenSession != null) {
     const issuedAt = dayjs(confirmationTokenSession.issued_at);
-    const difference = issuedAt.diff(dayjs(), "minute");
+    const difference = dayjs().diff(issuedAt, "minute");
     if (difference < confirmationTokenBackoffMinutes) {
       throw new SoftError(i18next.t("errors.backoff_confirmation_token"));
     }

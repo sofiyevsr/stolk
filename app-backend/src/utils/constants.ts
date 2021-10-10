@@ -9,6 +9,12 @@ export const emailAssetS3Link =
 export const resetTokenExpirationMinutes = 60;
 export const resetTokenBackoffMinutes = 3;
 export const confirmationTokenBackoffMinutes = 3;
+// Means 3 account can be created in 5 minutes
+export const newRegistrationBackoffMinutes = 5;
+export const newRegistrationBackoffCounts = 3;
+// Means 10 comments per minute
+export const newCommentsBackoffMinutes = 1;
+export const newCommentsBackoffCounts = 10;
 
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;

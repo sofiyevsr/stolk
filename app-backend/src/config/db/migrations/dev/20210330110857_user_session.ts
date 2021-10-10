@@ -5,6 +5,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.user_session, (t) => {
     t.increments("id");
     t.string("token").notNullable();
+    t.string("ip_address").notNullable();
     t.integer("user_id")
       .references("id")
       .inTable(tables.base_user)

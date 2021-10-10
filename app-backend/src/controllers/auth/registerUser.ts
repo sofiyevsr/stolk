@@ -6,7 +6,7 @@ import { tables } from "@utils/constants";
 import i18next from "@translate/i18next";
 import { createConfirmationToken } from "./confirmationToken";
 
-export default async function registerUser(body: any) {
+export default async function registerUser(body: any, ip: string) {
   // Validate user
   const { value, error } = register.validate(body);
   if (error != null) {
@@ -30,6 +30,7 @@ export default async function registerUser(body: any) {
       {
         first_name: value.first_name,
         last_name: value.last_name,
+        ip_address: ip,
       },
       [
         "id as user_id",
@@ -68,6 +69,7 @@ export default async function registerUser(body: any) {
     session_type_id: value.session_type,
     user_id: baseUser.user_id,
     token,
+    ip_address: ip,
   });
   return { user: { ...user, ...baseUser }, access_token: token };
 }

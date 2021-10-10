@@ -5,7 +5,7 @@ import { comparePassword, generateAccessToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 import login from "@utils/validations/auth/login";
 
-export default async function loginUser(body: any) {
+export default async function loginUser(body: any, ip: string) {
   const { value, error } = login.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
@@ -47,6 +47,7 @@ export default async function loginUser(body: any) {
   const session = await db(tables.user_session).insert({
     session_type_id: value.session_type,
     user_id: user.user_id,
+    ip_address: ip,
     token,
   });
 

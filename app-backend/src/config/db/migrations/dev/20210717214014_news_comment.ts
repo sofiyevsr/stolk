@@ -5,6 +5,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.news_comment, (t) => {
     t.increments("id");
     t.specificType("comment", "VARCHAR(300)").notNullable();
+    t.string("ip_address").notNullable().index();
     t.integer("user_id")
       .notNullable()
       .references("id")
