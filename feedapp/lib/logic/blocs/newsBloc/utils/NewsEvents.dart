@@ -25,33 +25,44 @@ class FetchNextHistoryNewsEvent extends NewsEvent {
 class FetchNewsEvent extends NewsEvent {
   final int? category;
   final int? sourceID;
-  FetchNewsEvent({required this.category, required this.sourceID});
+  final int? sortBy;
+  FetchNewsEvent({
+    required this.category,
+    required this.sourceID,
+    required this.sortBy,
+  });
 
-  List<Object?> get props => [sourceID, category];
+  List<Object?> get props => [sourceID, category, sortBy];
 }
 
 class RefreshNewsEvent extends NewsEvent {
   final AllNewsResponse data;
-  RefreshNewsEvent({required this.data});
+  final int? sortBy;
+  final int? category;
+  RefreshNewsEvent({
+    required this.data,
+    required this.sortBy,
+    required this.category,
+  });
 
   List<Object?> get props => [
         data,
+        sortBy,
+        category,
       ];
 }
 
 // Only one should be not null maybe assert
 class FetchNextNewsEvent extends NewsEvent {
-  final int? category;
   final int? sourceID;
   // Force to load next batch even though state is not success
   final bool? force;
   FetchNextNewsEvent({
-    required this.category,
     required this.sourceID,
     this.force,
   });
 
-  List<Object?> get props => [category, sourceID, force];
+  List<Object?> get props => [sourceID, force];
 }
 
 class NewsActionEvent extends NewsEvent {

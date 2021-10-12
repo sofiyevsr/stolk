@@ -18,6 +18,15 @@ class _SourcesPageState extends State<SourcesPage> {
   int _currentLangID = 0;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<SourcesBloc>()
+      ..add(
+        FetchSourcesEvent(),
+      );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [

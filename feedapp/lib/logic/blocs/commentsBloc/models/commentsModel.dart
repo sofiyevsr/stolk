@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:stolk/utils/@types/response/comments.dart';
 
-class CommentsModel extends Equatable {
+class CommentsModel {
   final List<SingleComment> comments;
   final bool hasReachedEnd;
   const CommentsModel({required this.comments, required this.hasReachedEnd});
@@ -21,5 +20,4 @@ class CommentsModel extends Equatable {
         comments: [comment, ...this.comments],
         hasReachedEnd: this.hasReachedEnd,
       );
-  get props => [comments, hasReachedEnd];
 }

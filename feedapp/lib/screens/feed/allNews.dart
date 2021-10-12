@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:hive/hive.dart';
 import 'package:stolk/components/common/heightAnimationOnScroll.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
 import 'package:stolk/screens/feed/widgets/allNewsShimmer.dart';
+import 'package:stolk/screens/feed/widgets/sortingButton.dart';
 import 'package:stolk/utils/debounce.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class AllNewsScreen extends StatefulWidget {
 }
 
 class _AllNewsScreenState extends State<AllNewsScreen> {
+  late int _currentSortBy;
   ScrollController _scrollController = ScrollController();
   int _currentCategory = 0;
   bool showFab = false;
@@ -34,6 +37,16 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   @override
   void initState() {
     super.initState();
+    final box = Hive.box("settings");
+    _currentSortBy = box.get("sortBy", defaultValue: 0);
+    BlocProvider.of<NewsBloc>(context)
+      ..add(
+        FetchNewsEvent(
+          category: null,
+          sourceID: null,
+          sortBy: _currentSortBy,
+        ),
+      );
     _scrollController.addListener(() {
       final currentScroll = _scrollController.position.pixels;
 
@@ -59,7 +72,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
             context.read<NewsBloc>().add(
                   FetchNextNewsEvent(
-                    category: _currentCategory,
                     sourceID: null,
                   ),
                 );
@@ -79,7 +91,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   void forceFetchNext() {
     BlocProvider.of<NewsBloc>(context).add(
       FetchNextNewsEvent(
-        category: _currentCategory,
         sourceID: null,
         force: true,
       ),
@@ -91,10 +102,13 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
       final data = await service.getAllNews(
         pubDate: null,
         category: _currentCategory,
+        sortBy: _currentSortBy,
       );
       BlocProvider.of<NewsBloc>(context).add(
         RefreshNewsEvent(
           data: data,
+          sortBy: _currentSortBy,
+          category: _currentCategory,
         ),
       );
     } catch (e) {}
@@ -114,6 +128,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
       FetchNewsEvent(
         category: id,
         sourceID: null,
+        sortBy: _currentSortBy,
       ),
     );
     if (mounted)
@@ -134,6 +149,22 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               child: CategoryList(
                 current: _currentCategory,
                 changeCategory: _changeCategory,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: FeedSortingButton(
+                callback: (s) {
+                  this._currentSortBy = s;
+                  context.read<NewsBloc>().add(
+                        FetchNewsEvent(
+                          category: _currentCategory,
+                          sourceID: null,
+                          sortBy: _currentSortBy,
+                        ),
+                      );
+                },
               ),
             ),
             Expanded(
@@ -164,7 +195,9 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                           onPressed: forceFetchNext,
                                           //TODO
                                           icon: Icon(Icons.refresh),
-                                          label: Text("buttons.retry_request"),
+                                          label: Text(
+                                            tr("buttons.retry_request"),
+                                          ),
                                         ),
                                       ),
                                     )

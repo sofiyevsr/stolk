@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class SingleLocalNotification extends Equatable {
+class SingleLocalNotification {
   final int id;
   final String name;
   final String? createdAt;
@@ -12,8 +12,6 @@ class SingleLocalNotification extends Equatable {
           name: json["name"],
           createdAt: json['created_at'],
         );
-  @override
-  List get props => [id, name, createdAt];
 }
 
 class AllLocalNotificationResponse {
@@ -26,22 +24,15 @@ class AllLocalNotificationResponse {
       preferences.add(SingleLocalNotification.fromJSON(json['preferences'][i]));
     }
   }
-  List<dynamic> get props => [
-        preferences,
-      ];
 }
 
-class SingleFCMNotification extends Equatable {
+class SingleFCMNotification {
   final String name;
   SingleFCMNotification._({required this.name});
   SingleFCMNotification.fromJSON(Map<String, dynamic> json)
       : this._(
           name: json["name"],
         );
-  @override
-  List get props => [
-        name,
-      ];
 }
 
 class AllFCMNotificationResponse {
@@ -54,7 +45,4 @@ class AllFCMNotificationResponse {
       topics.add(SingleFCMNotification.fromJSON(json['topics'][i]));
     }
   }
-  List<dynamic> get props => [
-        topics,
-      ];
 }

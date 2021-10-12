@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class User extends Equatable {
+class User {
   final String firstName, lastName, email, createdAt;
   final String? confirmedAt, bannedAt;
   final int? serviceTypeId;
@@ -27,16 +25,4 @@ class User extends Equatable {
           bannedAt: json['banned_at'],
           serviceTypeId: json['service_type_id'],
         );
-
-  @override
-  List get props => [
-        this.id,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.createdAt,
-        this.serviceTypeId,
-        this.bannedAt,
-        this.confirmedAt
-      ];
 }

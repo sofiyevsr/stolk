@@ -79,20 +79,11 @@ class _HomeState extends State<Home> {
           },
           children: [
             BlocProvider<NewsBloc>(
-              create: (ctx) => NewsBloc()
-                ..add(
-                  FetchNewsEvent(
-                    category: null,
-                    sourceID: null,
-                  ),
-                ),
+              create: (ctx) => NewsBloc(),
               child: AllNewsScreen(),
             ),
             BlocProvider<SourcesBloc>(
-              create: (ctx) => SourcesBloc()
-                ..add(
-                  FetchSourcesEvent(),
-                ),
+              create: (ctx) => SourcesBloc(),
               child: SourcesPage(),
             ),
             HistoryPage(),

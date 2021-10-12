@@ -6,19 +6,27 @@ import 'package:stolk/utils/services/server/apiService.dart';
 class NewsService extends ApiService {
   NewsService() : super(enableErrorHandler: true);
 
-  Future<AllNewsResponse> getAllNews(
-      {String? pubDate, int? category, int? sourceID}) async {
+  Future<AllNewsResponse> getAllNews({
+    String? pubDate,
+    int? category,
+    int? sourceID,
+    int? sortBy,
+    dynamic cursor,
+  }) async {
     final response = await this.request.get("/news/all", {
       if (pubDate != null) 'pub_date': pubDate,
       if (sourceID != null) 'source_id': sourceID,
+      if (sortBy != null) 'sort_by': sortBy,
+      if (cursor != null) 'cursor': cursor,
       if (category != null && category != 0) 'category': category,
     }, {});
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
-  Future<AllNewsResponse> getAllHistoryNews(
-      {required String filterBy, int? id}) async {
-    print('id $id');
+  Future<AllNewsResponse> getAllHistoryNews({
+    required String filterBy,
+    int? id,
+  }) async {
     final response = await this.request.get("/news/my-history", {
       if (id != null) 'id': id,
       'filter_by': filterBy,

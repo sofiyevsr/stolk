@@ -78,6 +78,7 @@ class _SourceFeedState extends State<SourceFeed> {
                   FetchNewsEvent(
                     category: null,
                     sourceID: widget.sourceID,
+                    sortBy: null,
                   ),
                 ),
               child: SourceNewsSliver(

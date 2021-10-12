@@ -222,6 +222,12 @@
     "description": "Enter email you registered with to send reset password instructions",
     "submit": "Confirm"
   },
+  "sort_by": {
+    "latest": "Latest",
+    "most_read": "Most read",
+    "most_liked": "Most liked",
+    "popular": "Popular"
+  },
   "settings": {
     "language": "Language",
     "general": "General",

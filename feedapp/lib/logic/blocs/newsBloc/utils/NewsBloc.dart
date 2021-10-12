@@ -1,6 +1,7 @@
 import 'package:stolk/logic/blocs/newsBloc/models/newsModel.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:equatable/equatable.dart";
@@ -33,6 +34,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             data: NewsModel(
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
+              sortBy: null,
+              category: null,
             ),
           );
         else
@@ -86,27 +89,28 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       try {
         yield NewsStateLoading();
         final data = await service.getAllNews(
-          pubDate: null,
           category: event.category,
           sourceID: event.sourceID,
+          sortBy: event.sortBy,
         );
         if (data.news.length != 0)
           yield NewsStateSuccess(
             data: NewsModel(
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
+              sortBy: event.sortBy,
+              category: event.category,
             ),
           );
         else
           yield NewsStateNoData();
       } catch (e) {
-        print(e);
         yield NewsStateError();
       }
     }
 
     // Refresh
-    // 1. Event sender must fetch data
+    // 1. Event sender must fetch data, because refresh function should wait till async function to be done
     // 2. Event sender is responsible for sending current category
     else if (event is RefreshNewsEvent) {
       try {
@@ -115,6 +119,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             data: NewsModel(
               news: event.data.news,
               hasReachedEnd: event.data.hasReachedEnd,
+              sortBy: event.sortBy,
+              category: event.category,
             ),
           );
         else
@@ -138,14 +144,23 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         try {
           yield NewsNextFetchLoading(data: (state as NewsStateWithData).data);
           final existing = (state as NewsStateWithData);
-          final lastPub =
-              existing.data.news[existing.data.news.length - 1].publishedDate;
+          final lastNews = existing.data.news[existing.data.news.length - 1];
+          final lastPub = lastNews.publishedDate;
+
+          var cursor;
+          if (existing.data.sortBy == NewsSortBy.MOST_READ) {
+            cursor = lastNews.readCount;
+          } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
+            cursor = lastNews.likeCount;
+          }
 
           // set Loading and fetch data then
           final data = await service.getAllNews(
             pubDate: lastPub,
             sourceID: event.sourceID,
-            category: event.category,
+            category: existing.data.category,
+            sortBy: existing.data.sortBy,
+            cursor: cursor,
           );
           yield NewsStateSuccess(
             data: existing.data.addNewNews(
@@ -186,7 +201,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             modifItem = item.copyWith(followID: Nullable(value: null));
             break;
           case NewsActionType.READ:
-            modifItem = item.copyWith(readID: Nullable(value: 0));
+            modifItem = item.copyWith(
+              readID: Nullable(value: 0),
+              readCount: item.readCount + 1,
+            );
             break;
         }
         yield NewsStateSuccess(

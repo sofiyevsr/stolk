@@ -216,6 +216,12 @@
   "comments": {
     "me": "Mən"
   },
+  "sort_by": {
+    "latest": "",
+    "most_read": "",
+    "most_liked": "",
+    "popular": ""
+  },
   "forgot_password": {
     "success": "Poçt qutunuzu yoxlayın",
     "title": "Şifrəni unutmusunuz?",

@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class SingleSource extends Equatable {
+class SingleSource {
   final int id;
   final String name;
   final String logoSuffix;
@@ -21,9 +19,6 @@ class SingleSource extends Equatable {
           id: json['id'],
           followID: json['follow_id'],
         );
-
-  @override
-  List get props => [id, logoSuffix, name, langID];
 }
 
 class AllSourcesResponse {

@@ -53,6 +53,7 @@ async function all(
       "c.name as category_name",
       "n.like_count",
       "n.comment_count",
+      "n.read_count",
     ])
     .from(`${tables.news_feed} as n`)
     .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")

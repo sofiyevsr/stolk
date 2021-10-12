@@ -28,7 +28,7 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
 });
 
 r.get("/my-history", authenticateMiddleware(true), async (req, res, next) => {
-  const { limit, id, source_id, filter_by } = req.query as {
+  const { limit, id, filter_by } = req.query as {
     [key: string]: string | undefined;
   };
   try {

@@ -38,7 +38,6 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
             if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
               context.read<NewsBloc>().add(
                     FetchNextNewsEvent(
-                      category: null,
                       sourceID: widget.sourceID,
                     ),
                   );
@@ -52,7 +51,6 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
   void forceFetchNext() {
     BlocProvider.of<NewsBloc>(context).add(
       FetchNextNewsEvent(
-        category: null,
         sourceID: widget.sourceID,
         force: true,
       ),

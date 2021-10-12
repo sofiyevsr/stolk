@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class SingleComment extends Equatable {
+class SingleComment {
   final int id;
   final String comment;
   final String createdAt;
@@ -27,8 +25,6 @@ class SingleComment extends Equatable {
           createdAt: json["created_at"],
           isManual: isManual,
         );
-  @override
-  List get props => [id, comment, userID, createdAt];
 }
 
 class AllCommentsResponse {
@@ -44,5 +40,4 @@ class AllCommentsResponse {
       comments.add(SingleComment.fromJSON(json['comments'][i]));
     }
   }
-  List<dynamic> get props => [comments, hasReachedEnd];
 }

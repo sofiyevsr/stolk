@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:stolk/utils/common.dart';
 
-class SingleCategory extends Equatable {
+class SingleCategory {
   final int id;
   final String name, imageSuffix;
   SingleCategory._({
@@ -14,16 +13,10 @@ class SingleCategory extends Equatable {
             id: json["id"],
             name: json["name"],
             imageSuffix: json["image_suffix"]);
-  @override
-  List get props => [
-        id,
-        name,
-        imageSuffix,
-      ];
 }
 
-class SingleNews extends Equatable {
-  final int id, sourceID, likeCount, commentCount;
+class SingleNews {
+  final int id, sourceID, likeCount, commentCount, readCount;
   final String title,
       sourceName,
       sourceLogoSuffix,
@@ -43,6 +36,7 @@ class SingleNews extends Equatable {
     required this.feedLink,
     required this.likeCount,
     required this.commentCount,
+    required this.readCount,
     required this.likeID,
     required this.followID,
     required this.commentID,
@@ -68,6 +62,7 @@ class SingleNews extends Equatable {
           commentID: json["comment_id"],
           readID: json["read_history_id"],
           likeCount: json["like_count"],
+          readCount: json["read_count"],
           commentCount: json["comment_count"],
           bookmarkID: json["bookmark_id"],
         );
@@ -82,6 +77,7 @@ class SingleNews extends Equatable {
     String? feedLink,
     int? likeCount,
     int? commentCount,
+    int? readCount,
     String? imageLink,
 
     // these are nullable class because only they can be set to null later
@@ -102,6 +98,7 @@ class SingleNews extends Equatable {
         feedLink: feedLink ?? this.feedLink,
         likeCount: likeCount ?? this.likeCount,
         commentCount: commentCount ?? this.likeCount,
+        readCount: readCount ?? this.readCount,
         imageLink: imageLink ?? this.imageLink,
         likeID: likeID == null ? this.likeID : likeID.value,
         followID: followID == null ? this.followID : followID.value,
@@ -109,24 +106,6 @@ class SingleNews extends Equatable {
         readID: readID == null ? this.readID : readID.value,
         commentID: commentID == null ? this.commentID : commentID.value,
       );
-
-  @override
-  List get props => [
-        id,
-        sourceID,
-        title,
-        sourceName,
-        publishedDate,
-        createdAt,
-        feedLink,
-        likeCount,
-        commentCount,
-        likeID,
-        readID,
-        bookmarkID,
-        imageLink,
-        followID
-      ];
 }
 
 class AllNewsResponse {
@@ -141,7 +120,6 @@ class AllNewsResponse {
       news.add(SingleNews.fromJson(json['news'][i]));
     }
   }
-  List<dynamic> get props => [news, hasReachedEnd];
 }
 
 class AllCategoriesResponse {

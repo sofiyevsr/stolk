@@ -37,6 +37,26 @@ class ServiceType {
   static const APP = 0;
 }
 
+class NewsSortBy {
+  static const POPULAR = 0;
+  static const LATEST = 1;
+  static const MOST_LIKED = 2;
+  static const MOST_READ = 3;
+}
+
+String sortByToString(int s) {
+  if (s == NewsSortBy.LATEST) {
+    return "latest";
+  } else if (s == NewsSortBy.MOST_LIKED) {
+    return "most_liked";
+  } else if (s == NewsSortBy.MOST_READ) {
+    return "most_read";
+  } else if (s == NewsSortBy.POPULAR) {
+    return "popular";
+  }
+  return "";
+}
+
 String platformToName(int p) {
   if (p == AppPlatform.IOS) {
     return "IOS";

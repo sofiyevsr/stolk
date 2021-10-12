@@ -4,6 +4,7 @@ import routes from "@routes/index";
 import adminRoutes from "@admin/routes/index";
 import errorHandler from "src/middlewares/errorHandler";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
 
@@ -13,10 +14,13 @@ app.use(express.json({ limit: "10kb" }));
 app.use(helmet());
 
 // TODO
-app.use((req, res, next) => {
-  req.headers["CF-Connecting-IP"] = "0.0.0.1";
-  next();
-});
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+  app.use((req, res, next) => {
+    req.headers["CF-Connecting-IP"] = "0.0.0.1";
+    next();
+  });
+}
 
 app.use(
   "/admin",
