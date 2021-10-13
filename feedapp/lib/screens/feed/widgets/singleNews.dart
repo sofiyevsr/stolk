@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/notFoundImage.dart';
+import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/feed/widgets/newsView.dart';
 import 'package:stolk/screens/feed/widgets/singleNewsActions.dart';
@@ -29,10 +30,13 @@ class SingleNewsView extends StatelessWidget {
     );
     if (feed.readID == null)
       newsService.markRead(this.feed.id).then((value) {
-        final newsBloc = BlocProvider.of<NewsBloc>(context);
-        newsBloc.add(
-          NewsActionEvent(index: index, type: NewsActionType.READ),
-        );
+        final userBloc = BlocProvider.of<AuthBloc>(context);
+        if (userBloc.state is AuthorizedState) {
+          final newsBloc = BlocProvider.of<NewsBloc>(context);
+          newsBloc.add(
+            NewsActionEvent(index: index, type: NewsActionType.READ),
+          );
+        }
       }).catchError((e) {
         FirebaseCrashlytics.instance
             .log('Couldn\'t mark news read ${e.toString}');

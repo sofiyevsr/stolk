@@ -193,7 +193,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                                         height: 50,
                                         child: ElevatedButton.icon(
                                           onPressed: forceFetchNext,
-                                          //TODO
                                           icon: Icon(Icons.refresh),
                                           label: Text(
                                             tr("buttons.retry_request"),
@@ -234,7 +233,6 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                               color: Theme.of(context).colorScheme.primary,
                               size: 100,
                             ),
-                            //TODO try following more sources
                             Text(
                               tr("news.no_news_follow_more"),
                               style: TextStyle(
@@ -288,7 +286,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   curve: Curves.easeInOut,
                 );
               },
-              child: Icon(Icons.north),
+              child: Icon(Icons.north_sharp),
             ),
           ),
       ],

@@ -94,7 +94,7 @@ async function all({
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
     .where({ "n.hidden_at": null });
 
-  if (userID != null) {
+  if (values.userID != null) {
     query = query
       .select(
         "bo.id as bookmark_id",
@@ -103,7 +103,10 @@ async function all({
         "h.id as read_history_id",
         "co.id as comment_id"
       )
-      .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
+      .leftJoin(`${tables.source_follow} as f`, function () {
+        this.on("f.source_id", "s.id");
+        this.andOnVal("f.user_id", "=", values.userID);
+      })
       .leftJoin(`${tables.news_bookmark} as bo`, function () {
         this.on("bo.news_id", "n.id");
         this.andOnVal("bo.user_id", "=", values.userID);
@@ -120,27 +123,21 @@ async function all({
         this.on("co.news_id", "n.id");
         this.andOnVal("co.user_id", "=", values.userID);
       });
+  }
 
-    if (values.sourceID != null) {
-      query = query.where({ "s.id": values.sourceID });
-    } else {
-      query = query.where({ "f.user_id": values.userID });
-    }
-  } else if (values.sourceID != null) {
-    query = query
-      .where({ "s.id": values.sourceID })
-      .orderBy("n.pub_date", "desc");
+  if (values.sourceID != null) {
+    query = query.where({ "s.id": values.sourceID });
   }
 
   // Sorting
   const weightQuery =
-    "log(n.like_count + 1) * 20000 + log(n.read_count + 1) * 40000 + extract(epoch from n.pub_date)";
+    "(log(n.like_count + 1) * 20000 + log(n.read_count + 1) * 40000 + extract(epoch from n.pub_date))::varchar(255)";
   if (values.sortBy == null || values.sortBy === NewsSortBy.LATEST) {
     if (lastCreatedAt != null) {
       await Joi.date().validateAsync(lastCreatedAt);
       query = query.andWhere("n.pub_date", "<", lastCreatedAt);
     }
-    query = query.orderBy("pub_date", "desc");
+    query = query.orderBy("n.pub_date", "desc");
   } else if (values.sortBy === NewsSortBy.MOST_LIKED) {
     if (values.cursor != null) {
       await Joi.date().required().validateAsync(lastCreatedAt);
@@ -227,6 +224,7 @@ async function usersNewsHistory(
       "c.name as category_name",
       "n.like_count",
       "n.comment_count",
+      "n.read_count",
       "bo.id as bookmark_id",
       "l.id as like_id",
       "f.id as follow_id",
@@ -241,7 +239,10 @@ async function usersNewsHistory(
       "n.category_alias_id"
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
-    .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
+    .leftJoin(`${tables.source_follow} as f`, function () {
+      this.on("f.source_id", "s.id");
+      this.andOnVal("f.user_id", "=", values.userID);
+    })
     .leftJoin(`${tables.news_comment} as co`, function () {
       this.on("co.news_id", "n.id");
       this.andOnVal("co.user_id", "=", values.userID);
@@ -258,7 +259,8 @@ async function usersNewsHistory(
       this.on("h.news_id", "n.id");
       this.andOnVal("h.user_id", "=", values.userID);
     })
-    .where({ "n.hidden_at": null });
+    .where({ "n.hidden_at": null })
+    .orderBy("id", "desc");
 
   if (values.filterBy === "like") {
     query = query.where({ "l.user_id": userID }).orderBy("l.id", "desc");

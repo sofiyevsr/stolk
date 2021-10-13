@@ -145,7 +145,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         SettingsTile(
           onTap: () {
-            //TODO
             NavigationService.push(AuthPage(), RouteNames.AUTH);
           },
           title: tr("settings.register"),

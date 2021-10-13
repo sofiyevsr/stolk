@@ -29,7 +29,7 @@ class _NewsViewState extends State<NewsView>
   late AnimationController _loadingController;
 
   void _progressToTarget(double d) {
-    _loadingController.animateTo(d).catchError((e) => print(e));
+    _loadingController.animateTo(d);
   }
 
   @override
