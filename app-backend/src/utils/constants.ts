@@ -19,6 +19,13 @@ export const newCommentsBackoffCounts = 10;
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
 
+export enum NewsSortBy {
+  POPULAR,
+  LATEST,
+  MOST_LIKED,
+  MOST_READ,
+}
+
 export enum AppPlatform {
   IOS,
   ANDROID,

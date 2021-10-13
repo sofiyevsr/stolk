@@ -24,6 +24,7 @@ class SingleNews {
       createdAt,
       feedLink;
   final int? likeID, bookmarkID, followID, commentID, readID;
+  final double? weight;
   final String? imageLink;
   SingleNews._({
     required this.id,
@@ -43,12 +44,14 @@ class SingleNews {
     required this.readID,
     required this.bookmarkID,
     required this.imageLink,
+    required this.weight,
   });
 
   SingleNews.fromJson(Map<String, dynamic> json)
       : this._(
           // We have to parse it manually because news id is bigint on db and json can't send it as bigint
           id: int.parse(json['id']),
+          weight: json['weight'],
           sourceID: json['source_id'],
           title: json['title'],
           sourceName: json['source_name'],
@@ -78,6 +81,7 @@ class SingleNews {
     int? likeCount,
     int? commentCount,
     int? readCount,
+    double? weight,
     String? imageLink,
 
     // these are nullable class because only they can be set to null later
@@ -98,6 +102,7 @@ class SingleNews {
         feedLink: feedLink ?? this.feedLink,
         likeCount: likeCount ?? this.likeCount,
         commentCount: commentCount ?? this.likeCount,
+        weight: weight ?? this.weight,
         readCount: readCount ?? this.readCount,
         imageLink: imageLink ?? this.imageLink,
         likeID: likeID == null ? this.likeID : likeID.value,

@@ -62,7 +62,7 @@ class FeedSortingButton extends StatelessWidget {
                         ...tiles.map(
                           (e) => ListTile(
                             title: Text(
-                              e["text"] as String,
+                              tr("sort_by.${e["text"]}"),
                             ),
                             leading: e["icon"] as Icon,
                             selected: e["value"] == sortBy,

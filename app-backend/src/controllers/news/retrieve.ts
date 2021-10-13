@@ -1,5 +1,10 @@
 import db from "@config/db/db";
-import { DEFAULT_PERPAGE, MAX_PERPAGE, tables } from "@utils/constants";
+import {
+  DEFAULT_PERPAGE,
+  MAX_PERPAGE,
+  NewsSortBy,
+  tables,
+} from "@utils/constants";
 import Joi from "joi";
 
 interface NewsResult {
@@ -7,10 +12,26 @@ interface NewsResult {
   has_reached_end: boolean;
 }
 
+interface NewsRequest {
+  perPage?: string;
+  lastCreatedAt?: string;
+  category?: string;
+  userID?: number;
+  sourceID?: string;
+  sortBy?: string;
+  cursor?: string;
+}
+
 function validateAllNewsRequest() {
   return Joi.object({
-    filterBy: Joi.string().valid("like", "history", "bookmark", "comment"),
     userID: Joi.number(),
+    cursor: Joi.number(),
+    sortBy: Joi.number().valid(
+      NewsSortBy.LATEST,
+      NewsSortBy.POPULAR,
+      NewsSortBy.MOST_READ,
+      NewsSortBy.MOST_LIKED
+    ),
     sourceID: Joi.number().min(0),
   }).options({ stripUnknown: true });
 }
@@ -25,18 +46,26 @@ function validateHistoryNewsRequest() {
   }).options({ stripUnknown: true });
 }
 
-async function all(
-  perPage?: string,
-  lastCreatedAt?: string,
-  cat?: string,
-  userID?: number,
-  sourceID?: string
-) {
-  const values: { sourceID: number; userID: number } =
-    await validateAllNewsRequest().validateAsync({
-      userID,
-      sourceID,
-    });
+async function all({
+  category,
+  userID,
+  perPage,
+  sourceID,
+  lastCreatedAt,
+  sortBy,
+  cursor,
+}: NewsRequest) {
+  const values: {
+    sourceID: number;
+    userID: number;
+    sortBy: number;
+    cursor: number;
+  } = await validateAllNewsRequest().validateAsync({
+    userID,
+    sourceID,
+    sortBy,
+    cursor,
+  });
   let result: NewsResult;
   let query = db
     .select([
@@ -63,8 +92,7 @@ async function all(
       "n.category_alias_id"
     )
     .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
-    .where({ "n.hidden_at": null })
-    .orderBy("pub_date", "desc");
+    .where({ "n.hidden_at": null });
 
   if (userID != null) {
     query = query
@@ -78,36 +106,80 @@ async function all(
       .leftJoin(`${tables.source_follow} as f`, "f.source_id", "s.id")
       .leftJoin(`${tables.news_bookmark} as bo`, function () {
         this.on("bo.news_id", "n.id");
-        this.andOnVal("bo.user_id", "=", userID);
+        this.andOnVal("bo.user_id", "=", values.userID);
       })
       .leftJoin(`${tables.news_like} as l`, function () {
         this.on("l.news_id", "n.id");
-        this.andOnVal("l.user_id", "=", userID);
+        this.andOnVal("l.user_id", "=", values.userID);
       })
       .leftJoin(`${tables.news_read_history} as h`, function () {
         this.on("h.news_id", "n.id");
-        this.andOnVal("h.user_id", "=", userID);
+        this.andOnVal("h.user_id", "=", values.userID);
       })
       .leftJoin(`${tables.news_comment} as co`, function () {
         this.on("co.news_id", "n.id");
         this.andOnVal("co.user_id", "=", values.userID);
       });
+
     if (values.sourceID != null) {
       query = query.where({ "s.id": values.sourceID });
     } else {
-      query = query.where({ "f.user_id": userID });
+      query = query.where({ "f.user_id": values.userID });
     }
   } else if (values.sourceID != null) {
-    query = query.where({ "s.id": values.sourceID });
+    query = query
+      .where({ "s.id": values.sourceID })
+      .orderBy("n.pub_date", "desc");
   }
 
-  if (lastCreatedAt != null) {
-    await Joi.date().validateAsync(lastCreatedAt);
-    query = query.andWhere("n.pub_date", "<", lastCreatedAt);
+  // Sorting
+  const weightQuery =
+    "log(n.like_count + 1) * 20000 + log(n.read_count + 1) * 40000 + extract(epoch from n.pub_date)";
+  if (values.sortBy == null || values.sortBy === NewsSortBy.LATEST) {
+    if (lastCreatedAt != null) {
+      await Joi.date().validateAsync(lastCreatedAt);
+      query = query.andWhere("n.pub_date", "<", lastCreatedAt);
+    }
+    query = query.orderBy("pub_date", "desc");
+  } else if (values.sortBy === NewsSortBy.MOST_LIKED) {
+    if (values.cursor != null) {
+      await Joi.date().required().validateAsync(lastCreatedAt);
+      query = query.andWhereRaw("(n.like_count, n.pub_date) < (?,?)", [
+        values.cursor,
+        lastCreatedAt!,
+      ]);
+    }
+    query = query
+      .orderBy("n.like_count", "desc")
+      .andWhereRaw("n.pub_date > now() - interval '1' day");
+  } else if (values.sortBy === NewsSortBy.MOST_READ) {
+    if (values.cursor != null) {
+      await Joi.date().required().validateAsync(lastCreatedAt);
+      query = query.andWhereRaw("(n.read_count, n.pub_date) < (?,?)", [
+        values.cursor,
+        lastCreatedAt!,
+      ]);
+    }
+    query = query
+      .orderBy("n.read_count", "desc")
+      .andWhereRaw("n.pub_date > now() - interval '1' day");
+  } else if (values.sortBy === NewsSortBy.POPULAR) {
+    if (values.cursor != null) {
+      await Joi.date().required().validateAsync(lastCreatedAt);
+      query = query.andWhereRaw(`(${weightQuery}, n.pub_date) < (?,?)`, [
+        values.cursor,
+        lastCreatedAt!,
+      ]);
+    }
+    query = query
+      .select(db.raw(`${weightQuery} as weight`))
+      .andWhereRaw("n.pub_date > now() - interval '1' day")
+      .orderBy("weight", "desc");
   }
+  // End of sorting
 
-  if (cat != null) {
-    const val = await Joi.number().min(1).max(200).validateAsync(cat);
+  if (category != null) {
+    const val = await Joi.number().min(1).max(200).validateAsync(category);
     query = query.where((builder) => builder.where("c.id", val));
   }
 

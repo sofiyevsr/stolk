@@ -152,6 +152,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             cursor = lastNews.readCount;
           } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
             cursor = lastNews.likeCount;
+          } else if (existing.data.sortBy == NewsSortBy.POPULAR) {
+            cursor = lastNews.weight;
           }
 
           // set Loading and fetch data then

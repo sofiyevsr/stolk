@@ -9,18 +9,21 @@ import ipExtractor from "src/middlewares/ipExtractor";
 const r = Router();
 
 r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
-  const { limit, pub_date, source_id, category } = req.query as {
-    [key: string]: string | undefined;
-  };
+  const { limit, pub_date, source_id, category, sort_by, cursor } =
+    req.query as {
+      [key: string]: string | undefined;
+    };
   try {
     const user_id = req.session?.user_id;
-    const allNews = await news.retrieve.all(
-      limit,
-      pub_date,
+    const allNews = await news.retrieve.all({
+      perPage: limit,
+      lastCreatedAt: pub_date,
       category,
-      user_id,
-      source_id
-    );
+      userID: user_id,
+      sourceID: source_id,
+      cursor,
+      sortBy: sort_by,
+    });
     return responseSuccess(res, allNews);
   } catch (error) {
     return next(error);

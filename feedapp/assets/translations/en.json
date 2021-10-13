@@ -223,6 +223,7 @@
     "submit": "Confirm"
   },
   "sort_by": {
+    "title": "Sort by",
     "latest": "Latest",
     "most_read": "Most read",
     "most_liked": "Most liked",
