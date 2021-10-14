@@ -11,13 +11,9 @@ const tiles = [
   {
     "value": NewsSortBy.POPULAR,
     "text": "popular",
-    "icon": Icon(Icons.star_rate_sharp)
+    "icon": Icon(Icons.trending_up_sharp)
   },
-  {
-    "value": NewsSortBy.LATEST,
-    "text": "latest",
-    "icon": Icon(Icons.new_releases_sharp)
-  },
+  {"value": NewsSortBy.LATEST, "text": "latest", "icon": Icon(Icons.today)},
   {
     "value": NewsSortBy.MOST_LIKED,
     "text": "most_liked",
@@ -26,7 +22,7 @@ const tiles = [
   {
     "value": NewsSortBy.MOST_READ,
     "text": "most_read",
-    "icon": Icon(Icons.chrome_reader_mode_sharp)
+    "icon": Icon(Icons.book_sharp)
   },
 ];
 
@@ -46,7 +42,9 @@ class FeedSortingButton extends StatelessWidget {
                 context: context,
                 builder: (ctx) {
                   return IconTheme(
-                    data: IconThemeData(size: 32),
+                    data: Theme.of(ctx).iconTheme.copyWith(
+                          size: 28,
+                        ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

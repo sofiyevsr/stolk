@@ -30,7 +30,7 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
   }
 });
 
-r.get("/my-history", authenticateMiddleware(true), async (req, res, next) => {
+r.get("/my-history", authenticateMiddleware(), async (req, res, next) => {
   const { limit, id, filter_by } = req.query as {
     [key: string]: string | undefined;
   };
@@ -68,18 +68,22 @@ r.get("/:id/comments", async (req, res, next) => {
   }
 });
 
-r.post("/:id/read", authenticateMiddleware(), async (req, res, next) => {
-  try {
-    const { user_id, id } = await parseRequest(
-      req.session?.user_id,
-      req.params.id
-    );
-    const read = await news.actions.read(id, user_id);
-    return responseContentCreated(res, { read });
-  } catch (error) {
-    return next(error);
+r.post(
+  "/:id/read",
+  ipExtractor,
+  authenticateMiddleware(true),
+  async (req, res, next) => {
+    try {
+      const { id } = await parseRequest(req.session?.user_id, req.params.id);
+      // User id separated because auth middleware is optional
+      const user_id = req.session?.user_id;
+      const read = await news.actions.read(id, user_id, req.realIP);
+      return responseContentCreated(res, { read });
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 r.post(
   "/:id/comment",

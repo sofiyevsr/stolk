@@ -17,14 +17,12 @@ async function limitRegister(ip: string) {
     .where({ ip_address: ip })
     .orderBy("id", "desc")
     .limit(newRegistrationBackoffCounts);
-  console.log(users);
   if (users.length < newRegistrationBackoffCounts) {
     return;
   }
   for (const user of users) {
     const createdAt = dayjs(user.created_at);
     const difference = dayjs().diff(createdAt, "minute");
-    console.log(difference);
     // if one of them if older than backoff minutes then we are good to go
     if (difference > newRegistrationBackoffMinutes) {
       return;

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/authBloc/utils/AuthBloc.dart';
 import 'package:stolk/screens/auth/auth.dart';
+import 'package:stolk/screens/auth/authContainer.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +68,16 @@ class LimitRangeTextInputFormatter extends TextInputFormatter {
 // pushAuthView meaning request won't be send but error thrown to stop request
 authorize({bool pushAuthView = true}) {
   final auth = AuthBloc.instance.state;
+  final context = NavigationService.key.currentContext;
   if (auth is! AuthorizedState) {
-    if (pushAuthView == true) {
-      //TODO
-      NavigationService.push(AuthPage(), RouteNames.AUTH);
+    if (pushAuthView == true && context != null) {
+      showModalBottomSheet(
+          context: context,
+          builder: (ctx) {
+            return AuthContainer(
+              disableMinConstraint: true,
+            );
+          });
     }
     throw Error();
   }

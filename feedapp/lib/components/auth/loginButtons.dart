@@ -36,6 +36,7 @@ class LoginButtons extends StatelessWidget {
         final buttonsDisabled = state is AuthLoadingState;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (Platform.isIOS)
               SingleLoginButton(
@@ -69,18 +70,6 @@ class LoginButtons extends StatelessWidget {
               onPressed: () {
                 NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
               },
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  tr("login.agree"),
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
             ),
           ],
         );

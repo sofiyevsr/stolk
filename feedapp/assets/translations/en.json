@@ -102,6 +102,7 @@
     "account": "Account"
   },
   "commons": {
+    "me": "Me",
     "guest": "Guest",
     "welcome": "Welcome",
     "categories": "Categories",

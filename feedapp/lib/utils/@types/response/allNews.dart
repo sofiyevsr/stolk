@@ -51,7 +51,7 @@ class SingleNews {
       : this._(
           // We have to parse it manually because news id is bigint on db and json can't send it as bigint
           id: int.parse(json['id']),
-          weight: json['weight'],
+          weight: json['weight'] == null ? null : double.parse(json['weight']),
           sourceID: json['source_id'],
           title: json['title'],
           sourceName: json['source_name'],
@@ -101,7 +101,7 @@ class SingleNews {
         createdAt: createdAt ?? this.createdAt,
         feedLink: feedLink ?? this.feedLink,
         likeCount: likeCount ?? this.likeCount,
-        commentCount: commentCount ?? this.likeCount,
+        commentCount: commentCount ?? this.commentCount,
         weight: weight ?? this.weight,
         readCount: readCount ?? this.readCount,
         imageLink: imageLink ?? this.imageLink,

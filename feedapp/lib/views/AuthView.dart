@@ -1,6 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:stolk/components/auth/loginButtons.dart';
+import 'package:stolk/screens/auth/authContainer.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 
 class AuthView extends StatelessWidget {
@@ -31,32 +30,7 @@ class AuthView extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(
-            color: Theme.of(context).cardColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text(tr("login.title"),
-                      style: Theme.of(context).textTheme.headline3),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 70.0),
-                  child: Text(
-                    tr("login.description"),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: LoginButtons(),
-                ),
-              ],
-            ),
-          ),
+          child: AuthContainer(),
         ),
       ],
     );

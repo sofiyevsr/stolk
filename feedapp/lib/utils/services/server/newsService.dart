@@ -31,6 +31,7 @@ class NewsService extends ApiService {
       if (id != null) 'id': id,
       'filter_by': filterBy,
     }, {});
+    print(response.data['body']);
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
@@ -60,7 +61,6 @@ class NewsService extends ApiService {
   }
 
   Future<void> markRead(int newsID) async {
-    authorize(pushAuthView: false);
     await this.request.post("/news/$newsID/read", {}, {});
   }
 
