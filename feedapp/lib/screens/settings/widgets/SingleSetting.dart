@@ -10,12 +10,12 @@ class SingleSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // required for updating title
-    EasyLocalization.of(context);
     return Scaffold(
       backgroundColor: theme.cardColor,
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+          tr(title),
+        ),
       ),
       body: SafeArea(
         child: Container(

@@ -4,9 +4,9 @@ import { tables } from "../../../../utils/constants";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.notification_token, (t) => {
-    t.string("token").notNullable().unique();
+    t.string("token").primary();
     t.integer("user_id")
-      .primary()
+      .notNullable()
       .references("id")
       .inTable(tables.base_user)
       .onUpdate("CASCADE")

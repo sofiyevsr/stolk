@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               NavigationService.push(
                 SingleSetting(
-                  title: tr("settings.notification_preferences"),
+                  title: ("settings.notification_preferences"),
                   child: NotificationPreferences(),
                 ),
                 RouteNames.SINGLE_SETTING,
@@ -173,7 +173,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 NavigationService.push(
                   SingleSetting(
-                    title: tr("settings.language"),
+                    title: ("settings.language"),
                     child: LanguagePanel(),
                   ),
                   RouteNames.SINGLE_SETTING,

@@ -20,6 +20,7 @@ class SingleNewsActions extends StatelessWidget {
   final int? bookmarkID;
   final int? likeID;
   final int? likeCount;
+  final int? commentCount;
   SingleNewsActions({
     Key? key,
     required SingleNews feed,
@@ -29,6 +30,7 @@ class SingleNewsActions extends StatelessWidget {
         bookmarkID = feed.bookmarkID,
         likeID = feed.likeID,
         likeCount = feed.likeCount,
+        commentCount = feed.commentCount,
         super(key: key);
 
   Widget _buildLikeButton(BuildContext context) {
@@ -88,14 +90,45 @@ class SingleNewsActions extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton(IconData icon, void Function() onPressed) {
+  Widget _buildIconButton({
+    required Widget icon,
+    required void Function() onPressed,
+  }) {
     return IconButton(
       iconSize: _iconSize,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      icon: Icon(icon),
+      icon: icon,
       onPressed: onPressed,
+    );
+  }
+
+  Widget _buildCommentButton({
+    required void Function() onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Row(
+          children: [
+            Icon(
+              Icons.chat_bubble_outline,
+              size: _iconSize - 3,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 3),
+              child: Text(
+                commentCount.toString(),
+                style: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -179,9 +212,8 @@ class SingleNewsActions extends StatelessWidget {
                   ),
                   Tooltip(
                     message: tr("tooltips.comment"),
-                    child: _buildIconButton(
-                      Icons.comment_outlined,
-                      () => _comment(context),
+                    child: _buildCommentButton(
+                      onPressed: () => _comment(context),
                     ),
                   ),
                 ],
@@ -195,7 +227,10 @@ class SingleNewsActions extends StatelessWidget {
                 ),
                 Tooltip(
                   message: tr("tooltips.share"),
-                  child: _buildIconButton(Icons.share_outlined, _share),
+                  child: _buildIconButton(
+                    icon: Icon(Icons.share_outlined),
+                    onPressed: _share,
+                  ),
                 ),
               ],
             ),

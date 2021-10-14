@@ -1,20 +1,9 @@
 import { Router } from "express";
-import notification from "@controllers/notification/index";
+import notification from "@controllers/notification";
 import { responseContentCreated, responseSuccess } from "@utils/responses";
 import authenticateMiddleware from "src/middlewares/authenticate";
 
 const r = Router();
-
-r.get("/fcm-topics", async (req, res, next) => {
-  try {
-    const data = await notification.retrieve.getAllSubcriptions(
-      req.query.token
-    );
-    return responseSuccess(res, data);
-  } catch (e) {
-    return next(e);
-  }
-});
 
 r.get("/my-preferences", authenticateMiddleware(), async (req, res, next) => {
   try {

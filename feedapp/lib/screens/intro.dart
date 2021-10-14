@@ -33,9 +33,6 @@ class _IntroScreenState extends State<IntroScreen> {
   void skipIntro(BuildContext ctx) {
     final gBox = Hive.box("settings");
     gBox.put("skipIntro", true);
-    FirebaseMessaging.instance.subscribeToTopic(
-      fcmNotificationChannels["news"]!,
-    );
   }
 
   void onPageChange(int i) {
