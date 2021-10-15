@@ -18,6 +18,13 @@ class GoogleLogin extends AuthEvent {
   get props => [idToken];
 }
 
+class FacebookLogin extends AuthEvent {
+  final String token;
+  FacebookLogin({required this.token});
+  @override
+  get props => [token];
+}
+
 class AppLogin extends AuthEvent {
   final String email, password;
   AppLogin({required this.email, required this.password});

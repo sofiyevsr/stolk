@@ -9,7 +9,17 @@ import "dart:io" show Platform;
 class NavigationService {
   static final _key = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> get key => _key;
-  static Route wrapRoute(Widget child, String name) {
+  static Route wrapRoute(
+    Widget child,
+    String name, {
+    required bool disableAnimation,
+  }) {
+    if (disableAnimation == true)
+      return PageRouteBuilder(
+        pageBuilder: (_, __, ___) => child,
+        settings: RouteSettings(name: name),
+        transitionDuration: Duration.zero,
+      );
     if (Platform.isAndroid)
       return MaterialPageRoute(
         builder: (_) => child,
@@ -26,21 +36,45 @@ class NavigationService {
     NavigationService.key.currentState!.pop();
   }
 
-  static void push(Widget child, String name) {
+  static void push(
+    Widget child,
+    String name, {
+    bool disableAnimation = false,
+  }) {
     NavigationService.key.currentState!.push(
-      NavigationService.wrapRoute(child, name),
+      NavigationService.wrapRoute(
+        child,
+        name,
+        disableAnimation: disableAnimation,
+      ),
     );
   }
 
-  static void replaceCurrent(Widget child, String name) {
+  static void replaceCurrent(
+    Widget child,
+    String name, {
+    bool disableAnimation = false,
+  }) {
     NavigationService.key.currentState!.pushReplacement(
-      NavigationService.wrapRoute(child, name),
+      NavigationService.wrapRoute(
+        child,
+        name,
+        disableAnimation: disableAnimation,
+      ),
     );
   }
 
-  static void replaceAll(Widget child, String name) {
+  static void replaceAll(
+    Widget child,
+    String name, {
+    bool disableAnimation = false,
+  }) {
     NavigationService.key.currentState!.pushAndRemoveUntil(
-      NavigationService.wrapRoute(child, name),
+      NavigationService.wrapRoute(
+        child,
+        name,
+        disableAnimation: disableAnimation,
+      ),
       (route) => false,
     );
   }

@@ -24,6 +24,13 @@ class AuthService extends ApiService {
     return LoginResponse.fromJSON(response.data['body']);
   }
 
+  Future<LoginResponse> facebookLogin(String token) async {
+    final response = await this
+        .request
+        .post("/auth/login/facebookLogin", {"token": token}, {});
+    return LoginResponse.fromJSON(response.data['body']);
+  }
+
   Future<RegisterResponse> register(RegisterRequest data) async {
     final response =
         await this.request.post("/auth/register", data.toMap(), {});

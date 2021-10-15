@@ -103,6 +103,7 @@
   },
   "commons": {
     "me": "Mən",
+    "skip": "Keç",
     "guest": "Qonaq",
     "welcome": "Xoş gəlmisiniz",
     "categories": "Kateqoriyalar",
@@ -177,6 +178,7 @@
   },
   "login": {
     "login_button_label": "Daxil ol",
+    "facebook_sign_in": "Facebook ilə daxil ol",
     "google_sign_in": "Google ilə daxil ol",
     "apple_sign_in": "Apple ilə daxil ol",
     "agree": "Hesab yaradaraq istifadə şərtləri və gizlilik hüquqlarına razı olmuş olursunuz",

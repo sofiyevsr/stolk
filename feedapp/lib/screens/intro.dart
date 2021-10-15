@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hive/hive.dart';
 import 'package:stolk/components/introduction/DotsIndicator.dart';
+import 'package:stolk/components/introduction/IntroLogin.dart';
 import 'package:stolk/components/introduction/IntroPage.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:stolk/utils/constants.dart';
 
 class IntroScreen extends StatefulWidget {
   @override
@@ -17,7 +16,7 @@ class _IntroScreenState extends State<IntroScreen> {
   final _length = 3;
 
   void nextPage() {
-    if (_current < _length - 1) {
+    if (_current < _length) {
       _controller.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     }
@@ -30,15 +29,18 @@ class _IntroScreenState extends State<IntroScreen> {
     }
   }
 
-  void skipIntro(BuildContext ctx) {
-    final gBox = Hive.box("settings");
-    gBox.put("skipIntro", true);
-  }
-
   void onPageChange(int i) {
     setState(() {
       _current = i;
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    final gBox = Hive.box("settings");
+    gBox.put("skipIntro", true);
+    super.dispose();
   }
 
   @override
@@ -51,6 +53,7 @@ class _IntroScreenState extends State<IntroScreen> {
             Expanded(
               child: PageView(
                 onPageChanged: onPageChange,
+                physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   IntroPage(
                     image: "assets/static/hand-phone.png",
@@ -67,42 +70,41 @@ class _IntroScreenState extends State<IntroScreen> {
                     title: tr("intro.third.title"),
                     subtitle: tr("intro.third.subtitle"),
                   ),
+                  IntroLogin(),
                 ],
                 controller: _controller,
               ),
             ),
-            Container(
-              height: 60,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: prevPage,
-                      child: Text(
-                        tr("intro.prev"),
+            if (_current != _length)
+              Container(
+                height: 60,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: prevPage,
+                        child: Text(
+                          tr("intro.prev"),
+                        ),
                       ),
                     ),
-                  ),
-                  DotsIndicator(length: _length, current: _current),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        if (_current == (_length - 1)) {
-                          skipIntro(ctx);
-                        } else
+                    DotsIndicator(length: _length, current: _current),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
                           nextPage();
-                      },
-                      child: Text(
-                        (_current == (_length - 1))
-                            ? tr("intro.finish")
-                            : tr("intro.next"),
+                        },
+                        child: Text(
+                          (_current == (_length - 1))
+                              ? tr("intro.finish")
+                              : tr("intro.next"),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

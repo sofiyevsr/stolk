@@ -143,13 +143,6 @@ class _SettingsPageState extends State<SettingsPage> {
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
         ),
-        SettingsTile(
-          onTap: () {
-            NavigationService.push(AuthPage(), RouteNames.AUTH);
-          },
-          title: tr("settings.register"),
-          icon: Icons.app_registration_outlined,
-        ),
       ],
     );
   }

@@ -95,6 +95,7 @@ class App extends StatelessWidget {
               onGenerateRoute: (_) => NavigationService.wrapRoute(
                 SplashScreen(),
                 RouteNames.SPLASH,
+                disableAnimation: false,
               ),
             );
           }),
