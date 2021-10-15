@@ -41,6 +41,15 @@ r.post("/login/google", async (req, res, next) => {
   }
 });
 
+r.post("/login/facebook", async (req, res, next) => {
+  try {
+    const session = await oauth.facebookLoginUser(req.body, req.realIP);
+    return responseSuccess(res, session);
+  } catch (error) {
+    return next(error);
+  }
+});
+
 r.post("/register", async (req, res, next) => {
   try {
     await limitManager.limitRegister(req.realIP);

@@ -28,14 +28,10 @@ export enum NewsSortBy {
   MOST_READ,
 }
 
-export enum AppPlatform {
-  IOS,
-  ANDROID,
-}
-
 export enum ServiceType {
   GOOGLE,
   APPLE,
+  FACEBOOK,
 }
 
 export enum NotificationOptoutType {
@@ -50,11 +46,11 @@ export enum SessionType {
   ANDROID,
 }
 
-export const platformToName = (p: AppPlatform) => {
-  if (p === AppPlatform.IOS) {
+export const sessionTypeToString = (p: SessionType) => {
+  if (p === SessionType.IOS) {
     return "IOS";
   }
-  if (p === AppPlatform.ANDROID) {
+  if (p === SessionType.ANDROID) {
     return "ANDROID";
   }
   return "";
@@ -62,7 +58,7 @@ export const platformToName = (p: AppPlatform) => {
 
 export type IJWTUser = {
   id: number;
-  platform: AppPlatform;
+  platform: SessionType;
 };
 
 export const tables = {

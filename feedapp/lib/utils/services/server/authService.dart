@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
 import 'package:stolk/utils/@types/request/register.dart';
 import 'package:stolk/utils/@types/response/checkToken.dart';
 import 'package:stolk/utils/@types/response/login.dart';
 import 'package:stolk/utils/@types/response/register.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class AuthService extends ApiService {
   AuthService() : super(enableErrorHandler: true);
+  final _sessionType = Platform.isIOS ? AppPlatform.IOS : AppPlatform.ANDROID;
 
   Future<void> forgotPassword(String email) async {
     await this.request.post("/auth/forgot-password", {"email": email}, {});
@@ -19,15 +23,18 @@ class AuthService extends ApiService {
   }
 
   Future<LoginResponse> googleLogin(String idToken) async {
-    final response =
-        await this.request.post("/auth/login/google", {"token": idToken}, {});
+    final response = await this.request.post("/auth/login/google", {
+      "token": idToken,
+      "session_type": _sessionType,
+    }, {});
     return LoginResponse.fromJSON(response.data['body']);
   }
 
   Future<LoginResponse> facebookLogin(String token) async {
-    final response = await this
-        .request
-        .post("/auth/login/facebookLogin", {"token": token}, {});
+    final response = await this.request.post("/auth/login/facebook", {
+      "token": token,
+      "session_type": _sessionType,
+    }, {});
     return LoginResponse.fromJSON(response.data['body']);
   }
 

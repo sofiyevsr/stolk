@@ -47,15 +47,6 @@ export default joi
         "string.email": i18next.t("errors.validation.email.invalid_email"),
       })
       .trim(),
-    // service_type: joi
-    //   .number()
-    //   .required()
-    //   .valid(ServiceType.APP)
-    //   .messages({
-    //     "number.base": i18next.t("errors.validation.service_type.number"),
-    //     "any.required": i18next.t("errors.validation.service_type.required"),
-    //     "any.only": i18next.t("errors.validation.service_type.invalid"),
-    //   }),
     session_type: joi
       .number()
       .required()
