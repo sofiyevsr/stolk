@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:stolk/components/auth/singleLoginButton.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/screens/auth/localAuth.dart';
@@ -12,7 +13,25 @@ import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 
 class LoginButtons extends StatelessWidget {
-  const LoginButtons({Key? key}) : super(key: key);
+  final void Function()? onLocalAuthPress;
+  const LoginButtons({Key? key, this.onLocalAuthPress}) : super(key: key);
+
+  Future<void> _facebookSignIn() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+      if (result.status == LoginStatus.success) {
+        final AccessToken? accessToken = result.accessToken;
+        if (accessToken == null) throw new Error();
+        AuthBloc.instance.add(
+          FacebookLogin(token: accessToken.token),
+        );
+      } else {
+        throw new Error();
+      }
+    } catch (e) {
+      ToastService.instance.showAlert(tr("errors.default"));
+    }
+  }
 
   void _googleSignin() async {
     try {
@@ -38,6 +57,24 @@ class LoginButtons extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
+            SingleLoginButton(
+              text: tr("login.facebook_sign_in"),
+              icon: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.white,
+                ),
+                child: Image.asset(
+                  "assets/icons/facebook.png",
+                  width: 30,
+                  height: 30,
+                ),
+              ),
+              color: const Color.fromRGBO(66, 103, 178, 1),
+              disabled: buttonsDisabled,
+              onPressed: _facebookSignIn,
+            ),
             if (Platform.isIOS)
               SingleLoginButton(
                 text: tr("login.apple_sign_in"),
@@ -67,9 +104,12 @@ class LoginButtons extends StatelessWidget {
               icon: Icon(Icons.alternate_email, size: 30),
               color: Colors.blue[700]!,
               disabled: buttonsDisabled,
-              onPressed: () {
-                NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
-              },
+              onPressed: this.onLocalAuthPress != null
+                  ? this.onLocalAuthPress!
+                  : () {
+                      NavigationService.push(
+                          LocalAuthPage(), RouteNames.LOCAL_AUTH);
+                    },
             ),
           ],
         );

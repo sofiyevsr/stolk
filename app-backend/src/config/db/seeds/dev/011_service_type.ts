@@ -10,5 +10,6 @@ export async function seed(knex: Knex): Promise<void> {
   await knex(tables.service_type).insert([
     { id: ServiceType.GOOGLE, name: "google" },
     { id: ServiceType.APPLE, name: "apple" },
+    { id: ServiceType.FACEBOOK, name: "facebook" },
   ]);
 }

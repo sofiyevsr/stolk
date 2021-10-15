@@ -32,6 +32,12 @@ class _IntroPageState extends State<IntroPage>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(ctx) {
     final height = MediaQuery.of(ctx).size.height;
     return SizedBox.expand(
@@ -44,7 +50,7 @@ class _IntroPageState extends State<IntroPage>
               child: Image.asset(
                 widget.image,
                 fit: BoxFit.contain,
-                height: height / 1.5,
+                height: height / 1.65,
               ),
             ),
           ),

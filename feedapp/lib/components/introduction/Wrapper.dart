@@ -10,7 +10,7 @@ class IntroductionWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: Hive.box("settings").listenable(keys: ["skipIntro"]),
+      valueListenable: Hive.box("settings").listenable(keys: []),
       builder: (ctx, Box gBox, _) {
         final skipIntro = gBox.get("skipIntro", defaultValue: false);
         if (skipIntro == true)

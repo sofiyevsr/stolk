@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.base_user)
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    t.string("email").notNullable();
+    t.string("email");
     t.integer("service_type_id")
       .notNullable()
       .references("id")

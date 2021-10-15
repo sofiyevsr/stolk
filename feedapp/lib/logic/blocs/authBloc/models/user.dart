@@ -1,6 +1,6 @@
 class User {
-  final String firstName, lastName, email, createdAt;
-  final String? confirmedAt, bannedAt;
+  final String firstName, lastName, createdAt;
+  final String? confirmedAt, bannedAt, email;
   final int? serviceTypeId;
   final int id;
   const User({

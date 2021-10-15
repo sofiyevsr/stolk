@@ -1,54 +1,5 @@
 import db from "@config/db/db";
 import { tables } from "@utils/constants";
-import got from "got";
-
-interface Topics {
-  name: string;
-  add_date: string;
-}
-
-// Gets subscriptions of user from google not managed by server
-export async function getAllSubcriptions(
-  token: unknown
-): Promise<{ topics: Topics[] }> {
-  const serverToken = process.env.GCLOUD_FCM_SERVER_KEY;
-  if (
-    serverToken == null ||
-    serverToken === "" ||
-    typeof token !== "string" ||
-    token.length === 0
-  ) {
-    throw Error();
-  }
-  try {
-    const data: any = await got
-      .get(`https://iid.googleapis.com/iid/info/${token}?details=true`, {
-        headers: {
-          Authorization: `Bearer ${serverToken}`,
-        },
-      })
-      .json();
-    if (
-      data["rel"] == null ||
-      data["rel"]["topics"] == null ||
-      Object.keys(data["rel"]["topics"]).length === 0
-    ) {
-      return { topics: [] };
-    }
-    const topics = data["rel"]["topics"];
-    const topicsArr = Object.entries<{ addData: string }>(topics).map(
-      ([key, value]) => ({
-        name: key,
-        add_date: value.addData,
-        // ...value,
-      })
-    );
-    return { topics: topicsArr };
-  } catch (error) {
-    console.log(error);
-    return { topics: [] };
-  }
-}
 
 // Gets subscriptions from server
 export async function getAllNotificationTypesWithOptouts(userID?: number) {

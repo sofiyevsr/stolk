@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               NavigationService.push(
                 SingleSetting(
-                  title: tr("settings.notification_preferences"),
+                  title: ("settings.notification_preferences"),
                   child: NotificationPreferences(),
                 ),
                 RouteNames.SINGLE_SETTING,
@@ -143,13 +143,6 @@ class _SettingsPageState extends State<SettingsPage> {
           title: tr("settings.login"),
           icon: Icons.account_circle_outlined,
         ),
-        SettingsTile(
-          onTap: () {
-            NavigationService.push(AuthPage(), RouteNames.AUTH);
-          },
-          title: tr("settings.register"),
-          icon: Icons.app_registration_outlined,
-        ),
       ],
     );
   }
@@ -173,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () {
                 NavigationService.push(
                   SingleSetting(
-                    title: tr("settings.language"),
+                    title: ("settings.language"),
                     child: LanguagePanel(),
                   ),
                   RouteNames.SINGLE_SETTING,

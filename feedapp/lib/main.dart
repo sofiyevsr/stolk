@@ -90,11 +90,10 @@ class App extends StatelessWidget {
                 AppLogger.instance.getFirebaseAnalyticsObserver()
               ],
               locale: context.locale,
-              // TODO implement
-              // onGenerateTitle: ,
               onGenerateRoute: (_) => NavigationService.wrapRoute(
                 SplashScreen(),
                 RouteNames.SPLASH,
+                disableAnimation: false,
               ),
             );
           }),

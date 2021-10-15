@@ -115,7 +115,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                 children: [
                   Icon(
                     Icons.wifi_off,
-                    color: Colors.red[700],
+                    color: Colors.blue[700],
                     size: 100,
                   ),
                   Text(

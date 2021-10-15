@@ -15,6 +15,8 @@ export const newRegistrationBackoffCounts = 3;
 // Means 10 comments per minute
 export const newCommentsBackoffMinutes = 1;
 export const newCommentsBackoffCounts = 10;
+// How many tokens can user save
+export const newFCMTokenBackoffCounts = 10;
 
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
@@ -26,19 +28,17 @@ export enum NewsSortBy {
   MOST_READ,
 }
 
-export enum AppPlatform {
-  IOS,
-  ANDROID,
-}
-
 export enum ServiceType {
   GOOGLE,
   APPLE,
+  FACEBOOK,
 }
 
 export enum NotificationOptoutType {
   // Unless user optouts latest news from one of sources user follow will be sent each ... days
   SourceFollow,
+  // Channel for sending notifications through admin panel
+  UPDATES,
 }
 
 export enum SessionType {
@@ -46,11 +46,11 @@ export enum SessionType {
   ANDROID,
 }
 
-export const platformToName = (p: AppPlatform) => {
-  if (p === AppPlatform.IOS) {
+export const sessionTypeToString = (p: SessionType) => {
+  if (p === SessionType.IOS) {
     return "IOS";
   }
-  if (p === AppPlatform.ANDROID) {
+  if (p === SessionType.ANDROID) {
     return "ANDROID";
   }
   return "";
@@ -58,7 +58,7 @@ export const platformToName = (p: AppPlatform) => {
 
 export type IJWTUser = {
   id: number;
-  platform: AppPlatform;
+  platform: SessionType;
 };
 
 export const tables = {

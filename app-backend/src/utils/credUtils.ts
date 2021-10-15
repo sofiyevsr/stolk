@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 } from "uuid";
-import { IJWTUser, platformToName } from "./constants";
+import { IJWTUser, sessionTypeToString } from "./constants";
 
 export async function hashPassword(s: string, saltRounds = 10) {
   const salt = await bcrypt.genSalt(saltRounds);
@@ -22,7 +22,7 @@ export async function generateAccessToken(user: IJWTUser) {
       { id: user.id },
       process.env.JWT_KEY as string,
       {
-        audience: platformToName(user.platform),
+        audience: sessionTypeToString(user.platform),
       },
       (err, token) => {
         if (err) {

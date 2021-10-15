@@ -104,6 +104,7 @@
   "commons": {
     "me": "Me",
     "guest": "Guest",
+    "skip": "Skip",
     "welcome": "Welcome",
     "categories": "Categories",
     "count": "Count",
@@ -178,6 +179,7 @@
   "login": {
     "login_button_label": "Login",
     "google_sign_in": "Login with Google",
+    "facebook_sign_in": "Login with Facebook",
     "apple_sign_in": "Login with Apple",
     "agree": "By registering you accept terms of use and privacy policy",
     "description": "Login using one of the options below to have better and personalized experience",

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'NewsAppTile.dart';
-import 'NewsFCMTile.dart';
 
 class NotificationPreferences extends StatelessWidget {
   const NotificationPreferences({Key? key}) : super(key: key);
@@ -11,8 +10,6 @@ class NotificationPreferences extends StatelessWidget {
     return Column(
       children: [
         AppNewsNotificationTile(),
-        Divider(),
-        FCMNewsNotificationTile(),
         Divider(),
       ],
     );

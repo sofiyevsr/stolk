@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
-import 'package:stolk/utils/services/server/authService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/utils/services/server/notificationService.dart';
 
@@ -16,8 +16,6 @@ class StartupService {
     if (permissions.authorizationStatus == AuthorizationStatus.authorized) {
       // Get the token each time the application loads
       String? token = await FirebaseMessaging.instance.getToken();
-
-      print('token $token');
       // Save the initial token to the database
       await _saveTokenToDatabase(token, authToken);
 
@@ -35,7 +33,7 @@ class StartupService {
     final token = await storage.getToken();
     // if check token fails it is okay to stop store device token
     storeDeviceToken(token).catchError((e) {
-      print('error while getting device token $e');
+      FirebaseCrashlytics.instance.log('error while getting device token $e');
     });
     await _checkToken(token);
   }
