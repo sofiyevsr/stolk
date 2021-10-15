@@ -51,7 +51,11 @@ class IntroLogin extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               LoginButtons(onLocalAuthPress: () {
-                NavigationService.replaceAll(Home(), RouteNames.HOME);
+                NavigationService.replaceAll(
+                  Home(),
+                  RouteNames.HOME,
+                  disableAnimation: true,
+                );
                 NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
               }),
             ],

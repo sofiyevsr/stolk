@@ -11,6 +11,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  final gBox = Hive.box("settings");
   PageController _controller = PageController();
   int _current = 0;
   final _length = 3;
@@ -38,7 +39,6 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void dispose() {
     _controller.dispose();
-    final gBox = Hive.box("settings");
     gBox.put("skipIntro", true);
     super.dispose();
   }

@@ -22,7 +22,7 @@ function SendNotificationForm() {
   };
   return (
     <Card>
-      <StyledHeader>Send notification through news topic</StyledHeader>
+      <StyledHeader>Send notification to everyone</StyledHeader>
       <CardBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>

@@ -3,7 +3,6 @@ import { Menu, X, ArrowLeft } from "react-feather";
 import { Navbar, Button } from "../../widgets";
 import menuData from "../../utils/data/menu";
 import ProfileDropdown from "../../components/header/profile-dropdown";
-import NavSearch from "../../components/header/nav-search";
 import Logo from "../../components/logo";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleSidebar, toggleBody } from "../../redux/slices/ui";
@@ -28,11 +27,6 @@ interface IProps {
 const Header: FC<IProps> = ({ hasSidebar }) => {
   const dispatch = useAppDispatch();
   const { sidebar } = useAppSelector((state) => state.ui);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const searchHandler = useCallback(() => {
-    setSearchOpen((prev) => !prev);
-  }, []);
-
   const [menuOpen, setMenuOpen] = useState(false);
   const sidebarHandler = useCallback(
     (_, isOpen?: "open") => {
@@ -118,7 +112,6 @@ const Header: FC<IProps> = ({ hasSidebar }) => {
           </StyledNavbarElement>
         </StyleNavbarRight>
       </StyledHeader>
-      <NavSearch isOpen={searchOpen} onClose={searchHandler} />
     </>
   );
 };
