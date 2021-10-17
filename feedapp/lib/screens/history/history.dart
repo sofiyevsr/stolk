@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/history/widgets/singleNewsHistoryUnit.dart';
@@ -109,7 +110,9 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset("assets/static/lock.png"),
+                  Lottie.asset(
+                    "assets/lottie/settings.json",
+                  ),
                   Text(
                     tr("errors.login_to_track"),
                     style: TextStyle(

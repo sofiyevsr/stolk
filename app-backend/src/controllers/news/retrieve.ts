@@ -122,7 +122,8 @@ async function all({
       .leftJoin(`${tables.news_comment} as co`, function () {
         this.on("co.news_id", "n.id");
         this.andOnVal("co.user_id", "=", values.userID);
-      });
+      })
+      .whereNotNull("f.id");
   }
 
   if (values.sourceID != null) {
