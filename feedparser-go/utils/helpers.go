@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	MAX_TITLE_LENGTH = 1000
-	MAX_LINK_LENGTH  = 1000
+	MAX_TITLE_LENGTH = 255
+	MAX_LINK_LENGTH  = 450
 )
 
 func tryParseDate(date string) (time.Time, error) {
