@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
+const scrollThreshold = 150;
 
 class AnimationOnScroll extends StatefulWidget {
   final ScrollController scrollController;
@@ -19,7 +20,7 @@ class AnimationOnScroll extends StatefulWidget {
 class _AnimationOnScrollState extends State<AnimationOnScroll>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 400),
+    duration: const Duration(milliseconds: 250),
     vsync: this,
     value: 1,
   );
@@ -27,27 +28,38 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
   late final _curve =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
+  double _scrollY = 0;
+
+  void revealContainer() {
+    final value = _controller.value;
+    if (value != 0) _controller.animateTo(0);
+  }
+
+  void hideContainer() {
+    final value = _controller.value;
+    if (value != 1) _controller.animateTo(1);
   }
 
   @override
   void initState() {
     super.initState();
     widget.scrollController.addListener(() {
-      final dir = widget.scrollController.position.userScrollDirection;
-      if (dir == ScrollDirection.reverse && !_controller.isAnimating) {
-        if (_controller.value != 0) _controller.animateTo(0);
-      }
-      if (dir == ScrollDirection.forward && !_controller.isAnimating) {
-        if (_controller.value != 1) _controller.animateTo(1);
-      }
-      if (widget.scrollController.offset == 0) {
-        if (_controller.value != 1) _controller.animateTo(1);
+      if (_controller.isAnimating) return;
+      final value = widget.scrollController.offset;
+      if (value == 0 || value - _scrollY > scrollThreshold) {
+        revealContainer();
+        _scrollY = value;
+      } else if (_scrollY - value > scrollThreshold) {
+        hideContainer();
+        _scrollY = value;
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
