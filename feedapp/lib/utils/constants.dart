@@ -87,6 +87,7 @@ class RouteNames {
   static const AUTH = "auth";
   static const LOCAL_AUTH = "local_auth";
   static const FORGOT_PASSWORD = "forgot_password";
+  static const COMPLETE_PROFILE = "complete_profile";
 }
 
 final passwordRegex =

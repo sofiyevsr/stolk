@@ -53,7 +53,6 @@ class _IntroScreenState extends State<IntroScreen> {
             Expanded(
               child: PageView(
                 onPageChanged: onPageChange,
-                physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   IntroPage(
                     image: "assets/static/hand-phone.png",
@@ -82,12 +81,14 @@ class _IntroScreenState extends State<IntroScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
-                      child: TextButton(
-                        onPressed: prevPage,
-                        child: Text(
-                          tr("intro.prev"),
-                        ),
-                      ),
+                      child: _current == 0
+                          ? const SizedBox()
+                          : TextButton(
+                              onPressed: prevPage,
+                              child: Text(
+                                tr("intro.prev"),
+                              ),
+                            ),
                     ),
                     DotsIndicator(length: _length, current: _current),
                     Expanded(

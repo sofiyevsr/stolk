@@ -58,8 +58,6 @@ class _SourceFeedState extends State<SourceFeed> {
                     RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                   ),
                   elevation: MaterialStateProperty.all(0),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(theme.primaryColor),
                 ),
                 child: Icon(Icons.arrow_back),
               ),

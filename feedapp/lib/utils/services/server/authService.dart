@@ -4,6 +4,7 @@ import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
 import 'package:stolk/utils/@types/request/register.dart';
 import 'package:stolk/utils/@types/response/checkToken.dart';
+import 'package:stolk/utils/@types/response/completeProfile.dart';
 import 'package:stolk/utils/@types/response/login.dart';
 import 'package:stolk/utils/@types/response/register.dart';
 import 'package:stolk/utils/constants.dart';
@@ -52,5 +53,10 @@ class AuthService extends ApiService {
 
   Future<void> logout() async {
     await this.request.post("/auth/logout", {}, {});
+  }
+
+  Future<CompleteProfileResponse> completeProfile() async {
+    final response = await this.request.post("/auth/complete-profile", {}, {});
+    return CompleteProfileResponse.fromJSON(response.data['body']);
   }
 }

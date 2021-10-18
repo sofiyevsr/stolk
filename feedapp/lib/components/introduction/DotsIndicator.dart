@@ -19,9 +19,9 @@ class _DotsIndicatorState extends State<DotsIndicator> {
           .map(
             (i) => AnimatedContainer(
               margin: const EdgeInsets.all(10),
-              height: widget.current == i ? 15 : 25,
+              width: widget.current == i ? 25 : 15,
               duration: const Duration(milliseconds: 300),
-              width: 15,
+              height: 15,
               decoration: BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(15),

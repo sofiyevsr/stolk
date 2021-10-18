@@ -1,4 +1,5 @@
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/auth/completeProfile.dart';
 import 'package:stolk/screens/home.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -30,11 +31,18 @@ class _HomeWrapperState extends State<HomeWrapper> {
   Widget build(ctx) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (ctx, state) {
-        if (state is AuthorizedState)
-          NavigationService.replaceAll(
-            Home(),
-            RouteNames.HOME,
-          );
+        if (state is AuthorizedState) {
+          if (state.user.completedAt != null)
+            NavigationService.replaceAll(
+              Home(),
+              RouteNames.HOME,
+            );
+          else
+            NavigationService.replaceAll(
+              CompleteProfile(),
+              RouteNames.COMPLETE_PROFILE,
+            );
+        }
         if (state is UnathorizedState)
           NavigationService.replaceAll(
             IntroductionWrapper(),

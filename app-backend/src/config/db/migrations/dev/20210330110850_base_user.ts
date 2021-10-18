@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
     t.string("ip_address").notNullable().index();
     t.timestamp("banned_at", { useTz: true });
     t.timestamp("confirmed_at", { useTz: true });
+    t.timestamp("completed_at", { useTz: true });
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

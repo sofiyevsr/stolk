@@ -39,16 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final storage = SecureStorage();
         await storage.setToken(response.token);
         yield AuthorizedState(
-          user: User(
-            id: response.user.id,
-            firstName: response.user.firstName,
-            lastName: response.user.lastName,
-            email: response.user.email,
-            createdAt: response.user.createdAt,
-            serviceTypeId: response.user.serviceTypeId,
-            confirmedAt: response.user.confirmedAt,
-            bannedAt: response.user.bannedAt,
-          ),
+          user: response.user,
           token: response.token,
         );
         AppLogger.analytics.logLogin(loginMethod: "local");
@@ -63,16 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final storage = SecureStorage();
         await storage.setToken(response.token);
         yield AuthorizedState(
-          user: User(
-            id: response.user.id,
-            firstName: response.user.firstName,
-            lastName: response.user.lastName,
-            email: response.user.email,
-            createdAt: response.user.createdAt,
-            serviceTypeId: response.user.serviceTypeId,
-            confirmedAt: response.user.confirmedAt,
-            bannedAt: response.user.bannedAt,
-          ),
+          user: response.user,
           token: response.token,
         );
         AppLogger.analytics.logLogin(loginMethod: "google");
@@ -87,16 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final storage = SecureStorage();
         await storage.setToken(response.token);
         yield AuthorizedState(
-          user: User(
-            id: response.user.id,
-            firstName: response.user.firstName,
-            lastName: response.user.lastName,
-            email: response.user.email,
-            createdAt: response.user.createdAt,
-            serviceTypeId: response.user.serviceTypeId,
-            confirmedAt: response.user.confirmedAt,
-            bannedAt: response.user.bannedAt,
-          ),
+          user: response.user,
           token: response.token,
         );
         AppLogger.analytics.logLogin(loginMethod: "facebook");
@@ -116,16 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final storage = SecureStorage();
         await storage.setToken(response.token);
         yield AuthorizedState(
-          user: User(
-            id: response.user.id,
-            firstName: response.user.firstName,
-            lastName: response.user.lastName,
-            email: response.user.email,
-            createdAt: response.user.createdAt,
-            serviceTypeId: response.user.serviceTypeId,
-            confirmedAt: response.user.confirmedAt,
-            bannedAt: response.user.bannedAt,
-          ),
+          user: response.user,
           token: response.token,
         );
         AppLogger.analytics.logSignUp(signUpMethod: "local");
@@ -138,16 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final response = await _auth.checkToken(data);
         yield AuthorizedState(
-          user: User(
-            id: response.user.id,
-            firstName: response.user.firstName,
-            lastName: response.user.lastName,
-            email: response.user.email,
-            createdAt: response.user.createdAt,
-            serviceTypeId: response.user.serviceTypeId,
-            confirmedAt: response.user.confirmedAt,
-            bannedAt: response.user.bannedAt,
-          ),
+          user: response.user,
           token: event.token,
         );
       } on DioError catch (err) {
@@ -159,6 +114,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield CheckTokenFailed();
       } catch (e) {
         yield CheckTokenFailed();
+      }
+    }
+    if (event is CompleteProfileEvent) {
+      if (state is AuthorizedState) {
+        final user = (state as AuthorizedState).user;
+        final token = (state as AuthorizedState).token;
+        yield AuthorizedState(
+          user: user.completeProfile(event.completedAt),
+          token: token,
+        );
       }
     }
     if (event is StartupLogout) {

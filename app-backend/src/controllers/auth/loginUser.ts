@@ -20,6 +20,7 @@ export default async function loginUser(body: any, ip: string) {
       "u.last_name",
       "u.banned_at",
       "u.confirmed_at",
+      "u.completed_at",
     ])
     .where({ "au.email": value.email })
     .leftJoin(`${tables.base_user} as u`, "u.id", "au.id")

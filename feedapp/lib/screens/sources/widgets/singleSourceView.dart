@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:stolk/screens/feed/sourceFeed.dart';
 import 'package:stolk/utils/@types/response/allSources.dart';
 import 'package:stolk/utils/constants.dart';
@@ -9,43 +11,15 @@ import 'package:flutter/material.dart';
 
 final service = SourceService();
 
-class SingleSourceView extends StatefulWidget {
+class SingleSourceView extends StatelessWidget {
   final SingleSource item;
   const SingleSourceView({Key? key, required this.item}) : super(key: key);
 
-  @override
-  _SingleSourceViewState createState() => _SingleSourceViewState();
-}
-
-class _SingleSourceViewState extends State<SingleSourceView> {
-  late bool _isFollowing;
-  bool _isRequestOn = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFollowing = widget.item.followID != null;
-  }
-
-  void onFinish() async {
-    setState(() {
-      _isRequestOn = true;
-    });
-    try {
-      if (_isFollowing == true) {
-        await service.unfollow(widget.item.id);
-      } else {
-        await service.follow(widget.item.id);
-      }
-      setState(() {
-        _isRequestOn = false;
-        _isFollowing = !_isFollowing;
-      });
-    } catch (e) {
-      setState(() {
-        _isRequestOn = false;
-      });
-    }
+  void onFinish(BuildContext context) async {
+    final bloc = context.read<SourcesBloc>();
+    bloc.add(
+      ToggleSourceFollow(id: item.id),
+    );
   }
 
   @override
@@ -59,9 +33,9 @@ class _SingleSourceViewState extends State<SingleSourceView> {
               onTap: () {
                 NavigationService.push(
                   SourceFeed(
-                    sourceID: widget.item.id,
-                    sourceName: widget.item.name,
-                    logoSuffix: widget.item.logoSuffix,
+                    sourceID: item.id,
+                    sourceName: item.name,
+                    logoSuffix: item.logoSuffix,
                   ),
                   RouteNames.SOURCE_NEWS_FEED,
                 );
@@ -69,7 +43,7 @@ class _SingleSourceViewState extends State<SingleSourceView> {
               child: Column(
                 children: [
                   Text(
-                    widget.item.name,
+                    item.name,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -79,7 +53,7 @@ class _SingleSourceViewState extends State<SingleSourceView> {
                         width: 100,
                         height: 100,
                         child: SourceLogo(
-                          logoSuffix: widget.item.logoSuffix,
+                          logoSuffix: item.logoSuffix,
                           isCircle: true,
                           radius: 100,
                         ),
@@ -91,16 +65,16 @@ class _SingleSourceViewState extends State<SingleSourceView> {
             ),
           ),
           ElevatedButton(
-            onPressed: _isRequestOn ? null : onFinish,
+            onPressed: item.isRequestOn ? null : () => onFinish(context),
             style: ButtonStyle(
               backgroundColor: MaterialStateColor.resolveWith(
                 (states) => Colors.blueAccent,
               ),
             ),
             child: Text(
-              _isFollowing == true
-                  ? tr("commons.following")
-                  : tr("commons.follow"),
+              item.followID == null
+                  ? tr("commons.follow")
+                  : tr("commons.following"),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

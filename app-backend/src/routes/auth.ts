@@ -78,7 +78,7 @@ r.post("/check-token", async (req, res, next) => {
   }
 });
 
-r.post("/forgot-password", async (req, res, next) => {
+r.post("/forgot-password", async (req, res, _) => {
   responseSuccess(res, {});
   try {
     await createResetToken(req.body);
@@ -120,4 +120,17 @@ r.post("/email-verification", async (req, res, next) => {
     return next(e);
   }
 });
+
+r.post(
+  "/complete-profile",
+  authenticateMiddleware(),
+  async (req, res, next) => {
+    try {
+      const data = await auth.completeProfile(req.session?.user_id!);
+      return responseSuccess(res, data);
+    } catch (e) {
+      return next(e);
+    }
+  }
+);
 export default r;

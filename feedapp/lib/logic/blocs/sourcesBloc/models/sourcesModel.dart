@@ -5,4 +5,16 @@ class SourcesModel {
   const SourcesModel({
     required this.sources,
   });
+  SourcesModel modifySingle({
+    required SingleSource item,
+    required int id,
+  }) {
+    final clonedItems = this.sources.map((e) {
+      if (e.id == id) return item;
+      return e;
+    }).toList();
+    return SourcesModel(
+      sources: clonedItems,
+    );
+  }
 }

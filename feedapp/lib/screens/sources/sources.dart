@@ -71,9 +71,6 @@ class _SourcesPageState extends State<SourcesPage> {
                 ),
                 itemCount: sources.length,
                 itemBuilder: (ctx, i) => SingleSourceView(
-                  key: Key(
-                    sources[i].id.toString(),
-                  ),
                   item: sources[i],
                 ),
               );

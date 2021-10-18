@@ -39,6 +39,7 @@ export default async function registerUser(body: any, ip: string) {
         "last_name",
         "banned_at",
         "confirmed_at",
+        "completed_at",
       ]
     );
     baseUser = baseResult[0];

@@ -23,6 +23,7 @@ export default async function checkToken(headers: any) {
       "ou.service_type_id",
       "u.created_at",
       "u.confirmed_at",
+      "u.completed_at",
       "u.banned_at"
     )
     .from(`${tables.user_session} as s`)
