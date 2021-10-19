@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
+import 'package:stolk/components/common/noConnection.dart';
+import 'package:stolk/components/common/noNews.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/debounce.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
   @override
   void initState() {
     super.initState();
+    fetchNews();
     widget.scrollController.addListener(
       () {
         // Debounce
@@ -46,6 +49,16 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
         );
       },
     );
+  }
+
+  void fetchNews() {
+    context.read<NewsBloc>().add(
+          FetchNewsEvent(
+            category: null,
+            sourceID: widget.sourceID,
+            sortBy: null,
+          ),
+        );
   }
 
   void forceFetchNext() {
@@ -111,9 +124,16 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
             ),
           );
         }
-        // TODO
-        if (state is NewsStateNoData) {}
-        if (state is NewsStateError) {}
+        if (state is NewsStateNoData) {
+          return SliverFillRemaining(
+            child: NoNewsWidget(),
+          );
+        }
+        if (state is NewsStateError) {
+          return SliverFillRemaining(
+            child: NoConnectionWidget(onRetry: fetchNews),
+          );
+        }
         return SliverFillRemaining(
           child: Container(),
         );

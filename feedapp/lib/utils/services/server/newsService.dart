@@ -4,7 +4,7 @@ import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class NewsService extends ApiService {
-  NewsService() : super(enableErrorHandler: true);
+  NewsService() : super();
 
   Future<AllNewsResponse> getAllNews({
     String? pubDate,
@@ -31,7 +31,6 @@ class NewsService extends ApiService {
       if (id != null) 'id': id,
       'filter_by': filterBy,
     }, {});
-    print(response.data['body']);
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
@@ -49,9 +48,14 @@ class NewsService extends ApiService {
 
   Future<SingleComment> comment(int newsID, String body) async {
     authorize();
-    final response = await this.request.post("/news/$newsID/comment", {
-      'comment': body,
-    }, {});
+    final response = await this.request.post(
+          "/news/$newsID/comment",
+          {
+            'comment': body,
+          },
+          {},
+          handleError: false,
+        );
     return SingleComment.fromJSON(response.data["body"]["comment"], true);
   }
 

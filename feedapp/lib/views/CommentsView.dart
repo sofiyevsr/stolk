@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
+import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/components/news/animatedSingleComment.dart';
 import 'package:stolk/components/news/commentInput.dart';
 import 'package:stolk/components/news/singleComment.dart';
@@ -17,6 +21,8 @@ class CommentsView extends StatefulWidget {
 }
 
 class _CommentsViewState extends State<CommentsView> {
+  String? _errorMessage;
+  Timer? _errorTimer;
   bool hasAnimatedNew = false;
   ScrollController _scrollController = ScrollController();
 
@@ -26,6 +32,7 @@ class _CommentsViewState extends State<CommentsView> {
   @override
   void initState() {
     super.initState();
+    initialFetch();
     _scrollController.addListener(
       () {
         _debouncer.run(
@@ -49,7 +56,45 @@ class _CommentsViewState extends State<CommentsView> {
   void dispose() {
     _debouncer.dispose();
     _scrollController.dispose();
+    _errorTimer?.cancel();
     super.dispose();
+  }
+
+  void initialFetch() {
+    context.read<CommentsBloc>().add(
+          FetchCommentsEvent(id: widget.id),
+        );
+  }
+
+  void handleError(dynamic e) {
+    if (e is! DioError || _errorMessage != null || mounted == false) return;
+    if (e.response == null) {
+      setState(() {
+        _errorMessage = tr("errors.network_error");
+      });
+      hideErrorMessage();
+      return;
+    }
+    final message = "server_errors.${e.response?.data['message']}";
+    if (tr(message) == message) {
+      setState(() {
+        _errorMessage = tr("errors.default");
+      });
+    } else {
+      setState(() {
+        _errorMessage = tr(message);
+      });
+    }
+    hideErrorMessage();
+  }
+
+  void hideErrorMessage() {
+    _errorTimer = Timer(const Duration(milliseconds: 1750), () {
+      if (mounted)
+        setState(() {
+          _errorMessage = null;
+        });
+    });
   }
 
   void forceFetchNext() {
@@ -67,7 +112,25 @@ class _CommentsViewState extends State<CommentsView> {
     return SafeArea(
       child: Column(
         children: [
-          AppBar(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppBar(),
+              AnimatedContainer(
+                child: Text(
+                  _errorMessage ?? "",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 300),
+                alignment: Alignment.center,
+                color: Colors.red,
+                height: _errorMessage == null ? 0 : 40,
+              ),
+            ],
+          ),
           Expanded(
             child: BlocBuilder<CommentsBloc, CommentsState>(
               builder: (ctx, state) {
@@ -131,6 +194,7 @@ class _CommentsViewState extends State<CommentsView> {
                       ),
                       CommentInput(
                         newsID: newsID,
+                        onError: handleError,
                         onEnd: () {
                           setState(() {
                             hasAnimatedNew = false;
@@ -140,6 +204,8 @@ class _CommentsViewState extends State<CommentsView> {
                     ],
                   );
                 }
+                if (state is CommentsStateError)
+                  return NoConnectionWidget(onRetry: initialFetch);
                 return Container();
               },
             ),

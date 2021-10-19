@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class NoConnectionWidget extends StatelessWidget {
-  const NoConnectionWidget({Key? key}) : super(key: key);
+  final Function()? onRetry;
+  const NoConnectionWidget({Key? key, this.onRetry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,21 @@ class NoConnectionWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          if (this.onRetry != null)
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all(
+                    Size(40, 40),
+                  ),
+                ),
+                onPressed: onRetry,
+                child: Text(
+                  tr("buttons.retry_request"),
+                ),
+              ),
+            ),
         ],
       ),
     );

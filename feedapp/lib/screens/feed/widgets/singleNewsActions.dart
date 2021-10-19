@@ -178,13 +178,9 @@ class SingleNewsActions extends StatelessWidget {
     showBarModalBottomSheet(
       context: context,
       builder: (context) {
-        final id = newsID;
         return BlocProvider(
-          create: (ctx) => CommentsBloc()
-            ..add(
-              FetchCommentsEvent(id: id),
-            ),
-          child: CommentsView(id: id),
+          create: (ctx) => CommentsBloc(),
+          child: CommentsView(id: newsID),
         );
       },
     );

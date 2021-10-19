@@ -30,12 +30,12 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
 
   double _scrollY = 0;
 
-  void revealContainer() {
+  void hideContainer() {
     final value = _controller.value;
     if (value != 0) _controller.animateTo(0);
   }
 
-  void hideContainer() {
+  void revealContainer() {
     final value = _controller.value;
     if (value != 1) _controller.animateTo(1);
   }
@@ -46,10 +46,10 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
     widget.scrollController.addListener(() {
       if (_controller.isAnimating) return;
       final value = widget.scrollController.offset;
-      if (value == 0 || value - _scrollY > scrollThreshold) {
+      if (value == 0 || _scrollY - value > scrollThreshold) {
         revealContainer();
         _scrollY = value;
-      } else if (_scrollY - value > scrollThreshold) {
+      } else if (value - _scrollY > scrollThreshold) {
         hideContainer();
         _scrollY = value;
       }

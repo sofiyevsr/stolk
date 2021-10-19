@@ -20,6 +20,10 @@ class _SourcesPageState extends State<SourcesPage> {
   @override
   void initState() {
     super.initState();
+    fetchSources();
+  }
+
+  void fetchSources() {
     context.read<SourcesBloc>()
       ..add(
         FetchSourcesEvent(),
@@ -78,7 +82,10 @@ class _SourcesPageState extends State<SourcesPage> {
             if (state is SourcesStateLoading) {
               return CenterLoadingWidget();
             }
-            if (state is SourcesStateError) return NoConnectionWidget();
+            if (state is SourcesStateError)
+              return NoConnectionWidget(
+                onRetry: fetchSources,
+              );
             return Container();
           }),
         ),

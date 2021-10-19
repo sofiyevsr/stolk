@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
 import 'package:stolk/components/common/heightAnimationOnScroll.dart';
 import 'package:stolk/components/common/noConnection.dart';
+import 'package:stolk/components/common/noNews.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
@@ -38,16 +39,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   @override
   void initState() {
     super.initState();
-    final box = Hive.box("settings");
-    _currentSortBy = box.get("sortBy", defaultValue: 0);
-    BlocProvider.of<NewsBloc>(context)
-      ..add(
-        FetchNewsEvent(
-          category: null,
-          sourceID: null,
-          sortBy: _currentSortBy,
-        ),
-      );
+    initialFetch();
     _scrollController.addListener(() {
       final currentScroll = _scrollController.position.pixels;
 
@@ -89,13 +81,25 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     super.dispose();
   }
 
+  void initialFetch() {
+    final box = Hive.box("settings");
+    _currentSortBy = box.get("sortBy", defaultValue: 0);
+    context.read<NewsBloc>().add(
+          FetchNewsEvent(
+            category: null,
+            sourceID: null,
+            sortBy: _currentSortBy,
+          ),
+        );
+  }
+
   void forceFetchNext() {
-    BlocProvider.of<NewsBloc>(context).add(
-      FetchNextNewsEvent(
-        sourceID: null,
-        force: true,
-      ),
-    );
+    context.read<NewsBloc>().add(
+          FetchNextNewsEvent(
+            sourceID: null,
+            force: true,
+          ),
+        );
   }
 
   Future<void> onRefresh() async {
@@ -225,29 +229,12 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                     }
 
                     if (state is NewsStateNoData) {
-                      return Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.assessment,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 100,
-                            ),
-                            Text(
-                              tr("news.no_news_follow_more"),
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      );
+                      return NoNewsWidget();
                     }
                     if (state is NewsStateError) {
-                      return NoConnectionWidget();
+                      return NoConnectionWidget(
+                        onRetry: initialFetch,
+                      );
                     }
                     return Container();
                   },

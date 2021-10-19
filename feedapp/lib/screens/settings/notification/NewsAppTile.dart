@@ -38,9 +38,7 @@ class _AppNewsNotificationTile extends State<AppNewsNotificationTile> {
           return;
         }
       }
-    }).catchError((e) {
-      print(e);
-    });
+    }).catchError((e) {});
   }
 
   @override

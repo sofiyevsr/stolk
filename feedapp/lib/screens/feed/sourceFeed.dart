@@ -71,14 +71,7 @@ class _SourceFeedState extends State<SourceFeed> {
               ),
             ),
             BlocProvider(
-              create: (ctx) => NewsBloc()
-                ..add(
-                  FetchNewsEvent(
-                    category: null,
-                    sourceID: widget.sourceID,
-                    sortBy: null,
-                  ),
-                ),
+              create: (ctx) => NewsBloc(),
               child: SourceNewsSliver(
                 scrollController: _scrollController,
                 sourceID: widget.sourceID,
