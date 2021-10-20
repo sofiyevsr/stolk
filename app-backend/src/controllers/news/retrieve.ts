@@ -100,8 +100,7 @@ async function all({
         "bo.id as bookmark_id",
         "l.id as like_id",
         "f.id as follow_id",
-        "h.id as read_history_id",
-        "co.id as comment_id"
+        "h.id as read_history_id"
       )
       .leftJoin(`${tables.source_follow} as f`, function () {
         this.on("f.source_id", "s.id");
@@ -207,81 +206,50 @@ async function usersNewsHistory(
   });
   let result: NewsResult;
   let query = db
-    .select([
-      "s.id AS source_id",
-      "s.name AS source_name",
-      "s.logo_suffix AS source_logo_suffix",
-      "n.id",
-      "n.title",
-      "n.image_link",
-      "n.pub_date",
-      "n.created_at",
-      "n.feed_link",
-      "c.id as category_id",
-      "c.name as category_name",
-      "n.like_count",
-      "n.comment_count",
-      "n.read_count",
-      "f.id as follow_id",
-    ])
+    .select(["n.id", "n.title", "n.feed_link"])
     .from(`${tables.news_feed} as n`)
-    .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")
-    .leftJoin(
-      `${tables.news_category_alias} as ca`,
-      "ca.id",
-      "n.category_alias_id"
-    )
-    .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
-    .leftJoin(`${tables.source_follow} as f`, function () {
-      this.on("f.source_id", "s.id");
-      this.andOnVal("f.user_id", "=", values.userID);
-    })
     .where({ "n.hidden_at": null });
 
   if (values.filterBy === "like") {
     query = query
-      .select("l.id as like_id")
-      .leftJoin(`${tables.news_like} as l`, function () {
+      .select("l.id as like_id", "l.created_at")
+      .innerJoin(`${tables.news_like} as l`, function () {
         this.on("l.news_id", "n.id");
         this.andOnVal("l.user_id", "=", values.userID);
       })
-      .where({ "l.user_id": userID })
       .orderBy("l.id", "desc");
     if (values.id != null) {
       query = query.where("l.id", "<", values.id);
     }
   } else if (values.filterBy === "bookmark") {
     query = query
-      .select("bo.id as bookmark_id")
-      .leftJoin(`${tables.news_bookmark} as bo`, function () {
+      .select("bo.id as bookmark_id", "bo.created_at")
+      .innerJoin(`${tables.news_bookmark} as bo`, function () {
         this.on("bo.news_id", "n.id");
         this.andOnVal("bo.user_id", "=", values.userID);
       })
-      .where({ "bo.user_id": userID })
       .orderBy("bo.id", "desc");
     if (values.id != null) {
       query = query.where("bo.id", "<", values.id);
     }
   } else if (values.filterBy === "history") {
     query = query
-      .select("h.id as read_history_id")
-      .leftJoin(`${tables.news_read_history} as h`, function () {
+      .select("h.id as read_history_id", "h.created_at")
+      .innerJoin(`${tables.news_read_history} as h`, function () {
         this.on("h.news_id", "n.id");
         this.andOnVal("h.user_id", "=", values.userID);
       })
-      .where({ "h.user_id": userID })
       .orderBy("h.id", "desc");
     if (values.id != null) {
       query = query.where("h.id", "<", values.id);
     }
   } else if (values.filterBy === "comment") {
     query = query
-      .select("co.id as comment_id")
-      .leftJoin(`${tables.news_comment} as co`, function () {
+      .select("co.id as comment_id", "co.comment", "co.created_at")
+      .innerJoin(`${tables.news_comment} as co`, function () {
         this.on("co.news_id", "n.id");
         this.andOnVal("co.user_id", "=", values.userID);
       })
-      .where({ "co.user_id": userID })
       .orderBy("co.id", "desc");
     if (values.id != null) {
       query = query.where("co.id", "<", values.id);

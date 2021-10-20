@@ -10,9 +10,10 @@ class SingleCategory {
   });
   SingleCategory.fromJSON(Map<String, dynamic> json)
       : this._(
-            id: json["id"],
-            name: json["name"],
-            imageSuffix: json["image_suffix"]);
+          id: json["id"],
+          name: json["name"],
+          imageSuffix: json["image_suffix"],
+        );
 }
 
 class SingleNews {

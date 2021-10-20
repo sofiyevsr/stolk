@@ -30,7 +30,8 @@ class FacebookOauthClient {
   public async verifyToken(token: string) {
     const appID = process.env.FACEBOOK_APP_ID;
     const appSecret = process.env.FACEBOOK_APP_SECRET;
-    if (appID == null || appSecret == null) throw Error();
+    if (appID == null || appSecret == null)
+      throw Error("invalid facebook credentials");
     const { body } = await got.get(
       `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${appID}|${appSecret}`,
       { responseType: "json" }

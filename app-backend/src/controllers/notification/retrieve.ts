@@ -13,7 +13,7 @@ export async function getAllNotificationTypesWithOptouts(userID?: number) {
         this.on("t.id", "o.notification_type_id");
         this.andOnVal("o.user_id", "=", userID);
       })
-      .groupBy("o.id", "t.id");
+      .orderBy("t.id", "asc");
   }
   const result = await query;
   return { preferences: result };

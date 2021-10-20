@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 class SingleLocalNotification {
   final int id;
   final String name;

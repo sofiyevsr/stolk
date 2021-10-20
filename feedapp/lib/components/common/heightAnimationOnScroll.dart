@@ -58,8 +58,8 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

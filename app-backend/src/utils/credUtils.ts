@@ -44,7 +44,7 @@ export async function verifyToken(token: string) {
         return rej(err);
       }
       if (decoded == null) {
-        return rej(Error());
+        return rej(Error("empty jwt payload"));
       }
       return res(decoded as any);
     })

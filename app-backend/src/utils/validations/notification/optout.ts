@@ -9,7 +9,10 @@ export default joi
     notification_type_id: joi
       .number()
       .required()
-      .valid(NotificationOptoutType.SourceFollow)
+      .valid(
+        NotificationOptoutType.SourceFollow,
+        NotificationOptoutType.Updates
+      )
       .messages({
         "number.base": i18next.t(
           "errors.validation.notification_optout_type.number"

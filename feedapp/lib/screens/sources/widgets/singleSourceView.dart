@@ -55,7 +55,6 @@ class SingleSourceView extends StatelessWidget {
                         child: SourceLogo(
                           logoSuffix: item.logoSuffix,
                           isCircle: true,
-                          radius: 100,
                         ),
                       ),
                     ),

@@ -4,7 +4,7 @@ import { tables } from "@utils/constants";
 import { verifyToken } from "@utils/credUtils";
 import SoftError from "@utils/softError";
 
-type UserSession = { session: Express.IUser & { id: number } };
+// type UserSession = { session: Express.IUser & { id: number } };
 
 export default async function checkToken(headers: any) {
   const authHeader = headers.authorization;
@@ -12,7 +12,9 @@ export default async function checkToken(headers: any) {
     throw new SoftError(i18next.t("errors.invalid_token"), 401);
   }
   const token = authHeader.replace("Bearer ", "");
-  const decoded = await verifyToken(token);
+  const decoded = await verifyToken(token).catch(() => {
+    throw new SoftError(i18next.t("errors.invalid_token"), 401);
+  });
   const session = await db
     .select(
       "s.id",

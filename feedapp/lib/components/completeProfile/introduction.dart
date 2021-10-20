@@ -9,46 +9,50 @@ class CompleteProfileIntroduction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          tr("introduction.one_more_step"),
-          style: Theme.of(context).textTheme.headline4,
-          textAlign: TextAlign.center,
-        ),
-        Flexible(
-          flex: 3,
-          child: Lottie.asset(
-            "assets/lottie/confetti.json",
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          Text(
+            tr("intro.one_more_step"),
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
           ),
-        ),
-        Text(
-          tr("introduction.choose_sources"),
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        Flexible(
-          flex: 1,
-          child: Center(
-            child: ElevatedButton(
-              onPressed: nextPage,
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.all(18),
+          Flexible(
+            flex: 3,
+            child: Lottie.asset(
+              "assets/lottie/confetti.json",
+            ),
+          ),
+          Text(
+            tr("intro.choose_sources"),
+            style: Theme.of(context).textTheme.headline6,
+            textAlign: TextAlign.center,
+          ),
+          Flexible(
+            flex: 1,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: nextPage,
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.all(18),
+                  ),
                 ),
-              ),
-              child: Text(
-                tr(
-                  "introduction.get_started",
-                ),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                child: Text(
+                  tr(
+                    "intro.get_started",
+                  ),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

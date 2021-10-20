@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/authBloc/utils/AuthBloc.dart';
-import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/screens/auth/authContainer.dart';
-import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

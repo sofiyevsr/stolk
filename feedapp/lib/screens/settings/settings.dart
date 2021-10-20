@@ -104,7 +104,6 @@ class _SettingsPageState extends State<SettingsPage> {
     if (auth.state is AuthorizedState) {
       return Column(
         children: [
-          Divider(),
           SettingsTile(
             onTap: () {
               NavigationService.push(
@@ -121,7 +120,6 @@ class _SettingsPageState extends State<SettingsPage> {
               Icons.arrow_right_outlined,
             ),
           ),
-          Divider(),
           SettingsTile(
             onTap: () {
               AuthBloc.instance.add(

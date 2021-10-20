@@ -42,7 +42,7 @@ class _CompleteProfileSourcesState extends State<CompleteProfileSources> {
         ElevatedButton(
           onPressed: _isRequestOn ? null : onPressed,
           child: Text(
-            tr("introduction.finish"),
+            tr("intro.finish"),
           ),
           style: ButtonStyle(
             shape: MaterialStateProperty.all(
