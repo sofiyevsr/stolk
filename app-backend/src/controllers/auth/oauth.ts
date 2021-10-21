@@ -55,6 +55,7 @@ async function registerUser(
         "confirmed_at",
         "banned_at",
         "created_at",
+        "completed_at",
       ]
     );
     baseUser = baseResult[0];
@@ -103,6 +104,7 @@ async function googleLoginUser(body: any, ip: string) {
       "u.last_name",
       "u.banned_at",
       "u.confirmed_at",
+      "u.completed_at",
     ])
     .where({ oauth_id: payload.sub, service_type_id: ServiceType.GOOGLE })
     .leftJoin(`${tables.base_user} as u`, "u.id", "ou.id")
@@ -162,6 +164,7 @@ async function facebookLoginUser(body: any, ip: string) {
       "u.last_name",
       "u.banned_at",
       "u.confirmed_at",
+      "u.completed_at",
     ])
     .where({ oauth_id: data.id, service_type_id: ServiceType.FACEBOOK })
     .leftJoin(`${tables.base_user} as u`, "u.id", "ou.id")

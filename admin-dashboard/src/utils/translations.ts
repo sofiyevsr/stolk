@@ -1,4 +1,5 @@
 export default {
+  ip_address: "IP address",
   category_id: "Category ID",
   category_name: "Category Name",
   alias: "Alias name",
@@ -35,5 +36,5 @@ export default {
   commenter_full_name: "Commenter name",
   commenter_id: "Commenter ID",
   comment_id: "Comment ID",
-  service_type_id: "Service type (Google, Apple)",
+  service_type_id: "Service type (Google, Apple, Facebook)",
 } as { [key: string]: string };

@@ -160,6 +160,9 @@
     "title": "Home"
   },
   "intro": {
+    "one_more_step": "Just one more step left to get started",
+    "choose_sources": "In the next step you can choose sources you want to follow",
+    "get_started": "Get started",
     "prev": "Back",
     "next": "Forward",
     "finish": "Finish",
@@ -246,8 +249,8 @@
     "register": "Register",
     "theme": "Theme",
     "notifications": {
-      "app_news": "Personalized news",
-      "fcm_news": "Updates"
+      "source_follow": "Personalized news",
+      "updates": "Updates"
     },
     "about_fields": {
       "name": "Name",

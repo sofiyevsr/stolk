@@ -5,22 +5,6 @@ class NewsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-// Used for fetching users news history
-class FetchHistoryNewsEvent extends NewsEvent {
-  final String filterBy;
-  FetchHistoryNewsEvent({required this.filterBy});
-
-  List<Object?> get props => [filterBy];
-}
-
-class FetchNextHistoryNewsEvent extends NewsEvent {
-  final String filterBy;
-  final bool? force;
-  FetchNextHistoryNewsEvent({required this.filterBy, this.force});
-
-  List<Object?> get props => [filterBy, force];
-}
-
 // Only one should be not null maybe assert
 class FetchNewsEvent extends NewsEvent {
   final int? category;

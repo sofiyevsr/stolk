@@ -26,11 +26,17 @@ class ThemeSelector extends StatelessWidget {
                 ),
                 Tooltip(
                   message: tr("tooltips.theme.dark"),
-                  child: Icon(Icons.dark_mode),
+                  child: Icon(
+                    Icons.dark_mode,
+                    color: Colors.blue,
+                  ),
                 ),
                 Tooltip(
                   message: tr("tooltips.theme.light"),
-                  child: Icon(Icons.light_mode),
+                  child: Icon(
+                    Icons.light_mode,
+                    color: Colors.yellow.shade700,
+                  ),
                 ),
               ],
               isSelected: [

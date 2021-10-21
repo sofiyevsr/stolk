@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
@@ -32,13 +33,19 @@ class IntroLogin extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text(
-                      "Stolk",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 44,
-                      ),
+                    child: AnimatedTextKit(
+                      repeatForever: true,
+                      animatedTexts: [
+                        TypewriterAnimatedText(
+                          "Stolk",
+                          speed: const Duration(milliseconds: 400),
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 44,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -51,7 +58,11 @@ class IntroLogin extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               LoginButtons(onLocalAuthPress: () {
-                NavigationService.replaceAll(Home(), RouteNames.HOME);
+                NavigationService.replaceAll(
+                  Home(),
+                  RouteNames.HOME,
+                  disableAnimation: true,
+                );
                 NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
               }),
             ],

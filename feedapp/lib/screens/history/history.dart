@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
-import 'package:stolk/logic/blocs/newsBloc/news.dart';
+import 'package:stolk/logic/blocs/newsHistoryBloc/newsHistory.dart';
 import 'package:stolk/screens/history/widgets/singleNewsHistoryUnit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,14 +68,12 @@ class _HistoryPageState extends State<HistoryPage> {
           ],
           selectedIndex: _currentIndex,
           onDestinationSelected: (s) {
-            if (_pageController.hasClients) {
+            if (_pageController.hasClients && mounted) {
               setState(() {
                 _currentIndex = s;
               });
-              _pageController.animateToPage(
+              _pageController.jumpToPage(
                 s,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
               );
             }
           },
@@ -92,12 +91,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 itemBuilder: (ctx, i) => Container(
                   child: BlocProvider(
                     key: Key(_pages[i]),
-                    create: (ctx) => NewsBloc()
-                      ..add(
-                        FetchHistoryNewsEvent(
-                          filterBy: _pages[i],
-                        ),
-                      ),
+                    create: (ctx) => NewsHistoryBloc(),
                     child: SingleNewsHistoryUnit(filterBy: _pages[i]),
                   ),
                 ),
@@ -109,7 +103,9 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset("assets/static/lock.png"),
+                  Lottie.asset(
+                    "assets/lottie/settings.json",
+                  ),
                   Text(
                     tr("errors.login_to_track"),
                     style: TextStyle(

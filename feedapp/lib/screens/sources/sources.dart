@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
+import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,10 @@ class _SourcesPageState extends State<SourcesPage> {
   @override
   void initState() {
     super.initState();
+    fetchSources();
+  }
+
+  void fetchSources() {
     context.read<SourcesBloc>()
       ..add(
         FetchSourcesEvent(),
@@ -71,9 +75,6 @@ class _SourcesPageState extends State<SourcesPage> {
                 ),
                 itemCount: sources.length,
                 itemBuilder: (ctx, i) => SingleSourceView(
-                  key: Key(
-                    sources[i].id.toString(),
-                  ),
                   item: sources[i],
                 ),
               );
@@ -82,24 +83,8 @@ class _SourcesPageState extends State<SourcesPage> {
               return CenterLoadingWidget();
             }
             if (state is SourcesStateError)
-              return Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.wifi_off,
-                      color: Colors.blue[700],
-                      size: 100,
-                    ),
-                    Text(
-                      tr("errors.network_error"),
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+              return NoConnectionWidget(
+                onRetry: fetchSources,
               );
             return Container();
           }),

@@ -1,16 +1,12 @@
 import 'dart:io';
 
-import 'package:stolk/utils/@types/request/checkToken.dart';
-import 'package:stolk/utils/@types/request/login.dart';
-import 'package:stolk/utils/@types/request/register.dart';
-import 'package:stolk/utils/@types/response/checkToken.dart';
-import 'package:stolk/utils/@types/response/login.dart';
-import 'package:stolk/utils/@types/response/register.dart';
+import 'package:stolk/utils/@types/request/index.dart';
+import 'package:stolk/utils/@types/response/index.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class AuthService extends ApiService {
-  AuthService() : super(enableErrorHandler: true);
+  AuthService() : super();
   final _sessionType = Platform.isIOS ? AppPlatform.IOS : AppPlatform.ANDROID;
 
   Future<void> forgotPassword(String email) async {
@@ -52,5 +48,10 @@ class AuthService extends ApiService {
 
   Future<void> logout() async {
     await this.request.post("/auth/logout", {}, {});
+  }
+
+  Future<CompleteProfileResponse> completeProfile() async {
+    final response = await this.request.post("/auth/complete-profile", {}, {});
+    return CompleteProfileResponse.fromJSON(response.data['body']);
   }
 }

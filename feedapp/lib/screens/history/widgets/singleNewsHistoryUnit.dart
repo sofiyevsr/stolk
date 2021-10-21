@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
-import 'package:stolk/logic/blocs/newsBloc/news.dart';
-import 'package:stolk/screens/feed/widgets/singleNews.dart';
+import 'package:stolk/components/common/noConnection.dart';
+import 'package:stolk/logic/blocs/newsHistoryBloc/newsHistory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/screens/history/widgets/singleActivity.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 const SINGLE_NEWS_HEIGHT = 300.0;
 
@@ -25,6 +27,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
   @override
   void initState() {
     super.initState();
+    initalFetch();
     _scrollController = ScrollController();
     _scrollController.addListener(
       () {
@@ -37,7 +40,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
               final maxScroll = _scrollController.position.maxScrollExtent;
               final currentScroll = _scrollController.position.pixels;
               if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
-                context.read<NewsBloc>().add(
+                context.read<NewsHistoryBloc>().add(
                       FetchNextHistoryNewsEvent(
                         filterBy: widget.filterBy,
                       ),
@@ -48,6 +51,14 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
         );
       },
     );
+  }
+
+  void initalFetch() {
+    context.read<NewsHistoryBloc>().add(
+          FetchHistoryNewsEvent(
+            filterBy: widget.filterBy,
+          ),
+        );
   }
 
   @override
@@ -61,10 +72,10 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: BlocBuilder<NewsBloc, NewsState>(
+      child: BlocBuilder<NewsHistoryBloc, NewsHistoryState>(
         builder: (ctx, state) {
-          if (state is NewsStateLoading) return CenterLoadingWidget();
-          if (state is NewsStateWithData) {
+          if (state is NewsHistoryStateLoading) return CenterLoadingWidget();
+          if (state is NewsHistoryStateWithData) {
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               controller: _scrollController,
@@ -80,16 +91,16 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                         ),
                       ),
                     )
-                  : SingleNewsView(
-                      key: Key(
-                        state.data.news[index].id.toString(),
+                  : TimelineTile(
+                      isFirst: index == 0,
+                      isLast: index == state.data.news.length - 1,
+                      endChild: SingleHistoryActivity(
+                        news: state.data.news[index],
                       ),
-                      feed: state.data.news[index],
-                      index: index,
                     ),
             );
           }
-          if (state is NewsStateNoData) {
+          if (state is NewsHistoryStateNoData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -108,26 +119,8 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
               ],
             );
           }
-          if (state is NewsStateError) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.wifi_off,
-                    color: Colors.blue[700],
-                    size: 100,
-                  ),
-                  Text(
-                    tr("errors.network_error"),
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            );
+          if (state is NewsHistoryStateError) {
+            return NoConnectionWidget();
           }
           return Container();
         },

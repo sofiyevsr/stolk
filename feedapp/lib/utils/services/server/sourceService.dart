@@ -4,7 +4,7 @@ import 'package:stolk/utils/common.dart';
 import 'apiService.dart';
 
 class SourceService extends ApiService {
-  SourceService() : super(enableErrorHandler: true);
+  SourceService() : super();
 
   Future<AllSourcesResponse> getAllSources() async {
     final response = await this.request.get("/source", {}, {});

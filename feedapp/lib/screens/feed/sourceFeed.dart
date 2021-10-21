@@ -37,7 +37,6 @@ class _SourceFeedState extends State<SourceFeed> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final media = MediaQuery.of(context);
     return Scaffold(
       body: SafeArea(
@@ -48,39 +47,27 @@ class _SourceFeedState extends State<SourceFeed> {
             SliverAppBar(
               pinned: true,
               expandedHeight: media.size.width,
-              elevation: 3,
-              leading: ElevatedButton(
-                onPressed: () {
-                  NavigationService.pop();
-                },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                  ),
-                  elevation: MaterialStateProperty.all(0),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(theme.primaryColor),
-                ),
-                child: Icon(Icons.arrow_back),
-              ),
-              title: Text(widget.sourceName),
+              elevation: 2,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                background: SourceLogo(
-                  logoSuffix: widget.logoSuffix,
-                  isCircle: false,
+                title: Text(
+                  widget.sourceName,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                background: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    Colors.black26,
+                    BlendMode.darken,
+                  ),
+                  child: SourceLogo(
+                    logoSuffix: widget.logoSuffix,
+                    isCircle: false,
+                  ),
                 ),
               ),
             ),
             BlocProvider(
-              create: (ctx) => NewsBloc()
-                ..add(
-                  FetchNewsEvent(
-                    category: null,
-                    sourceID: widget.sourceID,
-                    sortBy: null,
-                  ),
-                ),
+              create: (ctx) => NewsBloc(),
               child: SourceNewsSliver(
                 scrollController: _scrollController,
                 sourceID: widget.sourceID,

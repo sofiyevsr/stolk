@@ -4,23 +4,6 @@ import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import "constants.dart";
 
-class ErrorInterceptor extends Interceptor {
-  @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    final message = "server_errors.${err.response?.data['message']}";
-    if (err.response != null) {
-      if (tr(message) == message)
-        ToastService.instance.showAlert(tr("errors.default"));
-      else {
-        ToastService.instance.showAlert(tr(message));
-      }
-    } else
-      ToastService.instance.showAlert(tr("errors.network_error"));
-
-    return super.onError(err, handler);
-  }
-}
-
 class CustomInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
@@ -50,45 +33,134 @@ class CustomInterceptor extends Interceptor {
 
 class CustomDio {
   late Dio _dio;
-  CustomDio({bool enableErrorHandler = false}) {
+  CustomDio() {
     final BaseOptions _options = BaseOptions(
-        connectTimeout: 6000,
-        baseUrl: apiUrl,
-        contentType: Headers.jsonContentType);
-
+      connectTimeout: 10000,
+      baseUrl: apiUrl,
+      contentType: Headers.jsonContentType,
+    );
     _dio = Dio(_options);
-    if (enableErrorHandler == true) _dio.interceptors.add(ErrorInterceptor());
     _dio.interceptors.add(CustomInterceptor());
+  }
+  void _onError(
+    DioError err,
+  ) {
+    final message = "server_errors.${err.response?.data['message']}";
+    if (err.response != null) {
+      if (tr(message) == message)
+        ToastService.instance.showAlert(tr("errors.default"));
+      else {
+        ToastService.instance.showAlert(tr(message));
+      }
+    } else
+      ToastService.instance.showAlert(tr("errors.network_error"));
   }
 
   Future<Response<T>> get<T>(
-      String path, Map<String, dynamic>? data, Map<String, dynamic>? headers,
-      [Map<String, dynamic>? queries]) {
-    return _dio.get<T>(path,
-        queryParameters: data, options: Options(headers: headers));
+    String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers, {
+    bool handleError = true,
+    Map<String, dynamic>? queries,
+  }) async {
+    try {
+      final response = await _dio.get<T>(
+        path,
+        queryParameters: data,
+        options: Options(headers: headers),
+      );
+      return response;
+    } catch (e) {
+      if (e is DioError && handleError == true) {
+        _onError(e);
+      }
+      rethrow;
+    }
   }
 
   Future<Response<T>> post<T>(
-      String path, Map<String, dynamic>? data, Map<String, dynamic>? headers,
-      [Map<String, dynamic>? queries]) {
-    return _dio.post<T>(path,
+    String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers, {
+    bool handleError = true,
+    Map<String, dynamic>? queries,
+  }) async {
+    try {
+      final response = await _dio.post<T>(
+        path,
         data: data,
         queryParameters: queries,
-        options: Options(headers: headers));
+        options: Options(headers: headers),
+      );
+      return response;
+    } catch (e) {
+      if (e is DioError && handleError == true) {
+        _onError(e);
+      }
+      rethrow;
+    }
   }
 
   Future<Response<T>> patch<T>(
-      String path, Map<String, dynamic>? data, Map<String, dynamic>? headers) {
-    return _dio.patch<T>(path, data: data, options: Options(headers: headers));
+    String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers, {
+    bool handleError = true,
+  }) async {
+    try {
+      final response = await _dio.patch<T>(
+        path,
+        data: data,
+        options: Options(headers: headers),
+      );
+      return response;
+    } catch (e) {
+      if (e is DioError && handleError == true) {
+        _onError(e);
+      }
+      rethrow;
+    }
   }
 
   Future<Response<T>> put<T>(
-      String path, Map<String, dynamic>? data, Map<String, dynamic>? headers) {
-    return _dio.put<T>(path, data: data, options: Options(headers: headers));
+    String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers, {
+    bool handleError = true,
+  }) async {
+    try {
+      final response = await _dio.put<T>(
+        path,
+        data: data,
+        options: Options(headers: headers),
+      );
+      return response;
+    } catch (e) {
+      if (e is DioError && handleError == true) {
+        _onError(e);
+      }
+      rethrow;
+    }
   }
 
   Future<Response<T>> delete<T>(
-      String path, Map<String, dynamic>? data, Map<String, dynamic>? headers) {
-    return _dio.delete<T>(path, data: data, options: Options(headers: headers));
+    String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers, {
+    bool handleError = true,
+  }) async {
+    try {
+      final response = await _dio.delete<T>(
+        path,
+        data: data,
+        options: Options(headers: headers),
+      );
+      return response;
+    } catch (e) {
+      if (e is DioError && handleError == true) {
+        _onError(e);
+      }
+      rethrow;
+    }
   }
 }

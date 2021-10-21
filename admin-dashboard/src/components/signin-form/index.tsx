@@ -43,7 +43,7 @@ const SigninForm: FC = () => {
       toast("Recaptcha hasn't loaded yet", { type: "error" });
       return;
     }
-    (window as any).grecaptcha
+    return (window as any).grecaptcha
       .execute("6LfdpfobAAAAAIMpajlitheNwdUx8jU14cWlaTv1", { action: "login" })
       .then((token: string) => {
         auth

@@ -1,0 +1,9 @@
+export 'package:stolk/utils/@types/response/completeProfile.dart';
+export 'package:stolk/utils/@types/response/checkToken.dart';
+export 'package:stolk/utils/@types/response/comments.dart';
+export 'package:stolk/utils/@types/response/completeProfile.dart';
+export 'package:stolk/utils/@types/response/allNews.dart';
+export 'package:stolk/utils/@types/response/allSources.dart';
+export 'package:stolk/utils/@types/response/login.dart';
+export 'package:stolk/utils/@types/response/notification.dart';
+export 'package:stolk/utils/@types/response/register.dart';

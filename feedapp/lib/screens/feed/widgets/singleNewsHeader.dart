@@ -77,9 +77,13 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
           },
           child: Row(
             children: [
-              SourceLogo(
-                isCircle: true,
-                logoSuffix: widget.feed.sourceLogoSuffix,
+              Container(
+                height: 65,
+                width: 65,
+                child: SourceLogo(
+                  isCircle: true,
+                  logoSuffix: widget.feed.sourceLogoSuffix,
+                ),
               ),
               Column(
                 children: [

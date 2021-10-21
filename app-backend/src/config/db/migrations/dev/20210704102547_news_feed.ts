@@ -5,9 +5,9 @@ import { tables } from "../../../../utils/constants";
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(tables.news_feed, (t) => {
     t.bigIncrements("id");
-    t.specificType("title", "VARCHAR (1000)").notNullable();
-    t.specificType("image_link", "VARCHAR (1000)");
-    t.specificType("feed_link", "VARCHAR (1000)").unique().notNullable();
+    t.specificType("title", "VARCHAR (255)").notNullable();
+    t.specificType("image_link", "VARCHAR (450)");
+    t.specificType("feed_link", "VARCHAR (450)").unique().notNullable();
     t.integer("like_count").notNullable().defaultTo(0);
     t.integer("comment_count").notNullable().defaultTo(0);
     t.integer("read_count").notNullable().defaultTo(0);

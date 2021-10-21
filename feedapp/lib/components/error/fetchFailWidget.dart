@@ -7,23 +7,24 @@ class FetchFailWidget extends StatelessWidget {
   FetchFailWidget({Key? key, this.errorText}) : super(key: key);
 
   @override
-  Widget build(ctx) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            color: Colors.red,
-            size: 64,
-          ),
-          Expanded(
-            child: Text(
+  Widget build(ctx) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 124,
+            ),
+            Text(
               tr(errorText ?? defaultText),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 32,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
 }

@@ -14,6 +14,7 @@ import {
   StyledMegamenuList,
   StyledMegamenuLabel,
 } from "./style";
+import {useAppSelector} from "../../../redux/hooks";
 
 interface IProps {
   menus: IMenu[];
@@ -45,6 +46,8 @@ export const Navbar: React.FC<IProps> = ({ menus }) => {
   }, []);
 
   const containerRef = useClickOutside<HTMLUListElement>(onClose);
+  const user = useAppSelector((state) => state.user);
+  if (user.isAuthorized !== true) return null;
   return (
     <StyledNavbar ref={containerRef} className="navbar">
       {menus &&

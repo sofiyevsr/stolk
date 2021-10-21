@@ -1,10 +1,11 @@
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/@types/response/comments.dart';
+import 'package:stolk/utils/@types/response/newsHistory.dart';
 import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
 class NewsService extends ApiService {
-  NewsService() : super(enableErrorHandler: true);
+  NewsService() : super();
 
   Future<AllNewsResponse> getAllNews({
     String? pubDate,
@@ -23,7 +24,7 @@ class NewsService extends ApiService {
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
-  Future<AllNewsResponse> getAllHistoryNews({
+  Future<NewsHistoryResponse> getAllHistoryNews({
     required String filterBy,
     int? id,
   }) async {
@@ -31,8 +32,7 @@ class NewsService extends ApiService {
       if (id != null) 'id': id,
       'filter_by': filterBy,
     }, {});
-    print(response.data['body']);
-    return AllNewsResponse.fromJSON(response.data['body']);
+    return NewsHistoryResponse.fromJSON(response.data['body']);
   }
 
   Future<AllCategoriesResponse> getAllCategories() async {
@@ -49,9 +49,14 @@ class NewsService extends ApiService {
 
   Future<SingleComment> comment(int newsID, String body) async {
     authorize();
-    final response = await this.request.post("/news/$newsID/comment", {
-      'comment': body,
-    }, {});
+    final response = await this.request.post(
+          "/news/$newsID/comment",
+          {
+            'comment': body,
+          },
+          {},
+          handleError: false,
+        );
     return SingleComment.fromJSON(response.data["body"]["comment"], true);
   }
 

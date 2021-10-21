@@ -7,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CommentInput extends StatefulWidget {
   final int newsID;
   final Function() onEnd;
+  final Function(dynamic e) onError;
   CommentInput({
     Key? key,
     required this.newsID,
     required this.onEnd,
+    required this.onError,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,9 @@ class _CommentInputState extends State<CommentInput> {
         comments.add(AddCommentEvent(comment: data));
         _inputController.clear();
         widget.onEnd();
-      } catch (e) {}
+      } catch (e) {
+        widget.onError(e);
+      }
     }
   }
 

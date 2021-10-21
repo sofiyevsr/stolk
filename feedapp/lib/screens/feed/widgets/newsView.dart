@@ -52,8 +52,8 @@ class _NewsViewState extends State<NewsView>
 
   @override
   void dispose() {
-    super.dispose();
     _loadingController.dispose();
+    super.dispose();
   }
 
   @override
