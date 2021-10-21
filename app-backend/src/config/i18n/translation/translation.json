@@ -105,11 +105,16 @@
     "invalid_session_id": "",
     "google_empty_payload": "",
     "google_data_not_complete": "",
+    "facebook_empty_payload": "",
+    "facebook_data_not_complete": "",
     "unique_email": "",
     "backoff_reset_token": "",
     "reset_fail": "",
     "news_id_required": "",
     "source_id_required": "",
-    "user_not_confirmed": ""
+    "user_not_confirmed": "",
+    "ip_unknown": "",
+    "backoff_register": "",
+    "backoff_comment": ""
   }
 }

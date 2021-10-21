@@ -81,7 +81,12 @@
       "backoff_reset_token": "Şifrə yeniləmək üçün daha sonra cəhd edin",
       "news_id_required": "Xəbər ID tapılmadı",
       "source_id_required": "Mənbə ID tapılmadı",
-      "user_not_confirmed": "İstifadəçi email'i təsdiqlənməyib"
+      "user_not_confirmed": "İstifadəçi email'i təsdiqlənməyib",
+      "facebook_empty_payload": "Facebook məlumatları tam deyil",
+      "facebook_data_not_complete": "Facebook məlumatları tam deyil",
+      "ip_unknown": "İstifadəçi IP ünvanı naməlumdur",
+      "backoff_register": "Bu yaxınlarda çox sayda hesab yaratmısınız, daha sonra yenidən cəhd edin",
+      "backoff_comment": "Bu yaxınlarda çox şərh yazmısınız, daha sonra yenidən cəhd edin"
     }
   },
   "news": {
@@ -97,7 +102,7 @@
   "report": { "menu": "Şikayət" },
   "navbar": {
     "home": "Əsas",
-    "explore": "Kəşf",
+    "explore": "Mənbələr",
     "history": "Tarixçə",
     "account": "Hesab"
   },
@@ -160,6 +165,9 @@
     "title": "Əsas səhifə"
   },
   "intro": {
+    "one_more_step": "Başlamaq üçün sadəcə bir addım qaldı",
+    "choose_sources": "Növbəti addımda izləmək istədiyiniz mənbələri seçə bilərsiniz",
+    "get_started": "Başla",
     "prev": "Geri",
     "next": "İrəli",
     "finish": "Bitir",
@@ -220,10 +228,10 @@
     "me": "Mən"
   },
   "sort_by": {
-    "latest": "",
-    "most_read": "",
-    "most_liked": "",
-    "popular": ""
+    "latest": "Ən son",
+    "most_read": "Ən çox oxunanlar",
+    "most_liked": "Ən çox bəyənilənlər",
+    "popular": "Populyar"
   },
   "forgot_password": {
     "success": "Poçt qutunuzu yoxlayın",
@@ -245,8 +253,9 @@
     "register": "Qeydiyyat",
     "theme": "Görünüş",
     "notifications": {
-      "app_news": "Özəlləşdirilmiş xəbərlər",
-      "fcm_news": "Yeniliklər"
+      "source_follow": "Məsləhət görülən xəbərlər",
+      "updates": "Yeniliklər",
+      "comments": "Şərhlər"
     },
     "about_fields": {
       "name": "Ad",

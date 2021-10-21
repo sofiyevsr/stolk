@@ -7,7 +7,6 @@ class NotificationService extends ApiService {
   Future<AllLocalNotificationResponse> getMyNotificationPreferences() async {
     final response =
         await this.request.get("/notification/my-preferences", {}, {});
-    print(response);
     return AllLocalNotificationResponse.fromJSON(response.data["body"]);
   }
 

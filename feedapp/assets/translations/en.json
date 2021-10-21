@@ -81,7 +81,12 @@
       "backoff_reset_token": "Try again later to send reset password email",
       "news_id_required": "News ID not found",
       "source_id_required": "Source ID not found",
-      "user_not_confirmed": "Account is not confirmed"
+      "user_not_confirmed": "Account is not confirmed",
+      "facebook_empty_payload": "Facebook payload is empty",
+      "facebook_data_not_complete": "Your facebook data is not complete",
+      "ip_unknown": "User's ip address is unknown",
+      "backoff_register": "You have created too many accounts recently, try again later",
+      "backoff_comment": "You have written too many comments recently, try again later"
     }
   },
   "news": {
@@ -97,7 +102,7 @@
   "report": { "menu": "Report" },
   "navbar": {
     "home": "Home",
-    "explore": "Explore",
+    "explore": "Sources",
     "history": "History",
     "account": "Account"
   },
@@ -249,8 +254,9 @@
     "register": "Register",
     "theme": "Theme",
     "notifications": {
-      "source_follow": "Personalized news",
-      "updates": "Updates"
+      "source_follow": "Suggested news",
+      "updates": "Updates",
+      "comments": "Comments"
     },
     "about_fields": {
       "name": "Name",
