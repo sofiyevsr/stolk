@@ -11,36 +11,34 @@ part "SourcesState.dart";
 final service = SourceService();
 
 class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
-  SourcesBloc() : super(SourcesStateInitial());
-
-  @override
-  Stream<SourcesState> mapEventToState(SourcesEvent event) async* {
-    if (event is FetchSourcesEvent) {
+  SourcesBloc() : super(SourcesStateInitial()) {
+    on<FetchSourcesEvent>((event, emit) async {
       try {
-        yield SourcesStateLoading();
+        emit(SourcesStateLoading());
         final data = await service.getAllSources();
         if (data.sources.length > 0)
-          yield SourcesStateSuccess(
+          emit(SourcesStateSuccess(
             data: SourcesModel(
               sources: data.sources,
             ),
-          );
+          ));
         else
-          yield SourcesStateNoData();
+          emit(SourcesStateNoData());
       } catch (e) {
-        yield SourcesStateError();
+        emit(SourcesStateError());
       }
-    }
-    if (event is ToggleSourceFollow && state is SourcesStateSuccess) {
+    });
+    on<ToggleSourceFollow>((event, emit) async {
+      if (state is! SourcesStateSuccess) return;
       final s = (state as SourcesStateSuccess);
       final item =
           s.data.sources.firstWhere((element) => element.id == event.id);
       SingleSource modifyItem = item.copyWith(
         isRequestOn: true,
       );
-      yield SourcesStateSuccess(
+      emit(SourcesStateSuccess(
         data: s.data.modifySingle(item: modifyItem, id: event.id),
-      );
+      ));
       try {
         if (item.followID != null) {
           await service.unfollow(item.id);
@@ -61,9 +59,9 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
         );
       }
 
-      yield SourcesStateSuccess(
+      emit(SourcesStateSuccess(
         data: s.data.modifySingle(item: modifyItem, id: event.id),
-      );
-    }
+      ));
+    });
   }
 }
