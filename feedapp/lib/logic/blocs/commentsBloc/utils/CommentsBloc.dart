@@ -27,39 +27,40 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     });
     on<FetchNextCommentsEvent>((event, emit) async {
       if (state is CommentsStateWithData &&
-          (state as CommentsStateWithData).data.hasReachedEnd == false) {
-        if (state is CommentsNextFetchError && event.force != true) {
-          return;
-        }
-        if (state is CommentsNextFetchLoading) {
-          return;
-        }
+          (state as CommentsStateWithData).data.hasReachedEnd == true) {
+        return;
+      }
+      if (state is CommentsNextFetchError && event.force != true) {
+        return;
+      }
+      if (state is CommentsNextFetchLoading) {
+        return;
+      }
 
-        try {
-          emit(
-            CommentsNextFetchLoading(
-              data: (state as CommentsStateWithData).data,
-            ),
-          );
-          final existing = (state as CommentsStateWithData);
-          final lastID =
-              existing.data.comments[existing.data.comments.length - 1].id;
+      try {
+        emit(
+          CommentsNextFetchLoading(
+            data: (state as CommentsStateWithData).data,
+          ),
+        );
+        final existing = (state as CommentsStateWithData);
+        final lastID =
+            existing.data.comments[existing.data.comments.length - 1].id;
 
-          // set Loading and fetch data then
-          final data = await service.getAllComments(event.id, lastID);
-          emit(CommentsStateSuccess(
-            data: existing.data.addNewComments(
-              incomingComments: data.comments,
-              hasReachedEnd: data.hasReachedEnd,
-            ),
-          ));
-        } catch (e) {
-          emit(
-            CommentsNextFetchError(
-              data: (state as CommentsStateWithData).data,
-            ),
-          );
-        }
+        // set Loading and fetch data then
+        final data = await service.getAllComments(event.id, lastID);
+        emit(CommentsStateSuccess(
+          data: existing.data.addNewComments(
+            incomingComments: data.comments,
+            hasReachedEnd: data.hasReachedEnd,
+          ),
+        ));
+      } catch (e) {
+        emit(
+          CommentsNextFetchError(
+            data: (state as CommentsStateWithData).data,
+          ),
+        );
       }
     });
     on<AddCommentEvent>((event, emit) async {

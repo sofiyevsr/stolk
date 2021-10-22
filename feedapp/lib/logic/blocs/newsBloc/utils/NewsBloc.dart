@@ -61,46 +61,47 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     // Fetch next batch
     on<FetchNextNewsEvent>((event, emit) async {
       if (state is NewsStateWithData &&
-          (state as NewsStateWithData).data.hasReachedEnd == false) {
-        if (state is NewsNextFetchError && event.force != true) {
-          return;
-        }
-        if (state is NewsNextFetchLoading) {
-          return;
+          (state as NewsStateWithData).data.hasReachedEnd == true) {
+        return;
+      }
+      if (state is NewsNextFetchError && event.force != true) {
+        return;
+      }
+      if (state is NewsNextFetchLoading) {
+        return;
+      }
+
+      try {
+        emit(NewsNextFetchLoading(data: (state as NewsStateWithData).data));
+        final existing = (state as NewsStateWithData);
+        final lastNews = existing.data.news[existing.data.news.length - 1];
+        final lastPub = lastNews.publishedDate;
+
+        var cursor;
+        if (existing.data.sortBy == NewsSortBy.MOST_READ) {
+          cursor = lastNews.readCount;
+        } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
+          cursor = lastNews.likeCount;
+        } else if (existing.data.sortBy == NewsSortBy.POPULAR) {
+          cursor = lastNews.weight;
         }
 
-        try {
-          emit(NewsNextFetchLoading(data: (state as NewsStateWithData).data));
-          final existing = (state as NewsStateWithData);
-          final lastNews = existing.data.news[existing.data.news.length - 1];
-          final lastPub = lastNews.publishedDate;
-
-          var cursor;
-          if (existing.data.sortBy == NewsSortBy.MOST_READ) {
-            cursor = lastNews.readCount;
-          } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
-            cursor = lastNews.likeCount;
-          } else if (existing.data.sortBy == NewsSortBy.POPULAR) {
-            cursor = lastNews.weight;
-          }
-
-          // set Loading and fetch data then
-          final data = await service.getAllNews(
-            pubDate: lastPub,
-            sourceID: event.sourceID,
-            category: existing.data.category,
-            sortBy: existing.data.sortBy,
-            cursor: cursor,
-          );
-          emit(NewsStateSuccess(
-            data: existing.data.addNewNews(
-              incomingNews: data.news,
-              hasReachedEnd: data.hasReachedEnd,
-            ),
-          ));
-        } catch (e) {
-          emit(NewsNextFetchError(data: (state as NewsStateWithData).data));
-        }
+        // set Loading and fetch data then
+        final data = await service.getAllNews(
+          pubDate: lastPub,
+          sourceID: event.sourceID,
+          category: existing.data.category,
+          sortBy: existing.data.sortBy,
+          cursor: cursor,
+        );
+        emit(NewsStateSuccess(
+          data: existing.data.addNewNews(
+            incomingNews: data.news,
+            hasReachedEnd: data.hasReachedEnd,
+          ),
+        ));
+      } catch (e) {
+        emit(NewsNextFetchError(data: (state as NewsStateWithData).data));
       }
     });
     // ------------------------------- ACTIONS --------------------------------------
