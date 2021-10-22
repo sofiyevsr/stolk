@@ -75,8 +75,8 @@ export const sendToEveryone = async (body: any) => {
       ...value,
     },
   });
-  console.log(res);
-  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
+  if (res.failureCount > 0)
+    await deleteObsoleteTokens(res.responses, flatTokens);
 };
 
 /*
@@ -106,5 +106,6 @@ export const sendToUser = async (id: string, body: any) => {
     tokens: flatTokens,
     notification: value,
   });
-  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
+  if (res.failureCount > 0)
+    await deleteObsoleteTokens(res.responses, flatTokens);
 };

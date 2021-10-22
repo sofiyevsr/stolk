@@ -29,9 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        await AppLogger.analytics
-            .logLogin(loginMethod: "local")
-            .catchError((_) {});
+        AppLogger.analytics.logLogin(loginMethod: "local");
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -46,9 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        await AppLogger.analytics
-            .logLogin(loginMethod: "google")
-            .catchError((_) {});
+        AppLogger.analytics.logLogin(loginMethod: "google");
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -63,9 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        await AppLogger.analytics
-            .logLogin(loginMethod: "facebook")
-            .catchError((_) {});
+        AppLogger.analytics.logLogin(loginMethod: "facebook");
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -85,9 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        await AppLogger.analytics
-            .logSignUp(signUpMethod: "local")
-            .catchError((_) {});
+        AppLogger.analytics.logSignUp(signUpMethod: "local");
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
