@@ -1,6 +1,6 @@
 import db from "@config/db/db";
 import app from "@utils/gcadmin-sdk";
-import { notification_topics, tables } from "@utils/constants";
+import { tables } from "@utils/constants";
 
 import notifValidate from "@admin/utils/validations/notification";
 import SoftError from "@utils/softError";
@@ -59,38 +59,24 @@ export const sendToEveryone = async (body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  const tokens = await db
+  const tokens = await db(`${tables.notification_token} as t`)
     .select("t.token")
-    .from(`${tables.notification_token} as t`)
     .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
     .where({ "no.id": null });
 
-  console.log("tokens", tokens);
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
+  const flatTokens: string[] = tokens.map(({ token }) => token);
 
   const res = await app.messaging().sendMulticast({
-    tokens,
+    tokens: flatTokens,
     notification: {
       ...value,
     },
   });
+  console.log(res);
   if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
-};
-
-export const sendNews = async (body: any) => {
-  const { value, error } = notifValidate.message.validate(body);
-  if (error != null) {
-    throw new SoftError(error.message);
-  }
-  await app
-    .messaging()
-    .sendToTopic(
-      notification_topics.news,
-      { notification: value },
-      { dryRun: process.env.NODE_ENV !== "production" }
-    );
 };
 
 /*
@@ -111,14 +97,13 @@ export const sendToUser = async (id: string, body: any) => {
     .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
     .where({ "t.user_id": id, "no.id": null });
 
-  console.log("tokens", tokens);
-
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
+  const flatTokens = tokens.map(({ token }) => token);
 
   const res = await app.messaging().sendMulticast({
-    tokens,
+    tokens: flatTokens,
     notification: value,
   });
   if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);

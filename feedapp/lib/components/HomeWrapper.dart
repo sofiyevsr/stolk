@@ -28,6 +28,12 @@ class _HomeWrapperState extends State<HomeWrapper> {
   }
 
   @override
+  void dispose() {
+    StartupService.instance.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(ctx) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (ctx, state) {

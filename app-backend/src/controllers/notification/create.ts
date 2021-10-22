@@ -10,16 +10,20 @@ const saveTokenToDb = async (token: string, user_id: number) => {
   }
   await limitManager.limitFCMTokenSave(user_id);
   const tokenDB = await db(tables.notification_token)
-    .select("token")
+    .select("token", "user_id")
     .where({
       token,
     })
     .first();
-  if (tokenDB) return;
-  await db(tables.notification_token).insert({
-    token,
-    user_id,
-  });
+  // Nothing to do returning...
+  if (tokenDB && tokenDB.user_id === user_id) return;
+  await db(tables.notification_token)
+    .insert({
+      token,
+      user_id,
+    })
+    .onConflict("token")
+    .merge();
 };
 
 export default saveTokenToDb;

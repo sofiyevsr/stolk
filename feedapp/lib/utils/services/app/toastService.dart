@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../throttle.dart';
 
-const throttleDuration = const Duration(seconds: 6);
+const throttleDuration = const Duration(seconds: 4);
 
 class ToastService {
   static final instance = ToastService._();

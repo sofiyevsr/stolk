@@ -1,5 +1,5 @@
 import auth from "@admin/controllers/auth";
-import { responseContentCreated, responseSuccess } from "@utils/responses";
+import { responseSuccess } from "@utils/responses";
 import { Router } from "express";
 import authenticateMiddleware from "src/admin/middlewares/authenticate";
 import Recaptchaverify from "../middlewares/recaptcha";

@@ -11,34 +11,40 @@ class StartupService {
   StreamSubscription<String>? tokenRefreshStream;
   StartupService._();
 
-  Future<void> storeDeviceToken(String? authToken) async {
+  void dispose() {
+    tokenRefreshStream?.cancel();
+  }
+
+  Future<void> storeDeviceToken() async {
     final permissions = await FirebaseMessaging.instance.requestPermission();
     if (permissions.authorizationStatus == AuthorizationStatus.authorized) {
-      // Get the token each time the application loads
-      String? token = await FirebaseMessaging.instance.getToken();
-      // Save the initial token to the database
-      await _saveTokenToDatabase(token, authToken);
-
       // Any time the token refreshes, store this in the database too.
-      tokenRefreshStream?.cancel();
-      tokenRefreshStream =
-          FirebaseMessaging.instance.onTokenRefresh.listen((token) {
-        _saveTokenToDatabase(token, authToken);
-      });
+      if (tokenRefreshStream == null)
+        tokenRefreshStream = FirebaseMessaging.instance.onTokenRefresh.listen(
+          (token) {
+            final authState = AuthBloc.instance.state;
+            if (authState is AuthorizedState) {
+              saveNotificationTokenToDatabase(token, authState.token);
+            }
+          },
+        );
     }
   }
 
   Future<void> checkTokenAndSaveDeviceToken() async {
     final storage = SecureStorage();
     final token = await storage.getToken();
+    await _checkToken(token);
     // if check token fails it is okay to stop store device token
-    storeDeviceToken(token).catchError((e) {
+    storeDeviceToken().catchError((e) {
       FirebaseCrashlytics.instance.log('error while getting device token $e');
     });
-    await _checkToken(token);
   }
 
-  Future<void> _saveTokenToDatabase(String? token, String? authToken) async {
+  Future<void> saveNotificationTokenToDatabase(
+    String? token,
+    String? authToken,
+  ) async {
     final notificationService = NotificationService();
     if (token != null && authToken != null)
       await notificationService.saveToken(token, authToken);

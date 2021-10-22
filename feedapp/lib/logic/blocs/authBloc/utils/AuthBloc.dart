@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
@@ -28,7 +29,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        AppLogger.analytics.logLogin(loginMethod: "local");
+        await AppLogger.analytics
+            .logLogin(loginMethod: "local")
+            .catchError((_) {});
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -43,7 +46,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        AppLogger.analytics.logLogin(loginMethod: "google");
+        await AppLogger.analytics
+            .logLogin(loginMethod: "google")
+            .catchError((_) {});
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -58,7 +63,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        AppLogger.analytics.logLogin(loginMethod: "facebook");
+        await AppLogger.analytics
+            .logLogin(loginMethod: "facebook")
+            .catchError((_) {});
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -78,7 +85,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: response.user,
           token: response.token,
         ));
-        AppLogger.analytics.logSignUp(signUpMethod: "local");
+        await AppLogger.analytics
+            .logSignUp(signUpMethod: "local")
+            .catchError((_) {});
       } catch (e) {
         emit(FailedAuthState(error: e.toString()));
       }
@@ -119,27 +128,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final storage = SecureStorage();
       await storage.removeToken();
       emit(UnathorizedState());
+      await _userLoggingOut();
     });
     on<AppLogout>((event, emit) async {
       try {
-        final storage = SecureStorage();
         await _auth.logout();
+
+        final storage = SecureStorage();
         await storage.removeToken();
+
         emit(UnathorizedState());
+        await _userLoggingOut();
       } catch (e) {
         // yield FailedAuthState(error: e.toString());
       }
     });
   }
+  Future<void> _userLoggingOut() async {
+    // Delete token after state is yielded to avoid onTokenRefresh function to resave token
+    await FirebaseMessaging.instance.deleteToken();
+  }
+
+  Future<void> _saveUserToken(
+    Transition<AuthEvent, AuthState> transition,
+  ) async {
+    if (transition.nextState is AuthorizedState &&
+        transition.currentState is AuthLoadingState) {
+      // Make sure to get fresh token on every login
+      await FirebaseMessaging.instance.deleteToken();
+      await FirebaseMessaging.instance.getToken();
+    }
+  }
 
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
     super.onTransition(transition);
-    if (transition.nextState is AuthorizedState &&
-        transition.currentState is AuthLoadingState) {
-      // Sync auth token
-      final token = (transition.nextState as AuthorizedState).token;
-      StartupService.instance.storeDeviceToken(token);
-    }
+    _saveUserToken(transition).catchError((_) {});
   }
 }

@@ -1,5 +1,6 @@
 import { TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import NotificationApi from "../../utils/api/notification";
 import { Button, Card, CardBody } from "../../widgets";
 import { StyledHeader } from "../../widgets/ui/modal/style";
@@ -18,7 +19,10 @@ function SendNotificationForm() {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    await api.sendThroughNewsTopic(data).catch((e) => {});
+    try {
+      await api.sendToEveryone(data);
+      toast.success("Notifications sent");
+    } catch (error) {}
   };
   return (
     <Card>

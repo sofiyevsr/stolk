@@ -1,14 +1,14 @@
 import ApiClient from "../apiClient";
 
 class NotificationApi extends ApiClient {
-  public async sendThroughNewsTopic({
+  public async sendToEveryone({
     title,
     body,
   }: {
     title: string;
     body: string;
   }) {
-    const data = await this.axios.post("/notification/send/news", {
+    const data = await this.axios.post("/notification/send", {
       title,
       body,
     });
