@@ -43,14 +43,17 @@ class _IntroPageState extends State<IntroPage>
     return SizedBox.expand(
       child: Column(
         children: [
-          ScaleTransition(
-            scale: _animation,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              child: Image.asset(
-                widget.image,
-                fit: BoxFit.contain,
-                height: height / 1.65,
+          Expanded(
+            child: ScaleTransition(
+              scale: _animation,
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                child: Image.asset(
+                  widget.image,
+                  fit: BoxFit.contain,
+                  height: height / 1.65,
+                ),
               ),
             ),
           ),

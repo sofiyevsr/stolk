@@ -111,6 +111,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                 ),
                 Text(
                   tr("news.no_news"),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

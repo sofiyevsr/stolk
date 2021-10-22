@@ -22,11 +22,7 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts"],
-    plugins: [
-      new TsconfigPathsPlugin({
-        /* options: see below */
-      }),
-    ],
+    plugins: [new TsconfigPathsPlugin()],
   },
   output: {
     path: path.resolve(__dirname, "dist"),
