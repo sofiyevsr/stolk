@@ -10,68 +10,73 @@ part "CommentsState.dart";
 final service = NewsService();
 
 class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
-  CommentsBloc() : super(CommentsStateInitial());
-
-  @override
-  Stream<CommentsState> mapEventToState(CommentsEvent event) async* {
-    if (event is FetchCommentsEvent) {
+  CommentsBloc() : super(CommentsStateInitial()) {
+    on<FetchCommentsEvent>((event, emit) async {
       try {
-        yield CommentsStateLoading();
+        emit(CommentsStateLoading());
         final data = await service.getAllComments(event.id, null);
-        yield CommentsStateSuccess(
+        emit(CommentsStateSuccess(
           data: CommentsModel(
             comments: data.comments,
             hasReachedEnd: data.hasReachedEnd,
           ),
-        );
+        ));
       } catch (e) {
-        yield CommentsStateError();
+        emit(CommentsStateError());
       }
-    } else if (event is FetchNextCommentsEvent) {
+    });
+    on<FetchNextCommentsEvent>((event, emit) async {
       if (state is CommentsStateWithData &&
-          (state as CommentsStateWithData).data.hasReachedEnd == false) {
-        if (state is CommentsNextFetchError && event.force != true) {
-          return;
-        }
-        if (state is CommentsNextFetchLoading) {
-          return;
-        }
-
-        try {
-          yield CommentsNextFetchLoading(
-              data: (state as CommentsStateWithData).data);
-          final existing = (state as CommentsStateWithData);
-          final lastID =
-              existing.data.comments[existing.data.comments.length - 1].id;
-
-          // set Loading and fetch data then
-          final data = await service.getAllComments(event.id, lastID);
-          yield CommentsStateSuccess(
-            data: existing.data.addNewComments(
-              incomingComments: data.comments,
-              hasReachedEnd: data.hasReachedEnd,
-            ),
-          );
-        } catch (e) {
-          yield CommentsNextFetchError(
-              data: (state as CommentsStateWithData).data);
-        }
+          (state as CommentsStateWithData).data.hasReachedEnd == true) {
+        return;
       }
-    } else if (event is AddCommentEvent) {
+      if (state is CommentsNextFetchError && event.force != true) {
+        return;
+      }
+      if (state is CommentsNextFetchLoading) {
+        return;
+      }
+
+      try {
+        emit(
+          CommentsNextFetchLoading(
+            data: (state as CommentsStateWithData).data,
+          ),
+        );
+        final existing = (state as CommentsStateWithData);
+        final lastID =
+            existing.data.comments[existing.data.comments.length - 1].id;
+
+        // set Loading and fetch data then
+        final data = await service.getAllComments(event.id, lastID);
+        emit(CommentsStateSuccess(
+          data: existing.data.addNewComments(
+            incomingComments: data.comments,
+            hasReachedEnd: data.hasReachedEnd,
+          ),
+        ));
+      } catch (e) {
+        emit(
+          CommentsNextFetchError(
+            data: (state as CommentsStateWithData).data,
+          ),
+        );
+      }
+    });
+    on<AddCommentEvent>((event, emit) async {
       if (state is CommentsStateSuccess) {
         try {
           final existing = (state as CommentsStateSuccess);
-
           // set Loading and fetch data then
-          yield CommentsStateSuccess(
+          emit(CommentsStateSuccess(
             data: existing.data.addComment(
               comment: event.comment,
             ),
-          );
+          ));
         } catch (e) {
           // yield (state as CommentsStateSuccess).disableLoading();
         }
       }
-    }
+    });
   }
 }

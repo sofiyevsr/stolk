@@ -14,106 +14,98 @@ part "../models/newsActionType.dart";
 final service = NewsService();
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
-  NewsBloc() : super(NewsStateInitial());
-
-  @override
-  Stream<NewsState> mapEventToState(NewsEvent event) async* {
-    yield* handleMainNewsFeed(event);
-  }
-
-  Stream<NewsState> handleMainNewsFeed(NewsEvent event) async* {
-    if (event is FetchNewsEvent) {
+  NewsBloc() : super(NewsStateInitial()) {
+    on<FetchNewsEvent>((event, emit) async {
       try {
-        yield NewsStateLoading();
+        emit(NewsStateLoading());
         final data = await service.getAllNews(
           category: event.category,
           sourceID: event.sourceID,
           sortBy: event.sortBy,
         );
         if (data.news.length != 0)
-          yield NewsStateSuccess(
+          emit(NewsStateSuccess(
             data: NewsModel(
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
               sortBy: event.sortBy,
               category: event.category,
             ),
-          );
+          ));
         else
-          yield NewsStateNoData();
+          emit(NewsStateNoData());
       } catch (e) {
-        yield NewsStateError();
+        emit(NewsStateError());
       }
-    }
-
+    });
     // Refresh
     // 1. Event sender must fetch data, because refresh function should wait till async function to be done
     // 2. Event sender is responsible for sending current category
-    else if (event is RefreshNewsEvent) {
+    on<RefreshNewsEvent>((event, emit) async {
       try {
         if (event.data.news.length != 0)
-          yield NewsStateSuccess(
+          emit(NewsStateSuccess(
             data: NewsModel(
               news: event.data.news,
               hasReachedEnd: event.data.hasReachedEnd,
               sortBy: event.sortBy,
               category: event.category,
             ),
-          );
+          ));
         else
-          yield NewsStateNoData();
+          emit(NewsStateNoData());
       } catch (e) {
-        yield NewsStateError();
+        emit(NewsStateError());
       }
-    }
+    });
     // Fetch next batch
-    // 1. Keep in mind current category
-    else if (event is FetchNextNewsEvent) {
+    on<FetchNextNewsEvent>((event, emit) async {
       if (state is NewsStateWithData &&
-          (state as NewsStateWithData).data.hasReachedEnd == false) {
-        if (state is NewsNextFetchError && event.force != true) {
-          return;
-        }
-        if (state is NewsNextFetchLoading) {
-          return;
-        }
-
-        try {
-          yield NewsNextFetchLoading(data: (state as NewsStateWithData).data);
-          final existing = (state as NewsStateWithData);
-          final lastNews = existing.data.news[existing.data.news.length - 1];
-          final lastPub = lastNews.publishedDate;
-
-          var cursor;
-          if (existing.data.sortBy == NewsSortBy.MOST_READ) {
-            cursor = lastNews.readCount;
-          } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
-            cursor = lastNews.likeCount;
-          } else if (existing.data.sortBy == NewsSortBy.POPULAR) {
-            cursor = lastNews.weight;
-          }
-
-          // set Loading and fetch data then
-          final data = await service.getAllNews(
-            pubDate: lastPub,
-            sourceID: event.sourceID,
-            category: existing.data.category,
-            sortBy: existing.data.sortBy,
-            cursor: cursor,
-          );
-          yield NewsStateSuccess(
-            data: existing.data.addNewNews(
-              incomingNews: data.news,
-              hasReachedEnd: data.hasReachedEnd,
-            ),
-          );
-        } catch (e) {
-          yield NewsNextFetchError(data: (state as NewsStateWithData).data);
-        }
+          (state as NewsStateWithData).data.hasReachedEnd == true) {
+        return;
       }
-    }
+      if (state is NewsNextFetchError && event.force != true) {
+        return;
+      }
+      if (state is NewsNextFetchLoading) {
+        return;
+      }
+
+      try {
+        emit(NewsNextFetchLoading(data: (state as NewsStateWithData).data));
+        final existing = (state as NewsStateWithData);
+        final lastNews = existing.data.news[existing.data.news.length - 1];
+        final lastPub = lastNews.publishedDate;
+
+        var cursor;
+        if (existing.data.sortBy == NewsSortBy.MOST_READ) {
+          cursor = lastNews.readCount;
+        } else if (existing.data.sortBy == NewsSortBy.MOST_LIKED) {
+          cursor = lastNews.likeCount;
+        } else if (existing.data.sortBy == NewsSortBy.POPULAR) {
+          cursor = lastNews.weight;
+        }
+
+        // set Loading and fetch data then
+        final data = await service.getAllNews(
+          pubDate: lastPub,
+          sourceID: event.sourceID,
+          category: existing.data.category,
+          sortBy: existing.data.sortBy,
+          cursor: cursor,
+        );
+        emit(NewsStateSuccess(
+          data: existing.data.addNewNews(
+            incomingNews: data.news,
+            hasReachedEnd: data.hasReachedEnd,
+          ),
+        ));
+      } catch (e) {
+        emit(NewsNextFetchError(data: (state as NewsStateWithData).data));
+      }
+    });
     // ------------------------------- ACTIONS --------------------------------------
-    else if (event is NewsActionEvent) {
+    on<NewsActionEvent>((event, emit) async {
       if (state is NewsStateWithData) {
         final existing = (state as NewsStateWithData);
         final item = existing.data.news[event.index];
@@ -146,13 +138,13 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             );
             break;
         }
-        yield NewsStateSuccess(
+        emit(NewsStateSuccess(
           data: existing.data.modifySingle(
             item: modifItem,
             index: event.index,
           ),
-        );
+        ));
       }
-    }
+    });
   }
 }

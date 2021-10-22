@@ -1,3 +1,6 @@
+# Dev artifacts folder
+dev_artifacts/
+
 # Custom builds
 app-artifacts.tgz
 db-artifacts.tgz
