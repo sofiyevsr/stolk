@@ -28,31 +28,28 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
   late final _curve =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
-  double _scrollY = 0;
-
-  void hideContainer() {
-    final value = _controller.value;
-    if (value != 0) _controller.animateTo(0);
-  }
-
   void revealContainer() {
     final value = _controller.value;
     if (value != 1) _controller.animateTo(1);
+  }
+
+  void animateContainer(double diff) {
+    final offset =
+        ((widget.maxHeight - diff) / widget.maxHeight).clamp(0.0, 1.0);
+    final value = _controller.value;
+    if (offset != value) _controller.animateTo(offset);
   }
 
   @override
   void initState() {
     super.initState();
     widget.scrollController.addListener(() {
-      if (_controller.isAnimating) return;
       final value = widget.scrollController.offset;
-      if (value == 0 || _scrollY - value > scrollThreshold) {
-        revealContainer();
-        _scrollY = value;
-      } else if (value - _scrollY > scrollThreshold) {
-        hideContainer();
-        _scrollY = value;
+      if (value == 0) {
+        return revealContainer();
       }
+      if (_controller.isAnimating) return;
+      animateContainer(value);
     });
   }
 

@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/utils/services/server/notificationService.dart';
 
-class AppNewsNotificationTile extends StatefulWidget {
+class NotificationPreferenceTile extends StatefulWidget {
   final int typeID;
   final String? createdAt;
   final String name;
-  AppNewsNotificationTile({
+  NotificationPreferenceTile({
     Key? key,
     required this.typeID,
     required this.name,
@@ -14,10 +14,10 @@ class AppNewsNotificationTile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppNewsNotificationTile createState() => _AppNewsNotificationTile();
+  _NotificationPreferenceTile createState() => _NotificationPreferenceTile();
 }
 
-class _AppNewsNotificationTile extends State<AppNewsNotificationTile> {
+class _NotificationPreferenceTile extends State<NotificationPreferenceTile> {
   final notificationService = NotificationService();
   late bool tileValue = widget.createdAt == null;
   bool isLoading = false;
