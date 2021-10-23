@@ -1,5 +1,5 @@
 import db from "@config/db/db";
-import app from "@utils/gcadmin-sdk";
+import gcAdmin from "@utils/gcadmin-sdk";
 import { tables } from "@utils/constants";
 
 import notifValidate from "@admin/utils/validations/notification";
@@ -48,9 +48,7 @@ const deleteObsoleteTokens = async (
     const deletedRows = await db(tables.notification_token)
       .delete()
       .whereIn("token", tokens);
-    if (deletedRows === 0) {
-      // throw new SoftError("errors.no_token_deleted");
-    }
+    return deletedRows;
   }
 };
 
@@ -69,14 +67,16 @@ export const sendToEveryone = async (body: any) => {
   }
   const flatTokens: string[] = tokens.map(({ token }) => token);
 
-  const res = await app.messaging().sendMulticast({
+  const res = await gcAdmin.messaging.sendMulticast({
     tokens: flatTokens,
     notification: {
       ...value,
     },
   });
+  let deletedCount;
   if (res.failureCount > 0)
-    await deleteObsoleteTokens(res.responses, flatTokens);
+    deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
+  return { deleted_count: deletedCount ?? 0, firebase_response: res };
 };
 
 /*
@@ -102,7 +102,7 @@ export const sendToUser = async (id: string, body: any) => {
   }
   const flatTokens = tokens.map(({ token }) => token);
 
-  const res = await app.messaging().sendMulticast({
+  const res = await gcAdmin.messaging.sendMulticast({
     tokens: flatTokens,
     notification: value,
   });

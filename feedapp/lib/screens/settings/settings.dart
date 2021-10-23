@@ -100,8 +100,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildGeneralSection() {
-    final auth = context.watch<AuthBloc>();
-    if (auth.state is AuthorizedState) {
+    final state = context.watch<AuthBloc>().state;
+    if (state is AuthorizedState) {
+      final isLoading = state.isLoggingOut;
       return Column(
         children: [
           SettingsTile(
@@ -121,12 +122,15 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           SettingsTile(
-            onTap: () {
-              AuthBloc.instance.add(
-                AppLogout(),
-              );
-            },
+            onTap: isLoading == true
+                ? null
+                : () {
+                    AuthBloc.instance.add(
+                      AppLogout(),
+                    );
+                  },
             title: tr("settings.logout"),
+            isLoading: isLoading,
             icon: Icons.logout_outlined,
           ),
         ],

@@ -62,7 +62,11 @@ r.post("/register", async (req, res, next) => {
 
 r.post("/logout", authenticateMiddleware(), async (req, res, next) => {
   try {
-    const session = await auth.logout(req.session?.id);
+    const session = await auth.logout(
+      req.session?.id,
+      req.session?.user_id,
+      req.body.token
+    );
     return responseSuccess(res, {});
   } catch (e) {
     return next(e);

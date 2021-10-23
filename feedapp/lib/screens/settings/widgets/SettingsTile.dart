@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
+  final bool isLoading;
   final Widget? trailing;
   final EdgeInsets? padding;
   final void Function()? onTap;
@@ -10,6 +11,7 @@ class SettingsTile extends StatelessWidget {
   SettingsTile({
     required this.title,
     required this.icon,
+    this.isLoading = false,
     this.padding,
     this.onTap,
     this.trailing,
@@ -26,9 +28,17 @@ class SettingsTile extends StatelessWidget {
             size: 32,
           ),
           contentPadding: padding,
-          title: Text(
-            title,
-          ),
+          title: isLoading
+              ? Center(
+                  child: Container(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Text(
+                  title,
+                ),
           trailing: trailing,
         ),
         Divider(),
