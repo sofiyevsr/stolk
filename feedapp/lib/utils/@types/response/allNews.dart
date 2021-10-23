@@ -25,6 +25,9 @@ class SingleNews {
       createdAt,
       feedLink;
   final int? likeID, bookmarkID, followID, commentID, readID;
+  // Used for paginating bookmarks as
+  //  if user removes bookmark of last news available null will be sent to server
+  final int? fixedBookmarkID;
   final double? weight;
   final String? imageLink;
   SingleNews._({
@@ -46,9 +49,10 @@ class SingleNews {
     required this.bookmarkID,
     required this.imageLink,
     required this.weight,
+    required this.fixedBookmarkID,
   });
 
-  SingleNews.fromJson(Map<String, dynamic> json)
+  SingleNews.fromJSON(Map<String, dynamic> json)
       : this._(
           // We have to parse it manually because news id is bigint on db and json can't send it as bigint
           id: int.parse(json['id']),
@@ -69,6 +73,7 @@ class SingleNews {
           readCount: json["read_count"],
           commentCount: json["comment_count"],
           bookmarkID: json["bookmark_id"],
+          fixedBookmarkID: json["bookmark_id"],
         );
   SingleNews copyWith({
     int? id,
@@ -111,6 +116,7 @@ class SingleNews {
         bookmarkID: bookmarkID == null ? this.bookmarkID : bookmarkID.value,
         readID: readID == null ? this.readID : readID.value,
         commentID: commentID == null ? this.commentID : commentID.value,
+        fixedBookmarkID: this.fixedBookmarkID,
       );
 }
 
@@ -123,7 +129,7 @@ class AllNewsResponse {
       return;
     }
     for (int i = 0; i < json['news'].length; i++) {
-      news.add(SingleNews.fromJson(json['news'][i]));
+      news.add(SingleNews.fromJSON(json['news'][i]));
     }
   }
 }

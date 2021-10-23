@@ -91,7 +91,8 @@
   },
   "news": {
     "no_news_follow_more": "Heç bir xəbər tapılmadı, daha çox mənbə izləməyi yoxlayın",
-    "no_news": "Heç bir xəbər tapılmadı"
+    "no_news": "Heç bir xəbər tapılmadı",
+    "no_bookmarks": "Heç bir qeyd tapılmadı"
   },
   "auth": { "welcome": "Xoş gəlmisiniz" },
   "report_dialog": {
@@ -103,7 +104,7 @@
   "navbar": {
     "home": "Əsas",
     "explore": "Mənbələr",
-    "history": "Tarixçə",
+    "bookmarks": "Qeydlər",
     "account": "Hesab"
   },
   "commons": {
@@ -146,7 +147,7 @@
   "errors": {
     "default": "Xəta baş verdi",
     "try_again_later": "Xəta baş verdi, daha sonra yoxlayın",
-    "login_to_track": "Daha özəl təcrübə üçün hesab yaradın",
+    "login_for_bookmarks": "Qeydlərinizi görmək üçün hesabınıza daxil olun",
     "report_message_empty": "Şikayətinizi daxil edin",
     "network_error": "İnternet xətası",
     "image_fetch_failed": "Şəkil yüklənə bilmədi",

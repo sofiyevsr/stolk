@@ -22,6 +22,12 @@ interface NewsRequest {
   cursor?: string;
 }
 
+interface BookmarksRequest {
+  perPage?: string;
+  lastID?: string;
+  userID: number;
+}
+
 function validateAllNewsRequest() {
   return Joi.object({
     userID: Joi.number(),
@@ -33,16 +39,6 @@ function validateAllNewsRequest() {
       NewsSortBy.MOST_LIKED
     ),
     sourceID: Joi.number().min(0),
-  }).options({ stripUnknown: true });
-}
-
-function validateHistoryNewsRequest() {
-  return Joi.object({
-    filterBy: Joi.string()
-      .valid("like", "history", "bookmark", "comment")
-      .required(),
-    userID: Joi.number().required(),
-    id: Joi.number(),
   }).options({ stripUnknown: true });
 }
 
@@ -193,68 +189,60 @@ async function all({
   return result;
 }
 
-async function usersNewsHistory(
-  perPage?: string,
-  id?: string,
-  userID?: number,
-  filterBy?: string
-) {
-  const values = await validateHistoryNewsRequest().validateAsync({
-    userID,
-    filterBy,
-    id,
-  });
+async function bookmarks({ userID, perPage, lastID }: BookmarksRequest) {
   let result: NewsResult;
   let query = db
-    .select(["n.id", "n.title", "n.feed_link"])
+    .select([
+      "s.id AS source_id",
+      "s.name AS source_name",
+      "s.logo_suffix AS source_logo_suffix",
+      "n.id",
+      "n.title",
+      "n.image_link",
+      "n.pub_date",
+      "n.created_at",
+      "n.feed_link",
+      "c.id as category_id",
+      "c.name as category_name",
+      "n.like_count",
+      "n.comment_count",
+      "n.read_count",
+      "bo.id as bookmark_id",
+      "l.id as like_id",
+      "f.id as follow_id",
+      "h.id as read_history_id",
+    ])
     .from(`${tables.news_feed} as n`)
-    .where({ "n.hidden_at": null });
+    .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")
+    .leftJoin(
+      `${tables.news_category_alias} as ca`,
+      "ca.id",
+      "n.category_alias_id"
+    )
+    .leftJoin(`${tables.news_category} as c`, "c.id", "ca.category_id")
+    .leftJoin(`${tables.source_follow} as f`, function () {
+      this.on("f.source_id", "s.id");
+      this.andOnVal("f.user_id", "=", userID);
+    })
+    .leftJoin(`${tables.news_bookmark} as bo`, function () {
+      this.on("bo.news_id", "n.id");
+      this.andOnVal("bo.user_id", "=", userID);
+    })
+    .leftJoin(`${tables.news_like} as l`, function () {
+      this.on("l.news_id", "n.id");
+      this.andOnVal("l.user_id", "=", userID);
+    })
+    .leftJoin(`${tables.news_read_history} as h`, function () {
+      this.on("h.news_id", "n.id");
+      this.andOnVal("h.user_id", "=", userID);
+    })
+    .whereNotNull("bo.id");
 
-  if (values.filterBy === "like") {
-    query = query
-      .select("l.id as like_id", "l.created_at")
-      .innerJoin(`${tables.news_like} as l`, function () {
-        this.on("l.news_id", "n.id");
-        this.andOnVal("l.user_id", "=", values.userID);
-      })
-      .orderBy("l.id", "desc");
-    if (values.id != null) {
-      query = query.where("l.id", "<", values.id);
-    }
-  } else if (values.filterBy === "bookmark") {
-    query = query
-      .select("bo.id as bookmark_id", "bo.created_at")
-      .innerJoin(`${tables.news_bookmark} as bo`, function () {
-        this.on("bo.news_id", "n.id");
-        this.andOnVal("bo.user_id", "=", values.userID);
-      })
-      .orderBy("bo.id", "desc");
-    if (values.id != null) {
-      query = query.where("bo.id", "<", values.id);
-    }
-  } else if (values.filterBy === "history") {
-    query = query
-      .select("h.id as read_history_id", "h.created_at")
-      .innerJoin(`${tables.news_read_history} as h`, function () {
-        this.on("h.news_id", "n.id");
-        this.andOnVal("h.user_id", "=", values.userID);
-      })
-      .orderBy("h.id", "desc");
-    if (values.id != null) {
-      query = query.where("h.id", "<", values.id);
-    }
-  } else if (values.filterBy === "comment") {
-    query = query
-      .select("co.id as comment_id", "co.comment", "co.created_at")
-      .innerJoin(`${tables.news_comment} as co`, function () {
-        this.on("co.news_id", "n.id");
-        this.andOnVal("co.user_id", "=", values.userID);
-      })
-      .orderBy("co.id", "desc");
-    if (values.id != null) {
-      query = query.where("co.id", "<", values.id);
-    }
+  if (lastID != null) {
+    await Joi.number().validateAsync(lastID);
+    query = query.andWhere("bo.id", "<", lastID);
   }
+  query = query.orderBy("bo.id", "desc");
 
   const parsedPerPage =
     Number.isNaN(Number(perPage)) === true ? DEFAULT_PERPAGE : Number(perPage);
@@ -317,6 +305,6 @@ async function comments(news_id: number, id?: string) {
 export default {
   all,
   allCategories,
-  usersNewsHistory,
+  bookmarks,
   comments,
 };

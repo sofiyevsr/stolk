@@ -56,3 +56,16 @@ class NewsActionEvent extends NewsEvent {
 
   List<Object?> get props => [index, type];
 }
+
+class FetchBookmarks extends NewsEvent {
+  FetchBookmarks();
+
+  List<Object?> get props => [];
+}
+
+class FetchNextBookmarks extends NewsEvent {
+  final bool? force;
+  FetchNextBookmarks({this.force});
+
+  List<Object?> get props => [force];
+}

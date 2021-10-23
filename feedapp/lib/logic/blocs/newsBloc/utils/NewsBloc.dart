@@ -60,8 +60,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     });
     // Fetch next batch
     on<FetchNextNewsEvent>((event, emit) async {
-      if (state is NewsStateWithData &&
-          (state as NewsStateWithData).data.hasReachedEnd == true) {
+      if (state is! NewsStateWithData) return;
+      if ((state as NewsStateWithData).data.hasReachedEnd == true) {
         return;
       }
       if (state is NewsNextFetchError && event.force != true) {
@@ -93,6 +93,60 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           category: existing.data.category,
           sortBy: existing.data.sortBy,
           cursor: cursor,
+        );
+        emit(NewsStateSuccess(
+          data: existing.data.addNewNews(
+            incomingNews: data.news,
+            hasReachedEnd: data.hasReachedEnd,
+          ),
+        ));
+      } catch (e) {
+        emit(NewsNextFetchError(data: (state as NewsStateWithData).data));
+      }
+    });
+    // ------------------------------- Bookmarks ------------------------------------
+    on<FetchBookmarks>((event, emit) async {
+      try {
+        emit(NewsStateLoading());
+        final data = await service.getBookmarks();
+        if (data.news.length != 0)
+          emit(NewsStateSuccess(
+            data: NewsModel(
+              news: data.news,
+              hasReachedEnd: data.hasReachedEnd,
+              category: null,
+              sortBy: null,
+            ),
+          ));
+        else
+          emit(NewsStateNoData());
+      } catch (e) {
+        print(e);
+        emit(NewsStateError());
+      }
+    });
+    on<FetchNextBookmarks>((event, emit) async {
+      if (state is! NewsStateWithData) return;
+      if (state is NewsStateWithData &&
+          (state as NewsStateWithData).data.hasReachedEnd == true) {
+        return;
+      }
+      if (state is NewsNextFetchError && event.force != true) {
+        return;
+      }
+      if (state is NewsNextFetchLoading) {
+        return;
+      }
+
+      try {
+        emit(NewsNextFetchLoading(data: (state as NewsStateWithData).data));
+        final existing = (state as NewsStateWithData);
+        final lastNews = existing.data.news[existing.data.news.length - 1];
+        final lastID = lastNews.fixedBookmarkID;
+
+        // set Loading and fetch data then
+        final data = await service.getBookmarks(
+          lastID: lastID,
         );
         emit(NewsStateSuccess(
           data: existing.data.addNewNews(
