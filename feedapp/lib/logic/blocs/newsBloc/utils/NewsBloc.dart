@@ -121,14 +121,12 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         else
           emit(NewsStateNoData());
       } catch (e) {
-        print(e);
         emit(NewsStateError());
       }
     });
     on<FetchNextBookmarks>((event, emit) async {
       if (state is! NewsStateWithData) return;
-      if (state is NewsStateWithData &&
-          (state as NewsStateWithData).data.hasReachedEnd == true) {
+      if ((state as NewsStateWithData).data.hasReachedEnd == true) {
         return;
       }
       if (state is NewsNextFetchError && event.force != true) {

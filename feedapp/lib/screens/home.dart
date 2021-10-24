@@ -1,4 +1,3 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
