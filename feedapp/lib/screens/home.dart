@@ -13,7 +13,7 @@ import 'sources/sources.dart';
 final navItems = [
   {"icon": Icons.home, "title": "navbar.home"},
   {"icon": Icons.explore, "title": "navbar.explore"},
-  {"icon": Icons.folder, "title": "navbar.history"},
+  {"icon": Icons.bookmark_sharp, "title": "navbar.bookmarks"},
   {"icon": Icons.account_box, "title": "navbar.account"},
 ];
 

@@ -91,7 +91,8 @@
   },
   "news": {
     "no_news_follow_more": "No news found, try following more sources",
-    "no_news": "No news found"
+    "no_news": "No news found",
+    "no_bookmarks": "No bookmark found"
   },
   "auth": { "welcome": "Welcome" },
   "report_dialog": {
@@ -103,7 +104,7 @@
   "navbar": {
     "home": "Home",
     "explore": "Sources",
-    "history": "History",
+    "bookmarks": "Bookmarks",
     "account": "Account"
   },
   "commons": {
@@ -146,7 +147,7 @@
   "errors": {
     "default": "Error occured",
     "try_again_later": "Error occured, try again later",
-    "login_to_track": "Create account for personalized experience",
+    "login_for_bookmarks": "Login to see your bookmarks",
     "report_message_empty": "Enter message",
     "network_error": "Network error",
     "image_fetch_failed": "Couldn't load image",
