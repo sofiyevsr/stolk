@@ -28,17 +28,14 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   PageController? _controller;
 
-  List<BottomNavyBarItem> _buildNavItems(BuildContext ctx) {
+  List<BottomNavigationBarItem> _buildNavItems(BuildContext ctx) {
     final theme = Theme.of(ctx);
     return navItems
         .map(
-          (e) => BottomNavyBarItem(
-            title: Text(
-              e["title"] as String,
-            ).tr(),
+          (e) => BottomNavigationBarItem(
+            backgroundColor: theme.bottomNavigationBarTheme.backgroundColor,
+            label: (e["title"] as String).tr(),
             icon: Icon(e["icon"] as IconData),
-            activeColor: theme.primaryColorLight,
-            textAlign: TextAlign.center,
           ),
         )
         .toList();
@@ -58,7 +55,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Image.asset("assets/icons/logo.png"),
@@ -91,11 +87,11 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavyBar(
-        curve: Curves.easeInOut,
-        backgroundColor: theme.bottomAppBarColor,
-        selectedIndex: _currentIndex,
-        onItemSelected: (index) {
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        currentIndex: _currentIndex,
+        onTap: (index) {
           setState(() => _currentIndex = index);
           _controller?.jumpToPage(index);
         },
