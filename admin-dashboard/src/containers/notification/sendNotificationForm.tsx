@@ -20,8 +20,11 @@ function SendNotificationForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await api.sendToEveryone(data);
-      toast.success("Notifications sent");
+      const { body } = await api.sendToEveryone(data);
+      toast.success(`Notifications sent,
+                    \nsuccess: ${body.success_count}
+                    \nfailure: ${body.failure_count}
+                    \ndeleted stale tokens: ${body.deleted_count}`);
     } catch (error) {}
   };
   return (
@@ -39,13 +42,14 @@ function SendNotificationForm() {
                   value: true,
                 },
               }}
-              render={({ field }) => (
+              render={({ field: { ref, ...field } }) => (
                 <TextField
                   error={!!errors.title}
                   helperText={errors.title?.message}
                   style={{ minWidth: "30%" }}
                   variant="outlined"
                   aria-invalid={!!errors.title}
+                  innerRef={ref}
                   label="Title"
                   {...field}
                 />
@@ -62,7 +66,7 @@ function SendNotificationForm() {
                   value: true,
                 },
               }}
-              render={({ field }) => (
+              render={({ field: { ref, ...field } }) => (
                 <TextField
                   error={!!errors.body}
                   helperText={errors.body?.message}
@@ -71,6 +75,7 @@ function SendNotificationForm() {
                   label="Body"
                   multiline
                   rows={6}
+                  innerRef={ref}
                   {...field}
                 />
               )}

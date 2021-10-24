@@ -76,7 +76,11 @@ export const sendToEveryone = async (body: any) => {
   let deletedCount;
   if (res.failureCount > 0)
     deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
-  return { deleted_count: deletedCount ?? 0, firebase_response: res };
+  return {
+    deleted_count: deletedCount ?? 0,
+    success_count: res.successCount,
+    failure_count: res.failureCount,
+  };
 };
 
 /*
@@ -109,5 +113,9 @@ export const sendToUser = async (id: string, body: any) => {
   let deletedCount: number | undefined;
   if (res.failureCount > 0)
     deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
-  return { deleted_count: deletedCount, firebase_response: res };
+  return {
+    deleted_count: deletedCount ?? 0,
+    success_count: res.successCount,
+    failure_count: res.failureCount,
+  };
 };

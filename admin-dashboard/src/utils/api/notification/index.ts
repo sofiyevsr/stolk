@@ -1,5 +1,13 @@
 import ApiClient from "../apiClient";
 
+interface Response {
+  body: {
+    success_count: number;
+    failure_count: number;
+    deleted_count: number;
+  };
+}
+
 class NotificationApi extends ApiClient {
   public async sendToEveryone({
     title,
@@ -8,7 +16,7 @@ class NotificationApi extends ApiClient {
     title: string;
     body: string;
   }) {
-    const data = await this.axios.post("/notification/send", {
+    const data = await this.axios.post<Response>("/notification/send", {
       title,
       body,
     });
