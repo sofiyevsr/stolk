@@ -104,7 +104,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Lottie.asset(
-                    "assets/lottie/settings.json",
+                    "assets/lottie/bookmark.json",
                   ),
                   Text(
                     tr("errors.login_to_track"),

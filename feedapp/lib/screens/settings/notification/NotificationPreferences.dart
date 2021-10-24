@@ -4,7 +4,7 @@ import 'package:stolk/components/error/fetchFailWidget.dart';
 import 'package:stolk/utils/@types/response/index.dart';
 import 'package:stolk/utils/services/server/notificationService.dart';
 
-import 'NewsAppTile.dart';
+import 'NotificationPreferenceTile.dart';
 
 class NotificationPreferences extends StatefulWidget {
   const NotificationPreferences({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _NotificationPreferencesState extends State<NotificationPreferences> {
     return Column(
       children: preferences!
           .map(
-            (e) => AppNewsNotificationTile(
+            (e) => NotificationPreferenceTile(
               name: e.name,
               typeID: e.id,
               createdAt: e.createdAt,

@@ -81,4 +81,7 @@ final darkTheme = _base.copyWith(
     ),
     centerTitle: true,
   ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    type: BottomNavigationBarType.shifting,
+  ),
 );

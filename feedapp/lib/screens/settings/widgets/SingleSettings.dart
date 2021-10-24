@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class SingleSetting extends StatelessWidget {
+class SingleSettings extends StatelessWidget {
   final Widget child;
   final String title;
-  const SingleSetting({Key? key, required this.title, required this.child})
+  const SingleSettings({Key? key, required this.title, required this.child})
       : super(key: key);
 
   @override
