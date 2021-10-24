@@ -106,6 +106,8 @@ export const sendToUser = async (id: string, body: any) => {
     tokens: flatTokens,
     notification: value,
   });
+  let deletedCount: number | undefined;
   if (res.failureCount > 0)
-    await deleteObsoleteTokens(res.responses, flatTokens);
+    deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
+  return { deleted_count: deletedCount, firebase_response: res };
 };

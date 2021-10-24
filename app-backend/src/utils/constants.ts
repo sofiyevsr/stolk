@@ -16,7 +16,7 @@ export const newRegistrationBackoffCounts = 3;
 export const newCommentsBackoffMinutes = 1;
 export const newCommentsBackoffCounts = 10;
 // How many tokens can user save
-export const newFCMTokenBackoffCounts = 10;
+export const newFCMTokenBackoffCounts = 15;
 
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$/;
