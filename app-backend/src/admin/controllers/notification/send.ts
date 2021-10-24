@@ -52,7 +52,7 @@ const deleteObsoleteTokens = async (
   }
 };
 
-export const sendToEveryone = async (body: any) => {
+export const sendToEveryone = async (body: any, tag?: string) => {
   const { value, error } = notifValidate.message.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
@@ -69,6 +69,12 @@ export const sendToEveryone = async (body: any) => {
 
   const res = await gcAdmin.messaging.sendMulticast({
     tokens: flatTokens,
+    android: {
+      notification: {
+        tag,
+      },
+    },
+    apns: { payload: { aps: { threadId: tag } } },
     notification: {
       ...value,
     },
@@ -86,7 +92,7 @@ export const sendToEveryone = async (body: any) => {
 /*
  * Send data only notif to user
  */
-export const sendToUser = async (id: string, body: any) => {
+export const sendToUser = async (id: string, body: any, tag?: string) => {
   const { value, error } = notifValidate.message.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
@@ -108,6 +114,12 @@ export const sendToUser = async (id: string, body: any) => {
 
   const res = await gcAdmin.messaging.sendMulticast({
     tokens: flatTokens,
+    android: {
+      notification: {
+        tag,
+      },
+    },
+    apns: { payload: { aps: { threadId: tag } } },
     notification: value,
   });
   let deletedCount: number | undefined;
