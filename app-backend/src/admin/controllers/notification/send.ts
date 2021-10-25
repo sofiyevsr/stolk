@@ -1,6 +1,6 @@
 import db from "@config/db/db";
-import app from "@utils/gcadmin-sdk";
-import { notification_topics, tables } from "@utils/constants";
+import gcAdmin from "@utils/gcadmin-sdk";
+import { tables } from "@utils/constants";
 
 import notifValidate from "@admin/utils/validations/notification";
 import SoftError from "@utils/softError";
@@ -48,13 +48,11 @@ const deleteObsoleteTokens = async (
     const deletedRows = await db(tables.notification_token)
       .delete()
       .whereIn("token", tokens);
-    if (deletedRows === 0) {
-      // throw new SoftError("errors.no_token_deleted");
-    }
+    return deletedRows;
   }
 };
 
-export const sendToEveryone = async (body: any) => {
+export const sendToEveryone = async (body: any, tag?: string) => {
   const { value, error } = notifValidate.message.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
@@ -62,41 +60,41 @@ export const sendToEveryone = async (body: any) => {
   const tokens = await db
     .select("t.token")
     .from(`${tables.notification_token} as t`)
-    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
+    .leftJoin(`${tables.user_session} as us`, "us.id", "t.session_id")
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "us.user_id")
     .where({ "no.id": null });
 
-  console.log("tokens", tokens);
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
+  const flatTokens: string[] = tokens.map(({ token }) => token);
 
-  const res = await app.messaging().sendMulticast({
-    tokens,
+  const res = await gcAdmin.messaging.sendMulticast({
+    tokens: flatTokens,
+    android: {
+      notification: {
+        tag,
+      },
+    },
+    apns: { payload: { aps: { threadId: tag } } },
     notification: {
       ...value,
     },
   });
-  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
-};
-
-export const sendNews = async (body: any) => {
-  const { value, error } = notifValidate.message.validate(body);
-  if (error != null) {
-    throw new SoftError(error.message);
-  }
-  await app
-    .messaging()
-    .sendToTopic(
-      notification_topics.news,
-      { notification: value },
-      { dryRun: process.env.NODE_ENV !== "production" }
-    );
+  let deletedCount;
+  if (res.failureCount > 0)
+    deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
+  return {
+    deleted_count: deletedCount ?? 0,
+    success_count: res.successCount,
+    failure_count: res.failureCount,
+  };
 };
 
 /*
  * Send data only notif to user
  */
-export const sendToUser = async (id: string, body: any) => {
+export const sendToUser = async (id: string, body: any, tag?: string) => {
   const { value, error } = notifValidate.message.validate(body);
   if (error != null) {
     throw new SoftError(error.message);
@@ -108,18 +106,31 @@ export const sendToUser = async (id: string, body: any) => {
   const tokens = await db
     .select("t.token")
     .from(`${tables.notification_token} as t`)
-    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
-    .where({ "t.user_id": id, "no.id": null });
-
-  console.log("tokens", tokens);
+    .leftJoin(`${tables.user_session} as us`, "us.id", "t.session_id")
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "us.user_id")
+    .where({ "us.user_id": id, "no.id": null });
 
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
   }
+  const flatTokens = tokens.map(({ token }) => token);
 
-  const res = await app.messaging().sendMulticast({
-    tokens,
+  const res = await gcAdmin.messaging.sendMulticast({
+    tokens: flatTokens,
+    android: {
+      notification: {
+        tag,
+      },
+    },
+    apns: { payload: { aps: { threadId: tag } } },
     notification: value,
   });
-  if (res.failureCount > 0) await deleteObsoleteTokens(res.responses, tokens);
+  let deletedCount: number | undefined;
+  if (res.failureCount > 0)
+    deletedCount = await deleteObsoleteTokens(res.responses, flatTokens);
+  return {
+    deleted_count: deletedCount ?? 0,
+    success_count: res.successCount,
+    failure_count: res.failureCount,
+  };
 };

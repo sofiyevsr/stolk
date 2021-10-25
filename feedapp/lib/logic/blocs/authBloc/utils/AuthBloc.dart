@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
@@ -116,30 +117,46 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(UnathorizedState());
     });
     on<ApiForceLogout>((event, emit) async {
-      final storage = SecureStorage();
-      await storage.removeToken();
-      emit(UnathorizedState());
-    });
-    on<AppLogout>((event, emit) async {
       try {
         final storage = SecureStorage();
-        await _auth.logout();
         await storage.removeToken();
+        // Delete notification token locally to be able to save token on later login
+        await StartupService.instance.deleteTokenLocally();
+        emit(UnathorizedState());
+      } catch (e) {}
+    });
+    on<AppLogout>((event, emit) async {
+      if (state is! AuthorizedState) return;
+      try {
+        emit((state as AuthorizedState).changeStatus(true));
+        final token = await FirebaseMessaging.instance.getToken();
+        await _auth.logout(token);
+
+        final storage = SecureStorage();
+        await storage.removeToken();
+        // Delete notification token locally to be able to save token on later login
+        await StartupService.instance.deleteTokenLocally();
+
         emit(UnathorizedState());
       } catch (e) {
-        // yield FailedAuthState(error: e.toString());
+        emit((state as AuthorizedState).changeStatus(false));
       }
     });
+  }
+
+  Future<void> _saveUserToken(
+    Transition<AuthEvent, AuthState> transition,
+  ) async {
+    if (transition.nextState is AuthorizedState &&
+        transition.currentState is AuthLoadingState) {
+      final authToken = (transition.nextState as AuthorizedState).token;
+      await StartupService.instance.storeDeviceToken(authToken);
+    }
   }
 
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
     super.onTransition(transition);
-    if (transition.nextState is AuthorizedState &&
-        transition.currentState is AuthLoadingState) {
-      // Sync auth token
-      final token = (transition.nextState as AuthorizedState).token;
-      StartupService.instance.storeDeviceToken(token);
-    }
+    _saveUserToken(transition).catchError((_) {});
   }
 }

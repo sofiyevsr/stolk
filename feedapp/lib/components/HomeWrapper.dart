@@ -22,9 +22,17 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-    StartupService.instance
-        .checkTokenAndSaveDeviceToken()
-        .catchError((error) {});
+    StartupService.instance.checkTokenAndSaveDeviceToken().catchError((error) {
+      print("error $error");
+      // Start token refresh after
+    }).whenComplete(() => StartupService.instance.startNotificationStream());
+  }
+
+  @override
+  void dispose() {
+    // Stops refresh token stream
+    StartupService.instance.dispose();
+    super.dispose();
   }
 
   @override

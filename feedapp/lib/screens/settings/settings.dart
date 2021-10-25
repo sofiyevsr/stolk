@@ -79,9 +79,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title: tr("settings.about"),
             ),
             SettingsTile(
-              onTap: () {
-                showAbout(ctx);
-              },
+              onTap: () => showAbout(ctx),
               title: tr("settings.about"),
               icon: Icons.info_outlined,
             ),

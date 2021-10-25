@@ -12,7 +12,9 @@ export default async function checkToken(headers: any) {
     throw new SoftError(i18next.t("errors.invalid_token"), 401);
   }
   const token = authHeader.replace("Bearer ", "");
-  const decoded = await verifyToken(token);
+  const decoded = await verifyToken(token).catch(() => {
+    throw new SoftError(i18next.t("errors.invalid_token"), 401);
+  });
   const session = await db
     .select("u.id", "u.first_name", "u.last_name", "u.email", "u.created_at")
     .from(`${tables.admin_user} as u`)

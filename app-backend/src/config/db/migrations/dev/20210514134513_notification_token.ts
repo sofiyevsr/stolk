@@ -4,11 +4,11 @@ import { tables } from "../../../../utils/constants";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.notification_token, (t) => {
-    t.string("token").primary();
-    t.integer("user_id")
-      .notNullable()
+    t.string("token").notNullable();
+    t.integer("session_id")
+      .primary()
       .references("id")
-      .inTable(tables.base_user)
+      .inTable(tables.user_session)
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());

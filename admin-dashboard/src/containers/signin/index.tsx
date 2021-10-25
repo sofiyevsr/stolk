@@ -13,7 +13,7 @@ const AuthContainer: FC = () => {
     <StyledMedia>
       <StyledMediaBody>
         <StyledImage>
-          <img src={loginImage} width={400} alt="Login" />
+          <img src={loginImage} width={550} alt="Login" />
         </StyledImage>
       </StyledMediaBody>
       <StyledSignin>

@@ -1,5 +1,6 @@
 import { TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import NotificationApi from "../../utils/api/notification";
 import { Button, Card, CardBody } from "../../widgets";
 import { StyledHeader } from "../../widgets/ui/modal/style";
@@ -18,7 +19,13 @@ function SendNotificationForm() {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    await api.sendThroughNewsTopic(data).catch((e) => {});
+    try {
+      const { body } = await api.sendToEveryone(data);
+      toast.success(`Notifications sent,
+                    \nsuccess: ${body.success_count}
+                    \nfailure: ${body.failure_count}
+                    \ndeleted stale tokens: ${body.deleted_count}`);
+    } catch (error) {}
   };
   return (
     <Card>
@@ -35,13 +42,14 @@ function SendNotificationForm() {
                   value: true,
                 },
               }}
-              render={({ field }) => (
+              render={({ field: { ref, ...field } }) => (
                 <TextField
                   error={!!errors.title}
                   helperText={errors.title?.message}
                   style={{ minWidth: "30%" }}
                   variant="outlined"
                   aria-invalid={!!errors.title}
+                  innerRef={ref}
                   label="Title"
                   {...field}
                 />
@@ -58,7 +66,7 @@ function SendNotificationForm() {
                   value: true,
                 },
               }}
-              render={({ field }) => (
+              render={({ field: { ref, ...field } }) => (
                 <TextField
                   error={!!errors.body}
                   helperText={errors.body?.message}
@@ -67,6 +75,7 @@ function SendNotificationForm() {
                   label="Body"
                   multiline
                   rows={6}
+                  innerRef={ref}
                   {...field}
                 />
               )}

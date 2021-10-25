@@ -5,21 +5,10 @@ import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
-// r.post("/send", authenticateMiddleware, async (req, res, next) => {
-//   try {
-//     await notification.send.sendToEveryone(req.body);
-//     return responseSuccess(res, {});
-//   } catch (e) {
-//     return next(e);
-//   }
-// });
-
-// Send through news topic
-// intended for general news, campaigns and etc...
-r.post("/send/news", authenticateMiddleware, async (req, res, next) => {
+r.post("/send", authenticateMiddleware, async (req, res, next) => {
   try {
-    await notification.send.sendNews(req.body);
-    return responseSuccess(res);
+    const data = await notification.send.sendToEveryone(req.body);
+    return responseSuccess(res, data);
   } catch (e) {
     return next(e);
   }
@@ -28,8 +17,8 @@ r.post("/send/news", authenticateMiddleware, async (req, res, next) => {
 // Send to specific user
 r.post("/send/:id", authenticateMiddleware, async (req, res, next) => {
   try {
-    await notification.send.sendToUser(req.params.id, req.body);
-    return responseSuccess(res, {});
+    const data = await notification.send.sendToUser(req.params.id, req.body);
+    return responseSuccess(res, data);
   } catch (e) {
     return next(e);
   }

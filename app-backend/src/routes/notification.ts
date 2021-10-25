@@ -19,8 +19,8 @@ r.get("/my-preferences", authenticateMiddleware(), async (req, res, next) => {
 
 r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
   try {
-    const user_id = req.session?.user_id!;
-    await notification.create(req.body.token, user_id);
+    const session_id = req.session?.id!;
+    await notification.create(req.body.token, session_id);
     return responseContentCreated(res, {});
   } catch (e) {
     return next(e);

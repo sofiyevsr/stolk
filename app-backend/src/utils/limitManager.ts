@@ -6,7 +6,6 @@ import {
   newCommentsBackoffMinutes,
   newRegistrationBackoffCounts,
   newRegistrationBackoffMinutes,
-  newFCMTokenBackoffCounts,
   tables,
 } from "./constants";
 import SoftError from "./softError";
@@ -53,24 +52,7 @@ async function limitComment(ip: string) {
   throw new SoftError(i18next.t("errors.backoff_comment"));
 }
 
-async function limitFCMTokenSave(user_id: number) {
-  const userTokensCount = await db(tables.notification_token)
-    .select(db.raw("count(token) as token_count"))
-    .where({
-      user_id,
-    })
-    .first();
-  // Avoid users overusing route
-  if (
-    userTokensCount &&
-    userTokensCount.token_count >= newFCMTokenBackoffCounts
-  ) {
-    throw new SoftError(i18next.t("errors.invalid_token"));
-  }
-}
-
 export default {
   limitComment,
   limitRegister,
-  limitFCMTokenSave,
 };
