@@ -89,4 +89,8 @@ final lightTheme = ThemeData(
     ),
     centerTitle: true,
   ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    type: BottomNavigationBarType.shifting,
+    backgroundColor: CustomColorScheme.main,
+  ),
 );

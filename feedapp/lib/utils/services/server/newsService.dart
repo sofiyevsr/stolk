@@ -1,6 +1,5 @@
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/@types/response/comments.dart';
-import 'package:stolk/utils/@types/response/newsHistory.dart';
 import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/services/server/apiService.dart';
 
@@ -24,15 +23,13 @@ class NewsService extends ApiService {
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
-  Future<NewsHistoryResponse> getAllHistoryNews({
-    required String filterBy,
-    int? id,
+  Future<AllNewsResponse> getBookmarks({
+    int? lastID,
   }) async {
-    final response = await this.request.get("/news/my-history", {
-      if (id != null) 'id': id,
-      'filter_by': filterBy,
+    final response = await this.request.get("/news/bookmarks", {
+      if (lastID != null) 'last_id': lastID,
     }, {});
-    return NewsHistoryResponse.fromJSON(response.data['body']);
+    return AllNewsResponse.fromJSON(response.data['body']);
   }
 
   Future<AllCategoriesResponse> getAllCategories() async {

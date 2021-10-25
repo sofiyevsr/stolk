@@ -30,18 +30,17 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
   }
 });
 
-r.get("/my-history", authenticateMiddleware(), async (req, res, next) => {
-  const { limit, id, filter_by } = req.query as {
+r.get("/bookmarks", authenticateMiddleware(), async (req, res, next) => {
+  const { limit, last_id } = req.query as {
     [key: string]: string | undefined;
   };
   try {
     const userID = req.session?.user_id;
-    const allNews = await news.retrieve.usersNewsHistory(
-      limit,
-      id,
-      userID,
-      filter_by
-    );
+    const allNews = await news.retrieve.bookmarks({
+      userID: userID as number,
+      perPage: limit,
+      lastID: last_id,
+    });
     return responseSuccess(res, allNews);
   } catch (error) {
     return next(error);

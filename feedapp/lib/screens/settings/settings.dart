@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/logic/blocs/authBloc/auth.dart';
-import 'package:stolk/screens/auth/auth.dart';
+import 'package:stolk/screens/settings/widgets/GeneralSection.dart';
+import 'package:stolk/screens/settings/widgets/HeaderSection.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/tilesHeader.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
@@ -11,11 +10,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'notification/NotificationPreferences.dart';
 import 'widgets/AboutDialog.dart';
 import 'widgets/LanguageSelector.dart';
 import 'widgets/SettingsTile.dart';
-import 'widgets/SingleSetting.dart';
+import 'widgets/SingleSettings.dart';
 import 'widgets/ThemeSelector.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -44,111 +42,6 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  Widget buildHeaderSection() {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (ctx, state) {
-        if (state is AuthorizedState) {
-          final user = state.user;
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Theme.of(context).primaryColor, width: 3),
-                    borderRadius: BorderRadius.circular(60.0),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.transparent, width: 3),
-                      borderRadius: BorderRadius.circular(55.0),
-                    ),
-                    child: CircleAvatar(
-                      child: Text(
-                        user.firstName[0],
-                        style: TextStyle(fontSize: 50),
-                      ),
-                      radius: 50.0,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${user.firstName} ${user.lastName}',
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    if (user.confirmedAt != null)
-                      Tooltip(
-                        message: tr("tooltips.account_verified"),
-                        child: Icon(Icons.verified, color: Colors.blue),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }
-        return Container();
-      },
-    );
-  }
-
-  Widget buildGeneralSection() {
-    final state = context.watch<AuthBloc>().state;
-    if (state is AuthorizedState) {
-      final isLoading = state.isLoggingOut;
-      return Column(
-        children: [
-          SettingsTile(
-            onTap: () {
-              NavigationService.push(
-                SingleSetting(
-                  title: ("settings.notification_preferences"),
-                  child: NotificationPreferences(),
-                ),
-                RouteNames.SINGLE_SETTING,
-              );
-            },
-            title: tr("settings.notification_preferences"),
-            icon: Icons.circle_notifications_sharp,
-            trailing: Icon(
-              Icons.arrow_right_outlined,
-            ),
-          ),
-          SettingsTile(
-            onTap: isLoading == true
-                ? null
-                : () {
-                    AuthBloc.instance.add(
-                      AppLogout(),
-                    );
-                  },
-            title: tr("settings.logout"),
-            isLoading: isLoading,
-            icon: Icons.logout_outlined,
-          ),
-        ],
-      );
-    }
-    return Column(
-      children: [
-        SettingsTile(
-          onTap: () {
-            NavigationService.push(AuthPage(), RouteNames.AUTH);
-          },
-          title: tr("settings.login"),
-          icon: Icons.account_circle_outlined,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(ctx) {
     final theme = Theme.of(ctx);
@@ -160,14 +53,14 @@ class _SettingsPageState extends State<SettingsPage> {
         minLeadingWidth: 0,
         child: Column(
           children: [
-            buildHeaderSection(),
+            SettingsHeaderSection(),
             TilesHeader(
               title: tr("settings.general"),
             ),
             SettingsTile(
               onTap: () {
                 NavigationService.push(
-                  SingleSetting(
+                  SingleSettings(
                     title: ("settings.language"),
                     child: LanguagePanel(),
                   ),
@@ -181,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ThemeSelector(),
-            buildGeneralSection(),
+            SettingsGeneralSection(),
             TilesHeader(
               title: tr("settings.about"),
             ),

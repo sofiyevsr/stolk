@@ -1,20 +1,20 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/components/common/noConnection.dart';
-import 'package:stolk/logic/blocs/newsHistoryBloc/newsHistory.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stolk/screens/history/widgets/singleActivity.dart';
-import 'package:timeline_tile/timeline_tile.dart';
+import 'package:stolk/screens/feed/widgets/singleNews.dart';
 
 const SINGLE_NEWS_HEIGHT = 300.0;
 
 class SingleNewsHistoryUnit extends StatefulWidget {
-  final String filterBy;
-  const SingleNewsHistoryUnit({Key? key, required this.filterBy})
-      : super(key: key);
+  const SingleNewsHistoryUnit({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SingleNewsHistoryUnitState createState() => _SingleNewsHistoryUnitState();
@@ -40,10 +40,8 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
               final maxScroll = _scrollController.position.maxScrollExtent;
               final currentScroll = _scrollController.position.pixels;
               if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
-                context.read<NewsHistoryBloc>().add(
-                      FetchNextHistoryNewsEvent(
-                        filterBy: widget.filterBy,
-                      ),
+                context.read<NewsBloc>().add(
+                      FetchNextBookmarks(),
                     );
               }
             }
@@ -54,9 +52,15 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
   }
 
   void initalFetch() {
-    context.read<NewsHistoryBloc>().add(
-          FetchHistoryNewsEvent(
-            filterBy: widget.filterBy,
+    context.read<NewsBloc>().add(
+          FetchBookmarks(),
+        );
+  }
+
+  void forceFetchNext() {
+    context.read<NewsBloc>().add(
+          FetchNextBookmarks(
+            force: true,
           ),
         );
   }
@@ -71,11 +75,11 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: BlocBuilder<NewsHistoryBloc, NewsHistoryState>(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      child: BlocBuilder<NewsBloc, NewsState>(
         builder: (ctx, state) {
-          if (state is NewsHistoryStateLoading) return CenterLoadingWidget();
-          if (state is NewsHistoryStateWithData) {
+          if (state is NewsStateLoading) return CenterLoadingWidget();
+          if (state is NewsStateWithData) {
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               controller: _scrollController,
@@ -83,34 +87,51 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
                   ? state.data.news.length
                   : state.data.news.length + 1,
               itemBuilder: (ctx, index) => index >= state.data.news.length
-                  ? Container(
-                      height: 70,
-                      child: Center(
-                        child: CircularProgressIndicator.adaptive(
-                          strokeWidth: 8,
-                        ),
+                  ? state is NewsNextFetchError
+                      ? Center(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 10,
+                            ),
+                            height: 50,
+                            child: ElevatedButton.icon(
+                              onPressed: forceFetchNext,
+                              icon: Icon(Icons.refresh),
+                              label: Text(
+                                tr("buttons.retry_request"),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 50,
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
+                          child: Center(
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 8,
+                            ),
+                          ),
+                        )
+                  : SingleNewsView(
+                      key: Key(
+                        state.data.news[index].id.toString(),
                       ),
-                    )
-                  : TimelineTile(
-                      isFirst: index == 0,
-                      isLast: index == state.data.news.length - 1,
-                      endChild: SingleHistoryActivity(
-                        news: state.data.news[index],
-                      ),
+                      feed: state.data.news[index],
+                      index: index,
                     ),
             );
           }
-          if (state is NewsHistoryStateNoData) {
+          if (state is NewsStateNoData) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.assessment,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 100,
+                Lottie.asset(
+                  "assets/lottie/bookmark.json",
                 ),
                 Text(
-                  tr("news.no_news"),
+                  tr("news.no_bookmarks"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -120,7 +141,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
               ],
             );
           }
-          if (state is NewsHistoryStateError) {
+          if (state is NewsStateError) {
             return NoConnectionWidget();
           }
           return Container();
