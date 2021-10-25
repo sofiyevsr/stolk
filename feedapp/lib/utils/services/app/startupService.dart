@@ -47,14 +47,8 @@ class StartupService {
     await storeDeviceToken(token);
   }
 
-  Future<void> deleteToken() async {
-    // Delete token after state is yielded to avoid onTokenRefresh function to resave token
-    await FirebaseMessaging.instance.deleteToken();
-    await this.deleteTokenLocally();
-  }
-
   Future<void> deleteTokenLocally() async {
-    await _settingsBox.put("notificationToken", null);
+    await _settingsBox.delete("notificationToken");
   }
 
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {

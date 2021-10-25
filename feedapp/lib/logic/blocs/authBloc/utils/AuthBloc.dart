@@ -120,8 +120,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final storage = SecureStorage();
         await storage.removeToken();
-        // Delete notification token from firebase to avoid receiving notifications
-        await StartupService.instance.deleteToken();
+        // Delete notification token locally to be able to save token on later login
+        await StartupService.instance.deleteTokenLocally();
         emit(UnathorizedState());
       } catch (e) {}
     });

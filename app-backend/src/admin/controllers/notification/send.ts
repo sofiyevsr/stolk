@@ -57,9 +57,11 @@ export const sendToEveryone = async (body: any, tag?: string) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
-  const tokens = await db(`${tables.notification_token} as t`)
+  const tokens = await db
     .select("t.token")
-    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
+    .from(`${tables.notification_token} as t`)
+    .leftJoin(`${tables.user_session} as us`, "us.id", "t.session_id")
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "us.user_id")
     .where({ "no.id": null });
 
   if (tokens.length === 0) {
@@ -104,8 +106,9 @@ export const sendToUser = async (id: string, body: any, tag?: string) => {
   const tokens = await db
     .select("t.token")
     .from(`${tables.notification_token} as t`)
-    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "t.user_id")
-    .where({ "t.user_id": id, "no.id": null });
+    .leftJoin(`${tables.user_session} as us`, "us.id", "t.session_id")
+    .leftJoin(`${tables.notification_optout} as no`, "no.user_id", "us.user_id")
+    .where({ "us.user_id": id, "no.id": null });
 
   if (tokens.length === 0) {
     throw new SoftError("errors.empty_tokens");
