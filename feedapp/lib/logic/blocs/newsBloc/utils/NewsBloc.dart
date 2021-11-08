@@ -22,6 +22,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           category: event.category,
           sourceID: event.sourceID,
           sortBy: event.sortBy,
+          period: event.period,
         );
         if (data.news.length != 0)
           emit(NewsStateSuccess(
@@ -30,6 +31,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               hasReachedEnd: data.hasReachedEnd,
               sortBy: event.sortBy,
               category: event.category,
+              period: event.period,
             ),
           ));
         else
@@ -50,6 +52,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               hasReachedEnd: event.data.hasReachedEnd,
               sortBy: event.sortBy,
               category: event.category,
+              period: event.period,
             ),
           ));
         else
@@ -92,6 +95,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           sourceID: event.sourceID,
           category: existing.data.category,
           sortBy: existing.data.sortBy,
+          period: existing.data.period,
           cursor: cursor,
         );
         emit(NewsStateSuccess(
@@ -116,6 +120,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               hasReachedEnd: data.hasReachedEnd,
               category: null,
               sortBy: null,
+              period: null,
             ),
           ));
         else

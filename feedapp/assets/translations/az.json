@@ -229,6 +229,12 @@
     "me": "Mən"
   },
   "sort_by": {
+    "period": {
+      "title": "Müddət",
+      "daily": "Son gün",
+      "weekly": "Son həftə",
+      "monthly": "Son ay"
+    },
     "latest": "Ən son",
     "most_read": "Ən çox oxunanlar",
     "most_liked": "Ən çox bəyənilənlər",

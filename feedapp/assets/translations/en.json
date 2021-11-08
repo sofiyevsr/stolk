@@ -235,6 +235,12 @@
     "submit": "Confirm"
   },
   "sort_by": {
+    "period": {
+      "title": "From",
+      "daily": "Last day",
+      "weekly": "Last week",
+      "monthly": "Last month"
+    },
     "title": "Sort by",
     "latest": "Latest",
     "most_read": "Most read",

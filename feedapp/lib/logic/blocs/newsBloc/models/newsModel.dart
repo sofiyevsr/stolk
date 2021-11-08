@@ -5,11 +5,13 @@ class NewsModel {
   final bool hasReachedEnd;
   final int? category;
   final int? sortBy;
+  final int? period;
   const NewsModel({
     required this.news,
     required this.hasReachedEnd,
     required this.category,
     required this.sortBy,
+    required this.period,
   });
   NewsModel addNewNews({
     required bool hasReachedEnd,
@@ -20,6 +22,7 @@ class NewsModel {
         hasReachedEnd: hasReachedEnd,
         sortBy: this.sortBy,
         category: this.category,
+        period: this.period,
       );
   NewsModel modifySingle({
     required SingleNews item,
@@ -32,6 +35,7 @@ class NewsModel {
       hasReachedEnd: hasReachedEnd,
       sortBy: this.sortBy,
       category: this.category,
+      period: this.period,
     );
   }
 }

@@ -23,7 +23,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
   void initState() {
     super.initState();
     StartupService.instance.checkTokenAndSaveDeviceToken().catchError((error) {
-      print("error $error");
       // Start token refresh after
     }).whenComplete(() => StartupService.instance.startNotificationStream());
   }
