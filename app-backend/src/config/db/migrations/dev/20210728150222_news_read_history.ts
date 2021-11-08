@@ -15,7 +15,8 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.news_feed)
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    t.string("ip_address").index();
+    t.string("ip_address");
+    // .index();
     t.unique(["user_id", "news_id"]);
     t.unique(["ip_address", "news_id"]);
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());

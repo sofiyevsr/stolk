@@ -92,3 +92,7 @@ class RouteNames {
 
 final passwordRegex =
     RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$");
+
+class HiveDefaultValues {
+  static const PERIOD = 1;
+}

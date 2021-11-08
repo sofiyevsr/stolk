@@ -10,22 +10,31 @@ class FetchNewsEvent extends NewsEvent {
   final int? category;
   final int? sourceID;
   final int? sortBy;
+  final int? period;
   FetchNewsEvent({
     required this.category,
     required this.sourceID,
     required this.sortBy,
+    required this.period,
   });
 
-  List<Object?> get props => [sourceID, category, sortBy];
+  List<Object?> get props => [
+        sourceID,
+        category,
+        sortBy,
+        period,
+      ];
 }
 
 class RefreshNewsEvent extends NewsEvent {
   final AllNewsResponse data;
   final int? sortBy;
+  final int? period;
   final int? category;
   RefreshNewsEvent({
     required this.data,
     required this.sortBy,
+    required this.period,
     required this.category,
   });
 
@@ -33,6 +42,7 @@ class RefreshNewsEvent extends NewsEvent {
         data,
         sortBy,
         category,
+        period,
       ];
 }
 

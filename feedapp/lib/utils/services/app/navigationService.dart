@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 
 import "dart:io" show Platform;
 
+import '../../constants.dart';
+
 class NavigationService {
   static final _key = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> get key => _key;
@@ -34,6 +36,11 @@ class NavigationService {
 
   static void pop() {
     NavigationService.key.currentState!.pop();
+  }
+
+  static void popUntil(String name) {
+    NavigationService.key.currentState!
+        .popUntil((route) => route.settings.name != name);
   }
 
   static void push(

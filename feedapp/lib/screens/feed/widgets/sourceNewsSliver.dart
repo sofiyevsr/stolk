@@ -57,6 +57,7 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
             category: null,
             sourceID: widget.sourceID,
             sortBy: null,
+            period: null,
           ),
         );
   }

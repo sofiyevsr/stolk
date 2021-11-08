@@ -10,6 +10,7 @@ import 'package:stolk/screens/feed/widgets/categoryList.dart';
 import 'package:stolk/screens/feed/widgets/singleNews.dart';
 import 'package:stolk/screens/feed/widgets/allNewsShimmer.dart';
 import 'package:stolk/screens/feed/widgets/sortingButton.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/debounce.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ class AllNewsScreen extends StatefulWidget {
 }
 
 class _AllNewsScreenState extends State<AllNewsScreen> {
-  late int _currentSortBy;
+  int? _currentSortBy;
+  int? _currentPeriod;
   ScrollController _scrollController = ScrollController();
   int _currentCategory = 0;
   bool showFab = false;
@@ -84,11 +86,13 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   void initialFetch() {
     final box = Hive.box("settings");
     _currentSortBy = box.get("sortBy", defaultValue: 0);
+    _currentPeriod = box.get("period", defaultValue: HiveDefaultValues.PERIOD);
     context.read<NewsBloc>().add(
           FetchNewsEvent(
             category: null,
             sourceID: null,
             sortBy: _currentSortBy,
+            period: _currentPeriod,
           ),
         );
   }
@@ -114,6 +118,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           data: data,
           sortBy: _currentSortBy,
           category: _currentCategory,
+          period: _currentPeriod,
         ),
       );
     } catch (e) {}
@@ -134,6 +139,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         category: id,
         sourceID: null,
         sortBy: _currentSortBy,
+        period: _currentPeriod,
       ),
     );
     if (mounted)
@@ -160,13 +166,15 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: FeedSortingButton(
-                callback: (s) {
-                  this._currentSortBy = s;
+                callback: (sortBy, period) {
+                  this._currentSortBy = sortBy;
+                  this._currentPeriod = period;
                   context.read<NewsBloc>().add(
                         FetchNewsEvent(
                           category: _currentCategory,
                           sourceID: null,
                           sortBy: _currentSortBy,
+                          period: _currentPeriod,
                         ),
                       );
                 },

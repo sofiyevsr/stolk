@@ -20,6 +20,7 @@ interface NewsRequest {
   sourceID?: string;
   sortBy?: string;
   cursor?: string;
+  period?: string;
 }
 
 interface BookmarksRequest {
@@ -39,6 +40,7 @@ function validateAllNewsRequest() {
       NewsSortBy.MOST_LIKED
     ),
     sourceID: Joi.number().min(0),
+    period: Joi.number().min(0).max(60),
   }).options({ stripUnknown: true });
 }
 
@@ -50,17 +52,20 @@ async function all({
   lastCreatedAt,
   sortBy,
   cursor,
+  period,
 }: NewsRequest) {
   const values: {
     sourceID: number;
     userID: number;
     sortBy: number;
     cursor: number;
+    period: number;
   } = await validateAllNewsRequest().validateAsync({
     userID,
     sourceID,
     sortBy,
     cursor,
+    period,
   });
   let result: NewsResult;
   let query = db
@@ -121,6 +126,13 @@ async function all({
     query = query.where({ "s.id": values.sourceID });
   }
 
+  // Sorting period
+  if (values.period != null) {
+    query = query.andWhereRaw("n.pub_date > now() - interval '??' day", [
+      values.period,
+    ]);
+  } else if (values.sourceID == null)
+    query = query.andWhereRaw("n.pub_date > now() - interval '??' day", [1]);
   // Sorting
   const weightQuery =
     "(log(n.like_count + 1) * 20000 + log(n.read_count + 1) * 40000 + extract(epoch from n.pub_date))::varchar(255)";
@@ -138,9 +150,7 @@ async function all({
         lastCreatedAt!,
       ]);
     }
-    query = query
-      .orderBy("n.like_count", "desc")
-      .andWhereRaw("n.pub_date > now() - interval '1' day");
+    query = query.orderBy("n.like_count", "desc");
   } else if (values.sortBy === NewsSortBy.MOST_READ) {
     if (values.cursor != null) {
       await Joi.date().required().validateAsync(lastCreatedAt);
@@ -149,9 +159,7 @@ async function all({
         lastCreatedAt!,
       ]);
     }
-    query = query
-      .orderBy("n.read_count", "desc")
-      .andWhereRaw("n.pub_date > now() - interval '1' day");
+    query = query.orderBy("n.read_count", "desc");
   } else if (values.sortBy === NewsSortBy.POPULAR) {
     if (values.cursor != null) {
       await Joi.date().required().validateAsync(lastCreatedAt);
@@ -162,7 +170,6 @@ async function all({
     }
     query = query
       .select(db.raw(`${weightQuery} as weight`))
-      .andWhereRaw("n.pub_date > now() - interval '1' day")
       .orderBy("weight", "desc");
   }
   // End of sorting

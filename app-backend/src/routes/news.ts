@@ -9,7 +9,7 @@ import ipExtractor from "src/middlewares/ipExtractor";
 const r = Router();
 
 r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
-  const { limit, pub_date, source_id, category, sort_by, cursor } =
+  const { limit, period, pub_date, source_id, category, sort_by, cursor } =
     req.query as {
       [key: string]: string | undefined;
     };
@@ -23,6 +23,7 @@ r.get("/all", authenticateMiddleware(true), async (req, res, next) => {
       sourceID: source_id,
       cursor,
       sortBy: sort_by,
+      period,
     });
     return responseSuccess(res, allNews);
   } catch (error) {

@@ -11,12 +11,14 @@ class NewsService extends ApiService {
     int? category,
     int? sourceID,
     int? sortBy,
+    int? period,
     dynamic cursor,
   }) async {
     final response = await this.request.get("/news/all", {
       if (pubDate != null) 'pub_date': pubDate,
       if (sourceID != null) 'source_id': sourceID,
       if (sortBy != null) 'sort_by': sortBy,
+      if (period != null) 'period': period,
       if (cursor != null) 'cursor': cursor,
       if (category != null && category != 0) 'category': category,
     }, {});
