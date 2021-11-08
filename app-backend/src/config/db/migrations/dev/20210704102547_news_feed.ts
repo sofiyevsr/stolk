@@ -22,9 +22,8 @@ export async function up(knex: Knex): Promise<void> {
       .inTable(tables.news_category_alias)
       .onUpdate("CASCADE");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
-    t.timestamp("pub_date", { useTz: true }).notNullable();
+    t.timestamp("pub_date", { useTz: true }).notNullable().index();
     t.timestamp("hidden_at", { useTz: true });
-    t.index("pub_date");
   });
   return knex.schema.raw(`ALTER TABLE
     ${tables.news_feed}

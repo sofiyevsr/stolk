@@ -6,7 +6,8 @@ export async function up(knex: Knex): Promise<void> {
     t.increments("id");
     t.string("first_name").notNullable();
     t.string("last_name").notNullable();
-    t.string("ip_address").notNullable().index();
+    t.string("ip_address").notNullable();
+    // .index();
     t.timestamp("banned_at", { useTz: true });
     t.timestamp("confirmed_at", { useTz: true });
     t.timestamp("completed_at", { useTz: true });
