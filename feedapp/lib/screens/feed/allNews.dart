@@ -112,6 +112,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         pubDate: null,
         category: _currentCategory,
         sortBy: _currentSortBy,
+        period: _currentPeriod,
       );
       BlocProvider.of<NewsBloc>(context).add(
         RefreshNewsEvent(

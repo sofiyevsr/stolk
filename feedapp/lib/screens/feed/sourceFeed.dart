@@ -56,7 +56,7 @@ class _SourceFeedState extends State<SourceFeed> {
                 ),
                 background: ColorFiltered(
                   colorFilter: ColorFilter.mode(
-                    Colors.black26,
+                    Colors.black.withOpacity(0.25),
                     BlendMode.darken,
                   ),
                   child: SourceLogo(
