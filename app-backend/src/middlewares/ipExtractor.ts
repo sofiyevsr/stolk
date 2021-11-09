@@ -3,7 +3,7 @@ import SoftError from "@utils/softError";
 import { NextFunction, Request, Response } from "express";
 
 function ipExtractor(req: Request, _: Response, next: NextFunction) {
-  const realIP = req.headers["CF-Connecting-IP"];
+  const realIP = req.headers["cf-connecting-ip"];
   if (realIP == null)
     return next(new SoftError(i18next.t("errors.ip_unknown")));
   req.realIP = realIP as string;

@@ -17,7 +17,7 @@ app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
   app.use((req, res, next) => {
-    req.headers["CF-Connecting-IP"] = "0.0.0.1";
+    req.headers["cf-connecting-ip"] = "0.0.0.1";
     next();
   });
 }

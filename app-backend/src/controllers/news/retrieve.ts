@@ -118,22 +118,31 @@ async function all({
       .leftJoin(`${tables.news_read_history} as h`, function () {
         this.on("h.news_id", "n.id");
         this.andOnVal("h.user_id", "=", values.userID);
-      })
-      .whereNotNull("f.id");
+      });
   }
 
+  // Source filter, not null sourceID should always be excluded
   if (values.sourceID != null) {
     query = query.where({ "s.id": values.sourceID });
-  }
+  } else if (values.userID != null) query = query.whereNotNull("f.id");
 
-  // Sorting period
+  // Sorting period, not null sourceID should always be excluded
   if (values.period != null) {
     query = query.andWhereRaw("n.pub_date > now() - interval '??' day", [
       values.period,
     ]);
   } else if (values.sourceID == null)
     query = query.andWhereRaw("n.pub_date > now() - interval '??' day", [1]);
+
+  //
+  //
+  //
+  //
   // Sorting
+  //
+  //
+  //
+  //
   const weightQuery =
     "(log(n.like_count + 1) * 20000 + log(n.read_count + 1) * 40000 + extract(epoch from n.pub_date))::varchar(255)";
   if (values.sortBy == null || values.sortBy === NewsSortBy.LATEST) {
