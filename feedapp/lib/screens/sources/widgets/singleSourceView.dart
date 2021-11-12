@@ -48,15 +48,9 @@ class SingleSourceView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        child: SourceLogo(
-                          logoSuffix: item.logoSuffix,
-                          isCircle: true,
-                        ),
-                      ),
+                    child: SourceLogo(
+                      logoSuffix: item.logoSuffix,
+                      isCircle: true,
                     ),
                   ),
                 ],

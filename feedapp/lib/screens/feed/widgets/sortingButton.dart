@@ -45,6 +45,7 @@ class FeedSortingButton extends StatelessWidget {
     BuildContext context, {
     required int currentPeriod,
     required int selectedSortBy,
+    required bool hasSortByChanged,
   }) {
     showModalBottomSheet(
       context: context,
@@ -67,7 +68,12 @@ class FeedSortingButton extends StatelessWidget {
                   tr("sort_by.period.${e["text"]}"),
                 ),
                 leading: e["icon"] as Icon,
-                selected: e["value"] == currentPeriod,
+                selected:
+                    hasSortByChanged == true && e["value"] == currentPeriod,
+                trailing:
+                    hasSortByChanged == true && e["value"] == currentPeriod
+                        ? Icon(Icons.done)
+                        : null,
                 onTap: () async {
                   final gBox = Hive.box("settings");
                   gBox.putAll({
@@ -77,7 +83,6 @@ class FeedSortingButton extends StatelessWidget {
                   NavigationService.pop();
                   callback(selectedSortBy, e["value"] as int);
                 },
-                trailing: e["value"] == currentPeriod ? Icon(Icons.done) : null,
               ),
             ),
           ],
@@ -130,6 +135,7 @@ class FeedSortingButton extends StatelessWidget {
                                 context,
                                 currentPeriod: period,
                                 selectedSortBy: e["value"] as int,
+                                hasSortByChanged: e["value"] as int == sortBy,
                               );
                             },
                             trailing:

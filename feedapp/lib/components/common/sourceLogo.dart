@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/utils/constants.dart';
 
@@ -17,10 +18,12 @@ class SourceLogo extends StatelessWidget {
     if (isCircle == true)
       return Container(
         margin: const EdgeInsets.all(8),
-        child: ClipOval(
-          child: CustomCachedImage(
-            url: sourceLogosPrefix + logoSuffix,
-            fit: BoxFit.cover,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+              sourceLogosPrefix + logoSuffix,
+            ),
           ),
         ),
       );
