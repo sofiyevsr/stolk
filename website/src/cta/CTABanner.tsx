@@ -1,6 +1,5 @@
 import Image from "next/image";
 import playStore from "../../public/assets/images/play-store.png";
-import appStore from "../../public/assets/images/app-store.png";
 
 type ICTABannerProps = {
   title: string;
