@@ -1,7 +1,33 @@
 {
+  "general": {
+    "success": "Operation completed",
+    "error": "Error occured",
+    "submit": "Confirm"
+  },
+  "footer": { "have_question": "Have a question?" },
+  "errors": {
+    "password_match": "Passwords don't match",
+    "password_pattern": "Password should contain at least 7 characters, one lowercase, one uppercase letter and one number",
+    "password_required": "Enter password",
+    "repassword_required": "Enter password again",
+    "repassword_pattern": "Password should contain at least 7 characters, one lowercase, one uppercase letter and one number"
+  },
+  "fields": {
+    "password": "Password",
+    "password_placeholder": "Enter password",
+    "repassword": "Repeat password",
+    "repassword_placeholder": "Enter password again"
+  },
   "reset-password": {
+    "title": "Change password",
     "seo": {
-      "title": "Reset password - Stolk",
+      "title": "Change password - Stolk",
+      "description": "Thousands of news from most popular news sources together"
+    }
+  },
+  "email-confirmation": {
+    "seo": {
+      "title": "Confirm email - Stolk",
       "description": "Thousands of news from most popular news sources together"
     }
   },

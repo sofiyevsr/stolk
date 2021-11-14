@@ -1,1 +1,73 @@
-{}
+{
+  "general": {
+    "success": "Операция завершена",
+    "error": "Произошла ошибка",
+    "submit": "Подтвердить"
+  },
+  "footer": { "have_question": "Есть вопросы?" },
+  "errors": {
+    "password_match": "Пароли не совпадают",
+    "password_pattern": "Пароль должен содержать не менее 7 символов, одну строчную, одну прописную букву и одну цифру",
+    "password_required": "Введите пароль",
+    "repassword_required": "Введите пароль еще раз",
+    "repassword_pattern": "Пароль должен содержать не менее 7 символов, одну строчную, одну прописную букву и одну цифру"
+  },
+  "fields": {
+    "password": "Пароль",
+    "password_placeholder": "Введите пароль",
+    "repassword": "Повторить пароль",
+    "repassword_placeholder": "Введите пароль еще раз"
+  },
+  "reset-password": {
+    "title": "Сменить пароль",
+    "seo": {
+      "title": "Сменить пароль - Stolk",
+      "description": "Тысячи новостей вместе"
+    }
+  },
+  "email-confirmation": {
+    "seo": {
+      "title": "Подтвердите адрес электронной почты - Stolk",
+      "description": "Тысячи новостей вместе"
+    }
+  },
+  "terms-of-use": {
+    "seo": {
+      "title": "Условия использования - Stolk",
+      "description": "Тысячи новостей вместе"
+    }
+  },
+  "privacy-policy": {
+    "seo": {
+      "title": "Политика конфиденциальности - Stolk",
+      "description": "Тысячи новостей вместе"
+    }
+  },
+  "home": {
+    "seo": {
+      "title": "Главная страница - Stolk",
+      "description": "Тысячи новостей вместе"
+    },
+    "screenshots": "Скриншоты",
+    "countdowns": {
+      "news": "Количество новостей за день",
+      "sources": "Количество источников"
+    },
+    "cta-title": "Сотни новостей каждый день",
+    "cta-subtitle": "Вместе",
+    "cta-description": "Читайте только то, что выберете",
+    "cta-button": "Скачать",
+    "use_now": "Начать сейчас",
+    "use_now_free": "",
+    "features": {
+      "title": "Особенности",
+      "description": "Получите доступ к неограниченным возможностям",
+      "top_publishers": "Лучшие издатели",
+      "top_publishers_description": "Лучшие издатели из Азербайджана, Турции, России и др.",
+      "save_time": "Экономьте время",
+      "save_time_description": "Подпишитесь только на свои любимые веб-сайты, чтобы избежать перегрузки новостями",
+      "frequently_updated": "Часто обновляется",
+      "frequently_updated_description": "Читайте новости, обновляемые каждые пару минут"
+    }
+  }
+}

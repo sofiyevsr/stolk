@@ -3,8 +3,8 @@ import { ReactNode } from "react";
 import { FooterIconList } from "./FooterIconList";
 
 type ICenteredFooterProps = {
-  logo: ReactNode;
-  iconList: ReactNode;
+  logo?: ReactNode;
+  iconList?: ReactNode;
   children: ReactNode;
 };
 
@@ -13,14 +13,16 @@ const CenteredFooter = (props: ICenteredFooterProps) => (
     {props.logo}
 
     <nav>
-      <ul className="navbar mt-5 flex flex-row justify-center font-medium text-xl text-gray-800">
+      <ul className="flex flex-row justify-center mt-5 text-xl font-medium text-gray-800 navbar">
         {props.children}
       </ul>
     </nav>
 
-    <div className="mt-8 flex justify-center">
-      <FooterIconList>{props.iconList}</FooterIconList>
-    </div>
+    {props.iconList != null && (
+      <div className="flex justify-center mt-8">
+        <FooterIconList>{props.iconList}</FooterIconList>
+      </div>
+    )}
     <style jsx>
       {`
         .navbar :global(li) {

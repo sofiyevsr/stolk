@@ -15,10 +15,14 @@ const CTABanner = (props: ICTABannerProps) => (
     </div>
 
     <div className="flex flex-col justify-center mt-3 whitespace-no-wrap sm:mt-0 sm:ml-2">
-      <a target="_blank" href="https://apple.com">
-        <Image alt="app-store" src={appStore} />
-      </a>
-      <a target="_blank" href="https://google.com">
+      {/* TODO Enable after app store */}
+      {/* <a target="_blank" href="https://apple.com"> */}
+      {/*   <Image alt="app-store" src={appStore} /> */}
+      {/* </a> */}
+      <a
+        target="_blank"
+        href="https://play.google.com/store/apps/details?id=app.stolk.android"
+      >
         <Image alt="play-store" src={playStore} />
       </a>
     </div>

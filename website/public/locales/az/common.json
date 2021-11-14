@@ -4,6 +4,7 @@
     "error": "Xəta baş verdi",
     "submit": "Təsdiqlə"
   },
+  "footer": { "have_question": "Sualınız var?" },
   "errors": {
     "password_match": "Şifrələr eyni deyil",
     "password_pattern": "Şifrə ən az 7 simvol, bir kiçik, bir böyük hərf və bir rəqəmdən ibarət olmalıdır",
