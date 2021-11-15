@@ -254,6 +254,7 @@
     "about": "About app",
     "privacy": "Privacy policy",
     "terms": "Terms of use",
+    "contact": "Contact us",
     "language_select": "Choose language",
     "title": "Settings",
     "login": "Login",
@@ -267,8 +268,7 @@
     },
     "about_fields": {
       "name": "Name",
-      "version": "Version",
-      "contact": "Contact"
+      "version": "Version"
     }
   },
   "validations": {

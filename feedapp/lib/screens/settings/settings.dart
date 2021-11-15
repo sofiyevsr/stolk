@@ -93,6 +93,12 @@ class _SettingsPageState extends State<SettingsPage> {
               title: tr("settings.terms"),
               icon: Icons.description_outlined,
             ),
+            SettingsTile(
+              onTap: () => launchURL("mailto:support@stolk.app"),
+              title: tr("settings.contact"),
+              icon: Icons.mail_outlined,
+              trailing: Text("support@stolk.app"),
+            ),
           ],
         ),
       ),

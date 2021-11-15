@@ -254,6 +254,7 @@
     "about": "Proqram haqqında",
     "privacy": "Gizlilik",
     "terms": "Şərtlər və qaydalar",
+    "contact": "Əlaqə",
     "language_select": "Dil seç",
     "title": "Tənzimləmələr",
     "login": "Daxil ol",
@@ -267,8 +268,7 @@
     },
     "about_fields": {
       "name": "Ad",
-      "version": "Versiya",
-      "contact": "Əlaqə"
+      "version": "Versiya"
     }
   },
   "validations": {
