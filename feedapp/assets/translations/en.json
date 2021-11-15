@@ -267,7 +267,8 @@
     },
     "about_fields": {
       "name": "Name",
-      "version": "Version"
+      "version": "Version",
+      "contact": "Contact"
     }
   },
   "validations": {

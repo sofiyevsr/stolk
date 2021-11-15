@@ -43,6 +43,18 @@ class CustomAboutDialog extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        ListTile(
+          // contentPadding: const EdgeInsets.all(0),
+          title: Text(
+            tr("settings.about_fields.contact"),
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          trailing: Text(
+            "support@stolk.app",
+            style: Theme.of(context).textTheme.bodyText2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }

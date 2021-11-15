@@ -267,7 +267,8 @@
     },
     "about_fields": {
       "name": "Ad",
-      "version": "Versiya"
+      "version": "Versiya",
+      "contact": "Əlaqə"
     }
   },
   "validations": {

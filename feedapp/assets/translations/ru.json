@@ -267,7 +267,8 @@
     },
     "about_fields": {
       "name": "Имя",
-      "version": "Версия"
+      "version": "Версия",
+      "contact": "Контакт"
     }
   },
   "validations": {
