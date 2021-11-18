@@ -20,7 +20,7 @@ class AuthorizedState extends AuthState {
         isLoggingOut: status,
       );
   @override
-  get props => [user, token];
+  get props => [user, token, isLoggingOut];
 }
 
 class UnathorizedState extends AuthState {}
