@@ -20,7 +20,7 @@ class StartupService {
   Future<void> storeDeviceToken(String? authToken) async {
     final permissions = await FirebaseMessaging.instance.requestPermission();
     if (permissions.authorizationStatus != AuthorizationStatus.authorized) {
-      throw Error();
+      return;
     }
     // Get the token each time the application loads
     String? token = await FirebaseMessaging.instance.getToken();

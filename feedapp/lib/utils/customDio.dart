@@ -10,7 +10,7 @@ class CustomInterceptor extends Interceptor {
     if (err.response != null) {
       if (err.response?.statusCode == 401) {
         AuthBloc.instance.add(ApiForceLogout());
-        ToastService.instance.showAlert(tr("server_errors.invalid_token"));
+        ToastService.instance.showAlert(tr("server_errors.errors.invalid_token"));
       }
     }
     return super.onError(err, handler);

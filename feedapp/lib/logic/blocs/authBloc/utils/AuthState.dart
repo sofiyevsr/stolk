@@ -8,19 +8,13 @@ abstract class AuthState extends Equatable {
 class AuthorizedState extends AuthState {
   final String token;
   final User user;
-  final bool isLoggingOut;
   AuthorizedState({
     required this.user,
     required this.token,
-    this.isLoggingOut = false,
   });
-  AuthorizedState changeStatus(bool status) => AuthorizedState(
-        user: this.user,
-        token: this.token,
-        isLoggingOut: status,
-      );
+
   @override
-  get props => [user, token, isLoggingOut];
+  get props => [user, token];
 }
 
 class UnathorizedState extends AuthState {}

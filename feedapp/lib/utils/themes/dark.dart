@@ -14,8 +14,8 @@ final darkTheme = _base.copyWith(
     thickness: 1,
   ),
   textTheme: TextTheme(
-    bodyText1: TextStyle(fontSize: 18),
-    bodyText2: TextStyle(fontSize: 16),
+    bodyText1: TextStyle(fontSize: 16),
+    bodyText2: TextStyle(fontSize: 14),
   ),
   tabBarTheme: TabBarTheme(
     unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),

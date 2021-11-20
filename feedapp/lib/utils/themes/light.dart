@@ -1,6 +1,10 @@
 part of "./index.dart";
 
 final lightTheme = ThemeData(
+  textTheme: TextTheme(
+    bodyText1: TextStyle(fontSize: 16),
+    bodyText2: TextStyle(fontSize: 14),
+  ),
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),

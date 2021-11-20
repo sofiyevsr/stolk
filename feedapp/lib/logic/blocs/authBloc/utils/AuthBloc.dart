@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
@@ -126,11 +125,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {}
     });
     on<AppLogout>((event, emit) async {
-      if (state is! AuthorizedState) return;
       try {
-        emit((state as AuthorizedState).changeStatus(true));
-        final token = await FirebaseMessaging.instance.getToken();
-        await _auth.logout(token);
+        await _auth.logout();
 
         final storage = SecureStorage();
         await storage.removeToken();
@@ -138,9 +134,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await StartupService.instance.deleteTokenLocally();
 
         emit(UnathorizedState());
-      } catch (e) {
-        emit((state as AuthorizedState).changeStatus(false));
-      }
+      } catch (e) {}
     });
   }
 

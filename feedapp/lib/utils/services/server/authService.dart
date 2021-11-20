@@ -46,10 +46,8 @@ class AuthService extends ApiService {
     return CheckTokenResponse.fromJSON(response.data['body']);
   }
 
-  Future<void> logout(String? notificationToken) async {
-    await this.request.post("/auth/logout", {
-      if (notificationToken != null) 'token': notificationToken,
-    }, {});
+  Future<void> logout() async {
+    await this.request.post("/auth/logout", {}, {});
   }
 
   Future<CompleteProfileResponse> completeProfile() async {

@@ -36,14 +36,11 @@ class SettingsGeneralSection extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              onTap: state.isLoggingOut
-                  ? null
-                  : () {
-                      AuthBloc.instance.add(
-                        AppLogout(),
-                      );
-                    },
-              isLoading: state.isLoggingOut,
+              onTap: () {
+                AuthBloc.instance.add(
+                  AppLogout(),
+                );
+              },
               title: tr("settings.logout"),
               icon: Icons.logout_outlined,
             ),

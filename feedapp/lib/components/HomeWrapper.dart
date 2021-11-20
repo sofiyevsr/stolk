@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/screens/auth/completeProfile.dart';
 import 'package:stolk/screens/home.dart';
@@ -24,6 +25,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
     super.initState();
     StartupService.instance.checkTokenAndSaveDeviceToken().catchError((error) {
       // Start token refresh after
+      FirebaseCrashlytics.instance.log("Token save error" + error);
     }).whenComplete(() => StartupService.instance.startNotificationStream());
   }
 
