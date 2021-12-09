@@ -9,9 +9,13 @@ const languages = [
   { code: "en", value: "English" },
   { code: "ru", value: "Русский" },
 ];
+
+const yearInSecond = 31540000;
+
 function LanguageSelector() {
   const router = useRouter();
   function changeLanguage(lang: string) {
+    document.cookie = `NEXT_LOCALE=${lang}; secure; path=/; samesite=strict; max-age=${yearInSecond}`;
     router.push(router.route, undefined, { locale: lang });
   }
   return (

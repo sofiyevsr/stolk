@@ -41,12 +41,17 @@ const Footer = () => {
             </>
           }
         >
-          <a
-            style={{ textDecoration: "underline" }}
-            href="mailto:support@stolk.app"
-          >
-            support@stolk.app
-          </a>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <a
+              style={{ textDecoration: "underline" }}
+              href="mailto:support@stolk.app"
+            >
+              support@stolk.app
+            </a>
+            <a style={{ textDecoration: "underline" }} href="tel:070-1740605">
+              070-1740605
+            </a>
+          </div>
         </CenteredFooter>
       </Section>
     </Background>
