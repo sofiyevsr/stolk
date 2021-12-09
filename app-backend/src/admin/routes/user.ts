@@ -10,7 +10,7 @@ r.get("/", authenticateMiddleware, async (req, res, next) => {
     const { last_id } = req.query as {
       [key: string]: string | undefined;
     };
-    const data = await user.retrieve.users(last_id);
+    const data = await user.retrieve.all(last_id);
     return responseSuccess(res, data);
   } catch (error) {
     return next(error);

@@ -3,7 +3,7 @@ import { users } from "./retrieve";
 
 export default {
   retrieve: {
-    users,
+    all: users,
   },
   actions: {
     ban,
