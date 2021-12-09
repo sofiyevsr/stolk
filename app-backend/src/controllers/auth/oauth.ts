@@ -80,9 +80,15 @@ async function registerUser(
 
 async function googleLoginUser(body: any, ip: string) {
   const { value, error } = oauth.validate(body);
+
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const client = new OAuth2Client(process.env.GOOGLE_WEB_CLIENT_ID);
   const ticket = await client.verifyIdToken({
     idToken: value.token,
@@ -146,6 +152,11 @@ async function facebookLoginUser(body: any, ip: string) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const client = new FacebookOauthClient();
   await client.verifyToken(value.token);
   const data = await client.getUserData(value.token);

@@ -21,6 +21,11 @@ export async function createResetToken(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const { email } = value;
   const [user] = await db(tables.app_user)
     .select(["id", "email"])
@@ -65,6 +70,11 @@ export async function validateResetToken(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const { id, token } = value;
   const [resetTokenSession] = await db(tables.reset_token)
     .select(["issued_at", "token"])
@@ -90,6 +100,11 @@ export async function resetPassword(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const { token, password, id } = value;
 
   const [resetTokenSession] = await db(tables.reset_token)

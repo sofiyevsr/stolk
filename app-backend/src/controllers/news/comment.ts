@@ -13,6 +13,11 @@ export const comment = async (
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const [comment] = await db(tables.news_comment).insert(
     {
       user_id: userID,

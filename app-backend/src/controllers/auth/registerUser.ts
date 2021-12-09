@@ -12,6 +12,11 @@ export default async function registerUser(body: any, ip: string) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   // Check if user exists
   const existingUsers = await db(tables.app_user)
     .select("id")

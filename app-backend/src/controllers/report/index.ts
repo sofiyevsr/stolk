@@ -8,6 +8,11 @@ const news = async (news_id: number, user_id: number, body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const trx = await db.transaction();
 
   try {
@@ -34,6 +39,11 @@ const comment = async (comment_id: number, user_id: number, body: any) => {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const trx = await db.transaction();
 
   try {

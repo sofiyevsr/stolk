@@ -10,6 +10,11 @@ export default async function loginUser(body: any, ip: string) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const dbUser = await db(`${tables.app_user} as au`)
     .select([
       "u.id as user_id",

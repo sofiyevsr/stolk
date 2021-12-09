@@ -49,6 +49,11 @@ async function insertCategory(body: unknown) {
   if (error) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const [category] = await db(tables.news_category).insert(
     { name: value.name, image_suffix: value.image_suffix },
     ["id", "name", "created_at", "image_suffix", "hidden_at"]
@@ -62,6 +67,11 @@ async function updateCategory(body: unknown, id: unknown) {
   if (error) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const [category] = await db(tables.news_category)
     .update({ name: value.name, image_suffix: value.image_suffix }, [
       "id",
@@ -79,6 +89,11 @@ async function linkCategory(body: unknown) {
   if (error) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   await db(tables.news_category_alias)
     .update({
       category_id: value.category_id,

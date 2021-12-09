@@ -10,6 +10,11 @@ export default async function loginUser(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const dbUser = await db(tables.admin_user)
     .select([
       "id",

@@ -13,6 +13,11 @@ export async function createConfirmationToken(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const { email } = value;
   const [user] = await db(`${tables.app_user} as au`)
     // first name required for email
@@ -59,6 +64,11 @@ export async function verifyEmail(body: any) {
   if (error != null) {
     throw new SoftError(error.message);
   }
+
+  if (value == null) {
+    throw new Error();
+  }
+
   const { id, token } = value;
   const confirmationTokenSession = await db(tables.confirmation_token)
     .select(["token"])
