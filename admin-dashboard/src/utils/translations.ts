@@ -37,4 +37,6 @@ export default {
   commenter_id: "Commenter ID",
   comment_id: "Comment ID",
   service_type_id: "Service type (Google, Apple, Facebook)",
+  session_count: "Session count",
+  notification_token_count: "Notification token count",
 } as { [key: string]: string };
