@@ -35,7 +35,7 @@ class StartupService {
         (token) {
           final authState = AuthBloc.instance.state;
           if (authState is! AuthorizedState) return;
-          _saveTokenToDatabase(token, authState.token);
+          _saveTokenToDatabase(token, authState.token).catchError((_){});
         },
       );
   }

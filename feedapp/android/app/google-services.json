@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "826163589727-0e1c5bof7o82shgu2tc1j7gt3qv3s592.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.stolk.android",
+            "certificate_hash": "db031bf0a27e5093f95d9e5a9643333baf10a561"
+          }
+        },
+        {
+          "client_id": "826163589727-eh7rfj4iicu57cj6f6fp8ojbmop7frib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.stolk.android",
+            "certificate_hash": "5eee65f96c8b61f1d532c33b5dabf0f01825c96d"
+          }
+        },
+        {
           "client_id": "826163589727-o28ummlnlogde7fk1ka8p0tlftrncqv0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -40,7 +56,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-3258697841522212~7477728946"
     }
   ],
   "configuration_version": "1"

@@ -10,7 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import "package:hive_flutter/hive_flutter.dart";
 
 import 'components/HomeWrapper.dart';
@@ -75,6 +74,7 @@ class App extends StatelessWidget {
           builder: (context, Box gBox, widget) {
             final theme = gBox.get("theme", defaultValue: "system");
             return MaterialApp(
+              title: "Stolk",
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               themeMode: stringToTheme(theme),

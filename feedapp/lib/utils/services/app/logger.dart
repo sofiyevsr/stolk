@@ -1,10 +1,9 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class AppLogger {
   static final instance = AppLogger._();
-  static final analytics = FirebaseAnalytics();
+  static final analytics = FirebaseAnalytics.instance;
   AppLogger._();
 
   FirebaseAnalyticsObserver getFirebaseAnalyticsObserver() {
