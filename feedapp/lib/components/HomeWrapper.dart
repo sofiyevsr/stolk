@@ -1,4 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/screens/auth/completeProfile.dart';
 import 'package:stolk/screens/home.dart';
@@ -24,8 +25,13 @@ class _HomeWrapperState extends State<HomeWrapper> {
   void initState() {
     super.initState();
     StartupService.instance.checkTokenAndSaveDeviceToken().catchError((error) {
+      FirebaseAnalytics.instance.logEvent(name: "appException", parameters: {
+        "message": error.toString(),
+      });
       // Start token refresh after
-      FirebaseCrashlytics.instance.log("Token save error" + error);
+      FirebaseCrashlytics.instance.recordFlutterError(
+        error,
+      );
     }).whenComplete(() => StartupService.instance.startNotificationStream());
   }
 
