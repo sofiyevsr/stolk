@@ -74,6 +74,7 @@ class App extends StatelessWidget {
           builder: (context, Box gBox, widget) {
             final theme = gBox.get("theme", defaultValue: "system");
             return MaterialApp(
+              title: "Stolk",
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               themeMode: stringToTheme(theme),
