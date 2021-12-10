@@ -86,7 +86,7 @@ class App extends StatelessWidget {
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               navigatorObservers: [
-                // AppLogger.instance.getFirebaseAnalyticsObserver()
+                AppLogger.instance.getFirebaseAnalyticsObserver()
               ],
               locale: context.locale,
               onGenerateRoute: (_) => NavigationService.wrapRoute(

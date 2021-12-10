@@ -24,15 +24,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-    StartupService.instance.checkTokenAndSaveDeviceToken().catchError((error) {
-      FirebaseAnalytics.instance.logEvent(name: "appException", parameters: {
-        "message": error.toString(),
-      });
-      // Start token refresh after
-      FirebaseCrashlytics.instance.recordFlutterError(
-        error,
-      );
-    }).whenComplete(() => StartupService.instance.startNotificationStream());
+    StartupService.instance.checkTokenAndSaveDeviceToken().catchError((_) {}).whenComplete(() => StartupService.instance.startNotificationStream());
   }
 
   @override
