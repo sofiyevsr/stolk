@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:stolk/components/common/scaleButton.dart';
@@ -155,8 +156,11 @@ class _NewsViewState extends State<NewsView>
               },
               onLoadError: (_, url, code, __) {
                 if (code == 404 && url.toString() == widget.link)
-                  FirebaseCrashlytics.instance.log(
-                    "Url failed to load 404 ${widget.link}",
+                  FirebaseAnalytics.instance.logEvent(
+                    name: "Url 404",
+                    parameters: <String, dynamic>{
+                      "link": widget.link,
+                    },
                   );
               },
               onProgressChanged: (_, i) {

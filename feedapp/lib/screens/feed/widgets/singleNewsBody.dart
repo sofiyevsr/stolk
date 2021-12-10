@@ -35,10 +35,7 @@ class SingleNewsBody extends StatelessWidget {
             NewsActionEvent(index: index, type: NewsActionType.READ),
           );
         }
-      }).catchError((e) {
-        FirebaseCrashlytics.instance
-            .log('Couldn\'t mark news read ${e.toString}');
-      });
+      }).catchError((_) {});
   }
 
   Widget build(BuildContext context) {
