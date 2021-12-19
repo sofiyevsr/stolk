@@ -68,52 +68,52 @@ class _CommentInputState extends State<CommentInput> {
               ),
             ),
           ),
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 1,
-              ),
-            ],
-          ),
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: TextField(
-            maxLength: 300,
-            onSubmitted:
-                auth.state is AuthorizedState ? (s) => submitComment() : null,
-            controller: _inputController,
-            enabled: isInputEnabled,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: theme.cardColor,
-              suffixIcon: Material(
-                color: theme.primaryColor.withOpacity(0.7),
-                child: IconButton(
-                  onPressed: isInputEnabled ? submitComment : null,
-                  icon: Icon(Icons.send_sharp, color: Colors.white),
+        if (auth is AuthorizedState)
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54,
+                  blurRadius: 1,
                 ),
-              ),
-              counterStyle: TextStyle(color: Colors.white),
-              contentPadding: const EdgeInsets.all(10),
-              focusColor: Colors.transparent,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-                borderRadius: BorderRadius.zero,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.transparent),
+              ],
+            ),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: TextField(
+              maxLength: 300,
+              onSubmitted: (_) => submitComment(),
+              controller: _inputController,
+              enabled: isInputEnabled,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: theme.cardColor,
+                suffixIcon: Material(
+                  color: theme.primaryColor.withOpacity(0.7),
+                  child: IconButton(
+                    onPressed: isInputEnabled ? submitComment : null,
+                    icon: Icon(Icons.send_sharp, color: Colors.white),
+                  ),
+                ),
+                counterStyle: TextStyle(color: Colors.white),
+                contentPadding: const EdgeInsets.all(10),
+                focusColor: Colors.transparent,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.zero,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
