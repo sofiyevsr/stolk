@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:stolk/utils/ui/constants.dart';
 
-const NEWS_HEIGHT = 300.0;
+const NEWS_HEIGHT = 200.0;
 
 class AllNewsShimmer extends StatelessWidget {
   const AllNewsShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final crossCount =
+        (media.size.width / SINGLE_NEWS_SIZE).clamp(1, 3).toInt();
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,
-      child: ListView(
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossCount,
+          crossAxisSpacing: 20,
+        ),
         children: List.generate(
-          3,
+          crossCount * 2,
           (index) => Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
@@ -21,13 +29,15 @@ class AllNewsShimmer extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(10),
                       child: CircleAvatar(),
                     ),
                     Expanded(
                       child: Container(
                         height: 10,
-                        margin: const EdgeInsets.only(right: 80),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
                         color: Colors.blue,
                       ),
                     ),
@@ -47,12 +57,16 @@ class AllNewsShimmer extends StatelessWidget {
                   ),
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: List.generate(
                     3,
                     (index) => Container(
                       height: 10,
-                      width: 280 / index,
-                      margin: const EdgeInsets.all(5),
+                      margin: EdgeInsets.only(
+                        left: (25 * (index + 1)).toDouble(),
+                        right: (25 * (index + 1)).toDouble(),
+                        top: 10,
+                      ),
                       color: Colors.blue,
                     ),
                   ),

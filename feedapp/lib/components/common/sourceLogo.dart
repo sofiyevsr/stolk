@@ -7,9 +7,11 @@ import 'customCachedImage.dart';
 class SourceLogo extends StatelessWidget {
   final String logoSuffix;
   final bool isCircle;
+  final BoxFit fit;
   const SourceLogo({
     Key? key,
     required this.logoSuffix,
+    this.fit = BoxFit.cover,
     this.isCircle = true,
   }) : super(key: key);
 
@@ -30,7 +32,7 @@ class SourceLogo extends StatelessWidget {
     return Container(
       child: CustomCachedImage(
         url: sourceLogosPrefix + logoSuffix,
-        fit: BoxFit.cover,
+        fit: this.fit,
       ),
     );
   }
