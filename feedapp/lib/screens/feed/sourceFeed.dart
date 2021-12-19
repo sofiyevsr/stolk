@@ -37,7 +37,9 @@ class _SourceFeedState extends State<SourceFeed> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context);
+    final media = MediaQuery.of(context).size;
+    final expandedHeight =
+        media.width > media.height ? media.height : media.width;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -46,7 +48,7 @@ class _SourceFeedState extends State<SourceFeed> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              expandedHeight: media.size.width,
+              expandedHeight: expandedHeight,
               elevation: 2,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
@@ -62,6 +64,7 @@ class _SourceFeedState extends State<SourceFeed> {
                   child: SourceLogo(
                     logoSuffix: widget.logoSuffix,
                     isCircle: false,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

@@ -1,22 +1,21 @@
-import 'dart:async';
+import 'dart:core';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
 import 'package:stolk/components/common/heightAnimationOnScroll.dart';
 import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/components/common/noNews.dart';
+import 'package:stolk/components/feed/ResponsiveNewsGrid.dart';
 import 'package:stolk/logic/blocs/newsBloc/utils/NewsBloc.dart';
 import 'package:stolk/screens/feed/widgets/categoryList.dart';
-import 'package:stolk/screens/feed/widgets/singleNews.dart';
-import 'package:stolk/screens/feed/widgets/allNewsShimmer.dart';
+import 'package:stolk/shimmers/allNewsShimmer.dart';
 import 'package:stolk/screens/feed/widgets/sortingButton.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/debounce.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-const SINGLE_NEWS_HEIGHT = 300.0;
+import 'package:stolk/utils/ui/constants.dart';
 
 final service = NewsService();
 
@@ -64,7 +63,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           final maxScroll = _scrollController.position.maxScrollExtent;
           final currentScroll = _scrollController.position.pixels;
 
-          if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
+          if (maxScroll - currentScroll <= SINGLE_NEWS_SIZE * 4) {
             context.read<NewsBloc>().add(
                   FetchNextNewsEvent(
                     sourceID: null,
@@ -190,49 +189,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                     if (state is NewsStateWithData) {
                       return RefreshIndicator(
                         onRefresh: onRefresh,
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          controller: _scrollController,
-                          itemCount: state.data.hasReachedEnd
-                              ? state.data.news.length
-                              : state.data.news.length + 1,
-                          itemBuilder: (ctx, index) => index >=
-                                  state.data.news.length
-                              ? state is NewsNextFetchError
-                                  ? Center(
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        height: 50,
-                                        child: ElevatedButton.icon(
-                                          onPressed: forceFetchNext,
-                                          icon: Icon(Icons.refresh),
-                                          label: Text(
-                                            tr("buttons.retry_request"),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 50,
-                                      margin: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      child: Center(
-                                        child:
-                                            CircularProgressIndicator.adaptive(
-                                          strokeWidth: 8,
-                                        ),
-                                      ),
-                                    )
-                              : SingleNewsView(
-                                  key: Key(
-                                    state.data.news[index].id.toString(),
-                                  ),
-                                  feed: state.data.news[index],
-                                  index: index,
-                                ),
+                        child: ResponsiveNewsGrid(
+                          state: state,
+                          forceFetchNext: forceFetchNext,
+                          scrollController: _scrollController,
                         ),
                       );
                     }

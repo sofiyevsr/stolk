@@ -1,15 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/components/common/noNews.dart';
+import 'package:stolk/components/feed/ResponsiveNewsGrid.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/utils/ui/constants.dart';
 
 import 'singleNews.dart';
-
-const SINGLE_NEWS_HEIGHT = 300;
 
 class SourceNewsSliver extends StatefulWidget {
   final ScrollController scrollController;
@@ -38,7 +39,7 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
           () {
             final maxScroll = widget.scrollController.position.maxScrollExtent;
             final currentScroll = widget.scrollController.position.pixels;
-            if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 3) {
+            if (maxScroll - currentScroll <= SINGLE_NEWS_SIZE * 4) {
               context.read<NewsBloc>().add(
                     FetchNextNewsEvent(
                       sourceID: widget.sourceID,
@@ -86,43 +87,10 @@ class _SourceNewsSliverState extends State<SourceNewsSliver> {
             child: CenterLoadingWidget(),
           );
         if (state is NewsStateWithData) {
-          return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, index) => index >= state.data.news.length
-                  ? state is NewsNextFetchError
-                      ? Container(
-                          height: 50,
-                          child: Center(
-                            child: ElevatedButton(
-                              onPressed: forceFetchNext,
-                              child: Text(
-                                tr("buttons.retry_request"),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(
-                          height: 50,
-                          child: Center(
-                            child: CircularProgressIndicator.adaptive(
-                              strokeWidth: 8,
-                            ),
-                          ),
-                        )
-                  : Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: SingleNewsView(
-                        key: Key(
-                          state.data.news[index].id.toString(),
-                        ),
-                        feed: state.data.news[index],
-                        index: index,
-                      ),
-                    ),
-              childCount: state.data.hasReachedEnd
-                  ? state.data.news.length
-                  : state.data.news.length + 1,
-            ),
+          return ResponsiveNewsGrid(
+            state: state,
+            forceFetchNext: forceFetchNext,
+            sliver: true,
           );
         }
         if (state is NewsStateNoData) {
