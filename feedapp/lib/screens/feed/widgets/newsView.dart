@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _padding = 12.0;
@@ -51,8 +52,14 @@ class _NewsViewState extends State<NewsView>
     Share.share(widget.link);
   }
 
-  void _openInBrowser() {
-    launch(widget.link);
+  Future<void> _openInBrowser() async {
+    try {
+      await launch(widget.link);
+    } catch (e) {
+      ToastService.instance.showAlert(
+        tr("errors.cannot_launch_url"),
+      );
+    }
   }
 
   @override
