@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
@@ -42,9 +43,12 @@ class SingleSourceView extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  Text(
+                  AutoSizeText(
                     item.name,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    minFontSize: 16,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
@@ -59,17 +63,12 @@ class SingleSourceView extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: item.isRequestOn ? null : () => onFinish(context),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateColor.resolveWith(
-                (states) => Colors.blueAccent,
-              ),
-            ),
             child: Text(
               item.followID == null
                   ? tr("commons.follow")
                   : tr("commons.following"),
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
