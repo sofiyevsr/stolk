@@ -56,12 +56,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset("assets/icons/logo.png"),
-        title: Text(
-          "Stolk",
-          style: TextStyle(
-            fontSize: 32,
-          ),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset("assets/icons/logo.png", width: 56.0),
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Text(
+                "Stolk",
+                style: TextStyle(
+                  fontSize: 34,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(

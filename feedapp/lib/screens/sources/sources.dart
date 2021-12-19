@@ -32,6 +32,8 @@ class _SourcesPageState extends State<SourcesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final crossCount = (media.size.width / 170).clamp(2, 6).toInt();
     return Column(
       children: [
         DefaultTabController(
@@ -53,6 +55,7 @@ class _SourcesPageState extends State<SourcesPage> {
                       backgroundImage: AssetImage(
                         'assets/flags/${e.value}.png',
                       ),
+                      radius: media.size.width > 500 ? 30 : 20,
                     ),
                   ),
                 )
@@ -71,7 +74,7 @@ class _SourcesPageState extends State<SourcesPage> {
               return GridView.builder(
                 physics: BouncingScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: crossCount,
                 ),
                 itemCount: sources.length,
                 itemBuilder: (ctx, i) => SingleSourceView(

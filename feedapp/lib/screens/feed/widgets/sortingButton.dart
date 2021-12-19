@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -153,6 +152,10 @@ class FeedSortingButton extends StatelessWidget {
               children: [
                 Text(
                   tr("sort_by.${sortByToString(sortBy)}"),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
                 Icon(Icons.expand_more),
               ],
