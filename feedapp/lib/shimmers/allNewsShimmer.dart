@@ -11,7 +11,7 @@ class AllNewsShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
     final crossCount =
-        (media.size.width / SINGLE_NEWS_HEIGHT).clamp(1, 3).toInt();
+        (media.size.width / SINGLE_NEWS_WIDTH).clamp(1, 3).toInt();
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,
@@ -28,8 +28,8 @@ class AllNewsShimmer extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
+                    const Padding(
+                      padding: EdgeInsets.all(10),
                       child: CircleAvatar(),
                     ),
                     Expanded(
@@ -49,7 +49,7 @@ class AllNewsShimmer extends StatelessWidget {
                 ),
                 Container(
                   height: NEWS_HEIGHT,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),

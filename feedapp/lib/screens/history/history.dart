@@ -18,19 +18,9 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is AuthorizedState)
-        return Column(
-          children: [
-            Container(
-              height: 10,
-              width: 10,
-            ),
-            Expanded(
-              child: BlocProvider(
-                create: (ctx) => NewsBloc(),
-                child: Bookmarks(),
-              ),
-            ),
-          ],
+        return BlocProvider(
+          create: (ctx) => NewsBloc(),
+          child: Bookmarks(),
         );
       return Container(
         alignment: Alignment.center,
