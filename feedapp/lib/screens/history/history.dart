@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
-import 'package:stolk/screens/history/widgets/singleNewsHistoryUnit.dart';
+import 'package:stolk/screens/history/widgets/bookmarks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,11 +18,19 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is AuthorizedState)
-        return Container(
-          child: BlocProvider(
-            create: (ctx) => NewsBloc(),
-            child: SingleNewsHistoryUnit(),
-          ),
+        return Column(
+          children: [
+            Container(
+              height: 10,
+              width: 10,
+            ),
+            Expanded(
+              child: BlocProvider(
+                create: (ctx) => NewsBloc(),
+                child: Bookmarks(),
+              ),
+            ),
+          ],
         );
       return Container(
         alignment: Alignment.center,

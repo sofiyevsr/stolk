@@ -11,7 +11,7 @@ class AllNewsShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
     final crossCount =
-        (media.size.width / SINGLE_NEWS_SIZE).clamp(1, 3).toInt();
+        (media.size.width / SINGLE_NEWS_HEIGHT).clamp(1, 3).toInt();
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,

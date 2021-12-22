@@ -2,8 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
-import 'package:stolk/screens/feed/sourceFeed.dart';
+import 'package:stolk/screens/feed/widgets/sourceNews.dart';
 import 'package:stolk/utils/@types/response/allSources.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -33,10 +34,13 @@ class SingleSourceView extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 NavigationService.push(
-                  SourceFeed(
-                    sourceID: item.id,
-                    sourceName: item.name,
-                    logoSuffix: item.logoSuffix,
+                  BlocProvider<NewsBloc>(
+                    create: (ctx) => NewsBloc(),
+                    child: SourceNews(
+                      sourceID: item.id,
+                      sourceName: item.name,
+                      logoSuffix: item.logoSuffix,
+                    ),
                   ),
                   RouteNames.SOURCE_NEWS_FEED,
                 );
@@ -48,7 +52,8 @@ class SingleSourceView extends StatelessWidget {
                     maxLines: 1,
                     minFontSize: 16,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   Expanded(

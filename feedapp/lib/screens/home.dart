@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/ads/fullBanner.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/utils/ads/constants.dart';
 
 import 'feed/allNews.dart';
 import 'history/history.dart';
@@ -61,8 +63,8 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset("assets/icons/logo.png", width: 56.0),
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
+            const Padding(
+              padding: EdgeInsets.only(right: 15),
               child: Text(
                 "Stolk",
                 style: TextStyle(
@@ -84,26 +86,34 @@ class _HomeState extends State<Home> {
           children: [
             BlocProvider<NewsBloc>(
               create: (ctx) => NewsBloc(),
-              child: AllNewsScreen(),
+              child: const AllNewsScreen(),
             ),
             BlocProvider<SourcesBloc>(
               create: (ctx) => SourcesBloc(),
-              child: SourcesPage(),
+              child: const SourcesPage(),
             ),
-            HistoryPage(),
-            SettingsPage(),
+            const HistoryPage(),
+            const SettingsPage(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-          _controller?.jumpToPage(index);
-        },
-        items: _buildNavItems(context),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FullBannerAd(
+            unitID: getUnitID(AdPlacements.home),
+          ),
+          BottomNavigationBar(
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() => _currentIndex = index);
+              _controller?.jumpToPage(index);
+            },
+            items: _buildNavItems(context),
+          ),
+        ],
       ),
     );
   }

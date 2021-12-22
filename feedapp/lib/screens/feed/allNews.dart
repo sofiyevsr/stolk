@@ -63,7 +63,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           final maxScroll = _scrollController.position.maxScrollExtent;
           final currentScroll = _scrollController.position.pixels;
 
-          if (maxScroll - currentScroll <= SINGLE_NEWS_SIZE * 4) {
+          if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 4) {
             context.read<NewsBloc>().add(
                   FetchNextNewsEvent(
                     sourceID: null,
@@ -181,33 +181,30 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               ),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                child: BlocBuilder<NewsBloc, NewsState>(
-                  builder: (ctx, state) {
-                    if (state is NewsStateLoading) return AllNewsShimmer();
-                    if (state is NewsStateWithData) {
-                      return RefreshIndicator(
-                        onRefresh: onRefresh,
-                        child: ResponsiveNewsGrid(
-                          state: state,
-                          forceFetchNext: forceFetchNext,
-                          scrollController: _scrollController,
-                        ),
-                      );
-                    }
+              child: BlocBuilder<NewsBloc, NewsState>(
+                builder: (ctx, state) {
+                  if (state is NewsStateLoading) return AllNewsShimmer();
+                  if (state is NewsStateWithData) {
+                    return RefreshIndicator(
+                      onRefresh: onRefresh,
+                      child: ResponsiveNewsGrid(
+                        state: state,
+                        forceFetchNext: forceFetchNext,
+                        scrollController: _scrollController,
+                      ),
+                    );
+                  }
 
-                    if (state is NewsStateNoData) {
-                      return NoNewsWidget();
-                    }
-                    if (state is NewsStateError) {
-                      return NoConnectionWidget(
-                        onRetry: initialFetch,
-                      );
-                    }
-                    return Container();
-                  },
-                ),
+                  if (state is NewsStateNoData) {
+                    return NoNewsWidget();
+                  }
+                  if (state is NewsStateError) {
+                    return NoConnectionWidget(
+                      onRetry: initialFetch,
+                    );
+                  }
+                  return Container();
+                },
               ),
             ),
           ],

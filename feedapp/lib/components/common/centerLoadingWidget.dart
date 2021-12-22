@@ -8,7 +8,8 @@ class CenterLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: const Center(
         child: CircularProgressIndicator.adaptive(),
       ),
     );
