@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:stolk/utils/ui/constants.dart';
 import 'package:stolk/views/CommentsView.dart';
 
 final news = NewsService();
@@ -113,7 +114,7 @@ class SingleNewsActions extends StatelessWidget {
         onTap: onPressed,
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.chat_bubble_outline,
               size: _iconSize - 3,
             ),
@@ -192,15 +193,17 @@ class SingleNewsActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ButtonTheme(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: Row(
+    return SizedBox(
+      height: ACTIONS_HEIGHT,
+      child: Material(
+        child: ButtonTheme(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
                 children: [
                   Tooltip(
                     message: tr("tooltips.like"),
@@ -214,23 +217,23 @@ class SingleNewsActions extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Row(
-              children: [
-                Tooltip(
-                  message: tr("tooltips.bookmark"),
-                  child: _buildBookmarkButton(context),
-                ),
-                Tooltip(
-                  message: tr("tooltips.share"),
-                  child: _buildIconButton(
-                    icon: Icon(Icons.share_outlined),
-                    onPressed: _share,
+              Row(
+                children: [
+                  Tooltip(
+                    message: tr("tooltips.bookmark"),
+                    child: _buildBookmarkButton(context),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Tooltip(
+                    message: tr("tooltips.share"),
+                    child: _buildIconButton(
+                      icon: Icon(Icons.share_outlined),
+                      onPressed: _share,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:stolk/screens/splash.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/logger.dart';
@@ -29,6 +30,8 @@ Future<void> _loadInternalization() async {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
   runZonedGuarded(() async {
     await _loadInternalization();
 
@@ -42,14 +45,14 @@ void main() {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     runApp(
       EasyLocalization(
-        supportedLocales: [
+        supportedLocales: const [
           Locale('en'),
           Locale('az'),
           Locale('ru'),
         ],
         useOnlyLangCode: true,
         path: 'assets/translations',
-        fallbackLocale: Locale('az'),
+        fallbackLocale: const Locale('az'),
         child: App(),
       ),
     );
@@ -59,6 +62,7 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  App({Key? key}) : super(key: key);
   final AuthBloc authBloc = AuthBloc.instance;
 
   @override

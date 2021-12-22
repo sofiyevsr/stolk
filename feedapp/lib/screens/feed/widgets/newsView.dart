@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:stolk/components/ads/fullBanner.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:stolk/utils/ads/constants.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,7 +16,7 @@ const _padding = 12.0;
 
 class NewsView extends StatefulWidget {
   final String link;
-  NewsView({
+  const NewsView({
     Key? key,
     required this.link,
   }) : super(key: key);
@@ -71,78 +74,97 @@ class _NewsViewState extends State<NewsView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (_canBrowseBack == true)
-              ScaleButton(
-                onFinish: () async {
-                  final view = await _controller.future;
-                  await view.goBack();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(_padding),
-                  child: Tooltip(
-                    message: tr("tooltips.go_back_in_browser"),
-                    child: Icon(Icons.arrow_back, size: 32),
-                  ),
-                ),
-              ),
-            // A placeholder for Row to place buttons in both case of canBrowseBack
-            if (_canBrowseBack == false) Container(height: 0),
-            Row(
-              children: [
-                ScaleButton(
-                  onFinish: _openInBrowser,
-                  child: Padding(
-                    padding: const EdgeInsets.all(_padding),
-                    child: Tooltip(
-                      message: tr("tooltips.open_in_browser"),
-                      child: Icon(Icons.open_in_browser_outlined, size: 32),
-                    ),
-                  ),
-                ),
-                ScaleButton(
-                  onFinish: _share,
-                  child: Padding(
-                    padding: const EdgeInsets.all(_padding),
-                    child: Tooltip(
-                      message: tr("tooltips.share"),
-                      child: Icon(Icons.share_outlined, size: 32),
-                    ),
-                  ),
-                ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FullBannerAd(
+            unitID: getUnitID(
+              AdPlacements.newsView,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (_canBrowseBack == true)
                 ScaleButton(
                   onFinish: () async {
                     final view = await _controller.future;
-                    await view.loadUrl(
-                      urlRequest: URLRequest(
-                        url: Uri.tryParse(widget.link),
-                      ),
-                    );
+                    await view.goBack();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(_padding),
                     child: Tooltip(
-                      message: tr("tooltips.reload_news_url"),
-                      child: Icon(Icons.restore_rounded, size: 32),
+                      message: tr("tooltips.go_back_in_browser"),
+                      child: const Icon(Icons.arrow_back, size: 32),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              // A placeholder for Row to place buttons in both case of canBrowseBack
+              if (_canBrowseBack == false) Container(height: 0),
+              Row(
+                children: [
+                  ScaleButton(
+                    onFinish: _openInBrowser,
+                    child: Padding(
+                      padding: const EdgeInsets.all(_padding),
+                      child: Tooltip(
+                        message: tr("tooltips.open_in_browser"),
+                        child: const Icon(
+                          Icons.open_in_browser_outlined,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ScaleButton(
+                    onFinish: _share,
+                    child: Padding(
+                      padding: const EdgeInsets.all(_padding),
+                      child: Tooltip(
+                        message: tr("tooltips.share"),
+                        child: const Icon(
+                          Icons.share_outlined,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ScaleButton(
+                    onFinish: () async {
+                      final view = await _controller.future;
+                      await view.loadUrl(
+                        urlRequest: URLRequest(
+                          url: Uri.tryParse(widget.link),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(_padding),
+                      child: Tooltip(
+                        message: tr("tooltips.reload_news_url"),
+                        child: const Icon(
+                          Icons.restore_rounded,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
       appBar: AppBar(
         centerTitle: true,
         title: Row(
           children: [
             Expanded(
-              child: Text(
+              child: AutoSizeText(
                 _title,
                 overflow: TextOverflow.ellipsis,
+                minFontSize: 14,
+                maxLines: 2,
               ),
             ),
             AnimatedBuilder(
@@ -150,7 +172,7 @@ class _NewsViewState extends State<NewsView>
               builder: (context, child) {
                 return CircularProgressIndicator(
                   value: _loadingController.value / 100,
-                  strokeWidth: 10,
+                  strokeWidth: 8,
                   color: Colors.white,
                 );
               },
@@ -162,7 +184,7 @@ class _NewsViewState extends State<NewsView>
             final navigator = Navigator.of(context);
             if (navigator.canPop()) navigator.pop();
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
             size: 32,
           ),
@@ -174,13 +196,14 @@ class _NewsViewState extends State<NewsView>
             _controller.complete(c);
           },
           onLoadError: (_, url, code, __) {
-            if (code == 404 && url.toString() == widget.link)
+            if (code == 404 && url.toString() == widget.link) {
               FirebaseAnalytics.instance.logEvent(
                 name: "Url 404",
                 parameters: <String, dynamic>{
                   "link": widget.link,
                 },
               );
+            }
           },
           onProgressChanged: (_, i) {
             _progressToTarget(i.toDouble());

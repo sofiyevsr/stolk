@@ -3,7 +3,6 @@ import 'package:stolk/screens/settings/widgets/GeneralSection.dart';
 import 'package:stolk/screens/settings/widgets/HeaderSection.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:stolk/components/common/tilesHeader.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:stolk/utils/constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -17,6 +16,7 @@ import 'widgets/SingleSettings.dart';
 import 'widgets/ThemeSelector.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }

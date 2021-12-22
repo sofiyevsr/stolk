@@ -8,27 +8,25 @@ import 'package:stolk/components/feed/ResponsiveNewsGrid.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stolk/screens/feed/widgets/singleNews.dart';
 import 'package:stolk/utils/ui/constants.dart';
 
-class SingleNewsHistoryUnit extends StatefulWidget {
-  const SingleNewsHistoryUnit({
+class Bookmarks extends StatefulWidget {
+  const Bookmarks({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SingleNewsHistoryUnitState createState() => _SingleNewsHistoryUnitState();
+  _BookmarksState createState() => _BookmarksState();
 }
 
-class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
-  late ScrollController _scrollController;
+class _BookmarksState extends State<Bookmarks> {
+  late ScrollController _scrollController = ScrollController();
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     initalFetch();
-    _scrollController = ScrollController();
     _scrollController.addListener(
       () {
         // Debounce
@@ -39,7 +37,7 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
             if (_scrollController.hasClients) {
               final maxScroll = _scrollController.position.maxScrollExtent;
               final currentScroll = _scrollController.position.pixels;
-              if (maxScroll - currentScroll <= SINGLE_NEWS_SIZE * 4) {
+              if (maxScroll - currentScroll <= SINGLE_NEWS_HEIGHT * 4) {
                 context.read<NewsBloc>().add(
                       FetchNextBookmarks(),
                     );
@@ -74,42 +72,39 @@ class _SingleNewsHistoryUnitState extends State<SingleNewsHistoryUnit> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      child: BlocBuilder<NewsBloc, NewsState>(
-        builder: (ctx, state) {
-          if (state is NewsStateLoading) return CenterLoadingWidget();
-          if (state is NewsStateWithData) {
-            return ResponsiveNewsGrid(
-              state: state,
-              forceFetchNext: forceFetchNext,
-              scrollController: _scrollController,
-            );
-          }
-          if (state is NewsStateNoData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Lottie.asset(
-                  "assets/lottie/bookmark.json",
+    return BlocBuilder<NewsBloc, NewsState>(
+      builder: (ctx, state) {
+        if (state is NewsStateLoading) return const CenterLoadingWidget();
+        if (state is NewsStateWithData) {
+          return ResponsiveNewsGrid(
+            state: state,
+            forceFetchNext: forceFetchNext,
+            scrollController: _scrollController,
+          );
+        }
+        if (state is NewsStateNoData) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.asset(
+                "assets/lottie/bookmark.json",
+              ),
+              Text(
+                tr("news.no_bookmarks"),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  tr("news.no_bookmarks"),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            );
-          }
-          if (state is NewsStateError) {
-            return NoConnectionWidget();
-          }
-          return Container();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        if (state is NewsStateError) {
+          return const NoConnectionWidget();
+        }
+        return Container();
+      },
     );
   }
 }

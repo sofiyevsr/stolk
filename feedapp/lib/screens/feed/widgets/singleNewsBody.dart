@@ -10,9 +10,8 @@ import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:stolk/utils/transparentImage.dart';
+import 'package:stolk/utils/ui/constants.dart';
 import 'newsView.dart';
-
-const NEWS_HEIGHT = 300.0;
 
 final newsService = NewsService();
 
@@ -39,11 +38,12 @@ class SingleNewsBody extends StatelessWidget {
       }).catchError((_) {});
   }
 
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final readBefore = feed.readID != null;
     return Container(
-      height: NEWS_HEIGHT,
+      height: NEWS_BODY_HEIGHT,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
@@ -55,48 +55,46 @@ class SingleNewsBody extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _goToNewsWebview(context),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: feed.imageLink == null
-                        ? NotFoundImage(color: theme.primaryColor)
-                        : FadeInImage.memoryNetwork(
-                            image: feed.imageLink!,
-                            placeholder: transparentPlaceholder,
-                            fit: BoxFit.cover,
-                            imageErrorBuilder: (ctx, err, _) =>
-                                NotFoundImage(color: theme.primaryColor),
-                          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                flex: 3,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: AutoSizeText(
-                        feed.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: readBefore ? Colors.grey : null,
+                  child: feed.imageLink == null
+                      ? NotFoundImage(color: theme.primaryColor)
+                      : FadeInImage.memoryNetwork(
+                          image: feed.imageLink!,
+                          placeholder: transparentPlaceholder,
+                          fit: BoxFit.cover,
+                          imageErrorBuilder: (ctx, err, _) =>
+                              NotFoundImage(color: theme.primaryColor),
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 3,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: AutoSizeText(
+                      feed.title,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: readBefore ? Colors.grey : null,
                       ),
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

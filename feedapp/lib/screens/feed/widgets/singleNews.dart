@@ -13,15 +13,12 @@ class SingleNewsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: Column(
-        children: [
-          SingleNewsHeader(feed: this.feed, index: index),
-          SingleNewsBody(feed: feed, index: index),
-          SingleNewsActions(feed: this.feed, index: index),
-        ],
-      ),
+    return Column(
+      children: [
+        SingleNewsHeader(feed: feed, index: index),
+        SingleNewsBody(feed: feed, index: index),
+        SingleNewsActions(feed: feed, index: index),
+      ],
     );
   }
 }
