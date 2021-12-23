@@ -24,7 +24,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           sortBy: event.sortBy,
           period: event.period,
         );
-        if (data.news.length != 0)
+        if (data.news.isNotEmpty)
           emit(NewsStateSuccess(
             data: NewsModel(
               news: data.news,
@@ -45,7 +45,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     // 2. Event sender is responsible for sending current category
     on<RefreshNewsEvent>((event, emit) async {
       try {
-        if (event.data.news.length != 0)
+        if (event.data.news.isNotEmpty)
           emit(NewsStateSuccess(
             data: NewsModel(
               news: event.data.news,
@@ -113,7 +113,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       try {
         emit(NewsStateLoading());
         final data = await service.getBookmarks();
-        if (data.news.length != 0)
+        if (data.news.isNotEmpty)
           emit(NewsStateSuccess(
             data: NewsModel(
               news: data.news,

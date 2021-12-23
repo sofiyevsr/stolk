@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:stolk/utils/ui/constants.dart';
 
-class FullBannerAd extends StatefulWidget {
+class RectangleBannerAd extends StatefulWidget {
   final String unitID;
-  const FullBannerAd({Key? key, required this.unitID}) : super(key: key);
+  const RectangleBannerAd({Key? key, required this.unitID}) : super(key: key);
 
   @override
-  _FullBannerAdState createState() => _FullBannerAdState();
+  _RectangleBannerAd createState() => _RectangleBannerAd();
 }
 
-class _FullBannerAdState extends State<FullBannerAd> {
+class _RectangleBannerAd extends State<RectangleBannerAd>
+    with AutomaticKeepAliveClientMixin {
   // Ad related
   BannerAd? _banner;
   AdWidget? _adWidget;
@@ -17,12 +19,10 @@ class _FullBannerAdState extends State<FullBannerAd> {
   // State related
   bool _isAdLoaded = false;
 
-  @override
-  void initState() {
-    super.initState();
+  Future<void> _loadAd() async {
     _banner = BannerAd(
       adUnitId: widget.unitID,
-      size: AdSize.fullBanner,
+      size: AdSize.mediumRectangle,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
@@ -41,6 +41,12 @@ class _FullBannerAdState extends State<FullBannerAd> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAd();
+  }
+
+  @override
   void dispose() {
     _banner?.dispose();
     super.dispose();
@@ -48,14 +54,18 @@ class _FullBannerAdState extends State<FullBannerAd> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
+    super.build(context);
     if (_isAdLoaded == false) {
       return Container();
     }
-    return SizedBox(
+    return Container(
+      alignment: Alignment.bottomCenter,
       child: _adWidget,
-      width: media.width,
       height: _banner!.size.height.toDouble(),
+      width: _banner!.size.width.toDouble(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

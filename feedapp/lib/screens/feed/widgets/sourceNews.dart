@@ -84,55 +84,51 @@ class _SourceNewsState extends State<SourceNews> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<NewsBloc, NewsState>(
-          builder: (ctx, state) {
-            if (state is NewsStateLoading) return const CenterLoadingWidget();
-            if (state is NewsStateWithData) {
-              final media = MediaQuery.of(context).size;
-              final expandedHeight =
-                  media.width > media.height ? media.height : media.width;
+    return BlocBuilder<NewsBloc, NewsState>(
+      builder: (ctx, state) {
+        if (state is NewsStateLoading) return const CenterLoadingWidget();
+        if (state is NewsStateWithData) {
+          final media = MediaQuery.of(context).size;
+          final expandedHeight =
+              media.width > media.height ? media.height : media.width;
 
-              return ResponsiveNewsGrid(
-                appBar: SliverAppBar(
-                  pinned: true,
-                  expandedHeight: expandedHeight,
-                  elevation: 2,
-                  title: AutoSizeText(
-                    widget.sourceName,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+          return ResponsiveNewsGrid(
+            appBar: SliverAppBar(
+              pinned: true,
+              expandedHeight: expandedHeight,
+              elevation: 2,
+              title: AutoSizeText(
+                widget.sourceName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                background: Padding(
+                  padding: const EdgeInsets.only(
+                    top: kToolbarHeight,
                   ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    background: Padding(
-                      padding: const EdgeInsets.only(
-                        top: kToolbarHeight,
-                      ),
-                      child: SourceLogo(
-                        logoSuffix: widget.logoSuffix,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                  child: SourceLogo(
+                    logoSuffix: widget.logoSuffix,
+                    fit: BoxFit.contain,
                   ),
                 ),
-                state: state,
-                forceFetchNext: forceFetchNext,
-                scrollController: scrollController,
-              );
-            }
-            if (state is NewsStateNoData) {
-              return const NoNewsWidget();
-            }
-            if (state is NewsStateError) {
-              return NoConnectionWidget(onRetry: fetchNews);
-            }
-            return Container();
-          },
-        ),
-      ),
+              ),
+            ),
+            state: state,
+            forceFetchNext: forceFetchNext,
+            scrollController: scrollController,
+          );
+        }
+        if (state is NewsStateNoData) {
+          return const NoNewsWidget();
+        }
+        if (state is NewsStateError) {
+          return NoConnectionWidget(onRetry: fetchNews);
+        }
+        return Container();
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
+import 'package:stolk/screens/feed/sourceNews.dart';
 import 'package:stolk/screens/feed/widgets/sourceNews.dart';
 import 'package:stolk/utils/@types/response/allSources.dart';
 import 'package:stolk/utils/constants.dart';
@@ -34,13 +35,10 @@ class SingleSourceView extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 NavigationService.push(
-                  BlocProvider<NewsBloc>(
-                    create: (ctx) => NewsBloc(),
-                    child: SourceNews(
-                      sourceID: item.id,
-                      sourceName: item.name,
-                      logoSuffix: item.logoSuffix,
-                    ),
+                  SourceNewsScreen(
+                    sourceID: item.id,
+                    sourceName: item.name,
+                    logoSuffix: item.logoSuffix,
                   ),
                   RouteNames.SOURCE_NEWS_FEED,
                 );

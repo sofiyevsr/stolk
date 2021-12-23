@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/ads/fullBanner.dart';
+import 'package:stolk/components/ads/adaptiveBanner.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FullBannerAd(
+          AdaptiveBannerAd(
             unitID: getUnitID(AdPlacements.home),
           ),
           BottomNavigationBar(
