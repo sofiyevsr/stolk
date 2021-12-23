@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:stolk/components/ads/fullBanner.dart';
+import 'package:stolk/components/ads/adaptiveBanner.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -74,82 +74,72 @@ class _NewsViewState extends State<NewsView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FullBannerAd(
-            unitID: getUnitID(
-              AdPlacements.newsView,
+          if (_canBrowseBack == true)
+            ScaleButton(
+              onFinish: () async {
+                final view = await _controller.future;
+                await view.goBack();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(_padding),
+                child: Tooltip(
+                  message: tr("tooltips.go_back_in_browser"),
+                  child: const Icon(Icons.arrow_back, size: 32),
+                ),
+              ),
             ),
-          ),
+          // A placeholder for Row to place buttons in both case of canBrowseBack
+          if (_canBrowseBack == false) Container(height: 0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (_canBrowseBack == true)
-                ScaleButton(
-                  onFinish: () async {
-                    final view = await _controller.future;
-                    await view.goBack();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(_padding),
-                    child: Tooltip(
-                      message: tr("tooltips.go_back_in_browser"),
-                      child: const Icon(Icons.arrow_back, size: 32),
+              ScaleButton(
+                onFinish: _openInBrowser,
+                child: Padding(
+                  padding: const EdgeInsets.all(_padding),
+                  child: Tooltip(
+                    message: tr("tooltips.open_in_browser"),
+                    child: const Icon(
+                      Icons.open_in_browser_outlined,
+                      size: 32,
                     ),
                   ),
                 ),
-              // A placeholder for Row to place buttons in both case of canBrowseBack
-              if (_canBrowseBack == false) Container(height: 0),
-              Row(
-                children: [
-                  ScaleButton(
-                    onFinish: _openInBrowser,
-                    child: Padding(
-                      padding: const EdgeInsets.all(_padding),
-                      child: Tooltip(
-                        message: tr("tooltips.open_in_browser"),
-                        child: const Icon(
-                          Icons.open_in_browser_outlined,
-                          size: 32,
-                        ),
-                      ),
+              ),
+              ScaleButton(
+                onFinish: _share,
+                child: Padding(
+                  padding: const EdgeInsets.all(_padding),
+                  child: Tooltip(
+                    message: tr("tooltips.share"),
+                    child: const Icon(
+                      Icons.share_outlined,
+                      size: 32,
                     ),
                   ),
-                  ScaleButton(
-                    onFinish: _share,
-                    child: Padding(
-                      padding: const EdgeInsets.all(_padding),
-                      child: Tooltip(
-                        message: tr("tooltips.share"),
-                        child: const Icon(
-                          Icons.share_outlined,
-                          size: 32,
-                        ),
-                      ),
+                ),
+              ),
+              ScaleButton(
+                onFinish: () async {
+                  final view = await _controller.future;
+                  await view.loadUrl(
+                    urlRequest: URLRequest(
+                      url: Uri.tryParse(widget.link),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(_padding),
+                  child: Tooltip(
+                    message: tr("tooltips.reload_news_url"),
+                    child: const Icon(
+                      Icons.restore_rounded,
+                      size: 32,
                     ),
                   ),
-                  ScaleButton(
-                    onFinish: () async {
-                      final view = await _controller.future;
-                      await view.loadUrl(
-                        urlRequest: URLRequest(
-                          url: Uri.tryParse(widget.link),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(_padding),
-                      child: Tooltip(
-                        message: tr("tooltips.reload_news_url"),
-                        child: const Icon(
-                          Icons.restore_rounded,
-                          size: 32,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),

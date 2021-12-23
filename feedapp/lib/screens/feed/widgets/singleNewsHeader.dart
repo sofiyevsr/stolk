@@ -1,9 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/dialogs/reportDialog.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
-import 'package:stolk/screens/feed/widgets/sourceNews.dart';
+import 'package:stolk/screens/feed/sourceNews.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/constants.dart';
@@ -70,13 +71,10 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
           GestureDetector(
             onTap: () {
               NavigationService.push(
-                BlocProvider<NewsBloc>(
-                  create: (ctx) => NewsBloc(),
-                  child: SourceNews(
-                    sourceID: widget.feed.sourceID,
-                    sourceName: widget.feed.sourceName,
-                    logoSuffix: widget.feed.sourceLogoSuffix,
-                  ),
+                SourceNewsScreen(
+                  sourceID: widget.feed.sourceID,
+                  sourceName: widget.feed.sourceName,
+                  logoSuffix: widget.feed.sourceLogoSuffix,
                 ),
                 RouteNames.SOURCE_NEWS_FEED,
               );
@@ -94,14 +92,16 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    AutoSizeText(
                       this.widget.feed.sourceName,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.headline6?.copyWith(fontSize: 18),
+                      maxLines: 1,
+                      style: theme.textTheme.headline6?.copyWith(fontSize: 16),
                     ),
-                    Text(
+                    AutoSizeText(
                       convertDiffTime(this.widget.feed.publishedDate, context),
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: theme.textTheme.subtitle2?.copyWith(
                         fontWeight: FontWeight.normal,
                         fontSize: 12,

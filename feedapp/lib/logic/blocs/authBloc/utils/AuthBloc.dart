@@ -16,13 +16,14 @@ part 'AuthEvents.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static final instance = AuthBloc._();
   static final _auth = AuthService();
+  final storage = SecureStorage();
+
   AuthBloc._() : super(UnknownAuthState()) {
     on<AppLogin>((event, emit) async {
       final data = LoginRequest(email: event.email, password: event.password);
       try {
         emit(AuthLoadingState());
         final response = await _auth.login(data);
-        final storage = SecureStorage();
         await storage.setToken(response.token);
         emit(AuthorizedState(
           user: response.user,
@@ -37,7 +38,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         emit(AuthLoadingState());
         final response = await _auth.googleLogin(event.idToken);
-        final storage = SecureStorage();
         await storage.setToken(response.token);
         emit(AuthorizedState(
           user: response.user,
@@ -52,7 +52,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         emit(AuthLoadingState());
         final response = await _auth.facebookLogin(event.token);
-        final storage = SecureStorage();
         await storage.setToken(response.token);
         emit(AuthorizedState(
           user: response.user,
@@ -72,7 +71,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         emit(AuthLoadingState());
         final response = await _auth.register(data);
-        final storage = SecureStorage();
         await storage.setToken(response.token);
         emit(AuthorizedState(
           user: response.user,
@@ -93,7 +91,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
       } on DioError catch (err) {
         if (err.response?.statusCode == 500) {
-          final storage = SecureStorage();
           await storage.removeToken();
           emit(UnathorizedState());
         } else
@@ -117,7 +114,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<ApiForceLogout>((event, emit) async {
       try {
-        final storage = SecureStorage();
         await storage.removeToken();
         // Delete notification token locally to be able to save token on later login
         await StartupService.instance.deleteTokenLocally();
@@ -128,7 +124,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await _auth.logout();
 
-        final storage = SecureStorage();
         await storage.removeToken();
         // Delete notification token locally to be able to save token on later login
         await StartupService.instance.deleteTokenLocally();
