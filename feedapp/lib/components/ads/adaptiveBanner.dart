@@ -19,7 +19,7 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
 
   Future<void> _loadAd() async {
     // TODO implement orientation change banner
-    if (_isAdLoaded == true) return;
+    if (_isAdLoaded == true || _banner != null) return;
     // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
     final AnchoredAdaptiveBannerAdSize? size =
         await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(

@@ -27,7 +27,7 @@ class ResponsiveNewsGrid extends StatefulWidget {
 }
 
 class _ResponsiveNewsGridState extends State<ResponsiveNewsGrid> {
-  final adPlaces = getRandomAdPlaces(3);
+  final adPlaces = getRandomAdPlaces(5);
 
   SliverGridDelegateWithFixedCrossAxisCount delegateBuilder(
     BuildContext context,

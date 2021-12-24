@@ -202,6 +202,7 @@
     "agree": "Hesab yaradaraq istifadə şərtləri və gizlilik hüquqlarına razı olmuş olursunuz"
   },
   "tooltips": {
+    "ad_error": "Reklam tapılmadı və ya yüklənmədi",
     "hide_password": "Şifrəni gizlət",
     "show_password": "Şifrəni göstər",
     "reload_news_url": "Əsas xəbərə geri dön",
