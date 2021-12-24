@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:stolk/utils/ui/constants.dart';
+import 'package:stolk/components/common/centerLoadingWidget.dart';
 
 class RectangleBannerAd extends StatefulWidget {
   final String unitID;
@@ -18,8 +20,10 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
 
   // State related
   bool _isAdLoaded = false;
+  bool _adFailed = false;
 
   Future<void> _loadAd() async {
+    if (_isAdLoaded == true || _banner != null) return;
     _banner = BannerAd(
       adUnitId: widget.unitID,
       size: AdSize.mediumRectangle,
@@ -27,6 +31,9 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
+          setState(() {
+            _adFailed = true;
+          });
         },
         onAdLoaded: (a) {
           if (mounted) {
@@ -55,8 +62,17 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (_adFailed == true) {
+      return AutoSizeText(
+        tr("tooltips.ad_error"),
+        minFontSize: 20,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
     if (_isAdLoaded == false) {
-      return Container();
+      return const CenterLoadingWidget();
     }
     return Container(
       alignment: Alignment.bottomCenter,

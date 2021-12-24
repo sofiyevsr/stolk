@@ -3,6 +3,7 @@ part of "./index.dart";
 final _base = ThemeData.dark();
 
 final darkTheme = _base.copyWith(
+  backgroundColor: Colors.black,
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),

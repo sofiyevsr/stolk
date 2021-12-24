@@ -202,6 +202,7 @@
     "agree": "By registering you accept terms of use and privacy policy"
   },
   "tooltips": {
+    "ad_error": "Ad not found or failed to load",
     "hide_password": "Hide password",
     "show_password": "Show password",
     "reload_news_url": "Back to initial news",
