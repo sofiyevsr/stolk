@@ -193,47 +193,47 @@ class SingleNewsActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final theme = Theme.of(context);
+    return Container(
       height: ACTIONS_HEIGHT,
-      child: Material(
-        child: ButtonTheme(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Tooltip(
-                    message: tr("tooltips.like"),
-                    child: _buildLikeButton(context),
+      color: theme.cardColor,
+      child: ButtonTheme(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Tooltip(
+                  message: tr("tooltips.like"),
+                  child: _buildLikeButton(context),
+                ),
+                Tooltip(
+                  message: tr("tooltips.comment"),
+                  child: _buildCommentButton(
+                    onPressed: () => _comment(context),
                   ),
-                  Tooltip(
-                    message: tr("tooltips.comment"),
-                    child: _buildCommentButton(
-                      onPressed: () => _comment(context),
-                    ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Tooltip(
+                  message: tr("tooltips.bookmark"),
+                  child: _buildBookmarkButton(context),
+                ),
+                Tooltip(
+                  message: tr("tooltips.share"),
+                  child: _buildIconButton(
+                    icon: Icon(Icons.share_outlined),
+                    onPressed: _share,
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Tooltip(
-                    message: tr("tooltips.bookmark"),
-                    child: _buildBookmarkButton(context),
-                  ),
-                  Tooltip(
-                    message: tr("tooltips.share"),
-                    child: _buildIconButton(
-                      icon: Icon(Icons.share_outlined),
-                      onPressed: _share,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

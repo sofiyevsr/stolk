@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/notFoundImage.dart';
@@ -59,7 +58,7 @@ class SingleNewsBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -76,7 +75,7 @@ class SingleNewsBody extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
