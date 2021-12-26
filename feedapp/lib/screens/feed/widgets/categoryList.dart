@@ -67,51 +67,45 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewsBloc, NewsState>(
-      builder: (ctx, state) {
-        if (state is NewsStateLoading) {
-          return const SizedBox(
-            height: 100,
-            child: CenterLoadingWidget(),
-          );
-        }
-        if (state is NewsStateError) {
-          return const SizedBox(
-            height: 100,
-            child: Center(
-              child: Icon(
-                Icons.error_outline,
-                size: 64,
-                color: Colors.red,
-              ),
+    return BlocBuilder<NewsBloc, NewsState>(builder: (ctx, state) {
+      if (state is NewsStateLoading) {
+        return const SizedBox(
+          height: 100,
+          child: CenterLoadingWidget(),
+        );
+      }
+      if (state is NewsStateError) {
+        return const SizedBox(
+          height: 100,
+          child: Center(
+            child: Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Colors.red,
             ),
-          );
-        }
-
-        if (state is! NewsStateWithData || state.data.categories == null) {
-          return const SizedBox();
-        }
-
-        final cats = [
-          SingleCategory.fromJSON(
-            {"id": 0, "name": "all", "image_suffix": "all.jpg"},
-          ),
-          ...state.data.categories!,
-        ];
-
-        return ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: cats.length,
-          itemBuilder: (ctx, index) => GestureDetector(
-            key: Key(
-              cats[index].id.toString(),
-            ),
-            onTap: () => changeCategory(cats[index].id),
-            child: _buildItem(cats[index]),
           ),
         );
-      },
-    );
+      }
+      final cats = [
+        SingleCategory.fromJSON(
+          {"id": 0, "name": "all", "image_suffix": "all.jpg"},
+        ),
+      ];
+      if (state is NewsStateWithData && state.data.categories != null) {
+        cats.addAll(state.data.categories!);
+      }
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: cats.length,
+        itemBuilder: (ctx, index) => GestureDetector(
+          key: Key(
+            cats[index].id.toString(),
+          ),
+          onTap: () => changeCategory(cats[index].id),
+          child: _buildItem(cats[index]),
+        ),
+      );
+    });
   }
 }

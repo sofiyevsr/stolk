@@ -24,11 +24,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           sortBy: event.sortBy,
           period: event.period,
         );
-        final cats = await service.getAllCategories();
         if (data.news.isNotEmpty) {
           emit(NewsStateSuccess(
             data: NewsModel(
-              categories: cats.categories,
+              categories: data.categories,
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
               sortBy: event.sortBy,

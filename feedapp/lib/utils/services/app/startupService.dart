@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
@@ -18,6 +19,7 @@ class StartupService {
   }
 
   Future<void> storeDeviceToken(String? authToken) async {
+    debugPrint("Storing device token $authToken");
     final permissions = await FirebaseMessaging.instance.requestPermission();
     if (permissions.authorizationStatus != AuthorizationStatus.authorized) {
       return;
@@ -30,14 +32,16 @@ class StartupService {
 
   void startNotificationStream() {
     // Any time the token refreshes, store this in the database too.
-    if (_tokenRefreshStream == null)
-      _tokenRefreshStream = FirebaseMessaging.instance.onTokenRefresh.listen(
-        (token) {
-          final authState = AuthBloc.instance.state;
-          if (authState is! AuthorizedState) return;
-          _saveTokenToDatabase(token, authState.token).catchError((_){});
-        },
-      );
+    _tokenRefreshStream ??= FirebaseMessaging.instance.onTokenRefresh.listen(
+      (token) {
+        final authState = AuthBloc.instance.state;
+        if (authState is AuthorizedState) {
+          _saveTokenToDatabase(token, authState.token).catchError((_) {});
+        } else {
+          _saveTokenToDatabase(token, null).catchError((_) {});
+        }
+      },
+    );
   }
 
   Future<void> checkTokenAndSaveDeviceToken() async {
@@ -55,9 +59,11 @@ class StartupService {
     if (_isTokenSaveInProgress == true) return;
     _isTokenSaveInProgress = true;
     try {
-      if (token == null || authToken == null) return;
+      if (token == null) return;
+      debugPrint("Checking if token is already in cache");
       final lastSavedNofifToken = await _settingsBox.get("notificationToken");
       if (lastSavedNofifToken == token) return;
+      debugPrint("Sending request to save fcm token");
       final notificationService = NotificationService();
       await notificationService.saveToken(token, authToken);
       await _settingsBox.put("notificationToken", token);

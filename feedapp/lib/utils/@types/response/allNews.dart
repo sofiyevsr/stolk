@@ -122,25 +122,20 @@ class SingleNews {
 
 class AllNewsResponse {
   final List<SingleNews> news = [];
+  final List<SingleCategory> categories = [];
   final bool hasReachedEnd;
   AllNewsResponse.fromJSON(Map<String, dynamic> json)
       : this.hasReachedEnd = json['has_reached_end'] {
     if (json['news'] == null) {
       return;
     }
-    for (int i = 0; i < json['news'].length; i++) {
-      news.add(SingleNews.fromJSON(json['news'][i]));
-    }
-  }
-}
-
-class AllCategoriesResponse {
-  final List<SingleCategory> categories = [];
-  AllCategoriesResponse.fromJSON(Map<String, dynamic> json) {
     if (json["categories"] != null) {
       for (int i = 0; i < json['categories'].length; i++) {
         categories.add(SingleCategory.fromJSON(json['categories'][i]));
       }
+    }
+    for (int i = 0; i < json['news'].length; i++) {
+      news.add(SingleNews.fromJSON(json['news'][i]));
     }
   }
 }
