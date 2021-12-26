@@ -4,7 +4,7 @@ import { tables } from "@utils/constants";
 import SoftError from "@utils/softError";
 import validateNotificationToken from "@utils/validations/auth/notificationToken";
 
-const saveTokenToDb = async (token: string, session_id: number) => {
+const saveTokenToDb = async (token: string, session_id?: number) => {
   if (token == null || typeof token !== "string" || token.length < 15) {
     throw new SoftError(i18next.t("errors.invalid_token"));
   }

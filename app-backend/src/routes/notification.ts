@@ -17,9 +17,9 @@ r.get("/my-preferences", authenticateMiddleware(), async (req, res, next) => {
   }
 });
 
-r.post("/save-token", authenticateMiddleware(), async (req, res, next) => {
+r.post("/save-token", authenticateMiddleware(true), async (req, res, next) => {
   try {
-    const session_id = req.session?.id!;
+    const session_id = req.session?.id;
     await notification.create(req.body.token, session_id);
     return responseContentCreated(res, {});
   } catch (e) {
