@@ -2,11 +2,13 @@ import 'package:stolk/utils/@types/response/allNews.dart';
 
 class NewsModel {
   final List<SingleNews> news;
+  final List<SingleCategory>? categories;
   final bool hasReachedEnd;
   final int? category;
   final int? sortBy;
   final int? period;
   const NewsModel({
+    required this.categories,
     required this.news,
     required this.hasReachedEnd,
     required this.category,
@@ -23,6 +25,7 @@ class NewsModel {
         sortBy: this.sortBy,
         category: this.category,
         period: this.period,
+        categories: this.categories,
       );
   NewsModel modifySingle({
     required SingleNews item,
@@ -36,6 +39,7 @@ class NewsModel {
       sortBy: this.sortBy,
       category: this.category,
       period: this.period,
+      categories: this.categories,
     );
   }
 }

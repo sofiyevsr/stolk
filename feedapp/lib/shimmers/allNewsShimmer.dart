@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stolk/utils/ui/constants.dart';
 
-const NEWS_HEIGHT = 200.0;
+const NEWS_HEIGHT = 175.0;
 
 class AllNewsShimmer extends StatelessWidget {
   const AllNewsShimmer({Key? key}) : super(key: key);
@@ -22,6 +22,7 @@ class AllNewsShimmer extends StatelessWidget {
             crossAxisCount: crossCount,
             crossAxisSpacing: 20,
           ),
+          physics: const BouncingScrollPhysics(),
           children: List.generate(
             crossCount * 2,
             (index) => Container(
@@ -40,7 +41,7 @@ class AllNewsShimmer extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
-                          color: Colors.blue,
+                          color: Colors.black,
                         ),
                       ),
                       Icon(
@@ -52,14 +53,13 @@ class AllNewsShimmer extends StatelessWidget {
                   Container(
                     height: NEWS_HEIGHT,
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.black,
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
                     ),
                   ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: List.generate(
                       3,
                       (index) => Container(
@@ -69,7 +69,7 @@ class AllNewsShimmer extends StatelessWidget {
                           right: (25 * (index + 1)).toDouble(),
                           top: 10,
                         ),
-                        color: Colors.blue,
+                        color: Colors.black,
                       ),
                     ),
                   ),

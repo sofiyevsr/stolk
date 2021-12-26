@@ -24,9 +24,11 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           sortBy: event.sortBy,
           period: event.period,
         );
-        if (data.news.isNotEmpty)
+        final cats = await service.getAllCategories();
+        if (data.news.isNotEmpty) {
           emit(NewsStateSuccess(
             data: NewsModel(
+              categories: cats.categories,
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
               sortBy: event.sortBy,
@@ -34,8 +36,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               period: event.period,
             ),
           ));
-        else
+        } else {
           emit(NewsStateNoData());
+        }
       } catch (e) {
         emit(NewsStateError());
       }
@@ -45,9 +48,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     // 2. Event sender is responsible for sending current category
     on<RefreshNewsEvent>((event, emit) async {
       try {
-        if (event.data.news.isNotEmpty)
+        if (event.data.news.isNotEmpty && state is NewsStateWithData) {
           emit(NewsStateSuccess(
             data: NewsModel(
+              categories: (state as NewsStateWithData).data.categories,
               news: event.data.news,
               hasReachedEnd: event.data.hasReachedEnd,
               sortBy: event.sortBy,
@@ -55,7 +59,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               period: event.period,
             ),
           ));
-        else
+        } else
           emit(NewsStateNoData());
       } catch (e) {
         emit(NewsStateError());
@@ -116,6 +120,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         if (data.news.isNotEmpty)
           emit(NewsStateSuccess(
             data: NewsModel(
+              categories: null,
               news: data.news,
               hasReachedEnd: data.hasReachedEnd,
               category: null,
