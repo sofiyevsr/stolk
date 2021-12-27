@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';

@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class NoNewsWidget extends StatelessWidget {
-  const NoNewsWidget({Key? key}) : super(key: key);
+  final bool followMore;
+  const NoNewsWidget({Key? key, required this.followMore}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,8 @@ class NoNewsWidget extends StatelessWidget {
             size: 100,
           ),
           Text(
-            tr("news.no_news_follow_more"),
-            style: TextStyle(
+            followMore ? tr("news.no_news_follow_more") : tr("news.no_news"),
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
