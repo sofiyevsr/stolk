@@ -393,22 +393,6 @@ export const sources = [
     lang_id: 3,
   },
   {
-    id: 55,
-    name: "Goal",
-    logo_suffix: "goal-com.jpg",
-    link: "https://goal.com/feeds/en/news",
-    category_alias_name: "football",
-    lang_id: 3,
-  },
-  {
-    id: 56,
-    name: "Goal Türkçe",
-    logo_suffix: "goal-com.jpg",
-    link: "https://goal.com/feeds/tr/news",
-    category_alias_name: "football",
-    lang_id: 1,
-  },
-  {
     id: 57,
     name: "BBC World",
     logo_suffix: "bbc-com.jpg",
