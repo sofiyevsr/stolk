@@ -28,9 +28,19 @@ class NewsNextFetchLoading extends NewsStateWithData {
   }) : super(data: data);
 }
 
-class NewsStateLoading extends NewsState {}
+class NewsStateLoading extends NewsState {
+  final List<SingleCategory>? categories;
+  NewsStateLoading({this.categories});
+  @override
+  get props => [categories];
+}
 
-class NewsStateNoData extends NewsState {}
+class NewsStateNoData extends NewsState {
+  final List<SingleCategory>? categories;
+  NewsStateNoData({this.categories});
+  @override
+  get props => [categories];
+}
 
 class NewsStateSuccess extends NewsStateWithData {
   NewsStateSuccess({

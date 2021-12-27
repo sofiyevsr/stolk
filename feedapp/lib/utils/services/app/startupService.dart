@@ -19,7 +19,6 @@ class StartupService {
   }
 
   Future<void> storeDeviceToken(String? authToken) async {
-    debugPrint("Storing device token $authToken");
     final permissions = await FirebaseMessaging.instance.requestPermission();
     if (permissions.authorizationStatus != AuthorizationStatus.authorized) {
       return;
@@ -60,10 +59,8 @@ class StartupService {
     _isTokenSaveInProgress = true;
     try {
       if (token == null) return;
-      debugPrint("Checking if token is already in cache");
       final lastSavedNofifToken = await _settingsBox.get("notificationToken");
       if (lastSavedNofifToken == token) return;
-      debugPrint("Sending request to save fcm token");
       final notificationService = NotificationService();
       await notificationService.saveToken(token, authToken);
       await _settingsBox.put("notificationToken", token);

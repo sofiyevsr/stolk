@@ -17,7 +17,22 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc() : super(NewsStateInitial()) {
     on<FetchNewsEvent>((event, emit) async {
       try {
-        emit(NewsStateLoading());
+        // Categories must be carried to avoid reloading
+        if (state is NewsStateWithData) {
+          emit(
+            NewsStateLoading(
+              categories: (state as NewsStateWithData).data.categories,
+            ),
+          );
+        } else if (state is NewsStateNoData) {
+          emit(
+            NewsStateLoading(
+              categories: (state as NewsStateNoData).categories,
+            ),
+          );
+        } else {
+          emit(NewsStateLoading());
+        }
         final data = await service.getAllNews(
           category: event.category,
           sourceID: event.sourceID,
@@ -36,7 +51,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             ),
           ));
         } else {
-          emit(NewsStateNoData());
+          emit(NewsStateNoData(
+            categories: data.categories,
+          ));
         }
       } catch (e) {
         emit(NewsStateError());

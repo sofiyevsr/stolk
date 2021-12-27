@@ -68,7 +68,7 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsBloc, NewsState>(builder: (ctx, state) {
-      if (state is NewsStateLoading) {
+      if (state is NewsStateLoading && state.categories == null) {
         return const SizedBox(
           height: 100,
           child: CenterLoadingWidget(),
@@ -93,8 +93,14 @@ class CategoryList extends StatelessWidget {
       ];
       if (state is NewsStateWithData && state.data.categories != null) {
         cats.addAll(state.data.categories!);
+      } else if (state is NewsStateNoData && state.categories != null) {
+        cats.addAll(state.categories!);
+      } else if (state is NewsStateLoading && state.categories != null) {
+        cats.addAll(state.categories!);
       }
+
       return ListView.builder(
+        key: const PageStorageKey("categories"),
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: cats.length,
