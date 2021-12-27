@@ -167,8 +167,8 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: FeedSortingButton(
                 callback: (sortBy, period) {
-                  this._currentSortBy = sortBy;
-                  this._currentPeriod = period;
+                  _currentSortBy = sortBy;
+                  _currentPeriod = period;
                   context.read<NewsBloc>().add(
                         FetchNewsEvent(
                           category: _currentCategory,
@@ -183,7 +183,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
             Expanded(
               child: BlocBuilder<NewsBloc, NewsState>(
                 builder: (ctx, state) {
-                  if (state is NewsStateLoading) return AllNewsShimmer();
+                  if (state is NewsStateLoading) return const AllNewsShimmer();
                   if (state is NewsStateWithData) {
                     return RefreshIndicator(
                       onRefresh: onRefresh,
@@ -197,7 +197,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   }
 
                   if (state is NewsStateNoData) {
-                    return NoNewsWidget();
+                    return const NoNewsWidget();
                   }
                   if (state is NewsStateError) {
                     return NoConnectionWidget(
@@ -219,11 +219,11 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               onPressed: () {
                 _scrollController.animateTo(
                   0,
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
                 );
               },
-              child: Icon(Icons.north_sharp),
+              child: const Icon(Icons.north_sharp),
             ),
           ),
       ],

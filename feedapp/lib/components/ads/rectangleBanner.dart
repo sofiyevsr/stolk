@@ -12,8 +12,7 @@ class RectangleBannerAd extends StatefulWidget {
   _RectangleBannerAd createState() => _RectangleBannerAd();
 }
 
-class _RectangleBannerAd extends State<RectangleBannerAd>
-    with AutomaticKeepAliveClientMixin {
+class _RectangleBannerAd extends State<RectangleBannerAd> {
   // Ad related
   BannerAd? _banner;
   AdWidget? _adWidget;
@@ -31,9 +30,11 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
-          setState(() {
-            _adFailed = true;
-          });
+          if (mounted) {
+            setState(() {
+              _adFailed = true;
+            });
+          }
         },
         onAdLoaded: (a) {
           if (mounted) {
@@ -61,7 +62,6 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     if (_adFailed == true) {
       return AutoSizeText(
         tr("tooltips.ad_error"),
@@ -74,6 +74,7 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
     if (_isAdLoaded == false) {
       return const CenterLoadingWidget();
     }
+    // if ad loaded keep it alive
     return Container(
       alignment: Alignment.bottomCenter,
       child: _adWidget,
@@ -81,7 +82,4 @@ class _RectangleBannerAd extends State<RectangleBannerAd>
       width: _banner!.size.width.toDouble(),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

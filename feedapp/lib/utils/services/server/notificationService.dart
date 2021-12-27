@@ -20,11 +20,11 @@ class NotificationService extends ApiService {
         {"notification_type_id": notificationOptoutType}, {});
   }
 
-  Future<void> saveToken(String token, String authToken) async {
+  Future<void> saveToken(String token, String? authToken) async {
     await this.request.post(
           "/notification/save-token",
           {"token": token},
-          {"authorization": 'Bearer $authToken'},
+          {if (authToken != null) "authorization": 'Bearer $authToken'},
           handleError: false,
         );
   }

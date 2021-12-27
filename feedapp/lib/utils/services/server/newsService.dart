@@ -34,11 +34,6 @@ class NewsService extends ApiService {
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
-  Future<AllCategoriesResponse> getAllCategories() async {
-    final response = await this.request.get("/news/categories", {}, {});
-    return AllCategoriesResponse.fromJSON(response.data['body']);
-  }
-
   Future<AllCommentsResponse> getAllComments(int id, int? lastID) async {
     final response = await this.request.get("/news/$id/comments", {
       if (lastID != null) 'last_id': lastID,
