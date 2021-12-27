@@ -4,7 +4,7 @@ import { tables } from "@utils/constants";
 import SoftError from "@utils/softError";
 import validateNotificationToken from "@utils/validations/auth/notificationToken";
 
-const saveTokenToDb = async (token: string, session_id: number) => {
+const saveTokenToDb = async (token: string, session_id?: number) => {
   if (token == null || typeof token !== "string" || token.length < 15) {
     throw new SoftError(i18next.t("errors.invalid_token"));
   }
@@ -13,7 +13,7 @@ const saveTokenToDb = async (token: string, session_id: number) => {
     .select("token", "session_id")
     .where({
       token,
-      session_id,
+      session_id: session_id ?? null,
     })
     .first();
   // Nothing to do returning...
@@ -21,7 +21,7 @@ const saveTokenToDb = async (token: string, session_id: number) => {
   await db(tables.notification_token)
     .insert({
       token,
-      session_id,
+      session_id: session_id ?? null,
     })
     .onConflict("session_id")
     .merge();

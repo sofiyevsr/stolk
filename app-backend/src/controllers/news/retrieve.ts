@@ -9,6 +9,7 @@ import Joi from "joi";
 
 interface NewsResult {
   news: any[];
+  categories?: any[];
   has_reached_end: boolean;
 }
 
@@ -197,8 +198,17 @@ async function all({
   const hasReachedEnd = news.length !== parsedPerPage + 1;
   news = news.slice(0, parsedPerPage);
 
+  let categories;
+  if (values.cursor == null) {
+    categories = await db
+      .select("id", "name", "image_suffix")
+      .from(tables.news_category)
+      .where({ hidden_at: null });
+  }
+
   result = {
     news,
+    categories,
     has_reached_end: hasReachedEnd,
   };
 
