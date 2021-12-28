@@ -197,7 +197,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   }
 
                   if (state is NewsStateNoData) {
-                    return const NoNewsWidget();
+                    return const NoNewsWidget(followMore: true);
                   }
                   if (state is NewsStateError) {
                     return NoConnectionWidget(

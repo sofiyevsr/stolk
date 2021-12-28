@@ -122,12 +122,45 @@ class _SourceNewsState extends State<SourceNews> {
           );
         }
         if (state is NewsStateNoData) {
-          return const NoNewsWidget();
+          return Column(
+            children: [
+              AppBar(
+                title: Text(
+                  widget.sourceName,
+                ),
+              ),
+              const Expanded(
+                child: NoNewsWidget(followMore: false),
+              ),
+            ],
+          );
         }
         if (state is NewsStateError) {
-          return NoConnectionWidget(onRetry: fetchNews);
+          return Column(
+            children: [
+              AppBar(
+                title: Text(
+                  widget.sourceName,
+                ),
+              ),
+              Expanded(
+                child: NoConnectionWidget(onRetry: fetchNews),
+              ),
+            ],
+          );
         }
-        return Container();
+        return Column(
+          children: [
+            AppBar(
+              title: Text(
+                widget.sourceName,
+              ),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+          ],
+        );
       },
     );
   }

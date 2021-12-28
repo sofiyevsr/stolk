@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:stolk/logic/blocs/authBloc/models/user.dart';
 import 'package:stolk/utils/@types/request/checkToken.dart';
 import 'package:stolk/utils/@types/request/login.dart';
@@ -16,6 +18,7 @@ part 'AuthEvents.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static final instance = AuthBloc._();
   static final _auth = AuthService();
+  final _settingsBox = Hive.box("settings");
   final storage = SecureStorage();
 
   AuthBloc._() : super(UnknownAuthState()) {
@@ -139,6 +142,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (transition.nextState is AuthorizedState &&
         transition.currentState is AuthLoadingState) {
       final authToken = (transition.nextState as AuthorizedState).token;
+      await _settingsBox.delete("notificationToken");
+      debugPrint("deleted notification token");
       await StartupService.instance.storeDeviceToken(authToken);
     }
   }
