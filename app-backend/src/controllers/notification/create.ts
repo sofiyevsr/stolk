@@ -9,21 +9,24 @@ const saveTokenToDb = async (token: string, session_id?: number) => {
     throw new SoftError(i18next.t("errors.invalid_token"));
   }
   await validateNotificationToken(token);
-  const tokenDB = await db(tables.notification_token)
-    .select("token", "session_id")
-    .where({
-      token,
-      session_id: session_id ?? null,
-    })
-    .first();
-  // Nothing to do returning...
-  if (tokenDB) return;
+  if (session_id != null) {
+    const tokenDB = await db(tables.notification_token)
+      .select("token", "session_id")
+      .where({
+        session_id,
+      })
+      .first();
+
+    // Nothing to do returning...
+    if (tokenDB) return;
+  }
+
   await db(tables.notification_token)
     .insert({
       token,
-      session_id: session_id ?? null,
+      session_id,
     })
-    .onConflict("session_id")
+    .onConflict("token")
     .merge();
 };
 
