@@ -122,46 +122,41 @@ class _SourceNewsState extends State<SourceNews> {
           );
         }
         if (state is NewsStateNoData) {
-          return Column(
-            children: [
-              AppBar(
-                title: Text(
-                  widget.sourceName,
-                ),
-              ),
-              const Expanded(
-                child: NoNewsWidget(followMore: false),
-              ),
-            ],
+          return _SourceNewsColumn(
+            child: const NoNewsWidget(followMore: false),
+            sourceName: widget.sourceName,
           );
         }
         if (state is NewsStateError) {
-          return Column(
-            children: [
-              AppBar(
-                title: Text(
-                  widget.sourceName,
-                ),
-              ),
-              Expanded(
-                child: NoConnectionWidget(onRetry: fetchNews),
-              ),
-            ],
+          return _SourceNewsColumn(
+            child: NoConnectionWidget(onRetry: fetchNews),
+            sourceName: widget.sourceName,
           );
         }
-        return Column(
-          children: [
-            AppBar(
-              title: Text(
-                widget.sourceName,
-              ),
-            ),
-            Expanded(
-              child: Container(),
-            ),
-          ],
+        return _SourceNewsColumn(
+          child: Container(),
+          sourceName: widget.sourceName,
         );
       },
+    );
+  }
+}
+
+class _SourceNewsColumn extends StatelessWidget {
+  final Widget child;
+  final String sourceName;
+  const _SourceNewsColumn({required this.child, required this.sourceName});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AppBar(
+          title: Text(
+            sourceName,
+          ),
+        ),
+        Expanded(child: child),
+      ],
     );
   }
 }

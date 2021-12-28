@@ -143,7 +143,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         transition.currentState is AuthLoadingState) {
       final authToken = (transition.nextState as AuthorizedState).token;
       await _settingsBox.delete("notificationToken");
-      debugPrint("deleted notification token");
       await StartupService.instance.storeDeviceToken(authToken);
     }
   }
