@@ -43,7 +43,7 @@ class SourcesApi extends ApiClient implements TableInterface {
     lang_id,
     category_alias_name,
   }: Omit<SourceRequest, "id">) {
-    const data = await this.axios.post(`/source/`, {
+    const data = await this.axios.post(`/source`, {
       name,
       logo_suffix,
       link,
