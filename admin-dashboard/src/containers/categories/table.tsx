@@ -1,19 +1,19 @@
 import useTableLoader from "../../utils/hooks/table-data-loader";
 import { DataGrid } from "@mui/x-data-grid";
 import CategoriesApi from "../../utils/api/categories";
-import AddCategoryModal from "./addModal";
 import { useState } from "react";
 import { Button, Modal } from "../../widgets";
 import { toast } from "react-toastify";
-import UpdateCategoryModal from "./updateModal";
+import ActionsModal from "./actionsModal";
 
 type Props = {
   show: boolean;
   setModalActive: React.Dispatch<boolean>;
 };
 
+const categoriesApi = new CategoriesApi();
+
 function CategoriesTable({ setModalActive, show }: Props) {
-  const categoriesApi = new CategoriesApi();
   const getAll = async ({ lastID }: { lastID: number | null }) => {
     const {
       body: { categories },
@@ -48,20 +48,22 @@ function CategoriesTable({ setModalActive, show }: Props) {
         }))}
         rowsPerPageOptions={[10]}
       />
-      <AddCategoryModal
-        alterInMemory={addItem}
+      <ActionsModal
+        addItem={addItem}
+        modifyItem={modifyData}
         show={show}
         onClose={() => {
           setModalActive(false);
         }}
       />
-      <UpdateCategoryModal
+      <ActionsModal
         show={!!actionType && actionType === "update" && !!selectedID}
+        addItem={addItem}
+        modifyItem={modifyData}
         onClose={() => {
           setActionType(undefined);
         }}
         categoryID={selectedID}
-        alterInMemory={modifyData}
       />
       <Modal
         // This modal is for all actions but update
