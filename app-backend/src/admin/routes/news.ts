@@ -104,7 +104,7 @@ r.patch("/category/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const category = await news.actions.category.update(req.body, id);
-    return responseContentCreated(res, category);
+    return responseSuccess(res, category);
   } catch (error) {
     return next(error);
   }

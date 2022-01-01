@@ -23,6 +23,16 @@ r.delete("/:id", async (req, res, next) => {
   }
 });
 
+r.patch("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedSource = await source.actions.update(req.body, id);
+    return responseSuccess(res, updatedSource);
+  } catch (error) {
+    return next(error);
+  }
+});
+
 r.post("/", async (req, res, next) => {
   try {
     const createdSource = await source.actions.insert(req.body);
