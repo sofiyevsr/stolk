@@ -108,7 +108,6 @@ function SourceActionsModal({
       <select
         id="lang_id"
         {...register("lang_id", {
-          minLength: { message: "Minimum 2 length", value: 2 },
           required: { message: "Language is required", value: true },
         })}
       >
