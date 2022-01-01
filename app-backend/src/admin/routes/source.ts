@@ -25,8 +25,8 @@ r.delete("/:id", async (req, res, next) => {
 
 r.post("/", async (req, res, next) => {
   try {
-    await source.actions.insert(req.body);
-    return responseSuccess(res);
+    const createdSource = await source.actions.insert(req.body);
+    return responseSuccess(res, createdSource);
   } catch (error) {
     return next(error);
   }

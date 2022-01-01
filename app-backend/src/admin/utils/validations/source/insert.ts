@@ -25,7 +25,7 @@ export default joi
       .trim(),
     category_alias_name: joi
       .string()
-      .required()
+      .allow(null)
       .min(2)
       .max(20)
       .messages({
@@ -63,7 +63,7 @@ export default joi
     lang_id: joi
       .number()
       .required()
-      .valid(langs.map((l) => l.id))
+      .valid(...langs.map((l) => l.id))
       .messages({
         "number.base": i18next.t("errors.validation.lang_id.number"),
         "any.required": i18next.t("errors.validation.lang_id.required"),
