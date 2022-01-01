@@ -1,11 +1,10 @@
 import user from "@admin/controllers/user";
 import { responseSuccess } from "@admin/utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
-r.get("/", authenticateMiddleware, async (req, res, next) => {
+r.get("/", async (req, res, next) => {
   try {
     const { last_id } = req.query as {
       [key: string]: string | undefined;
@@ -17,7 +16,7 @@ r.get("/", authenticateMiddleware, async (req, res, next) => {
   }
 });
 
-r.patch("/:id/ban", authenticateMiddleware, async (req, res, next) => {
+r.patch("/:id/ban", async (req, res, next) => {
   try {
     const id = req.params.id;
     const ban = await user.actions.ban(id);
@@ -27,7 +26,7 @@ r.patch("/:id/ban", authenticateMiddleware, async (req, res, next) => {
   }
 });
 
-r.patch("/:id/unban", authenticateMiddleware, async (req, res, next) => {
+r.patch("/:id/unban", async (req, res, next) => {
   try {
     const id = req.params.id;
     const unban = await user.actions.unban(id);

@@ -4,14 +4,13 @@ import {
   responseSuccess,
 } from "@admin/utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
 /////////////////////////////////////////////////////
 // NEWS
 /////////////////////////////////////////////////////
-r.get("/all", authenticateMiddleware, async (req, res, next) => {
+r.get("/all", async (req, res, next) => {
   const { last_id } = req.query as {
     [key: string]: string | undefined;
   };

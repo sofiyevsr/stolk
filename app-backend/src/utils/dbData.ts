@@ -92,9 +92,9 @@ export const sources = [
   },
   {
     id: 13,
-    name: "Musavat.com",
-    link: "https://musavat.com/rss.xml",
-    logo_suffix: "musavat-com.jpg",
+    name: "Aznews.az",
+    link: "https://aznews.az/feed.php",
+    logo_suffix: "aznews-az.jpg",
     lang_id: 0,
   },
   {
@@ -391,6 +391,20 @@ export const sources = [
     link: "https://www.teamtalk.com/rss",
     category_alias_name: "football",
     lang_id: 3,
+  },
+  {
+    id: 55,
+    name: "Azvision.az",
+    logo_suffix: "azvision-az.jpg",
+    link: "https://www.azvision.az/rss.xml",
+    lang_id: 0,
+  },
+  {
+    id: 56,
+    name: "Xəzərxəbər.az",
+    logo_suffix: "xezerxeber-az.jpg",
+    link: "https://www.xezerxeber.az/rss",
+    lang_id: 0,
   },
   {
     id: 57,

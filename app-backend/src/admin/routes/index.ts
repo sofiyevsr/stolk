@@ -6,10 +6,12 @@ import source from "./source";
 import report from "./report";
 import users from "./user";
 import analytics from "./analytics";
+import authAdmin from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
 r.use("/auth", auth);
+r.use(authAdmin);
 r.use("/notification", notification);
 r.use("/news", news);
 r.use("/source", source);
