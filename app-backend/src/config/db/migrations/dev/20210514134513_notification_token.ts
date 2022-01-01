@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
       .references("id")
       .inTable(tables.user_session)
       .onUpdate("CASCADE")
-      .onDelete("CASCADE");
+      .onDelete("SET NULL");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }
