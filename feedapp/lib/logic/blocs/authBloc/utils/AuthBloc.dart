@@ -119,7 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await storage.removeToken();
         // Delete notification token locally to be able to save token on later login
-        await StartupService.instance.deleteTokenLocally();
+        // await StartupService.instance.deleteTokenLocally();
         emit(UnathorizedState());
       } catch (e) {}
     });
@@ -129,7 +129,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         await storage.removeToken();
         // Delete notification token locally to be able to save token on later login
-        await StartupService.instance.deleteTokenLocally();
+        // await StartupService.instance.deleteTokenLocally();
 
         emit(UnathorizedState());
       } catch (e) {}
