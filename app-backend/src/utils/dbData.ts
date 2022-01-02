@@ -100,7 +100,7 @@ export const sources = [
     name: "Haqqin.az",
     link: "https://haqqin.az/rss.xml",
     logo_suffix: "haqqin-az.jpg",
-    lang_id: 0,
+    lang_id: 2,
   },
   {
     name: "Meduza.io",
@@ -315,13 +315,6 @@ export const sources = [
     name: "CNN International Edition",
     logo_suffix: "cnn-com.jpg",
     link: "http://rss.cnn.com/rss/edition.rss",
-    lang_id: 3,
-  },
-  {
-    name: "CNN Football Edition",
-    logo_suffix: "cnn-com.jpg",
-    link: "http://rss.cnn.com/rss/edition_football.rss",
-    category_alias_name: "football",
     lang_id: 3,
   },
   {
