@@ -50,6 +50,8 @@ func tryParseLink(rawLink string) (string, error) {
 		return "http:" + rawLink, nil
 	}
 
+	rawLink = strings.Trim(rawLink, " ")
+
 	// some sources has two scheme so replace it
 	if strings.Contains(rawLink, "https:https:") {
 		rawLink = strings.Replace(rawLink, "https:https:", "https:", 1)
