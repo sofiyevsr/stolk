@@ -6,8 +6,9 @@ import { Modal } from "../../widgets";
 interface Props {
   show: boolean;
   onClose: () => void;
-  alterInMemory: (index: number, item: { [key: string]: any }) => void;
-  categoryID: number | undefined;
+  modifyItem: (index: number, item: { [key: string]: any }) => void;
+  addItem: (item: { [key: string]: any }) => void;
+  categoryID?: number;
 }
 
 type FormData = {
@@ -16,10 +17,11 @@ type FormData = {
 };
 
 const categoryApi = new CategoriesApi();
-function UpdateCategoryModal({
+function CategoryActionsModal({
   show,
   onClose,
-  alterInMemory,
+  addItem,
+  modifyItem,
   categoryID,
 }: Props) {
   const {
@@ -30,15 +32,23 @@ function UpdateCategoryModal({
   } = useForm<FormData>();
 
   const formHandler = async (data: FormData) => {
-    if (categoryID == null) return;
-    const res: any = await categoryApi.update({
-      id: categoryID,
-      name: data.name,
-      image_suffix: data.image_suffix,
-    });
+    if (categoryID == null) {
+      const res: any = await categoryApi.insert({
+        name: data.name,
+        image_suffix: data.image_suffix,
+      });
+      toast.success("Category created");
+      addItem(res.body);
+    } else {
+      const res: any = await categoryApi.update({
+        id: categoryID,
+        name: data.name,
+        image_suffix: data.image_suffix,
+      });
+      toast.success("Category updated");
+      modifyItem(categoryID, res.body);
+    }
     reset({ name: "", image_suffix: "" });
-    toast.success("Category updated");
-    alterInMemory(categoryID, res.body);
   };
 
   return (
@@ -77,4 +87,4 @@ function UpdateCategoryModal({
   );
 }
 
-export default UpdateCategoryModal;
+export default CategoryActionsModal;
