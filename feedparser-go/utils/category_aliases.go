@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -15,6 +16,7 @@ type CatAlias struct {
 }
 
 func addCatAlias(aliases *[]CatAlias, alias string) {
+	alias = strings.Trim(alias, " ")
 	var exists bool
 	for _, v := range *aliases {
 		if v.Alias == alias {
