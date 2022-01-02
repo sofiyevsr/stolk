@@ -4,14 +4,13 @@ import {
   responseSuccess,
 } from "@admin/utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
 /////////////////////////////////////////////////////
 // NEWS
 /////////////////////////////////////////////////////
-r.get("/all", authenticateMiddleware, async (req, res, next) => {
+r.get("/all", async (req, res, next) => {
   const { last_id } = req.query as {
     [key: string]: string | undefined;
   };
@@ -105,7 +104,7 @@ r.patch("/category/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const category = await news.actions.category.update(req.body, id);
-    return responseContentCreated(res, category);
+    return responseSuccess(res, category);
   } catch (error) {
     return next(error);
   }

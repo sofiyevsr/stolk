@@ -1,11 +1,10 @@
 import report from "@admin/controllers/report";
 import { responseSuccess } from "@utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
-r.get("/news", authenticateMiddleware, async (req, res, next) => {
+r.get("/news", async (req, res, next) => {
   try {
     const { last_id } = req.query;
     const reports = await report.news(last_id as string);
@@ -15,7 +14,7 @@ r.get("/news", authenticateMiddleware, async (req, res, next) => {
   }
 });
 
-r.get("/comments", authenticateMiddleware, async (req, res, next) => {
+r.get("/comments", async (req, res, next) => {
   try {
     const { last_id } = req.query;
     const reports = await report.comments(last_id as string);

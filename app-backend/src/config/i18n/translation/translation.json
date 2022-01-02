@@ -48,6 +48,35 @@
         "required": "",
         "max20": ""
       },
+      "name": {
+        "string": "",
+        "empty": "",
+        "min": "",
+        "max": "",
+        "required": ""
+      },
+      "category_alias_name": {
+        "string": "",
+        "empty": "",
+        "min": "",
+        "max": "",
+        "required": ""
+      },
+      "logo_suffix": {
+        "string": "",
+        "empty": "",
+        "required": ""
+      },
+      "link": {
+        "string": "",
+        "empty": "",
+        "required": ""
+      },
+      "lang_id": {
+        "number": "",
+        "required": "",
+        "invalid": ""
+      },
       "id": {
         "number": "",
         "required": ""

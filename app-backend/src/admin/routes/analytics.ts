@@ -1,11 +1,10 @@
 import analytics from "@admin/controllers/analytics";
 import { responseSuccess } from "@admin/utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
 
 const r = Router();
 
-r.get("/all", authenticateMiddleware, async (_, res, next) => {
+r.get("/all", async (_, res, next) => {
   try {
     const analyticsData = await analytics.retrieve.all();
     return responseSuccess(res, analyticsData);

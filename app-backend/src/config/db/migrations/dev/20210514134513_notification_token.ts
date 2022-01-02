@@ -4,14 +4,13 @@ import { tables } from "../../../../utils/constants";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.notification_token, (t) => {
-    t.bigIncrements("id");
-    t.string("token").notNullable();
+    t.string("token").primary();
     t.integer("session_id")
       .unique()
       .references("id")
       .inTable(tables.user_session)
       .onUpdate("CASCADE")
-      .onDelete("CASCADE");
+      .onDelete("SET NULL");
     t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
   });
 }

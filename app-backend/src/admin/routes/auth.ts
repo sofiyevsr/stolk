@@ -1,7 +1,7 @@
 import auth from "@admin/controllers/auth";
 import { responseSuccess } from "@utils/responses";
 import { Router } from "express";
-import authenticateMiddleware from "src/admin/middlewares/authenticate";
+import authAdmin from "src/admin/middlewares/authenticate";
 import Recaptchaverify from "../middlewares/recaptcha";
 
 const r = Router();
@@ -15,7 +15,7 @@ r.post("/login", Recaptchaverify, async (req, res, next) => {
   }
 });
 
-r.post("/logout", authenticateMiddleware, async (req, res, next) => {
+r.post("/logout", authAdmin, async (req, res, next) => {
   try {
     const session = await auth.logout(req.adminSession?.id);
     return responseSuccess(res, {});
