@@ -53,11 +53,14 @@ class _ResponsiveNewsGridState extends State<ResponsiveNewsGrid> {
 
     int indexWithOffset = index;
 
-    for (int i in adPlaces) {
-      if (i < index) {
-        indexWithOffset--;
+    if (widget.includeAds == true) {
+      for (int i in adPlaces) {
+        if (i < index) {
+          indexWithOffset--;
+        }
       }
     }
+
     return SingleNewsView(
       key: Key(
         widget.state.data.news[indexWithOffset].id.toString(),
@@ -96,9 +99,11 @@ class _ResponsiveNewsGridState extends State<ResponsiveNewsGrid> {
   @override
   Widget build(BuildContext context) {
     int childCount = widget.state.data.news.length;
-    for (int i in adPlaces) {
-      if (i < widget.state.data.news.length) {
-        childCount++;
+    if (widget.includeAds == true) {
+      for (int i in adPlaces) {
+        if (i < widget.state.data.news.length) {
+          childCount++;
+        }
       }
     }
     return CustomScrollView(

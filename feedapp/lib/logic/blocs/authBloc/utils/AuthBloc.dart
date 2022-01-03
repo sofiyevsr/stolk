@@ -18,7 +18,6 @@ part 'AuthEvents.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static final instance = AuthBloc._();
   static final _auth = AuthService();
-  final _settingsBox = Hive.box("settings");
   final storage = SecureStorage();
 
   AuthBloc._() : super(UnknownAuthState()) {
@@ -96,8 +95,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (err.response?.statusCode == 500) {
           await storage.removeToken();
           emit(UnathorizedState());
-        } else
+        } else {
           emit(CheckTokenFailed());
+        }
       } catch (e) {
         emit(CheckTokenFailed());
       }
@@ -142,7 +142,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (transition.nextState is AuthorizedState &&
         transition.currentState is AuthLoadingState) {
       final authToken = (transition.nextState as AuthorizedState).token;
-      await _settingsBox.delete("notificationToken");
       await StartupService.instance.storeDeviceToken(authToken);
     }
   }

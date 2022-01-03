@@ -68,7 +68,8 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsBloc, NewsState>(builder: (ctx, state) {
-      if (state is NewsStateLoading && state.categories == null) {
+      if ((state is NewsStateLoading && state.categories == null) ||
+          state is NewsStateInitial) {
         return const SizedBox(
           height: 100,
           child: CenterLoadingWidget(),

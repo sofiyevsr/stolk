@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:hive/hive.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,7 +6,6 @@ import 'package:stolk/utils/services/server/notificationService.dart';
 
 class StartupService {
   static final instance = StartupService._();
-  final _settingsBox = Hive.box("settings");
   // To avoid sending request twice
   bool _isTokenSaveInProgress = false;
   StreamSubscription<String>? _tokenRefreshStream;
@@ -49,20 +47,13 @@ class StartupService {
     await storeDeviceToken(token);
   }
 
-  Future<void> deleteTokenLocally() async {
-    await _settingsBox.delete("notificationToken");
-  }
-
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {
     if (_isTokenSaveInProgress == true) return;
     _isTokenSaveInProgress = true;
     try {
       if (token == null) return;
-      final lastSavedNofifToken = await _settingsBox.get("notificationToken");
-      if (lastSavedNofifToken == token) return;
       final notificationService = NotificationService();
       await notificationService.saveToken(token, authToken);
-      await _settingsBox.put("notificationToken", token);
     } catch (_) {
       rethrow;
     } finally {
