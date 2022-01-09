@@ -68,7 +68,7 @@ class _CommentInputState extends State<CommentInput> {
               ),
             ),
           ),
-        if (auth is AuthorizedState)
+        if (isInputEnabled == true)
           Container(
             decoration: BoxDecoration(
               boxShadow: [
