@@ -1,11 +1,14 @@
 part of "./index.dart";
 
 final lightTheme = ThemeData(
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodyText1: TextStyle(fontSize: 16),
     bodyText2: TextStyle(fontSize: 14),
   ),
-  pageTransitionsTheme: PageTransitionsTheme(
+  iconTheme: const IconThemeData(
+    color: CustomColorScheme.main,
+  ),
+  pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),
       TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
@@ -13,49 +16,61 @@ final lightTheme = ThemeData(
   ),
   chipTheme: ChipThemeData.fromDefaults(
     brightness: Brightness.light,
-    labelStyle: TextStyle(),
+    labelStyle: const TextStyle(),
     secondaryColor: Colors.grey.shade700,
   ),
-  dividerTheme: DividerThemeData(
+  dividerTheme: const DividerThemeData(
     space: 0,
     thickness: 1,
   ),
   fontFamily: 'Roboto',
   brightness: Brightness.light,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: CustomColorScheme.main,
     foregroundColor: Colors.white,
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: const TabBarTheme(
     unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     labelColor: Colors.black,
     unselectedLabelColor: Colors.black54,
     indicator: BoxDecoration(
       border: Border(
-        bottom: const BorderSide(
+        bottom: BorderSide(
           color: Colors.orange,
           width: 5,
         ),
       ),
     ),
-    labelPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+    labelPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
     // unselectedLabelColor: Colors.white,
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
       minimumSize: MaterialStateProperty.all(
-        Size(0, 50),
+        const Size(0, 50),
       ),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
+      elevation: MaterialStateProperty.all(0),
+      shape: MaterialStateProperty.all(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+      ),
       minimumSize: MaterialStateProperty.all(
-        Size(0, 50),
+        const Size(140, 50),
       ),
       textStyle: MaterialStateProperty.all<TextStyle>(
-        TextStyle(color: Colors.white),
+        const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       backgroundColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
@@ -65,36 +80,37 @@ final lightTheme = ThemeData(
       }),
     ),
   ),
-  scaffoldBackgroundColor: Colors.grey[300],
+  scaffoldBackgroundColor: Colors.grey[200],
   colorScheme: ThemeData().colorScheme.copyWith(
         primary: CustomColorScheme.main,
         secondary: CustomColorScheme.accent,
       ),
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     errorMaxLines: 2,
-    // labelStyle: TextStyle(fontSize: 18, color: Color(0xfffefae0)),
-    // hoverColor: Colors.yellow,
-    // focusColor: Colors.yellow,
     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-          // color: CustomColorScheme.main,
-          ),
+      borderSide: BorderSide(),
     ),
-    // prefixStyle: TextStyle(color: Colors.white),
   ),
+  primaryColor: CustomColorScheme.main,
   primaryColorLight: CustomColorScheme.primaryLight,
   primaryColorDark: CustomColorScheme.primaryDark,
-  appBarTheme: AppBarTheme(
-    elevation: 3,
+  appBarTheme: const AppBarTheme(
+    elevation: 2,
     titleTextStyle: TextStyle(
       fontWeight: FontWeight.w700,
       fontSize: 20,
     ),
     centerTitle: true,
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.shifting,
     backgroundColor: CustomColorScheme.main,
+    selectedIconTheme: IconThemeData(
+      size: 34,
+    ),
+    unselectedIconTheme: IconThemeData(
+      size: 26,
+    ),
   ),
 );

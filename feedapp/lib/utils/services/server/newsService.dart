@@ -14,30 +14,45 @@ class NewsService extends ApiService {
     int? period,
     dynamic cursor,
   }) async {
-    final response = await this.request.get("/news/all", {
-      if (pubDate != null) 'pub_date': pubDate,
-      if (sourceID != null) 'source_id': sourceID,
-      if (sortBy != null) 'sort_by': sortBy,
-      if (period != null) 'period': period,
-      if (cursor != null) 'cursor': cursor,
-      if (category != null && category != 0) 'category': category,
-    }, {});
+    final response = await this.request.get(
+          "/news/all",
+          {
+            if (pubDate != null) 'pub_date': pubDate,
+            if (sourceID != null) 'source_id': sourceID,
+            if (sortBy != null) 'sort_by': sortBy,
+            if (period != null) 'period': period,
+            if (cursor != null) 'cursor': cursor,
+            if (category != null && category != 0) 'category': category,
+          },
+          {},
+          handleError: false,
+        );
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
   Future<AllNewsResponse> getBookmarks({
     int? lastID,
   }) async {
-    final response = await this.request.get("/news/bookmarks", {
-      if (lastID != null) 'last_id': lastID,
-    }, {});
+    final response = await this.request.get(
+          "/news/bookmarks",
+          {
+            if (lastID != null) 'last_id': lastID,
+          },
+          {},
+          handleError: false,
+        );
     return AllNewsResponse.fromJSON(response.data['body']);
   }
 
   Future<AllCommentsResponse> getAllComments(int id, int? lastID) async {
-    final response = await this.request.get("/news/$id/comments", {
-      if (lastID != null) 'last_id': lastID,
-    }, {});
+    final response = await this.request.get(
+          "/news/$id/comments",
+          {
+            if (lastID != null) 'last_id': lastID,
+          },
+          {},
+          handleError: false,
+        );
     return AllCommentsResponse.fromJSON(response.data['body']);
   }
 

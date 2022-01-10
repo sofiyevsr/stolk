@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:lottie/lottie.dart';
+import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/history/widgets/bookmarks.dart';
@@ -17,19 +18,22 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-      if (state is AuthorizedState)
+      if (state is AuthorizedState) {
         return BlocProvider(
           create: (ctx) => NewsBloc(),
           child: Bookmarks(),
         );
+      }
       return Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.symmetric(horizontal: 45),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Lottie.asset(
-              "assets/lottie/bookmark.json",
+            const LottieLoader(
+              asset: "assets/lottie/bookmark.json",
+              size: Size(200, 200),
+              repeat: false,
             ),
             Text(
               tr("errors.login_for_bookmarks"),

@@ -29,11 +29,11 @@ class AllNewsScreen extends StatefulWidget {
 class _AllNewsScreenState extends State<AllNewsScreen> {
   int? _currentSortBy;
   int? _currentPeriod;
-  ScrollController _scrollController = ScrollController();
   int _currentCategory = 0;
   bool showFab = false;
 
-  Debounce _debouncer = Debounce(
+  final ScrollController _scrollController = ScrollController();
+  final Debounce _debouncer = Debounce(
     duration: const Duration(milliseconds: 75),
   );
 

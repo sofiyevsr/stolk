@@ -20,13 +20,14 @@ class CategoryList extends StatelessWidget {
   Widget _buildItem(SingleCategory category) {
     final isCurrent = category.id == current;
     return Container(
-      width: 140,
-      height: 80,
+      width: 130,
+      height: 85,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: isCurrent == true ? Colors.blue.shade500 : Colors.transparent,
+          color:
+              isCurrent == true ? CustomColorScheme.main : Colors.transparent,
           width: 5,
         ),
       ),
@@ -42,7 +43,7 @@ class CategoryList extends StatelessWidget {
             ),
             Positioned.fill(
               child: Opacity(
-                opacity: 0.45,
+                opacity: 0.50,
                 child: Container(color: Colors.black),
               ),
             ),
@@ -51,7 +52,7 @@ class CategoryList extends StatelessWidget {
                 child: Text(
                   tr("categories.${category.name}"),
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

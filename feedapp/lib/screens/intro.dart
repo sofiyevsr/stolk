@@ -6,13 +6,15 @@ import 'package:stolk/components/introduction/IntroPage.dart';
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatefulWidget {
+  const IntroScreen({Key? key}) : super(key: key);
+
   @override
   _IntroScreenState createState() => _IntroScreenState();
 }
 
 class _IntroScreenState extends State<IntroScreen> {
   final gBox = Hive.box("settings");
-  PageController _controller = PageController();
+  final PageController _controller = PageController();
   int _current = 0;
   final _length = 3;
 

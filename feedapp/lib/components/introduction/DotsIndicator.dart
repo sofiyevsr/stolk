@@ -4,7 +4,7 @@ class DotsIndicator extends StatefulWidget {
   final int length;
   final int current;
 
-  DotsIndicator({Key? key, required this.length, required this.current})
+  const DotsIndicator({Key? key, required this.length, required this.current})
       : super(key: key);
 
   @override
@@ -19,11 +19,13 @@ class _DotsIndicatorState extends State<DotsIndicator> {
           .map(
             (i) => AnimatedContainer(
               margin: const EdgeInsets.all(10),
-              width: widget.current == i ? 25 : 15,
-              duration: const Duration(milliseconds: 300),
               height: 15,
+              width: 15,
+              duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
-                color: Colors.grey,
+                border: Border.all(
+                  color: widget.current == i ? Colors.red : Colors.grey,
+                ),
                 borderRadius: BorderRadius.circular(15),
               ),
             ),

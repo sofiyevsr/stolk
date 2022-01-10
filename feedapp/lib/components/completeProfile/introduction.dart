@@ -18,12 +18,12 @@ class CompleteProfileIntroduction extends StatelessWidget {
             style: Theme.of(context).textTheme.headline4,
             textAlign: TextAlign.center,
           ),
-          Flexible(
-            flex: 3,
-            child: Lottie.asset(
-              "assets/lottie/confetti.json",
-            ),
-          ),
+          // Flexible(
+          //   flex: 3,
+          //   child: Lottie.asset(
+          //     "assets/lottie/confetti.json",
+          //   ),
+          // ),
           Text(
             tr("intro.choose_sources"),
             style: Theme.of(context).textTheme.headline6,

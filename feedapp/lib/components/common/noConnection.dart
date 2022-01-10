@@ -11,31 +11,21 @@ class NoConnectionWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.wifi_off,
-            color: Colors.blue[700],
-            size: 100,
-          ),
-          Text(
-            tr("errors.network_error"),
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              tr("errors.network_error"),
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          if (this.onRetry != null)
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(
-                    Size(40, 40),
-                  ),
-                ),
-                onPressed: onRetry,
-                child: Text(
-                  tr("buttons.retry_request"),
-                ),
+          if (onRetry != null)
+            ElevatedButton(
+              onPressed: onRetry,
+              child: Text(
+                tr("buttons.retry_request"),
               ),
             ),
         ],

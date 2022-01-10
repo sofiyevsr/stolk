@@ -12,10 +12,10 @@ import 'settings/settings.dart';
 import 'sources/sources.dart';
 
 final navItems = [
-  {"icon": Icons.home, "title": "navbar.home"},
-  {"icon": Icons.explore, "title": "navbar.explore"},
-  {"icon": Icons.bookmark_sharp, "title": "navbar.bookmarks"},
-  {"icon": Icons.account_box, "title": "navbar.account"},
+  {"icon": Icons.rss_feed_outlined, "title": "navbar.home"},
+  {"icon": Icons.explore_outlined, "title": "navbar.explore"},
+  {"icon": Icons.bookmark_outline_sharp, "title": "navbar.bookmarks"},
+  {"icon": Icons.manage_accounts_outlined, "title": "navbar.account"},
 ];
 
 class Home extends StatefulWidget {
@@ -104,8 +104,7 @@ class _HomeState extends State<Home> {
             unitID: getUnitID(AdPlacements.home),
           ),
           BottomNavigationBar(
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
+            type: BottomNavigationBarType.shifting,
             currentIndex: _currentIndex,
             onTap: (index) {
               setState(() => _currentIndex = index);

@@ -9,27 +9,21 @@ class AuthView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          child: Stack(
-            children: [
-              Image.asset("assets/static/satellite.jpg"),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                ),
-                child: Icon(
-                  Icons.arrow_back_sharp,
-                  size: 30,
-                ),
-                onPressed: () {
-                  NavigationService.pop();
-                },
+        Stack(
+          children: [
+            Image.asset("assets/static/satellite.jpg"),
+            IconButton(
+              icon: const Icon(
+                Icons.arrow_back_sharp,
+                size: 30,
               ),
-            ],
-          ),
+              onPressed: () {
+                NavigationService.pop();
+              },
+            ),
+          ],
         ),
-        Expanded(
+        const Expanded(
           child: AuthContainer(),
         ),
       ],

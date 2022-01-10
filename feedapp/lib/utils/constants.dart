@@ -68,11 +68,13 @@ String platformToName(int p) {
 }
 
 class CustomColorScheme {
-  static final main = const Color(0xFF264653);
-  static final accent = const Color(0xFF2A9D8F);
-  static final primaryLight = const Color(0xFF6497ab);
-  static final primaryDark = const Color(0xFF203B46);
-  static final logoBackground = const Color.fromRGBO(255, 221, 238, 1);
+  static const main = Color(0xFFDF9273);
+  static const accent = Color(0xFFFF687B);
+  // static const bottomBar = Color(0xFF35343e);
+  static const cardColor = Color(0xFF2a2b2e);
+  static const primaryLight = Color(0xFF6497ab);
+  static const primaryDark = Color(0xFF203B46);
+  static const logoBackground = Color.fromRGBO(255, 221, 238, 1);
 }
 
 class RouteNames {

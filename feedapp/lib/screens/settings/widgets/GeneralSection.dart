@@ -22,7 +22,7 @@ class SettingsGeneralSection extends StatelessWidget {
             SettingsTile(
               onTap: () {
                 NavigationService.push(
-                  SingleSettings(
+                  const SingleSettings(
                     title: ("settings.notification_preferences"),
                     child: NotificationPreferences(),
                   ),
@@ -31,7 +31,7 @@ class SettingsGeneralSection extends StatelessWidget {
               },
               title: tr("settings.notification_preferences"),
               icon: Icons.circle_notifications_sharp,
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_right_outlined,
               ),
             ),
@@ -51,7 +51,7 @@ class SettingsGeneralSection extends StatelessWidget {
         children: [
           SettingsTile(
             onTap: () {
-              NavigationService.push(AuthPage(), RouteNames.AUTH);
+              NavigationService.push(const AuthPage(), RouteNames.AUTH);
             },
             title: tr("settings.login"),
             icon: Icons.account_circle_outlined,

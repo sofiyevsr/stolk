@@ -121,12 +121,8 @@ class LocalAuthView extends StatelessWidget {
           ),
           if (canPop == true)
             Positioned(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                ),
-                child: Icon(
+              child: IconButton(
+                icon: Icon(
                   Icons.arrow_back_sharp,
                   size: 30,
                   color: theme.iconTheme.color,

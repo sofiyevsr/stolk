@@ -8,6 +8,8 @@ import 'SettingsTile.dart';
 const themes = ["system", "dark", "light"];
 
 class ThemeSelector extends StatelessWidget {
+  const ThemeSelector({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SettingsTile(

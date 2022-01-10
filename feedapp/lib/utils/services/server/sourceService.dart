@@ -7,7 +7,12 @@ class SourceService extends ApiService {
   SourceService() : super();
 
   Future<AllSourcesResponse> getAllSources() async {
-    final response = await this.request.get("/source", {}, {});
+    final response = await this.request.get(
+          "/source",
+          {},
+          {},
+          handleError: false,
+        );
     return AllSourcesResponse.fromJSON(response.data['body']);
   }
 

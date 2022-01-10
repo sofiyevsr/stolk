@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
+import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/components/feed/ResponsiveNewsGrid.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
@@ -32,7 +33,7 @@ class _BookmarksState extends State<Bookmarks> {
         // Debounce
         if (_timer != null && _timer!.isActive) _timer!.cancel();
         _timer = Timer(
-          Duration(milliseconds: 50),
+          const Duration(milliseconds: 50),
           () {
             if (_scrollController.hasClients) {
               final maxScroll = _scrollController.position.maxScrollExtent;
@@ -86,8 +87,10 @@ class _BookmarksState extends State<Bookmarks> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset(
-                "assets/lottie/bookmark.json",
+              const LottieLoader(
+                asset: "assets/lottie/bookmark.json",
+                size: Size(200, 200),
+                repeat: false,
               ),
               Text(
                 tr("news.no_bookmarks"),

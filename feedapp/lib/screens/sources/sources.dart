@@ -24,10 +24,9 @@ class _SourcesPageState extends State<SourcesPage> {
   }
 
   void fetchSources() {
-    context.read<SourcesBloc>()
-      ..add(
-        FetchSourcesEvent(),
-      );
+    context.read<SourcesBloc>().add(
+          FetchSourcesEvent(),
+        );
   }
 
   @override
@@ -72,7 +71,7 @@ class _SourcesPageState extends State<SourcesPage> {
                   )
                   .toList();
               return GridView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossCount,
                 ),
