@@ -16,41 +16,6 @@ class ThemeSelector extends StatelessWidget {
       icon: Icons.layers_outlined,
       title: tr("settings.theme"),
       padding: const EdgeInsets.only(left: 16),
-      trailing: ValueListenableBuilder(
-          valueListenable: Hive.box('settings').listenable(keys: ["theme"]),
-          builder: (context, Box gBox, widget) {
-            final theme = gBox.get("theme", defaultValue: "system");
-            return ToggleButtons(
-              children: [
-                Tooltip(
-                  message: tr("tooltips.theme.system"),
-                  child: Icon(Icons.phone_android),
-                ),
-                Tooltip(
-                  message: tr("tooltips.theme.dark"),
-                  child: Icon(
-                    Icons.dark_mode,
-                    color: Colors.blue,
-                  ),
-                ),
-                Tooltip(
-                  message: tr("tooltips.theme.light"),
-                  child: Icon(
-                    Icons.light_mode,
-                    color: Colors.yellow.shade700,
-                  ),
-                ),
-              ],
-              isSelected: [
-                theme == "system",
-                theme == "dark",
-                theme == "light"
-              ],
-              onPressed: (i) {
-                gBox.put("theme", themes[i]);
-              },
-            );
-          }),
     );
   }
 }

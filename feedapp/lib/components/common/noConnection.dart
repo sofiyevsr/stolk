@@ -1,5 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import 'lottieLoader.dart';
 
 class NoConnectionWidget extends StatelessWidget {
   final Function()? onRetry;
@@ -11,12 +14,16 @@ class NoConnectionWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            child: Text(
+          const LottieLoader(
+            asset: "assets/lottie/no_connection.json",
+            size: Size(120, 120),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: AutoSizeText(
               tr("errors.network_error"),
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),

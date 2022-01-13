@@ -250,6 +250,10 @@
     "popular": "Популярные"
   },
   "settings": {
+    "guest_welcome": "Добро пожаловать",
+    "guest_description": "Войдите, чтобы увидеть всю вашу информацию",
+    "welcome": "Добро пожаловать, {}",
+    "description": "Все, что мы знаем о вас",
     "language": "Язык",
     "general": "Общий",
     "notification_preferences": "Уведомления",

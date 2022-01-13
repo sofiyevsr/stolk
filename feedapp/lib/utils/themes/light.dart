@@ -107,10 +107,10 @@ final lightTheme = ThemeData(
     type: BottomNavigationBarType.shifting,
     backgroundColor: CustomColorScheme.main,
     selectedIconTheme: IconThemeData(
-      size: 34,
+      size: 30,
     ),
     unselectedIconTheme: IconThemeData(
-      size: 26,
+      size: 24,
     ),
   ),
 );

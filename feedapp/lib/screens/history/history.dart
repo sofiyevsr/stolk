@@ -35,13 +35,19 @@ class _HistoryPageState extends State<HistoryPage> {
               size: Size(200, 200),
               repeat: false,
             ),
-            Text(
-              tr("errors.login_for_bookmarks"),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 10,
               ),
-              textAlign: TextAlign.center,
+              width: 200,
+              child: Text(
+                tr("errors.login_for_bookmarks"),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

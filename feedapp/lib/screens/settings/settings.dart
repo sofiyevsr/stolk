@@ -4,11 +4,6 @@ import 'package:stolk/screens/settings/widgets/HeaderSection.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 import "package:flutter/material.dart";
 import 'package:stolk/utils/constants.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:stolk/utils/services/app/toastService.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import 'widgets/AboutDialog.dart';
 import 'widgets/LanguageSelector.dart';
 import 'widgets/SettingsTile.dart';
 import 'widgets/SingleSettings.dart';
@@ -21,66 +16,47 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  void showAbout(BuildContext context) async {
-    final details = await PackageInfo.fromPlatform();
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        content: CustomAboutDialog(details: details),
-      ),
-    );
-  }
-
-  Future<void> launchURL(String url) async {
-    try {
-      await launch(url);
-    } catch (e) {
-      ToastService.instance.showAlert(
-        tr("errors.cannot_launch_url"),
-      );
-    }
-  }
-
   @override
   Widget build(ctx) {
+    EasyLocalization.of(ctx);
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SettingsHeaderSection(),
-          SettingsTile(
-            onTap: () {
-              NavigationService.push(
-                const SingleSettings(
-                  title: ("settings.language"),
-                  child: LanguagePanel(),
-                ),
-                RouteNames.SINGLE_SETTING,
-              );
-            },
-            title: tr("settings.language"),
-            icon: Icons.translate_sharp,
-            trailing: const Icon(
-              Icons.arrow_right_outlined,
+      physics: const BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+        ),
+        child: Column(
+          children: [
+            SettingsHeaderSection(),
+            SettingsTile(
+              onTap: () {
+                NavigationService.push(
+                  const SingleSettings(
+                    title: ("settings.language"),
+                    child: LanguagePanel(),
+                  ),
+                  RouteNames.SINGLE_SETTING,
+                );
+              },
+              title: tr("settings.language"),
+              icon: Icons.translate_sharp,
             ),
-          ),
-          const ThemeSelector(),
-          const SettingsGeneralSection(),
-          SettingsTile(
-            onTap: () => showAbout(ctx),
-            title: tr("settings.about"),
-            icon: Icons.info_outlined,
-          ),
-          SettingsTile(
-            onTap: () => launchURL(privacyPolicyURL),
-            title: tr("settings.privacy"),
-            icon: Icons.privacy_tip_outlined,
-          ),
-          SettingsTile(
-            onTap: () => launchURL(termsOfUseURL),
-            title: tr("settings.terms"),
-            icon: Icons.description_outlined,
-          ),
-        ],
+            SettingsTile(
+              onTap: () {
+                NavigationService.push(
+                  const SingleSettings(
+                    title: ("settings.theme"),
+                    child: ThemeSelector(),
+                  ),
+                  RouteNames.SINGLE_SETTING,
+                );
+              },
+              icon: Icons.layers_outlined,
+              title: tr("settings.theme"),
+            ),
+            SettingsGeneralSection(),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/utils/services/app/startupService.dart';
 import "package:flutter/material.dart";
 
@@ -31,23 +32,23 @@ class _CheckTokenFailScreenState extends State<CheckTokenFailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 34),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Icon(
-                  Icons.warning_amber_rounded,
-                  color: Colors.red,
-                  size: 128,
-                ),
+              const LottieLoader(
+                asset: "assets/lottie/no_wifi.json",
+                size: Size(250, 250),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
                   tr("errors.auth_check_failed"),
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline6?.copyWith(
                         fontWeight: FontWeight.w800,
                       ),

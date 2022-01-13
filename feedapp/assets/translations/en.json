@@ -250,6 +250,10 @@
     "popular": "Popular"
   },
   "settings": {
+    "guest_welcome": "Welcome",
+    "guest_description": "Login to see all your information",
+    "welcome": "Welcome, {}",
+    "description": "All we know about you",
     "language": "Language",
     "general": "General",
     "notification_preferences": "Notifications",

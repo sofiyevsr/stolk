@@ -5,7 +5,6 @@ class SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final bool isLoading;
-  final Widget? trailing;
   final EdgeInsets? padding;
   final void Function()? onTap;
 
@@ -15,7 +14,6 @@ class SettingsTile extends StatelessWidget {
     this.isLoading = false,
     this.padding,
     this.onTap,
-    this.trailing,
     Key? key,
   }) : super(key: key);
 
@@ -23,53 +21,51 @@ class SettingsTile extends StatelessWidget {
   Widget build(context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: Card(
         margin: const EdgeInsets.symmetric(
-          horizontal: 25,
+          vertical: 4,
         ),
-        child: Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 20,
           ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
-              vertical: 20,
-            ),
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(
-                      icon,
-                      size: 40,
-                    ),
+          alignment: Alignment.center,
+          child: Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Icon(
+                    icon,
+                    size: 40,
                   ),
                 ),
-                Flexible(
-                  flex: 3,
-                  child: isLoading == true
-                      ? const Center(
-                          child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : AutoSizeText(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+              ),
+              Flexible(
+                flex: 3,
+                child: isLoading == true
+                    ? const Center(
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(),
                         ),
-                ),
-              ],
-            ),
+                      )
+                    : AutoSizeText(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+            ],
           ),
         ),
       ),

@@ -11,7 +11,7 @@ class FetchFailWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.error_outline,
               color: Colors.red,
               size: 124,
@@ -19,7 +19,7 @@ class FetchFailWidget extends StatelessWidget {
             Text(
               tr(errorText ?? defaultText),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 32,
               ),

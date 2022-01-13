@@ -75,6 +75,8 @@ class CustomColorScheme {
   static const primaryLight = Color(0xFF6497ab);
   static const primaryDark = Color(0xFF203B46);
   static const logoBackground = Color.fromRGBO(255, 221, 238, 1);
+  // used for icon button background
+  static const darkButtonBackground = Color(0xFF36373A);
 }
 
 class RouteNames {

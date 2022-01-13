@@ -23,7 +23,7 @@ class SingleSettings extends StatelessWidget {
           child: ListTileTheme(
             dense: true,
             child: DividerTheme(
-              data: DividerThemeData(
+              data: const DividerThemeData(
                 thickness: 1.5,
               ),
               child: child,

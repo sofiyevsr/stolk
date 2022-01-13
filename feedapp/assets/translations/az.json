@@ -250,6 +250,10 @@
     "submit": "Təsdiqlə"
   },
   "settings": {
+    "guest_welcome": "Xoş gəlmisiniz",
+    "guest_description": "Bütün məlumatları görmək üçün hesabınıza daxil olun",
+    "welcome": "Xoş gəlmisiniz, {}",
+    "description": "Haqqınızda bildiklərimiz",
     "language": "Dil",
     "general": "Ümumi",
     "notification_preferences": "Bildirişlər",

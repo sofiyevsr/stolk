@@ -197,7 +197,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   }
 
                   if (state is NewsStateNoData) {
-                    return const NoNewsWidget(followMore: true);
+                    return const NoNewsWidget(followMore: true, center: false);
                   }
                   if (state is NewsStateError) {
                     return NoConnectionWidget(
@@ -223,7 +223,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   curve: Curves.easeInOut,
                 );
               },
-              child: const Icon(Icons.north_sharp),
+              child: const Icon(
+                Icons.keyboard_arrow_up,
+                size: 40,
+              ),
             ),
           ),
       ],

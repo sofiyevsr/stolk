@@ -1,61 +1,110 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:stolk/components/common/dialogs/reportDialog.dart';
-import 'package:stolk/components/common/scaleButton.dart';
+import 'package:like_button/like_button.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/screens/feed/sourceNews.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
-import 'package:stolk/utils/common.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
-import 'package:stolk/utils/services/server/reportService.dart';
-import 'package:stolk/utils/services/server/sourceService.dart';
+import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/utils/ui/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-final sources = SourceService();
+final news = NewsService();
 const _iconSize = 30.0;
+const _buttonPadding = 2.5;
 
-class SingleNewsHeader extends StatefulWidget {
+class SingleNewsHeader extends StatelessWidget {
   final SingleNews feed;
   final int index;
-  const SingleNewsHeader({Key? key, required this.feed, required this.index})
-      : super(key: key);
+  final int? bookmarkID;
+  SingleNewsHeader({Key? key, required this.feed, required this.index})
+      : bookmarkID = feed.bookmarkID,
+        super(key: key);
 
-  @override
-  _SingleNewsHeaderState createState() => _SingleNewsHeaderState();
-}
+  void _share() {
+    Share.share(feed.feedLink);
+  }
 
-class _SingleNewsHeaderState extends State<SingleNewsHeader> {
-  final reportApi = ReportService();
-  bool _isRequestOn = false;
+  Widget _buildShareButton() {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(_iconSize + _buttonPadding),
+        ),
+      ),
+      child: IconButton(
+        iconSize: _iconSize,
+        padding: const EdgeInsets.all(0),
+        icon: const Icon(Icons.share_outlined),
+        onPressed: _share,
+      ),
+    );
+  }
 
-  void onFinish() async {
-    final news = context.read<NewsBloc>();
-    setState(() {
-      _isRequestOn = true;
-    });
+  Widget _buildBookmarkButton(BuildContext context) {
+    final bubbleColor = Colors.blue;
+    return LikeButton(
+      padding: const EdgeInsets.all(_buttonPadding + 2),
+      size: _iconSize + _buttonPadding,
+      isLiked: bookmarkID != null,
+      bubblesColor: BubblesColor(
+        dotPrimaryColor: bubbleColor,
+        dotSecondaryColor: bubbleColor,
+      ),
+      likeBuilder: (isBookmarked) {
+        if (isBookmarked) {
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(_iconSize + _buttonPadding),
+              ),
+            ),
+            child: Icon(
+              Icons.bookmark_added_outlined,
+              color: bubbleColor,
+              size: _iconSize,
+            ),
+          );
+        } else {
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(_iconSize + _buttonPadding),
+              ),
+            ),
+            child: const Icon(
+              Icons.bookmark_add_outlined,
+              size: _iconSize,
+            ),
+          );
+        }
+      },
+      onTap: (isBookmarked) => _bookmark(context, isBookmarked),
+    );
+  }
+
+  Future<bool> _bookmark(BuildContext context, bool bookmarked) async {
+    final newsBloc = context.read<NewsBloc>();
     try {
-      if (widget.feed.followID == null) {
-        await sources.follow(widget.feed.sourceID);
-        news.add(
-          NewsActionEvent(index: widget.index, type: NewsActionType.FOLLOW),
+      if (bookmarked) {
+        await news.unbookmark(feed.id);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.UNBOOKMARK),
         );
+        return false;
       } else {
-        await sources.unfollow(widget.feed.sourceID);
-        news.add(
-          NewsActionEvent(index: widget.index, type: NewsActionType.UNFOLLOW),
+        await news.bookmark(feed.id);
+        newsBloc.add(
+          NewsActionEvent(index: index, type: NewsActionType.BOOKMARK),
         );
+        return true;
       }
-      setState(() {
-        _isRequestOn = false;
-      });
     } catch (e) {
-      setState(() {
-        _isRequestOn = false;
-      });
+      return bookmarked;
     }
   }
 
@@ -72,9 +121,9 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
             onTap: () {
               NavigationService.push(
                 SourceNewsScreen(
-                  sourceID: widget.feed.sourceID,
-                  sourceName: widget.feed.sourceName,
-                  logoSuffix: widget.feed.sourceLogoSuffix,
+                  sourceID: feed.sourceID,
+                  sourceName: feed.sourceName,
+                  logoSuffix: feed.sourceLogoSuffix,
                 ),
                 RouteNames.SOURCE_NEWS_FEED,
               );
@@ -86,25 +135,20 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
                   width: 65,
                   child: SourceLogo(
                     isCircle: true,
-                    logoSuffix: widget.feed.sourceLogoSuffix,
+                    logoSuffix: feed.sourceLogoSuffix,
                   ),
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AutoSizeText(
-                      this.widget.feed.sourceName,
+                      feed.sourceName,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: theme.textTheme.headline6?.copyWith(fontSize: 16),
-                    ),
-                    AutoSizeText(
-                      convertDiffTime(this.widget.feed.publishedDate, context),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: theme.textTheme.subtitle2?.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 12,
+                      style: theme.textTheme.headline6?.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -115,56 +159,12 @@ class _SingleNewsHeaderState extends State<SingleNewsHeader> {
           Row(
             children: [
               Tooltip(
-                message: tr("tooltips.follow"),
-                child: ScaleButton(
-                  disabled: _isRequestOn,
-                  child: widget.feed.followID != null
-                      ? Icon(
-                          Icons.done_all,
-                          size: _iconSize,
-                        )
-                      : Icon(
-                          Icons.add,
-                          size: _iconSize,
-                        ),
-                  onFinish: onFinish,
-                ),
+                message: tr("tooltips.bookmark"),
+                child: _buildBookmarkButton(context),
               ),
-              PopupMenuButton<String>(
-                offset: const Offset(0, 40),
-                iconSize: _iconSize,
-                onSelected: (v) async {
-                  try {
-                    authorize();
-                    await showDialog(
-                      context: context,
-                      builder: (ctx) => ReportDialog(
-                        onConfirmed: (String message) {
-                          return reportApi.newsReport(message, widget.feed.id);
-                        },
-                      ),
-                    );
-                  } catch (_) {}
-                },
-                itemBuilder: (entry) {
-                  return [
-                    PopupMenuItem(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: Icon(Icons.report, color: Colors.red),
-                          ),
-                          Text(
-                            tr("report.menu"),
-                          ),
-                        ],
-                      ),
-                      value: "report",
-                    ),
-                  ];
-                },
+              Tooltip(
+                message: tr("tooltips.share"),
+                child: _buildShareButton(),
               ),
             ],
           ),

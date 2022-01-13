@@ -9,6 +9,7 @@ import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 
 final news = NewsService();
+const height = 75.0;
 
 class CategoryList extends StatelessWidget {
   final int current;
@@ -20,9 +21,12 @@ class CategoryList extends StatelessWidget {
   Widget _buildItem(SingleCategory category) {
     final isCurrent = category.id == current;
     return Container(
-      width: 130,
-      height: 85,
-      margin: const EdgeInsets.all(10),
+      width: 120,
+      margin: const EdgeInsets.only(
+        left: 10,
+        right: 10,
+        top: 15,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
@@ -72,13 +76,13 @@ class CategoryList extends StatelessWidget {
       if ((state is NewsStateLoading && state.categories == null) ||
           state is NewsStateInitial) {
         return const SizedBox(
-          height: 100,
+          height: height,
           child: CenterLoadingWidget(),
         );
       }
       if (state is NewsStateError) {
         return const SizedBox(
-          height: 100,
+          height: height,
           child: Center(
             child: Icon(
               Icons.error_outline,

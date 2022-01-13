@@ -6,44 +6,67 @@ import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 
 class SettingsHeaderSection extends StatelessWidget {
-  const SettingsHeaderSection({Key? key}) : super(key: key);
+  SettingsHeaderSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (ctx, state) {
-        if (state is AuthorizedState) {
-          final user = state.user;
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+    return BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AutoSizeText(
-                      '${user.firstName} ${user.lastName}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    if (user.confirmedAt != null)
-                      Tooltip(
-                        message: tr("tooltips.account_verified"),
-                        child: const Icon(Icons.verified, color: Colors.blue),
-                      ),
-                  ],
+                Expanded(
+                  child: _UserDetails(state: state),
+                ),
+                const LottieLoader(
+                  asset: "assets/lottie/account.json",
+                  size: Size(140, 140),
                 ),
               ],
             ),
-          );
-        }
-        return const LottieLoader(
-          asset: "assets/lottie/account.json",
-          size: Size(200, 200),
-        );
-      },
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class _UserDetails extends StatelessWidget {
+  final AuthState state;
+  _UserDetails({Key? key, required this.state}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AutoSizeText(
+          state is AuthorizedState
+              ? tr(
+                  "settings.welcome",
+                  args: [(state as AuthorizedState).user.firstName],
+                )
+              : tr("settings.guest_welcome"),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          minFontSize: 24,
+          maxLines: 2,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: AutoSizeText(
+            state is AuthorizedState
+                ? tr("settings.description")
+                : tr("settings.guest_description"),
+            maxLines: 3,
+            minFontSize: 16,
+          ),
+        ),
+      ],
     );
   }
 }

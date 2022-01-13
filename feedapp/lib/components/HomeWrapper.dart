@@ -14,7 +14,7 @@ import 'introduction/Wrapper.dart';
 
 class HomeWrapper extends StatefulWidget {
   final Widget? child;
-  HomeWrapper({Key? key, this.child});
+  const HomeWrapper({Key? key, this.child});
 
   @override
   _HomeWrapperState createState() => _HomeWrapperState();
@@ -24,7 +24,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-    StartupService.instance.checkTokenAndSaveDeviceToken().catchError((_) {}).whenComplete(() => StartupService.instance.startNotificationStream());
+    StartupService.instance
+        .checkTokenAndSaveDeviceToken()
+        .catchError((_) {})
+        .whenComplete(() => StartupService.instance.startNotificationStream());
   }
 
   @override

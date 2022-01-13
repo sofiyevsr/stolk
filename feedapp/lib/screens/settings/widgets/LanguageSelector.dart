@@ -17,8 +17,8 @@ class LanguagePanel extends StatelessWidget {
         RadioListTile(
           title: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.0),
                 child: CircleAvatar(
                   radius: 15.0,
                   backgroundImage: AssetImage(
@@ -36,12 +36,11 @@ class LanguagePanel extends StatelessWidget {
             _setLanguage(context, lang as String);
           },
         ),
-        Divider(),
         RadioListTile(
           title: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.0),
                 child: CircleAvatar(
                   radius: 15.0,
                   backgroundImage: AssetImage(
@@ -58,7 +57,6 @@ class LanguagePanel extends StatelessWidget {
             _setLanguage(context, lang as String);
           },
         ),
-        Divider(),
         RadioListTile(
           title: Row(
             children: [
@@ -80,7 +78,6 @@ class LanguagePanel extends StatelessWidget {
             _setLanguage(context, lang as String);
           },
         ),
-        Divider(),
       ],
     );
   }
