@@ -82,7 +82,7 @@ class _SourcesPageState extends State<SourcesPage> {
               );
             }
             if (state is SourcesStateLoading) {
-              return CenterLoadingWidget();
+              return const CenterLoadingWidget();
             }
             if (state is SourcesStateError)
               return NoConnectionWidget(

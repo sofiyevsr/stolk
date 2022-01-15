@@ -57,33 +57,35 @@ class _IntroPageState extends State<IntroPage>
               ),
             ),
           ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 32,
-                      letterSpacing: 1.5,
+          Expanded(
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32,
+                        letterSpacing: 1.5,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Text(
-                    widget.subtitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                      fontFamily: 'Roboto',
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: Text(
+                      widget.subtitle,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w300,
+                        fontFamily: 'Roboto',
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
         ],

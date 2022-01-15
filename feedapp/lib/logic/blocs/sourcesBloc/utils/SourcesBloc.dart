@@ -16,7 +16,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
       try {
         emit(SourcesStateLoading());
         final data = await service.getAllSources();
-        if (data.sources.length > 0)
+        if (data.sources.isNotEmpty)
           emit(SourcesStateSuccess(
             data: SourcesModel(
               sources: data.sources,

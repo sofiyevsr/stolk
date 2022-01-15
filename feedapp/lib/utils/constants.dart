@@ -70,10 +70,9 @@ String platformToName(int p) {
 class CustomColorScheme {
   static const main = Color(0xFFDF9273);
   static const accent = Color(0xFFFF687B);
-  // static const bottomBar = Color(0xFF35343e);
-  static const cardColor = Color(0xFF2a2b2e);
-  static const primaryLight = Color(0xFF6497ab);
-  static const primaryDark = Color(0xFF203B46);
+  static const cardColor = Color(0xFF2A2B2E);
+  static const primaryLight = Color(0xFFE3A48A);
+  static const primaryDark = Color(0xFFd68463);
   static const logoBackground = Color.fromRGBO(255, 221, 238, 1);
   // used for icon button background
   static const darkButtonBackground = Color(0xFF36373A);
@@ -89,7 +88,6 @@ class RouteNames {
   static const SINGLE_NEWS = "single_news";
   static const HOME = "home";
   static const AUTH = "auth";
-  static const LOCAL_AUTH = "local_auth";
   static const FORGOT_PASSWORD = "forgot_password";
   static const COMPLETE_PROFILE = "complete_profile";
 }

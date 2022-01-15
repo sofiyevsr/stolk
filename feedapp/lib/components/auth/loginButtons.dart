@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:stolk/components/auth/singleLoginButton.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
-import 'package:stolk/screens/auth/localAuth.dart';
+import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/oauth/google.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -107,8 +107,7 @@ class LoginButtons extends StatelessWidget {
               onPressed: this.onLocalAuthPress != null
                   ? this.onLocalAuthPress!
                   : () {
-                      NavigationService.push(
-                          LocalAuthPage(), RouteNames.LOCAL_AUTH);
+                      NavigationService.push(AuthPage(), RouteNames.AUTH);
                     },
             ),
           ],

@@ -6,7 +6,7 @@ class NotificationPreferenceTile extends StatefulWidget {
   final int typeID;
   final String? createdAt;
   final String name;
-  NotificationPreferenceTile({
+  const NotificationPreferenceTile({
     Key? key,
     required this.typeID,
     required this.name,

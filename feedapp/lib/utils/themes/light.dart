@@ -103,6 +103,24 @@ final lightTheme = ThemeData(
     ),
     centerTitle: true,
   ),
+  radioTheme: RadioThemeData(
+    fillColor: MaterialStateColor.resolveWith((state) {
+      return CustomColorScheme.main;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor: MaterialStateColor.resolveWith((state) {
+      if (state.contains(MaterialState.disabled)) {
+        return Colors.grey.shade200;
+      }
+      return CustomColorScheme.main;
+    }),
+    trackColor: MaterialStateColor.resolveWith((state) {
+      if (state.contains(MaterialState.selected))
+        return CustomColorScheme.primaryLight;
+      return Colors.grey.shade300;
+    }),
+  ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.shifting,
     backgroundColor: CustomColorScheme.main,

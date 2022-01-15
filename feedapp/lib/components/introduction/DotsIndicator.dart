@@ -14,6 +14,7 @@ class DotsIndicator extends StatefulWidget {
 class _DotsIndicatorState extends State<DotsIndicator> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: List.generate(widget.length, (index) => index)
           .map(
@@ -22,10 +23,9 @@ class _DotsIndicatorState extends State<DotsIndicator> {
               height: 15,
               width: 15,
               duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: widget.current == i ? Colors.red : Colors.grey,
-                ),
+                color: widget.current == i ? theme.primaryColor : Colors.grey,
                 borderRadius: BorderRadius.circular(15),
               ),
             ),

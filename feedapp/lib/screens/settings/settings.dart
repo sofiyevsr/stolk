@@ -33,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 NavigationService.push(
                   const SingleSettings(
                     title: ("settings.language"),
-                    child: LanguagePanel(),
+                    child: LanguageSelector(),
                   ),
                   RouteNames.SINGLE_SETTING,
                 );

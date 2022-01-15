@@ -54,6 +54,7 @@ class _IntroScreenState extends State<IntroScreen> {
           children: [
             Expanded(
               child: PageView(
+                physics: const BouncingScrollPhysics(),
                 onPageChanged: onPageChange,
                 children: <Widget>[
                   IntroPage(
@@ -77,7 +78,7 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
             ),
             if (_current != _length)
-              Container(
+              SizedBox(
                 height: 60,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

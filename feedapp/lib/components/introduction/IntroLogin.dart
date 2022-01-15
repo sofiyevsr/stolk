@@ -2,7 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
-import 'package:stolk/screens/auth/localAuth.dart';
+import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/screens/home.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -59,11 +59,11 @@ class IntroLogin extends StatelessWidget {
               ),
               LoginButtons(onLocalAuthPress: () {
                 NavigationService.replaceAll(
-                  Home(),
+                  const Home(),
                   RouteNames.HOME,
                   disableAnimation: true,
                 );
-                NavigationService.push(LocalAuthPage(), RouteNames.LOCAL_AUTH);
+                NavigationService.push(const AuthPage(), RouteNames.AUTH);
               }),
             ],
           ),
@@ -73,7 +73,7 @@ class IntroLogin extends StatelessWidget {
           top: 10,
           child: TextButton(
             onPressed: () {
-              NavigationService.replaceAll(Home(), RouteNames.HOME);
+              NavigationService.replaceAll(const Home(), RouteNames.HOME);
             },
             child: Text(
               tr("commons.skip"),

@@ -28,6 +28,9 @@ class SingleSourceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -45,34 +48,39 @@ class SingleSourceView extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  AutoSizeText(
-                    item.name,
-                    maxLines: 1,
-                    minFontSize: 16,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
                   Expanded(
                     child: SourceLogo(
                       logoSuffix: item.logoSuffix,
                       isCircle: true,
                     ),
                   ),
+                  AutoSizeText(
+                    item.name,
+                    maxLines: 2,
+                    minFontSize: 15,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: item.isRequestOn ? null : () => onFinish(context),
-            child: Text(
-              item.followID == null
-                  ? tr("commons.follow")
-                  : tr("commons.following"),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: item.isRequestOn ? null : () => onFinish(context),
+              child: Text(
+                item.followID == null
+                    ? tr("commons.follow")
+                    : tr("commons.following"),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
