@@ -14,8 +14,7 @@ import 'package:stolk/utils/ui/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 final news = NewsService();
-const _iconSize = 30.0;
-const _buttonPadding = 2.5;
+const _iconSize = 24.0;
 
 class SingleNewsHeader extends StatelessWidget {
   final SingleNews feed;
@@ -29,59 +28,52 @@ class SingleNewsHeader extends StatelessWidget {
     Share.share(feed.feedLink);
   }
 
-  Widget _buildShareButton() {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(_iconSize + _buttonPadding),
+  Widget _buildShareButton(Color backgroundColor) {
+    return InkWell(
+      onTap: _share,
+      child: Material(
+        shape: const CircleBorder(),
+        color: backgroundColor,
+        child: Container(
+          padding: const EdgeInsets.all(6.0),
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: const Icon(
+            Icons.share_outlined,
+            size: _iconSize,
+          ),
         ),
-      ),
-      child: IconButton(
-        iconSize: _iconSize,
-        padding: const EdgeInsets.all(0),
-        icon: const Icon(Icons.share_outlined),
-        onPressed: _share,
       ),
     );
   }
 
-  Widget _buildBookmarkButton(BuildContext context) {
-    final bubbleColor = Colors.blue;
+  Widget _buildBookmarkButton(BuildContext context, Color backgroundColor) {
+    const bubbleColor = CustomColorScheme.accent;
     return LikeButton(
-      padding: const EdgeInsets.all(_buttonPadding + 2),
-      size: _iconSize + _buttonPadding,
+      padding: const EdgeInsets.all(4.0),
+      size: _iconSize + 12.0,
       isLiked: bookmarkID != null,
-      bubblesColor: BubblesColor(
+      bubblesColor: const BubblesColor(
         dotPrimaryColor: bubbleColor,
         dotSecondaryColor: bubbleColor,
       ),
       likeBuilder: (isBookmarked) {
-        if (isBookmarked) {
-          return Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(_iconSize + _buttonPadding),
-              ),
-            ),
-            child: Icon(
-              Icons.bookmark_added_outlined,
-              color: bubbleColor,
-              size: _iconSize,
-            ),
-          );
-        } else {
-          return Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(_iconSize + _buttonPadding),
-              ),
-            ),
-            child: const Icon(
-              Icons.bookmark_add_outlined,
-              size: _iconSize,
-            ),
-          );
-        }
+        return Material(
+          color: backgroundColor,
+          shape: CircleBorder(),
+          child: Container(
+            padding: EdgeInsets.all(6.0),
+            child: isBookmarked == true
+                ? const Icon(
+                    Icons.bookmark_added_outlined,
+                    color: bubbleColor,
+                    size: _iconSize,
+                  )
+                : const Icon(
+                    Icons.bookmark_add_outlined,
+                    size: _iconSize,
+                  ),
+          ),
+        );
       },
       onTap: (isBookmarked) => _bookmark(context, isBookmarked),
     );
@@ -160,11 +152,11 @@ class SingleNewsHeader extends StatelessWidget {
             children: [
               Tooltip(
                 message: tr("tooltips.bookmark"),
-                child: _buildBookmarkButton(context),
+                child: _buildBookmarkButton(context, theme.cardColor),
               ),
               Tooltip(
                 message: tr("tooltips.share"),
-                child: _buildShareButton(),
+                child: _buildShareButton(theme.cardColor),
               ),
             ],
           ),

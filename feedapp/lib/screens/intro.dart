@@ -25,13 +25,6 @@ class _IntroScreenState extends State<IntroScreen> {
     }
   }
 
-  void prevPage() {
-    if (_current >= 0) {
-      _controller.previousPage(
-          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-    }
-  }
-
   void onPageChange(int i) {
     setState(() {
       _current = i;
@@ -52,63 +45,35 @@ class _IntroScreenState extends State<IntroScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            DotsIndicator(length: _length, current: _current),
             Expanded(
               child: PageView(
                 physics: const BouncingScrollPhysics(),
                 onPageChanged: onPageChange,
                 children: <Widget>[
                   IntroPage(
-                    image: "assets/static/hand-phone.png",
+                    nextPage: nextPage,
+                    image: "assets/static/launch.png",
                     title: tr("intro.first.title"),
                     subtitle: tr("intro.first.subtitle"),
                   ),
                   IntroPage(
+                    nextPage: nextPage,
                     image: "assets/static/paper-illustration.png",
                     title: tr("intro.second.title"),
                     subtitle: tr("intro.second.subtitle"),
                   ),
                   IntroPage(
+                    nextPage: nextPage,
                     image: "assets/static/phone-news.png",
                     title: tr("intro.third.title"),
                     subtitle: tr("intro.third.subtitle"),
                   ),
-                  IntroLogin(),
+                  const IntroLogin(),
                 ],
                 controller: _controller,
               ),
             ),
-            if (_current != _length)
-              SizedBox(
-                height: 60,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: _current == 0
-                          ? const SizedBox()
-                          : TextButton(
-                              onPressed: prevPage,
-                              child: Text(
-                                tr("intro.prev"),
-                              ),
-                            ),
-                    ),
-                    DotsIndicator(length: _length, current: _current),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          nextPage();
-                        },
-                        child: Text(
-                          (_current == (_length - 1))
-                              ? tr("intro.finish")
-                              : tr("intro.next"),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+const margin = 8.0;
+
 class DotsIndicator extends StatefulWidget {
   final int length;
   final int current;
@@ -15,22 +17,36 @@ class _DotsIndicatorState extends State<DotsIndicator> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      children: List.generate(widget.length, (index) => index)
-          .map(
-            (i) => AnimatedContainer(
-              margin: const EdgeInsets.all(10),
-              height: 15,
-              width: 15,
-              duration: const Duration(milliseconds: 300),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: widget.current == i ? theme.primaryColor : Colors.grey,
-                borderRadius: BorderRadius.circular(15),
+
+    EdgeInsets defineMargin(int index) {
+      if (index == widget.length - 1) {
+        return const EdgeInsets.only(left: margin);
+      }
+      if (index == 0) {
+        return const EdgeInsets.only(right: margin);
+      }
+      return const EdgeInsets.symmetric(horizontal: margin);
+    }
+
+    return AnimatedContainer(
+      height: widget.current == widget.length ? 0 : 15,
+      duration: const Duration(milliseconds: 300),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: List.generate(widget.length, (index) => index)
+            .map(
+              (i) => Expanded(
+                child: AnimatedContainer(
+                  margin: defineMargin(i),
+                  duration: const Duration(milliseconds: 300),
+                  color: widget.current == i
+                      ? theme.primaryColor
+                      : Colors.grey.shade300,
+                ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

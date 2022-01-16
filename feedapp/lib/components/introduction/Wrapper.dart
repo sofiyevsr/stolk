@@ -1,5 +1,4 @@
 import 'package:stolk/screens/home.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stolk/screens/intro.dart';
 import "package:flutter/material.dart";

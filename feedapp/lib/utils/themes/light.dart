@@ -2,8 +2,14 @@ part of "./index.dart";
 
 final lightTheme = ThemeData(
   textTheme: const TextTheme(
-    bodyText1: TextStyle(fontSize: 16),
-    bodyText2: TextStyle(fontSize: 14),
+    bodyText1: TextStyle(
+      fontSize: 18,
+      color: Color(0xFF777777),
+    ),
+    bodyText2: TextStyle(
+      fontSize: 16,
+      color: Color(0xFF777777),
+    ),
   ),
   iconTheme: const IconThemeData(
     color: CustomColorScheme.main,

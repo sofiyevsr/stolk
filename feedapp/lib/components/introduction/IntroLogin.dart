@@ -8,6 +8,8 @@ import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 
 class IntroLogin extends StatelessWidget {
+  const IntroLogin({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(

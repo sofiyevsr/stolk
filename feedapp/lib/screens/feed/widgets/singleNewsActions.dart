@@ -4,6 +4,7 @@ import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
 import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
+import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,9 +45,9 @@ class SingleNewsActions extends StatelessWidget {
         isLiked: likeID != null,
         likeBuilder: (isLiked) {
           if (isLiked)
-            return Icon(
+            return const Icon(
               Icons.favorite_sharp,
-              color: Colors.red,
+              color: CustomColorScheme.accent,
               size: _iconSize,
             );
           else {
