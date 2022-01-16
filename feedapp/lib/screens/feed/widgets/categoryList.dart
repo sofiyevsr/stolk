@@ -14,11 +14,76 @@ const height = 75.0;
 class CategoryList extends StatelessWidget {
   final int current;
   final Function(int id) changeCategory;
-  const CategoryList(
-      {Key? key, required this.changeCategory, required this.current})
-      : super(key: key);
+  const CategoryList({
+    Key? key,
+    required this.changeCategory,
+    required this.current,
+  }) : super(key: key);
 
-  Widget _buildItem(SingleCategory category) {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NewsBloc, NewsState>(builder: (ctx, state) {
+      if ((state is NewsStateLoading && state.categories == null) ||
+          state is NewsStateInitial) {
+        return const SizedBox(
+          height: height,
+          child: CenterLoadingWidget(),
+        );
+      }
+      if (state is NewsStateError) {
+        return const SizedBox(
+          height: height,
+          child: Center(
+            child: Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Colors.red,
+            ),
+          ),
+        );
+      }
+      final cats = [
+        SingleCategory.fromJSON(
+          {"id": 0, "name": "all", "image_suffix": "all.jpg"},
+        ),
+      ];
+      if (state is NewsStateWithData && state.data.categories != null) {
+        cats.addAll(state.data.categories!);
+      } else if (state is NewsStateNoData && state.categories != null) {
+        cats.addAll(state.categories!);
+      } else if (state is NewsStateLoading && state.categories != null) {
+        cats.addAll(state.categories!);
+      }
+
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: cats.length,
+        itemBuilder: (ctx, index) => GestureDetector(
+            key: Key(
+              cats[index].id.toString(),
+            ),
+            onTap: () => changeCategory(cats[index].id),
+            child: _SingleCategory(
+              current: current,
+              category: cats[index],
+            )),
+      );
+    });
+  }
+}
+
+class _SingleCategory extends StatelessWidget {
+  final int current;
+  final SingleCategory category;
+  const _SingleCategory({
+    Key? key,
+    required this.current,
+    required this.category,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final isCurrent = category.id == current;
     return Container(
       width: 120,
@@ -68,56 +133,5 @@ class CategoryList extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NewsBloc, NewsState>(builder: (ctx, state) {
-      if ((state is NewsStateLoading && state.categories == null) ||
-          state is NewsStateInitial) {
-        return const SizedBox(
-          height: height,
-          child: CenterLoadingWidget(),
-        );
-      }
-      if (state is NewsStateError) {
-        return const SizedBox(
-          height: height,
-          child: Center(
-            child: Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red,
-            ),
-          ),
-        );
-      }
-      final cats = [
-        SingleCategory.fromJSON(
-          {"id": 0, "name": "all", "image_suffix": "all.jpg"},
-        ),
-      ];
-      if (state is NewsStateWithData && state.data.categories != null) {
-        cats.addAll(state.data.categories!);
-      } else if (state is NewsStateNoData && state.categories != null) {
-        cats.addAll(state.categories!);
-      } else if (state is NewsStateLoading && state.categories != null) {
-        cats.addAll(state.categories!);
-      }
-
-      return ListView.builder(
-        key: const PageStorageKey("categories"),
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemCount: cats.length,
-        itemBuilder: (ctx, index) => GestureDetector(
-          key: Key(
-            cats[index].id.toString(),
-          ),
-          onTap: () => changeCategory(cats[index].id),
-          child: _buildItem(cats[index]),
-        ),
-      );
-    });
   }
 }

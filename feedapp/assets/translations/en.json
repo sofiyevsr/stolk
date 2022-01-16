@@ -277,6 +277,11 @@
       "version": "Version"
     }
   },
+  "sources": {
+    "search": "Search...",
+    "languages": "Languages",
+    "all": "All"
+  },
   "validations": {
     "first_name_empty": "Enter first name",
     "first_name_min2_max30": "First name should have minimum 2 characters",

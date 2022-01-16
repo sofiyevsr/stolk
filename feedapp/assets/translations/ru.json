@@ -277,6 +277,11 @@
       "version": "Версия"
     }
   },
+  "sources": {
+    "search": "Поиск...",
+    "languages": "Языки",
+    "all": "Все"
+  },
   "validations": {
     "first_name_empty": "Введите имя",
     "first_name_min2_max30": "Имя должно состоять минимум из 2 символов",

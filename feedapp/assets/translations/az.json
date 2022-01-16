@@ -277,6 +277,11 @@
       "version": "Versiya"
     }
   },
+  "sources": {
+    "search": "Axtar...",
+    "languages": "Dillər",
+    "all": "Hamısı"
+  },
   "validations": {
     "first_name_empty": "Ad daxil edin",
     "first_name_min2_max30": "Ad minimum 2 simvol ola bilər",
