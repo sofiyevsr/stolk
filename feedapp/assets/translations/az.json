@@ -174,15 +174,15 @@
     "next": "İrəli",
     "finish": "Bitir",
     "first": {
-      "subtitle": "Məşhur mənbələr tək yerdə",
-      "title": "Rahat"
+      "subtitle": "Stolk müxtəlif ölkələrdən olan və sayı artan mənbələrin xəbərlərini toplayır",
+      "title": "Stolk'a xoş gəlmisiniz"
     },
     "second": {
-      "subtitle": "İstənilən qədər mənbə seç",
-      "title": "Limitsiz"
+      "subtitle": "Lentinizi yalnız bəyəndiyiniz mənbələrlə xüsusiləştirin",
+      "title": "Özəl"
     },
     "third": {
-      "subtitle": "Hər dəqiqə yenilənən xəbərlər ilə gündəmi izləyin",
+      "subtitle": "Tez-tez yenilənən mənbələrin ən son xəbərləri ilə gündəmi izləyin",
       "title": "Ən son xəbərlər"
     }
   },

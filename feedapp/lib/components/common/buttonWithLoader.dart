@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ButtonWithLoader extends StatelessWidget {
@@ -22,18 +23,20 @@ class ButtonWithLoader extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: SizedBox(
+        child: Container(
           height: 25,
-          child: Center(
-            child: isLoading == true
-                ? SizedBox(
-                    width: 25,
-                    child: CircularProgressIndicator.adaptive(),
-                  )
-                : Text(
-                    this.text,
+          alignment: Alignment.center,
+          child: isLoading == true
+              ? SizedBox.fromSize(
+                  size: const Size(25, 25),
+                  child: const CircularProgressIndicator.adaptive(
+                    backgroundColor: Colors.white,
                   ),
-          ),
+                )
+              : AutoSizeText(
+                  text,
+                  maxLines: 1,
+                ),
         ),
         onPressed: isLoading == true ? null : this.onPressed,
       ),

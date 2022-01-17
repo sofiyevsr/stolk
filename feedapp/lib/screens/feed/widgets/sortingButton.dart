@@ -26,13 +26,9 @@ const tiles = [
 ];
 
 const periodTiles = [
-  {"value": 1, "text": "daily", "icon": Icon(Icons.view_day_sharp)},
+  {"value": 1, "text": "daily", "icon": Icon(Icons.wb_sunny_outlined)},
   {"value": 7, "text": "weekly", "icon": Icon(Icons.view_week_sharp)},
-  {
-    "value": 31,
-    "text": "monthly",
-    "icon": Icon(Icons.calendar_view_month_sharp)
-  },
+  {"value": 31, "text": "monthly", "icon": Icon(Icons.date_range_outlined)},
 ];
 
 /// The [callback] will be called with [sortBy], [period] after persisting choices

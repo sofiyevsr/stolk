@@ -36,7 +36,7 @@ class SingleNewsHeader extends StatelessWidget {
         color: backgroundColor,
         child: Container(
           padding: const EdgeInsets.all(6.0),
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          margin: const EdgeInsets.only(right: 6.0, left: 4.0),
           child: const Icon(
             Icons.share_outlined,
             size: _iconSize,
@@ -49,7 +49,7 @@ class SingleNewsHeader extends StatelessWidget {
   Widget _buildBookmarkButton(BuildContext context, Color backgroundColor) {
     const bubbleColor = CustomColorScheme.accent;
     return LikeButton(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(0),
       size: _iconSize + 12.0,
       isLiked: bookmarkID != null,
       bubblesColor: const BubblesColor(

@@ -174,15 +174,15 @@
     "next": "Forward",
     "finish": "Finish",
     "first": {
-      "subtitle": "Popular sources together",
-      "title": "Convenient"
+      "subtitle": "Stolk gathers news from a growing list of sources from different countries",
+      "title": "Welcome to Stolk"
     },
     "second": {
-      "subtitle": "Follow sources as many as you like",
-      "title": "Limitless"
+      "subtitle": "Customize your feed with following only sources you like",
+      "title": "Customizable"
     },
     "third": {
-      "subtitle": "Stay up to date with frequently updated news feed",
+      "subtitle": "Stay up to date with the latest news from frequently updated sources",
       "title": "Latest news"
     }
   },

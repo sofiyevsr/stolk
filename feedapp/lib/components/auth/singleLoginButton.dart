@@ -29,17 +29,46 @@ class SingleLoginButton extends StatelessWidget {
             Colors.grey,
           ),
           textStyle: MaterialStateProperty.all(
-            TextStyle(color: Colors.white),
+            const TextStyle(color: Colors.white),
           ),
         ),
         onPressed: disabled == true ? null : onPressed,
-        icon: this.icon,
+        icon: icon,
         label: Text(
-          this.text,
-          style: TextStyle(
+          text,
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RoundedSingleLoginButton extends StatelessWidget {
+  final Widget icon;
+  final Color color;
+  final bool? disabled;
+  final OnPressed onPressed;
+  const RoundedSingleLoginButton({
+    Key? key,
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+    this.disabled,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        iconSize: 48,
+        onPressed: disabled == true ? null : onPressed,
+        icon: icon,
       ),
     );
   }
