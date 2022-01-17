@@ -1,5 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/screens/auth/completeProfile.dart';
 import 'package:stolk/screens/home.dart';
@@ -14,7 +12,7 @@ import 'introduction/Wrapper.dart';
 
 class HomeWrapper extends StatefulWidget {
   final Widget? child;
-  const HomeWrapper({Key? key, this.child});
+  const HomeWrapper({Key? key, this.child}) : super(key: key);
 
   @override
   _HomeWrapperState createState() => _HomeWrapperState();

@@ -18,8 +18,21 @@ class IntroLogin extends StatelessWidget {
           child: Image.asset(
             "assets/static/news-bg.jpg",
             fit: BoxFit.cover,
-            color: Colors.black38,
-            colorBlendMode: BlendMode.darken,
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black,
+                ],
+                stops: [0.25, 1],
+              ),
+            ),
           ),
         ),
         Positioned.fill(
@@ -36,12 +49,13 @@ class IntroLogin extends StatelessWidget {
                   ),
                   Expanded(
                     child: AnimatedTextKit(
-                      repeatForever: true,
+                      isRepeatingAnimation: false,
                       animatedTexts: [
                         TypewriterAnimatedText(
                           "Stolk",
-                          speed: const Duration(milliseconds: 400),
-                          textStyle: TextStyle(
+                          speed: const Duration(milliseconds: 350),
+                          cursor: "|",
+                          textStyle: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 44,
@@ -67,24 +81,25 @@ class IntroLogin extends StatelessWidget {
                 );
                 NavigationService.push(const AuthPage(), RouteNames.AUTH);
               }),
-            ],
-          ),
-        ),
-        Positioned(
-          right: 10,
-          top: 10,
-          child: TextButton(
-            onPressed: () {
-              NavigationService.replaceAll(const Home(), RouteNames.HOME);
-            },
-            child: Text(
-              tr("commons.skip"),
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.all(0),
+                  ),
+                ),
+                onPressed: () {
+                  NavigationService.replaceAll(const Home(), RouteNames.HOME);
+                },
+                child: Text(
+                  tr("commons.skip"),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ],

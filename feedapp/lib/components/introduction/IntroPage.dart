@@ -75,11 +75,12 @@ class _IntroPageState extends State<IntroPage>
               children: [
                 Column(
                   children: [
-                    Text(
+                    AutoSizeText(
                       widget.title,
                       style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.0),
@@ -87,6 +88,7 @@ class _IntroPageState extends State<IntroPage>
                         widget.subtitle,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyText1,
+                        maxLines: 4,
                       ),
                     ),
                   ],

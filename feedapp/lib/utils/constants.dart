@@ -96,5 +96,6 @@ final passwordRegex =
     RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$");
 
 class HiveDefaultValues {
+  static const SORT_BY = 0;
   static const PERIOD = 1;
 }

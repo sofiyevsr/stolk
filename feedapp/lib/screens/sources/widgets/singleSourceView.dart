@@ -27,7 +27,7 @@ class SingleSourceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -71,10 +71,11 @@ class SingleSourceView extends StatelessWidget {
             margin: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: item.isRequestOn ? null : () => onFinish(context),
-              child: Text(
+              child: AutoSizeText(
                 item.followID == null
                     ? tr("commons.follow")
                     : tr("commons.following"),
+                maxLines: 1,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
