@@ -1,9 +1,9 @@
 {
   "languages": {
     "az": "Azərbaycanca",
-    "tr": "Türkçe",
-    "ru": "По русский",
-    "en": "English"
+    "tr": "Türkcə",
+    "ru": "Rusca",
+    "en": "İngiliscə"
   },
   "buttons": {
     "retry_request": "Təkrar yoxla",
@@ -278,6 +278,9 @@
     }
   },
   "sources": {
+    "title": "Lenti özəlləştir",
+    "description": "Burada müxtəlif ölkələrdən mənbələri izləyib xəbər lentinizi özəlləştirə bilərsiniz",
+    "choose_lang": "Mənbə dili seçin",
     "search": "Axtar...",
     "languages": "Dillər",
     "all": "Hamısı"

@@ -21,6 +21,7 @@ class NoNewsWidget extends StatelessWidget {
           const LottieLoader(
             asset: "assets/lottie/no_data.json",
             size: Size(250, 250),
+            repeat: false,
           ),
           AutoSizeText(
             followMore ? tr("news.no_news_follow_more") : tr("news.no_news"),

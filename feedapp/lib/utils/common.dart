@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'constants.dart';
+
 class Nullable<T> {
   final T? value;
   Nullable({required this.value});
@@ -71,9 +73,27 @@ authorize({bool pushAuthView = true}) {
     if (pushAuthView == true && context != null) {
       showModalBottomSheet(
           context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           builder: (ctx) {
-            return AuthContainer(
-              disableMinConstraint: true,
+            return Column(
+              children: [
+                Container(
+                  height: 8,
+                  width: 80,
+                  margin: const EdgeInsets.only(top: 4.0, bottom: 8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: CustomColorScheme.main,
+                  ),
+                ),
+                const Expanded(
+                  child: AuthContainer(
+                    bottomSheet: true,
+                  ),
+                ),
+              ],
             );
           });
     }

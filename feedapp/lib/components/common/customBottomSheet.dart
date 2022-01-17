@@ -5,7 +5,7 @@ import 'package:stolk/utils/constants.dart';
 class CustomBottomSheet<T> extends StatefulWidget {
   final List<CustomBottomSheetOption<T>> options;
   final T defaultValue;
-  final Function(T v) onSubmit;
+  final Function(T? v) onSubmit;
   final String title;
   const CustomBottomSheet({
     Key? key,
@@ -20,22 +20,26 @@ class CustomBottomSheet<T> extends StatefulWidget {
 }
 
 class _CustomBottomSheetState<T> extends State<CustomBottomSheet<T>> {
-  late T current = widget.defaultValue;
+  late T? current = widget.defaultValue;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Container(
           height: 8,
           width: 80,
-          margin: const EdgeInsets.only(top: 4.0, bottom: 16.0),
+          margin: const EdgeInsets.only(top: 4.0, bottom: 12.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: CustomColorScheme.main,
           ),
         ),
-        Text(widget.title),
+        Container(
+          margin: const EdgeInsets.only(bottom: 8.0),
+          child: Text(widget.title, style: theme.textTheme.headline6),
+        ),
         Expanded(
           child: ListView(
             physics: const BouncingScrollPhysics(),
@@ -51,7 +55,6 @@ class _CustomBottomSheetState<T> extends State<CustomBottomSheet<T>> {
                       value: e.value,
                       title: e.title,
                       onChanged: (v) {
-                        if (v == null) return;
                         setState(() {
                           current = v;
                         });

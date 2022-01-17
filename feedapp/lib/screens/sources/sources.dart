@@ -1,12 +1,14 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
 import 'package:stolk/components/common/customBottomSheet.dart';
+import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/components/common/noConnection.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/utils/constants.dart';
-import 'package:stolk/utils/services/app/navigationService.dart';
+import 'package:stolk/utils/debounce.dart';
 
 import 'widgets/singleSourceView.dart';
 
@@ -18,14 +20,22 @@ class SourcesPage extends StatefulWidget {
 }
 
 class _SourcesPageState extends State<SourcesPage> {
-  // Default is -1 which means all
   int? _currentLangID;
   String? _search;
+  final Debounce _debouncer = Debounce(
+    duration: const Duration(milliseconds: 100),
+  );
 
   @override
   void initState() {
     super.initState();
     fetchSources();
+  }
+
+  @override
+  void dispose() {
+    _debouncer.dispose();
+    super.dispose();
   }
 
   void fetchSources() {
@@ -41,18 +51,24 @@ class _SourcesPageState extends State<SourcesPage> {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        _SourceHeader(
-          onFilter: (s) {
-            setState(() {
-              _currentLangID = s;
-            });
-          },
-          onSearch: (s) {
-            setState(() {
-              _search = s;
-            });
-          },
-          currentLangID: _currentLangID,
+        _SourceHeader(),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _PersistentSourceHeader(
+            onFilter: (s) {
+              setState(() {
+                _currentLangID = s;
+              });
+            },
+            onSearch: (s) => _debouncer.run(
+              () {
+                setState(() {
+                  _search = s;
+                });
+              },
+            ),
+            currentLangID: _currentLangID,
+          ),
         ),
         BlocBuilder<SourcesBloc, SourcesState>(builder: (context, state) {
           if (state is SourcesStateSuccess) {
@@ -98,130 +114,167 @@ class _SourcesPageState extends State<SourcesPage> {
 }
 
 class _SourceHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: AutoSizeText(
+                        tr("sources.title"),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        minFontSize: 24,
+                        maxLines: 2,
+                      ),
+                    ),
+                    AutoSizeText(
+                      tr("sources.description"),
+                      maxLines: 4,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const LottieLoader(
+              asset: "assets/lottie/magnifying_glass.json",
+              size: Size(
+                120,
+                120,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PersistentSourceHeader extends SliverPersistentHeaderDelegate {
   final Function(String term) onSearch;
   final void Function(int? langID) onFilter;
   final int? currentLangID;
-  const _SourceHeader({
+  const _PersistentSourceHeader({
     required this.onFilter,
     required this.onSearch,
     required this.currentLangID,
-    Key? key,
-  }) : super(key: key);
+  });
   @override
-  Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildListDelegate.fixed(
-        [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        labelText: "test",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        constraints: const BoxConstraints(maxHeight: 48),
-                      ),
-                      onChanged: onSearch,
-                    ),
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final theme = Theme.of(context);
+    return Container(
+      color: theme.scaffoldBackgroundColor,
+      padding: const EdgeInsets.all(8.0),
+      height: 100,
+      alignment: Alignment.center,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(right: 8.0),
+              child: TextField(
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: tr("sources.search"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16),
-                        ),
-                      ),
-                      builder: (ctx) => CustomBottomSheet<int>(
-                        onSubmit: (v) {},
-                        options: [
-                          CustomBottomSheetOption(
-                            value: -1,
-                            title: Row(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                      "assets/flags/az.png",
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  tr("sources.all"),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ...LANGS.entries.map<CustomBottomSheetOption<int>>(
-                            (e) => CustomBottomSheetOption(
-                              value: e.key,
-                              title: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                        "assets/flags/${e.value}.png",
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    tr("languages.${e.value}"),
-                                  ),
-                                ],
+                onChanged: onSearch,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(0, 48),
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                builder: (ctx) => CustomBottomSheet<int?>(
+                  onSubmit: onFilter,
+                  options: [
+                    CustomBottomSheetOption(
+                      value: null,
+                      title: Row(
+                        children: [
+                          const Padding(
+                            key: ValueKey(-1),
+                            padding: EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/flags/earth.png",
                               ),
                             ),
                           ),
+                          Text(
+                            tr("sources.all"),
+                          ),
                         ],
-                        defaultValue: -1,
-                        title: "Test",
                       ),
-                    );
-                  },
-                  child: Text("show"),
-                )
-                // DropdownButton<int?>(
-                //   value: currentLangID,
-                //   hint: Text(
-                //     tr("sources.search"),
-                //   ),
-                //   onChanged: onFilter,
-                //   items: [
-                //     DropdownMenuItem<int>(
-                //       value: null,
-                //       child: Text(
-                //         tr("sources.all"),
-                //       ),
-                //     ),
-                //     ...LANGS.entries.map<DropdownMenuItem<int>>(
-                //       (e) => DropdownMenuItem(
-                //         value: e.key,
-                //         child: CircleAvatar(
-                //           backgroundImage: AssetImage(
-                //             'assets/flags/${e.value}.png',
-                //           ),
-                //           radius: 10,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ],
+                    ),
+                    ...LANGS.entries.map<CustomBottomSheetOption<int>>(
+                      (e) => CustomBottomSheetOption(
+                        value: e.key,
+                        title: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  "assets/flags/${e.value}.png",
+                                ),
+                              ),
+                            ),
+                            Text(
+                              tr("languages.${e.value}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  defaultValue: currentLangID,
+                  title: tr("sources.choose_lang"),
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.tune_outlined,
+              color: Colors.white,
             ),
-          ),
+          )
         ],
       ),
     );
+  }
+
+  @override
+  double get maxExtent => 100;
+
+  @override
+  double get minExtent => 100;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

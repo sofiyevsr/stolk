@@ -63,7 +63,6 @@ class LoginButtons extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Colors.white,
                 ),
                 child: Image.asset(
                   "assets/icons/facebook.png",
@@ -101,13 +100,13 @@ class LoginButtons extends StatelessWidget {
               ),
             SingleLoginButton(
               text: tr("login.email_sign_in"),
-              icon: Icon(Icons.alternate_email, size: 30),
-              color: Colors.blue[700]!,
+              icon: const Icon(Icons.alternate_email, size: 30),
+              color: CustomColorScheme.main,
               disabled: buttonsDisabled,
-              onPressed: this.onLocalAuthPress != null
-                  ? this.onLocalAuthPress!
+              onPressed: onLocalAuthPress != null
+                  ? onLocalAuthPress!
                   : () {
-                      NavigationService.push(AuthPage(), RouteNames.AUTH);
+                      NavigationService.push(const AuthPage(), RouteNames.AUTH);
                     },
             ),
           ],

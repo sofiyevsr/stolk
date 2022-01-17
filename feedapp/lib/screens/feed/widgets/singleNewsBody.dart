@@ -45,9 +45,7 @@ class SingleNewsBody extends StatelessWidget {
                 convertDiffTime(feed.publishedDate, context),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: theme.textTheme.subtitle1?.copyWith(
-                  fontWeight: FontWeight.normal,
-                ),
+                style: theme.textTheme.bodyText2?.copyWith(),
               ),
             ],
           ),

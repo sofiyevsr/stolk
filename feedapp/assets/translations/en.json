@@ -1,8 +1,8 @@
 {
   "languages": {
-    "az": "Azərbaycanca",
-    "tr": "Türkçe",
-    "ru": "По русский",
+    "az": "Azerbaijani",
+    "tr": "Turkish",
+    "ru": "Russian",
     "en": "English"
   },
   "buttons": {
@@ -278,6 +278,9 @@
     }
   },
   "sources": {
+    "title": "Customize feed",
+    "description": "Here you can follow sources from different countries to customize your news feed",
+    "choose_lang": "Choose source language",
     "search": "Search...",
     "languages": "Languages",
     "all": "All"
