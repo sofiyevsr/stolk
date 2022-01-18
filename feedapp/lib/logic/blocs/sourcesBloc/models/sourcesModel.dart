@@ -9,7 +9,7 @@ class SourcesModel {
     required SingleSource item,
     required int id,
   }) {
-    final clonedItems = this.sources.map((e) {
+    final clonedItems = sources.map((e) {
       if (e.id == id) return item;
       return e;
     }).toList();

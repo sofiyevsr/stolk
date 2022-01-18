@@ -24,13 +24,11 @@ class SingleLoginButton extends StatelessWidget {
       height: 55,
       child: ElevatedButton.icon(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(this.color),
-          shadowColor: MaterialStateProperty.all(
-            Colors.grey,
-          ),
-          textStyle: MaterialStateProperty.all(
-            const TextStyle(color: Colors.white),
-          ),
+          backgroundColor: MaterialStateColor.resolveWith((states) {
+            if (states.contains(MaterialState.disabled))
+              return color.withAlpha(200);
+            return color;
+          }),
         ),
         onPressed: disabled == true ? null : onPressed,
         icon: icon,
@@ -60,15 +58,25 @@ class RoundedSingleLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
+    return ElevatedButton(
+      onPressed: disabled == true ? null : onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateColor.resolveWith((states) {
+          if (states.contains(MaterialState.disabled))
+            return color.withAlpha(200);
+          return color;
+        }),
+        shape: MaterialStateProperty.all(const CircleBorder()),
+        minimumSize: MaterialStateProperty.all(Size.zero),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.all(12),
+        ),
       ),
-      child: IconButton(
-        iconSize: 48,
-        onPressed: disabled == true ? null : onPressed,
-        icon: icon,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 4,
+        ),
+        child: icon,
       ),
     );
   }

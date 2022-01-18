@@ -9,8 +9,6 @@ import 'package:stolk/screens/auth/forgotPassword.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 
-import 'roundedLoginButtons.dart';
-
 class LoginSection extends StatefulWidget {
   const LoginSection({Key? key}) : super(key: key);
 

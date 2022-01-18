@@ -22,7 +22,7 @@ String convertTime(String date, BuildContext context) {
   if (data == null) {
     return "";
   }
-  final format = DateFormat("HH:mm, d MMMM", lang ?? "en");
+  final format = DateFormat("d MMMM yyyy", lang ?? "en");
   return format.format(data);
 }
 

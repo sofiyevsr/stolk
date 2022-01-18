@@ -110,6 +110,7 @@
   "commons": {
     "me": "Me",
     "guest": "Guest",
+    "or": "Or",
     "next": "Forward",
     "skip": "Skip",
     "welcome": "Welcome",
@@ -276,6 +277,11 @@
     "about_fields": {
       "name": "Name",
       "version": "Version"
+    },
+    "fields": {
+      "email": "Email",
+      "name": "Name",
+      "created_at": "Registration date"
     }
   },
   "sources": {

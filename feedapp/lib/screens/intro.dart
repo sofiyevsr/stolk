@@ -48,7 +48,7 @@ class _IntroScreenState extends State<IntroScreen> {
             DotsIndicator(length: _length, current: _current),
             Expanded(
               child: PageView(
-                physics: const BouncingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: onPageChange,
                 children: <Widget>[
                   IntroPage(

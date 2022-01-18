@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/utils/common.dart';
 
 class SettingsHeaderSection extends StatelessWidget {
+  // ignore: prefer_const_constructors_in_immutables
   SettingsHeaderSection({Key? key}) : super(key: key);
+
+  final trailingTextStyle = const TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,76 @@ class SettingsHeaderSection extends StatelessWidget {
                 ),
               ],
             ),
+            if (state is AuthorizedState)
+              Column(
+                children: [
+                  Row(
+                    key: const ValueKey("name"),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          tr("settings.fields.name"),
+                          maxLines: 2,
+                        ),
+                      ),
+                      AutoSizeText(
+                        state.user.firstName + " " + state.user.lastName,
+                        style: trailingTextStyle,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Divider(
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  Row(
+                    key: const ValueKey("created_at"),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          tr("settings.fields.created_at"),
+                          maxLines: 2,
+                        ),
+                      ),
+                      AutoSizeText(
+                        convertTime(state.user.createdAt, context),
+                        style: trailingTextStyle,
+                      ),
+                    ],
+                  ),
+                  if (state.user.email != null)
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Divider(
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        Row(
+                          key: const ValueKey("email"),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: AutoSizeText(
+                                tr("settings.fields.email"),
+                                maxLines: 2,
+                              ),
+                            ),
+                            AutoSizeText(
+                              state.user.email!,
+                              style: trailingTextStyle,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                ],
+              ),
           ],
         ),
       );
@@ -36,6 +113,7 @@ class SettingsHeaderSection extends StatelessWidget {
 
 class _UserDetails extends StatelessWidget {
   final AuthState state;
+  // ignore: prefer_const_constructors_in_immutables
   _UserDetails({Key? key, required this.state}) : super(key: key);
 
   @override

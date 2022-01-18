@@ -21,42 +21,53 @@ class _SettingsPageState extends State<SettingsPage> {
     EasyLocalization.of(ctx);
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 25,
-        ),
-        child: Column(
-          children: [
-            SettingsHeaderSection(),
-            SettingsTile(
-              onTap: () {
-                NavigationService.push(
-                  const SingleSettings(
-                    title: ("settings.language"),
-                    child: LanguageSelector(),
-                  ),
-                  RouteNames.SINGLE_SETTING,
-                );
-              },
-              title: tr("settings.language"),
-              icon: Icons.translate_sharp,
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: SettingsHeaderSection(),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: const Divider(
+              height: 2,
             ),
-            SettingsTile(
-              onTap: () {
-                NavigationService.push(
-                  const SingleSettings(
-                    title: ("settings.theme"),
-                    child: ThemeSelector(),
-                  ),
-                  RouteNames.SINGLE_SETTING,
-                );
-              },
-              icon: Icons.layers_outlined,
-              title: tr("settings.theme"),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              children: [
+                SettingsTile(
+                  onTap: () {
+                    NavigationService.push(
+                      const SingleSettings(
+                        title: ("settings.language"),
+                        child: LanguageSelector(),
+                      ),
+                      RouteNames.SINGLE_SETTING,
+                    );
+                  },
+                  title: tr("settings.language"),
+                  icon: Icons.translate_sharp,
+                ),
+                SettingsTile(
+                  onTap: () {
+                    NavigationService.push(
+                      const SingleSettings(
+                        title: ("settings.theme"),
+                        child: ThemeSelector(),
+                      ),
+                      RouteNames.SINGLE_SETTING,
+                    );
+                  },
+                  icon: Icons.layers_outlined,
+                  title: tr("settings.theme"),
+                ),
+                SettingsGeneralSection(),
+              ],
             ),
-            SettingsGeneralSection(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

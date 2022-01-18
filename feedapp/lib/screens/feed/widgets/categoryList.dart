@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/centerLoadingWidget.dart';
@@ -85,6 +86,7 @@ class _SingleCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCurrent = category.id == current;
+    final theme = Theme.of(context);
     return Container(
       width: 120,
       margin: const EdgeInsets.only(
@@ -93,15 +95,14 @@ class _SingleCategory extends StatelessWidget {
         top: 15,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color:
-              isCurrent == true ? CustomColorScheme.main : Colors.transparent,
-          width: 5,
+          color: isCurrent == true ? theme.primaryColor : Colors.transparent,
+          width: 6,
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         child: Stack(
           children: [
             Positioned.fill(
@@ -118,10 +119,12 @@ class _SingleCategory extends StatelessWidget {
             ),
             Positioned.fill(
               child: Center(
-                child: Text(
+                child: AutoSizeText(
                   tr("categories.${category.name}"),
+                  maxLines: 1,
+                  minFontSize: 15,
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

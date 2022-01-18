@@ -116,7 +116,7 @@ class _SingleCommentViewState extends State<SingleCommentView> {
               padding: const EdgeInsets.all(12),
               margin: const EdgeInsets.only(right: 8.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(10),
                   topLeft: Radius.zero,
                   bottomLeft: Radius.circular(10),

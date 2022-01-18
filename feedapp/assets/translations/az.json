@@ -110,6 +110,7 @@
   "commons": {
     "me": "Mən",
     "skip": "Keç",
+    "or": "Ya da",
     "next": "İrəli",
     "guest": "Qonaq",
     "welcome": "Xoş gəlmisiniz",
@@ -247,7 +248,7 @@
   "forgot_password": {
     "success": "Poçt qutunuzu yoxlayın",
     "title": "Şifrəni unutmusunuz?",
-    "description": "Şifrəni yeniləmə təlimatlarını göndərilməsi üçün qeydiyyatdan keçdiyiniz emaili daxil edin",
+    "description": "Şifrəni yeniləmə təlimatlarının göndərilməsi üçün qeydiyyatdan keçdiyiniz emaili daxil edin",
     "submit": "Təsdiqlə"
   },
   "settings": {
@@ -276,6 +277,11 @@
     "about_fields": {
       "name": "Ad",
       "version": "Versiya"
+    },
+    "fields": {
+      "email": "Email",
+      "name": "Ad",
+      "created_at": "Qeydiyyat vaxtı"
     }
   },
   "sources": {
