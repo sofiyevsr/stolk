@@ -1,8 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class LanguagePanel extends StatelessWidget {
-  const LanguagePanel({Key? key}) : super(key: key);
+const _langs = [
+  {"asset": "assets/flags/az.png", "name": "Azərbaycanca", "value": "az"},
+  {"asset": "assets/flags/ru.png", "name": "Русский", "value": "ru"},
+  {"asset": "assets/flags/en.png", "name": "English", "value": "en"}
+];
+
+class LanguageSelector extends StatelessWidget {
+  const LanguageSelector({Key? key}) : super(key: key);
 
   void _setLanguage(BuildContext ctx, String? lang) async {
     if (lang != null) await ctx.setLocale(Locale(lang));
@@ -13,75 +20,39 @@ class LanguagePanel extends StatelessWidget {
     final String? currentLanguage =
         EasyLocalization.of(context)?.currentLocale.toString().toLowerCase();
     return Column(
-      children: [
-        RadioListTile(
-          title: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: CircleAvatar(
-                  radius: 15.0,
-                  backgroundImage: AssetImage(
-                    'assets/flags/az.png',
-                  ),
-                ),
+      children: _langs
+          .map(
+            (e) => RadioListTile(
+              controlAffinity: ListTileControlAffinity.trailing,
+              key: ValueKey(
+                e["value"],
               ),
-              Text("Azərbaycanca",
-                  style: Theme.of(context).textTheme.subtitle1),
-            ],
-          ),
-          value: "az",
-          groupValue: currentLanguage,
-          onChanged: (lang) {
-            _setLanguage(context, lang as String);
-          },
-        ),
-        Divider(),
-        RadioListTile(
-          title: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: CircleAvatar(
-                  radius: 15.0,
-                  backgroundImage: AssetImage(
-                    'assets/flags/en.png',
+              title: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20.0,
+                    backgroundImage: AssetImage(
+                      e["asset"]!,
+                    ),
                   ),
-                ),
-              ),
-              Text("English", style: Theme.of(context).textTheme.subtitle1),
-            ],
-          ),
-          value: "en",
-          groupValue: currentLanguage,
-          onChanged: (lang) {
-            _setLanguage(context, lang as String);
-          },
-        ),
-        Divider(),
-        RadioListTile(
-          title: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: CircleAvatar(
-                  radius: 15.0,
-                  backgroundImage: AssetImage(
-                    'assets/flags/ru.png',
+                  Expanded(
+                    child: Center(
+                      child: AutoSizeText(
+                        e["name"]!,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              Text("Русский", style: Theme.of(context).textTheme.subtitle1),
-            ],
-          ),
-          value: "ru",
-          groupValue: currentLanguage,
-          onChanged: (lang) {
-            _setLanguage(context, lang as String);
-          },
-        ),
-        Divider(),
-      ],
+              value: e["value"]!,
+              groupValue: currentLanguage,
+              onChanged: (lang) {
+                _setLanguage(context, lang as String);
+              },
+            ),
+          )
+          .toList(),
     );
   }
 }

@@ -4,11 +4,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:stolk/components/ads/adaptiveBanner.dart';
 import 'package:stolk/components/common/scaleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:stolk/utils/ads/constants.dart';
 import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -147,27 +145,33 @@ class _NewsViewState extends State<NewsView>
       ),
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          children: [
-            Expanded(
-              child: AutoSizeText(
-                _title,
-                overflow: TextOverflow.ellipsis,
-                minFontSize: 14,
-                maxLines: 2,
+        title: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AutoSizeText(
+                    _title,
+                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 14,
+                    maxLines: 2,
+                  ),
+                ),
               ),
-            ),
-            AnimatedBuilder(
-              animation: _loadingController,
-              builder: (context, child) {
-                return CircularProgressIndicator(
-                  value: _loadingController.value / 100,
-                  strokeWidth: 8,
-                  color: Colors.white,
-                );
-              },
-            )
-          ],
+              AnimatedBuilder(
+                animation: _loadingController,
+                builder: (context, child) {
+                  return CircularProgressIndicator(
+                    value: _loadingController.value / 100,
+                    strokeWidth: 8,
+                    color: Colors.white,
+                  );
+                },
+              )
+            ],
+          ),
         ),
         leading: ScaleButton(
           onFinish: () async {

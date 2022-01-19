@@ -1,10 +1,13 @@
 import "package:flutter/material.dart";
+import 'package:stolk/utils/constants.dart';
+
+const margin = 8.0;
 
 class DotsIndicator extends StatefulWidget {
   final int length;
   final int current;
 
-  DotsIndicator({Key? key, required this.length, required this.current})
+  const DotsIndicator({Key? key, required this.length, required this.current})
       : super(key: key);
 
   @override
@@ -14,21 +17,35 @@ class DotsIndicator extends StatefulWidget {
 class _DotsIndicatorState extends State<DotsIndicator> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(widget.length, (index) => index)
-          .map(
-            (i) => AnimatedContainer(
-              margin: const EdgeInsets.all(10),
-              width: widget.current == i ? 25 : 15,
-              duration: const Duration(milliseconds: 300),
-              height: 15,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(15),
+    EdgeInsets defineMargin(int index) {
+      if (index == widget.length - 1) {
+        return const EdgeInsets.only(left: margin);
+      }
+      if (index == 0) {
+        return const EdgeInsets.only(right: margin);
+      }
+      return const EdgeInsets.symmetric(horizontal: margin);
+    }
+
+    return AnimatedContainer(
+      height: widget.current == widget.length ? 0 : 15,
+      duration: const Duration(milliseconds: 300),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: List.generate(widget.length, (index) => index)
+            .map(
+              (i) => Expanded(
+                child: AnimatedContainer(
+                  margin: defineMargin(i),
+                  duration: const Duration(milliseconds: 300),
+                  color: widget.current == i
+                      ? CustomColorScheme.main
+                      : Colors.grey.shade300,
+                ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

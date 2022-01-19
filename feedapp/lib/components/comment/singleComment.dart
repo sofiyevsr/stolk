@@ -55,159 +55,149 @@ class _SingleCommentViewState extends State<SingleCommentView> {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.all(12),
       child: Row(
         children: [
           Container(
-            constraints: BoxConstraints(maxWidth: 120),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                    if (state is AuthorizedState) {
-                      return CircleAvatar(
-                        child: Text(
-                          state.user.firstName[0],
-                        ),
-                      );
-                    }
-                    return CircleAvatar(
-                      child: Text(widget.comment.firstName?[0] ?? ""),
-                    );
-                  }),
-                ),
-                Container(
-                  constraints: BoxConstraints(maxWidth: 80),
-                  margin: const EdgeInsets.only(right: 5),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child:
-                        BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
-                      if (state is AuthorizedState) {
-                        if (state.user.id == widget.comment.userID) {
-                          return Text(
-                            tr(
-                              "commons.me",
-                            ),
-                            style: textTheme.bodyText2,
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                          );
-                        }
-                      }
-                      return Text(
-                        fullName,
-                        style: textTheme.bodyText2,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                      );
-                    }),
-                  ),
-                ),
-              ],
-            ),
+            margin: const EdgeInsets.all(6.0),
+            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+              return CircleAvatar(
+                radius: 24,
+                child: Text(widget.comment.firstName?[0] ?? ""),
+              );
+            }),
           ),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.only(right: 8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  topLeft: Radius.zero,
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                color: Theme.of(context).cardColor,
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: BlocBuilder<AuthBloc, AuthState>(
+                            builder: (ctx, state) {
+                          if (state is AuthorizedState) {
+                            if (state.user.id == widget.comment.userID) {
+                              return Text(
+                                tr(
+                                  "commons.me",
+                                ),
+                                style: textTheme.bodyText1,
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                              );
+                            }
+                          }
+                          return Text(
+                            fullName,
+                            style: textTheme.bodyText1,
+                            maxLines: 2,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        }),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            convertDiffTime(widget.comment.createdAt, context),
+                            convertDiffTime(
+                              widget.comment.createdAt,
+                              context,
+                              short: true,
+                            ),
                             style: textTheme.bodyText2?.copyWith(
                               color: Colors.grey[500],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: _isExtended
-                                        ? widget.comment.comment
-                                        : shortenComment(
-                                            widget.comment.comment),
-                                    style: textTheme.bodyText2
-                                        ?.copyWith(fontSize: 15),
-                                  ),
-                                  if (_isExtended == false &&
-                                      widget.comment.comment.length >
-                                          MAX_COMMENT_LENGTH)
-                                    TextSpan(
-                                      text: ' ${tr("commons.show_more")}',
-                                      recognizer: _showMoreRecognizer,
-                                      style: textTheme.bodyText2?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                          color: Colors.blue[700]),
-                                    ),
-                                ],
+                          PopupMenuButton<String>(
+                            offset: const Offset(-32, 0),
+                            padding: const EdgeInsets.all(0),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              child: Icon(
+                                Icons.more_vert_sharp,
+                                size: 32,
                               ),
                             ),
+                            onSelected: (v) async {
+                              try {
+                                authorize();
+                                await showDialog(
+                                  context: context,
+                                  builder: (ctx) => ReportDialog(
+                                    onConfirmed: (message) async {
+                                      await reportApi.commentReport(
+                                          message, widget.comment.id);
+                                    },
+                                  ),
+                                );
+                              } catch (_) {}
+                            },
+                            itemBuilder: (entry) {
+                              return [
+                                PopupMenuItem(
+                                  height: 32,
+                                  child: Text(
+                                    tr("report.menu"),
+                                  ),
+                                  value: "report",
+                                ),
+                              ];
+                            },
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
                     ),
-                    PopupMenuButton<String>(
-                      offset: Offset(-40, 0),
-                      iconSize: 30,
-                      onSelected: (v) async {
-                        try {
-                          authorize();
-                          await showDialog(
-                            context: context,
-                            builder: (ctx) => ReportDialog(
-                              onConfirmed: (message) async {
-                                await reportApi.commentReport(
-                                    message, widget.comment.id);
-                              },
-                            ),
-                          );
-                        } catch (_) {}
-                      },
-                      itemBuilder: (entry) {
-                        return [
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                  ),
-                                  child: Icon(Icons.report, color: Colors.red),
+                    color: Theme.of(context).cardColor,
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _isExtended
+                                    ? widget.comment.comment
+                                    : shortenComment(widget.comment.comment),
+                                style:
+                                    textTheme.bodyText2?.copyWith(fontSize: 15),
+                              ),
+                              if (_isExtended == false &&
+                                  widget.comment.comment.length >
+                                      MAX_COMMENT_LENGTH)
+                                TextSpan(
+                                  text: ' ${tr("commons.show_more")}',
+                                  recognizer: _showMoreRecognizer,
+                                  style: textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.blue[700]),
                                 ),
-                                Text(
-                                  tr("report.menu"),
-                                ),
-                              ],
-                            ),
-                            value: "report",
+                            ],
                           ),
-                        ];
-                      },
-                    ),
-                  ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

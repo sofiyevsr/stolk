@@ -1,5 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import 'lottieLoader.dart';
 
 class NoConnectionWidget extends StatelessWidget {
   final Function()? onRetry;
@@ -11,31 +14,25 @@ class NoConnectionWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.wifi_off,
-            color: Colors.blue[700],
-            size: 100,
+          const LottieLoader(
+            asset: "assets/lottie/no_connection.json",
+            size: Size(140, 140),
           ),
-          Text(
-            tr("errors.network_error"),
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: AutoSizeText(
+              tr("errors.network_error"),
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          if (this.onRetry != null)
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(
-                    Size(40, 40),
-                  ),
-                ),
-                onPressed: onRetry,
-                child: Text(
-                  tr("buttons.retry_request"),
-                ),
+          if (onRetry != null)
+            ElevatedButton(
+              onPressed: onRetry,
+              child: Text(
+                tr("buttons.retry_request"),
               ),
             ),
         ],

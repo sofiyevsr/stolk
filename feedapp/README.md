@@ -1,1 +1,1 @@
-Mobile apps made with Flutter
+Stolk cross-platform app

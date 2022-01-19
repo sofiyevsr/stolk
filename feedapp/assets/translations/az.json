@@ -1,9 +1,9 @@
 {
   "languages": {
     "az": "Azərbaycanca",
-    "tr": "Türkçe",
-    "ru": "По русский",
-    "en": "English"
+    "tr": "Türkcə",
+    "ru": "Rusca",
+    "en": "İngiliscə"
   },
   "buttons": {
     "retry_request": "Təkrar yoxla",
@@ -110,6 +110,8 @@
   "commons": {
     "me": "Mən",
     "skip": "Keç",
+    "or": "Ya da",
+    "next": "İrəli",
     "guest": "Qonaq",
     "welcome": "Xoş gəlmisiniz",
     "categories": "Kateqoriyalar",
@@ -173,15 +175,15 @@
     "next": "İrəli",
     "finish": "Bitir",
     "first": {
-      "subtitle": "Məşhur mənbələr tək yerdə",
-      "title": "Rahat"
+      "subtitle": "Stolk müxtəlif ölkələrdən olan və sayı artan mənbələrin xəbərlərini toplayır",
+      "title": "Stolk'a xoş gəlmisiniz"
     },
     "second": {
-      "subtitle": "İstənilən qədər mənbə seç",
-      "title": "Limitsiz"
+      "subtitle": "Lentinizi yalnız bəyəndiyiniz mənbələrlə xüsusiləştirin",
+      "title": "Özəl"
     },
     "third": {
-      "subtitle": "Hər dəqiqə yenilənən xəbərlər ilə gündəmi izləyin",
+      "subtitle": "Tez-tez yenilənən mənbələrin ən son xəbərləri ilə gündəmi izləyin",
       "title": "Ən son xəbərlər"
     }
   },
@@ -246,10 +248,14 @@
   "forgot_password": {
     "success": "Poçt qutunuzu yoxlayın",
     "title": "Şifrəni unutmusunuz?",
-    "description": "Şifrəni yeniləmə təlimatlarını göndərilməsi üçün qeydiyyatdan keçdiyiniz emaili daxil edin",
+    "description": "Şifrəni yeniləmə təlimatlarının göndərilməsi üçün qeydiyyatdan keçdiyiniz emaili daxil edin",
     "submit": "Təsdiqlə"
   },
   "settings": {
+    "guest_welcome": "Xoş gəlmisiniz",
+    "guest_description": "Bütün məlumatları görmək üçün hesabınıza daxil olun",
+    "welcome": "Xoş gəlmisiniz, {}",
+    "description": "Haqqınızda bildiklərimiz",
     "language": "Dil",
     "general": "Ümumi",
     "notification_preferences": "Bildirişlər",
@@ -271,7 +277,20 @@
     "about_fields": {
       "name": "Ad",
       "version": "Versiya"
+    },
+    "fields": {
+      "email": "Email",
+      "name": "Ad",
+      "created_at": "Qeydiyyat vaxtı"
     }
+  },
+  "sources": {
+    "title": "Lenti özəlləştir",
+    "description": "Burada müxtəlif ölkələrdən mənbələri izləyib xəbər lentinizi özəlləştirə bilərsiniz",
+    "choose_lang": "Mənbə dili seçin",
+    "search": "Axtar...",
+    "languages": "Dillər",
+    "all": "Hamısı"
   },
   "validations": {
     "first_name_empty": "Ad daxil edin",

@@ -2,10 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stolk/components/common/sourceLogo.dart';
-import 'package:stolk/logic/blocs/newsBloc/news.dart';
 import 'package:stolk/logic/blocs/sourcesBloc/sources.dart';
 import 'package:stolk/screens/feed/sourceNews.dart';
-import 'package:stolk/screens/feed/widgets/sourceNews.dart';
 import 'package:stolk/utils/@types/response/allSources.dart';
 import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
@@ -28,6 +26,9 @@ class SingleSourceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -45,34 +46,40 @@ class SingleSourceView extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  AutoSizeText(
-                    item.name,
-                    maxLines: 1,
-                    minFontSize: 16,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
                   Expanded(
                     child: SourceLogo(
                       logoSuffix: item.logoSuffix,
                       isCircle: true,
                     ),
                   ),
+                  AutoSizeText(
+                    item.name,
+                    maxLines: 2,
+                    minFontSize: 15,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: item.isRequestOn ? null : () => onFinish(context),
-            child: Text(
-              item.followID == null
-                  ? tr("commons.follow")
-                  : tr("commons.following"),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: item.isRequestOn ? null : () => onFinish(context),
+              child: AutoSizeText(
+                item.followID == null
+                    ? tr("commons.follow")
+                    : tr("commons.following"),
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

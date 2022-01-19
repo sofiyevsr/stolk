@@ -1,14 +1,22 @@
-import 'package:flutter/widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:stolk/screens/home.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 
 class IntroPage extends StatefulWidget {
   final String image;
   final String title;
   final String subtitle;
-  IntroPage({
+  final Function() nextPage;
+  const IntroPage({
     required this.image,
     required this.title,
     required this.subtitle,
-  });
+    required this.nextPage,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<IntroPage> createState() => _IntroPageState();
@@ -40,54 +48,89 @@ class _IntroPageState extends State<IntroPage>
   @override
   Widget build(ctx) {
     final height = MediaQuery.of(ctx).size.height;
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Expanded(
-            child: ScaleTransition(
-              scale: _animation,
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: Image.asset(
-                  widget.image,
-                  fit: BoxFit.contain,
-                  height: height / 1.65,
-                ),
+    final theme = Theme.of(ctx);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Flexible(
+          flex: 5,
+          child: ScaleTransition(
+            scale: _animation,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              child: Image.asset(
+                widget.image,
+                fit: BoxFit.contain,
+                height: height / 1.5,
               ),
             ),
           ),
-          Container(
+        ),
+        Flexible(
+          flex: 4,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 48.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 32,
-                      letterSpacing: 1.5,
+                Column(
+                  children: [
+                    AutoSizeText(
+                      widget.title,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
                     ),
-                  ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: AutoSizeText(
+                        widget.subtitle,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyText1,
+                        maxLines: 4,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Text(
-                    widget.subtitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                      fontFamily: 'Roboto',
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                      onPressed: widget.nextPage,
+                      child: Text(
+                        tr("intro.next"),
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
-                  ),
+                    TextButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(140, 50),
+                        ),
+                      ),
+                      onPressed: () {
+                        NavigationService.replaceAll(
+                          const Home(),
+                          RouteNames.HOME,
+                        );
+                      },
+                      child: Text(
+                        tr("commons.skip"),
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

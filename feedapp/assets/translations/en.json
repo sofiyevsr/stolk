@@ -1,8 +1,8 @@
 {
   "languages": {
-    "az": "Azərbaycanca",
-    "tr": "Türkçe",
-    "ru": "По русский",
+    "az": "Azerbaijani",
+    "tr": "Turkish",
+    "ru": "Russian",
     "en": "English"
   },
   "buttons": {
@@ -110,6 +110,8 @@
   "commons": {
     "me": "Me",
     "guest": "Guest",
+    "or": "Or",
+    "next": "Forward",
     "skip": "Skip",
     "welcome": "Welcome",
     "categories": "Categories",
@@ -173,15 +175,15 @@
     "next": "Forward",
     "finish": "Finish",
     "first": {
-      "subtitle": "Popular sources together",
-      "title": "Convenient"
+      "subtitle": "Stolk gathers news from a growing list of sources from different countries",
+      "title": "Welcome to Stolk"
     },
     "second": {
-      "subtitle": "Follow sources as many as you like",
-      "title": "Limitless"
+      "subtitle": "Customize your feed with following only sources you like",
+      "title": "Customizable"
     },
     "third": {
-      "subtitle": "Stay up to date with frequently updated news feed",
+      "subtitle": "Stay up to date with the latest news from frequently updated sources",
       "title": "Latest news"
     }
   },
@@ -250,6 +252,10 @@
     "popular": "Popular"
   },
   "settings": {
+    "guest_welcome": "Welcome",
+    "guest_description": "Login to see all your information",
+    "welcome": "Welcome, {}",
+    "description": "All we know about you",
     "language": "Language",
     "general": "General",
     "notification_preferences": "Notifications",
@@ -271,7 +277,20 @@
     "about_fields": {
       "name": "Name",
       "version": "Version"
+    },
+    "fields": {
+      "email": "Email",
+      "name": "Name",
+      "created_at": "Registration date"
     }
+  },
+  "sources": {
+    "title": "Customize feed",
+    "description": "Here you can follow sources from different countries to customize your news feed",
+    "choose_lang": "Choose source language",
+    "search": "Search...",
+    "languages": "Languages",
+    "all": "All"
   },
   "validations": {
     "first_name_empty": "Enter first name",

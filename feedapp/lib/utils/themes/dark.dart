@@ -3,38 +3,38 @@ part of "./index.dart";
 final _base = ThemeData.dark();
 
 final darkTheme = _base.copyWith(
-  pageTransitionsTheme: PageTransitionsTheme(
+  pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),
       TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
     },
   ),
-  dividerTheme: DividerThemeData(
+  dividerTheme: const DividerThemeData(
     space: 0,
     thickness: 1,
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodyText1: TextStyle(fontSize: 16),
     bodyText2: TextStyle(fontSize: 14),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: const TabBarTheme(
     unselectedLabelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
     indicator: BoxDecoration(
       border: Border(
-        bottom: const BorderSide(
-          color: Colors.orange,
+        bottom: BorderSide(
+          color: CustomColorScheme.main,
           width: 5,
         ),
       ),
     ),
-    labelPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+    labelPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: CustomColorScheme.main,
+    backgroundColor: Colors.grey.shade700,
     foregroundColor: Colors.white,
   ),
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     errorMaxLines: 2,
     // labelStyle: TextStyle(fontSize: 18, color: Colors.white),
     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
@@ -48,17 +48,29 @@ final darkTheme = _base.copyWith(
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
       minimumSize: MaterialStateProperty.all(
-        Size(0, 50),
+        const Size(0, 50),
       ),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
+      elevation: MaterialStateProperty.all(0),
+      shape: MaterialStateProperty.all(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+      ),
       minimumSize: MaterialStateProperty.all(
-        Size(0, 50),
+        const Size(140, 50),
       ),
       textStyle: MaterialStateProperty.all<TextStyle>(
-        TextStyle(color: Colors.white),
+        const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       backgroundColor: MaterialStateColor.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
@@ -68,11 +80,27 @@ final darkTheme = _base.copyWith(
       }),
     ),
   ),
-  iconTheme: IconThemeData(color: Colors.white),
-  primaryColorDark: CustomColorScheme.primaryDark,
-  primaryColorLight: CustomColorScheme.primaryLight,
-  indicatorColor: CustomColorScheme.primaryLight,
-  appBarTheme: AppBarTheme(
+  iconTheme: const IconThemeData(color: Colors.white),
+  indicatorColor: Colors.grey.shade200,
+  switchTheme: SwitchThemeData(
+    thumbColor: MaterialStateColor.resolveWith((state) {
+      if (state.contains(MaterialState.disabled)) {
+        return Colors.grey.shade200;
+      }
+      return CustomColorScheme.main;
+    }),
+    trackColor: MaterialStateColor.resolveWith((state) {
+      if (state.contains(MaterialState.selected))
+        return CustomColorScheme.primaryLight;
+      return Colors.grey.shade300;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor: MaterialStateColor.resolveWith((state) {
+      return CustomColorScheme.main;
+    }),
+  ),
+  appBarTheme: const AppBarTheme(
     elevation: 5,
     titleTextStyle: TextStyle(
       fontWeight: FontWeight.w700,
@@ -80,7 +108,15 @@ final darkTheme = _base.copyWith(
     ),
     centerTitle: true,
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.shifting,
+    selectedIconTheme: IconThemeData(
+      size: 30,
+    ),
+    unselectedIconTheme: IconThemeData(
+      size: 24,
+    ),
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white,
   ),
 );

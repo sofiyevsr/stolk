@@ -42,7 +42,11 @@ class AuthService extends ApiService {
 
   Future<CheckTokenResponse> checkToken(CheckTokenRequest data) async {
     final response = await this.request.post(
-        "/auth/check-token", {}, {"authorization": 'Bearer ${data.token}'});
+          "/auth/check-token",
+          {},
+          {"authorization": 'Bearer ${data.token}'},
+          handleError: false,
+        );
     return CheckTokenResponse.fromJSON(response.data['body']);
   }
 

@@ -1,22 +1,29 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'lottieLoader.dart';
+
 class NoNewsWidget extends StatelessWidget {
   final bool followMore;
-  const NoNewsWidget({Key? key, required this.followMore}) : super(key: key);
+  final bool center;
+  const NoNewsWidget({Key? key, required this.followMore, this.center = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      alignment: center == true ? Alignment.center : null,
+      padding: const EdgeInsets.symmetric(horizontal: 34),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.assessment,
-            color: Theme.of(context).colorScheme.primary,
-            size: 100,
+          const LottieLoader(
+            asset: "assets/lottie/no_data.json",
+            size: Size(250, 250),
+            repeat: false,
           ),
-          Text(
+          AutoSizeText(
             followMore ? tr("news.no_news_follow_more") : tr("news.no_news"),
             style: const TextStyle(
               fontSize: 24,

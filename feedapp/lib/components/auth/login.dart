@@ -10,6 +10,8 @@ import 'package:stolk/utils/constants.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
 
 class LoginSection extends StatefulWidget {
+  const LoginSection({Key? key}) : super(key: key);
+
   @override
   _LoginSectionState createState() => _LoginSectionState();
 }
@@ -47,7 +49,7 @@ class _LoginSectionState extends State<LoginSection> {
                 child: TextButton(
                   onPressed: () {
                     NavigationService.push(
-                      ForgotPasswordPage(),
+                      const ForgotPasswordPage(),
                       RouteNames.FORGOT_PASSWORD,
                     );
                   },
@@ -63,12 +65,12 @@ class _LoginSectionState extends State<LoginSection> {
                   if (_formKey.currentState != null &&
                       _formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    ctx
-                        .read<AuthBloc>()
-                        .add(AppLogin(email: _email!, password: _password!));
+                    ctx.read<AuthBloc>().add(
+                          AppLogin(email: _email!, password: _password!),
+                        );
                   }
                 },
-              )
+              ),
             ],
           ),
         ),

@@ -1,25 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
+import 'package:stolk/utils/constants.dart';
 
 class AuthContainer extends StatelessWidget {
-  final bool? disableMinConstraint;
-  const AuthContainer({Key? key, this.disableMinConstraint}) : super(key: key);
+  // Required for showing container
+  // inside bottom sheet
+  final bool? bottomSheet;
+  const AuthContainer({Key? key, this.bottomSheet}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        color: Theme.of(context).cardColor,
         constraints: BoxConstraints(
           maxHeight: constraints.maxHeight,
         ),
         child: SingleChildScrollView(
           child: Container(
             constraints: BoxConstraints(
-              minHeight: this.disableMinConstraint == true
-                  ? 0.0
-                  : constraints.maxHeight,
+              minHeight: bottomSheet == true ? 0.0 : constraints.maxHeight,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,35 +29,31 @@ class AuthContainer extends StatelessWidget {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
                         tr("login.title"),
-                        style: Theme.of(context).textTheme.headline3,
+                        style: theme.textTheme.headline3,
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 40.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 32.0),
                       child: Text(
                         tr("login.description"),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 16,
-                        ),
+                        style: theme.textTheme.bodyText1,
                       ),
                     ),
-                    LoginButtons(),
+                    const LoginButtons(),
                   ],
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 10,
+                  key: const ValueKey("agree"),
+                  margin: const EdgeInsets.all(
+                    8,
                   ),
                   child: Text(
                     tr("login.agree"),
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
+                    style: theme.textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   ),
                 ),

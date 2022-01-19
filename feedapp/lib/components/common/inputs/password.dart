@@ -25,6 +25,7 @@ class _PasswordInputState extends State<PasswordInput> {
         obscureText: !_showPassword,
         decoration: InputDecoration(
           isDense: true,
+          errorMaxLines: 3,
           alignLabelWithHint: true,
           suffixIcon: IconButton(
               tooltip: _showPassword
@@ -39,11 +40,11 @@ class _PasswordInputState extends State<PasswordInput> {
                   _showPassword = !_showPassword;
                 });
               }),
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.lock_outline_rounded,
             size: 26,
           ),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),

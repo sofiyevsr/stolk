@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'constants.dart';
+
 class Nullable<T> {
   final T? value;
   Nullable({required this.value});
@@ -20,7 +22,7 @@ String convertTime(String date, BuildContext context) {
   if (data == null) {
     return "";
   }
-  final format = DateFormat("HH:mm, d MMMM", lang ?? "en");
+  final format = DateFormat("d MMMM yyyy", lang ?? "en");
   return format.format(data);
 }
 
@@ -34,13 +36,15 @@ ThemeMode stringToTheme(String theme) {
   return ThemeMode.system;
 }
 
-String convertDiffTime(String date, BuildContext context) {
+String convertDiffTime(String date, BuildContext context, {bool? short}) {
   final lang = EasyLocalization.of(context)?.currentLocale?.languageCode;
   final data = DateTime.tryParse(date)?.toLocal();
+  final shortText = short == true ? "_short" : "";
+  final loc = lang != null ? lang + shortText : null;
   if (data == null) {
     return "";
   }
-  return timeago.format(data, locale: lang);
+  return timeago.format(data, locale: loc);
 }
 
 class LimitRangeTextInputFormatter extends TextInputFormatter {
@@ -71,9 +75,27 @@ authorize({bool pushAuthView = true}) {
     if (pushAuthView == true && context != null) {
       showModalBottomSheet(
           context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           builder: (ctx) {
-            return AuthContainer(
-              disableMinConstraint: true,
+            return Column(
+              children: [
+                Container(
+                  height: 8,
+                  width: 80,
+                  margin: const EdgeInsets.only(top: 4.0, bottom: 8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: CustomColorScheme.main,
+                  ),
+                ),
+                const Expanded(
+                  child: AuthContainer(
+                    bottomSheet: true,
+                  ),
+                ),
+              ],
             );
           });
     }

@@ -57,10 +57,10 @@ class _RegisterSectionState extends State<RegisterSection> {
                 child: Text(
                   tr("register.agree"),
                   style: TextStyle(
-                    color: Colors.grey[500],
+                    color: Colors.grey[600],
                     fontSize: 16,
                   ),
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                 ),
               ),
               ButtonWithLoader(

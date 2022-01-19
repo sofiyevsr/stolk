@@ -68,11 +68,14 @@ String platformToName(int p) {
 }
 
 class CustomColorScheme {
-  static final main = const Color(0xFF264653);
-  static final accent = const Color(0xFF2A9D8F);
-  static final primaryLight = const Color(0xFF6497ab);
-  static final primaryDark = const Color(0xFF203B46);
-  static final logoBackground = const Color.fromRGBO(255, 221, 238, 1);
+  static const main = Color(0xFFDF9273);
+  static const accent = Color(0xFFFF687B);
+  static const cardColor = Color(0xFF2A2B2E);
+  static const primaryLight = Color(0xFFE3A48A);
+  static const primaryDark = Color(0xFFd68463);
+  static const logoBackground = Color.fromRGBO(255, 221, 238, 1);
+  // used for icon button background
+  static const darkButtonBackground = Color(0xFF36373A);
 }
 
 class RouteNames {
@@ -85,7 +88,6 @@ class RouteNames {
   static const SINGLE_NEWS = "single_news";
   static const HOME = "home";
   static const AUTH = "auth";
-  static const LOCAL_AUTH = "local_auth";
   static const FORGOT_PASSWORD = "forgot_password";
   static const COMPLETE_PROFILE = "complete_profile";
 }
@@ -94,5 +96,6 @@ final passwordRegex =
     RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&_^-]{7,}$");
 
 class HiveDefaultValues {
+  static const SORT_BY = 0;
   static const PERIOD = 1;
 }

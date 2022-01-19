@@ -1,9 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/common/buttonWithLoader.dart';
 import 'package:stolk/components/common/inputs/email.dart';
+import 'package:stolk/components/common/lottieLoader.dart';
 import 'package:stolk/utils/services/app/navigationService.dart';
-import 'package:stolk/utils/services/app/toastService.dart';
 import 'package:stolk/utils/services/server/authService.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -24,46 +25,44 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
-              ),
-              child: Container(
-                margin: const EdgeInsets.all(30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Image.asset("assets/static/forgot-password.png",
-                            height: 250),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            tr("forgot_password.title"),
-                            textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.headline4?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+        child: SizedBox.expand(
+          child: Stack(
+            children: [
+              if (_isDone == false)
+                Center(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.all(30),
+                      child: Column(
+                        key: const ValueKey("form"),
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              tr("forgot_password.title"),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            tr("forgot_password.description"),
-                            textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.subtitle1?.copyWith(
-                                      color: Colors.grey[500],
-                                    ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              tr("forgot_password.description"),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                    color: Colors.grey[500],
+                                  ),
+                            ),
                           ),
-                        ),
-                        if (_isDone == false)
                           Form(
                             key: _formKey,
                             child: Column(
@@ -94,7 +93,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                           _isDone = true;
                                         });
                                       }).catchError((_) {
-                                        _isLoading = false;
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
                                       });
                                     }
                                   },
@@ -103,41 +104,47 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ],
                             ),
                           ),
-                        if (_isDone == true)
-                          Container(
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.check_circle_rounded,
-                                  size: 100,
-                                  color: Colors.green,
-                                ),
-                                Text(
-                                  tr("forgot_password.success"),
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                    OutlinedButton(
-                      onPressed: () {
-                        NavigationService.pop();
-                      },
-                      child: Text(
-                        tr("buttons.back_to_login"),
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
+                ),
+              if (_isDone == true)
+                Center(
+                  child: Column(
+                    key: const ValueKey("success"),
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const LottieLoader(
+                        asset: "assets/lottie/email_send.json",
+                        size: Size(250, 250),
+                        repeat: false,
+                      ),
+                      AutoSizeText(
+                        tr("forgot_password.success"),
+                        maxLines: 2,
+                        minFontSize: 32,
+                      ),
+                    ],
+                  ),
+                ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_sharp,
+                    size: 32,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  onPressed: () {
+                    NavigationService.pop();
+                  },
                 ),
               ),
-            ),
-          );
-        }),
+            ],
+          ),
+        ),
       ),
     );
   }

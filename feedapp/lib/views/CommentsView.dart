@@ -26,7 +26,7 @@ class _CommentsViewState extends State<CommentsView> {
   bool hasAnimatedNew = false;
   ScrollController _scrollController = ScrollController();
 
-  Debounce _debouncer = Debounce(
+  final Debounce _debouncer = Debounce(
     duration: const Duration(milliseconds: 75),
   );
   @override
@@ -119,7 +119,7 @@ class _CommentsViewState extends State<CommentsView> {
               AnimatedContainer(
                 child: Text(
                   _errorMessage ?? "",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -141,7 +141,7 @@ class _CommentsViewState extends State<CommentsView> {
                       Expanded(
                         child: ListView.builder(
                           controller: _scrollController,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           reverse: true,
                           itemCount: state.data.hasReachedEnd
                               ? state.data.comments.length
@@ -149,7 +149,7 @@ class _CommentsViewState extends State<CommentsView> {
                           itemBuilder: (ctx, index) {
                             return index >= state.data.comments.length
                                 ? state is CommentsNextFetchError
-                                    ? Container(
+                                    ? SizedBox(
                                         height: 50,
                                         child: Center(
                                           child: ElevatedButton(
@@ -160,11 +160,11 @@ class _CommentsViewState extends State<CommentsView> {
                                           ),
                                         ),
                                       )
-                                    : Container(
+                                    : const SizedBox(
                                         height: 50,
                                         child: Center(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
+                                            padding: EdgeInsets.all(5.0),
                                             child: CircularProgressIndicator
                                                 .adaptive(
                                               strokeWidth: 3,

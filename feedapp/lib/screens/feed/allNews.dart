@@ -29,11 +29,11 @@ class AllNewsScreen extends StatefulWidget {
 class _AllNewsScreenState extends State<AllNewsScreen> {
   int? _currentSortBy;
   int? _currentPeriod;
-  ScrollController _scrollController = ScrollController();
   int _currentCategory = 0;
   bool showFab = false;
 
-  Debounce _debouncer = Debounce(
+  final ScrollController _scrollController = ScrollController();
+  final Debounce _debouncer = Debounce(
     duration: const Duration(milliseconds: 75),
   );
 
@@ -197,7 +197,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   }
 
                   if (state is NewsStateNoData) {
-                    return const NoNewsWidget(followMore: true);
+                    return const NoNewsWidget(followMore: true, center: false);
                   }
                   if (state is NewsStateError) {
                     return NoConnectionWidget(
@@ -223,7 +223,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                   curve: Curves.easeInOut,
                 );
               },
-              child: const Icon(Icons.north_sharp),
+              child: const Icon(
+                Icons.keyboard_arrow_up,
+                size: 40,
+              ),
             ),
           ),
       ],

@@ -6,7 +6,7 @@ class AnimationOnScroll extends StatefulWidget {
   final ScrollController scrollController;
   final Widget child;
   final double maxHeight;
-  AnimationOnScroll({
+  const AnimationOnScroll({
     Key? key,
     required this.scrollController,
     required this.child,
@@ -64,12 +64,9 @@ class _AnimationOnScrollState extends State<AnimationOnScroll>
     return AnimatedBuilder(
       animation: _curve,
       child: widget.child,
-      builder: (ctx, child) => SizeTransition(
-        sizeFactor: _curve,
-        child: Container(
-          height: widget.maxHeight,
-          child: child,
-        ),
+      builder: (ctx, child) => SizedBox(
+        height: widget.maxHeight * _curve.value,
+        child: child,
       ),
     );
   }
