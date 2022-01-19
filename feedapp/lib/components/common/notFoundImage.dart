@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NotFoundImage extends StatelessWidget {
   final Color color;
@@ -9,8 +8,16 @@ class NotFoundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: color,
-      child: Center(
-        child: Icon(FontAwesomeIcons.newspaper, size: 64, color: Colors.white),
+      child: Transform.translate(
+        offset: const Offset(
+          0,
+          12,
+        ),
+        child: const Icon(
+          Icons.image_outlined,
+          size: 128,
+          color: Colors.white,
+        ),
       ),
     );
   }
