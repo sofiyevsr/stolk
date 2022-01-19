@@ -89,7 +89,7 @@ class AuthView extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.symmetric(horizontal: 4),
                               child: Text(
-                                tr("commons.or"),
+                                tr("commons.or").toUpperCase(),
                               ),
                             ),
                             const Expanded(
