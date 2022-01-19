@@ -36,7 +36,7 @@ dependencies:
   url_launcher: ^6.0.10
   animations: ^2.0.1
   google_sign_in: ^5.1.0
-  flutter_facebook_auth: ^3.5.2
+  flutter_facebook_auth: ^4.0.1
   animated_text_kit: ^4.2.1
   lottie: ^1.2.1
   auto_size_text: ^3.0.0
