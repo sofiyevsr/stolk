@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:stolk/utils/constants.dart';
 
 const margin = 8.0;
 
@@ -16,8 +17,6 @@ class DotsIndicator extends StatefulWidget {
 class _DotsIndicatorState extends State<DotsIndicator> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     EdgeInsets defineMargin(int index) {
       if (index == widget.length - 1) {
         return const EdgeInsets.only(left: margin);
@@ -40,7 +39,7 @@ class _DotsIndicatorState extends State<DotsIndicator> {
                   margin: defineMargin(i),
                   duration: const Duration(milliseconds: 300),
                   color: widget.current == i
-                      ? theme.primaryColor
+                      ? CustomColorScheme.main
                       : Colors.grey.shade300,
                 ),
               ),

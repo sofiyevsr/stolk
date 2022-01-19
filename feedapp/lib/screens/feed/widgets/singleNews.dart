@@ -45,12 +45,10 @@ class SingleNewsView extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(25),
         ),
-        child: Container(
+        child: SizedBox(
           height: SINGLE_NEWS_HEIGHT,
-          decoration: BoxDecoration(
-            color: theme.cardColor,
-          ),
           child: Material(
+            color: theme.cardColor,
             child: InkWell(
               onTap: () => _goToNewsWebview(context),
               child: Column(

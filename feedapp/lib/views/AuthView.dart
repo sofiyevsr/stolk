@@ -20,7 +20,7 @@ class AuthView extends StatelessWidget {
     return SizedBox.expand(
       child: Stack(
         children: [
-          Expanded(
+          Positioned.fill(
             child: Container(
               alignment: Alignment.center,
               child: SingleChildScrollView(
@@ -113,18 +113,15 @@ class AuthView extends StatelessWidget {
           Positioned(
             top: 0,
             left: 0,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_sharp,
-                  size: 32,
-                ),
-                padding: const EdgeInsets.all(16),
-                onPressed: () {
-                  NavigationService.pop();
-                },
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_sharp,
+                size: 32,
               ),
+              padding: const EdgeInsets.all(16),
+              onPressed: () {
+                NavigationService.pop();
+              },
             ),
           ),
         ],

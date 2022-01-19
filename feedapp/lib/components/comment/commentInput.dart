@@ -8,7 +8,7 @@ class CommentInput extends StatefulWidget {
   final int newsID;
   final Function() onEnd;
   final Function(dynamic e) onError;
-  CommentInput({
+  const CommentInput({
     Key? key,
     required this.newsID,
     required this.onEnd,
@@ -51,7 +51,7 @@ class _CommentInputState extends State<CommentInput> {
         if (auth.state is AuthorizedState &&
             (auth.state as AuthorizedState).user.confirmedAt == null)
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(
                   color: Colors.grey,
@@ -62,7 +62,7 @@ class _CommentInputState extends State<CommentInput> {
             child: Text(
               tr("messages.confirm_to_comment"),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -70,7 +70,7 @@ class _CommentInputState extends State<CommentInput> {
           ),
         if (isInputEnabled == true)
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Colors.black54,
@@ -93,21 +93,21 @@ class _CommentInputState extends State<CommentInput> {
                   color: theme.primaryColor.withOpacity(0.7),
                   child: IconButton(
                     onPressed: isInputEnabled ? submitComment : null,
-                    icon: Icon(Icons.send_sharp, color: Colors.white),
+                    icon: const Icon(Icons.send_sharp, color: Colors.white),
                   ),
                 ),
-                counterStyle: TextStyle(color: Colors.white),
+                counterStyle: const TextStyle(color: Colors.white),
                 contentPadding: const EdgeInsets.all(10),
                 focusColor: Colors.transparent,
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent),
                   borderRadius: BorderRadius.zero,
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                   borderSide: BorderSide(color: Colors.transparent),
                 ),

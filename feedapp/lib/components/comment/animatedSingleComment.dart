@@ -6,7 +6,7 @@ class AnimatedSingleComment extends StatelessWidget {
   final SingleCommentView child;
   final Function() onEnd;
   final bool shouldAnimate;
-  AnimatedSingleComment(
+  const AnimatedSingleComment(
       {Key? key,
       required this.child,
       required this.shouldAnimate,

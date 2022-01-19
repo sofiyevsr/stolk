@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
@@ -66,12 +67,17 @@ class IntroLogin extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                tr("login.description"),
-                style: TextStyle(
-                  color: Colors.white,
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                child: AutoSizeText(
+                  tr("login.description"),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
                 ),
-                textAlign: TextAlign.center,
               ),
               LoginButtons(onLocalAuthPress: () {
                 NavigationService.replaceAll(

@@ -53,8 +53,7 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //TODO uncomment
-    // _loadAd();
+    _loadAd();
   }
 
   @override

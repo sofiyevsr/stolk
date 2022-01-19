@@ -43,7 +43,7 @@ final lightTheme = ThemeData(
     indicator: BoxDecoration(
       border: Border(
         bottom: BorderSide(
-          color: Colors.orange,
+          color: CustomColorScheme.main,
           width: 5,
         ),
       ),
@@ -98,6 +98,7 @@ final lightTheme = ThemeData(
       borderSide: BorderSide(),
     ),
   ),
+  indicatorColor: CustomColorScheme.main,
   primaryColor: CustomColorScheme.main,
   primaryColorLight: CustomColorScheme.primaryLight,
   primaryColorDark: CustomColorScheme.primaryDark,

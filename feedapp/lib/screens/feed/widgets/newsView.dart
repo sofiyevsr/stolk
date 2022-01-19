@@ -150,11 +150,14 @@ class _NewsViewState extends State<NewsView>
           child: Row(
             children: [
               Expanded(
-                child: AutoSizeText(
-                  _title,
-                  overflow: TextOverflow.ellipsis,
-                  minFontSize: 14,
-                  maxLines: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AutoSizeText(
+                    _title,
+                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 14,
+                    maxLines: 2,
+                  ),
                 ),
               ),
               AnimatedBuilder(

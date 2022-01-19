@@ -149,7 +149,7 @@ class SingleNewsActions extends StatelessWidget {
               ],
             ),
             PopupMenuButton<String>(
-              offset: const Offset(0, 40),
+              offset: const Offset(0, 32),
               iconSize: _iconSize,
               onSelected: (v) async {
                 try {
@@ -167,16 +167,9 @@ class SingleNewsActions extends StatelessWidget {
               itemBuilder: (entry) {
                 return [
                   PopupMenuItem(
-                    child: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.0),
-                          child: Icon(Icons.report, color: Colors.red),
-                        ),
-                        Text(
-                          tr("report.menu"),
-                        ),
-                      ],
+                    height: 32,
+                    child: Text(
+                      tr("report.menu"),
                     ),
                     value: "report",
                   ),

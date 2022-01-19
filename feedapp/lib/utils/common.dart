@@ -36,13 +36,15 @@ ThemeMode stringToTheme(String theme) {
   return ThemeMode.system;
 }
 
-String convertDiffTime(String date, BuildContext context) {
+String convertDiffTime(String date, BuildContext context, {bool? short}) {
   final lang = EasyLocalization.of(context)?.currentLocale?.languageCode;
   final data = DateTime.tryParse(date)?.toLocal();
+  final shortText = short == true ? "_short" : "";
+  final loc = lang != null ? lang + shortText : null;
   if (data == null) {
     return "";
   }
-  return timeago.format(data, locale: lang);
+  return timeago.format(data, locale: loc);
 }
 
 class LimitRangeTextInputFormatter extends TextInputFormatter {

@@ -97,7 +97,7 @@ class _SingleCategory extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: isCurrent == true ? theme.primaryColor : Colors.transparent,
+          color: isCurrent == true ? theme.indicatorColor : Colors.transparent,
           width: 6,
         ),
       ),
