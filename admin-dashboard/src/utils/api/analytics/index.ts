@@ -5,6 +5,7 @@ export interface AllAnalyticsResponse {
     overallData: {
       news_count: number;
       user_count: number;
+      last_update: string;
     }[];
     categoryData: {
       id: number;

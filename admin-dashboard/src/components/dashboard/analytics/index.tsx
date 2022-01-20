@@ -23,6 +23,11 @@ const Analytics: FC = () => {
       });
   }, []);
 
+  const lastUpdate = useMemo(
+    () => data && new Date(data.overallData[0].last_update).toLocaleString("en-US"),
+    [data]
+  );
+
   const general = useMemo(
     () =>
       data && [
@@ -82,6 +87,7 @@ const Analytics: FC = () => {
     <Card>
       <CardBody p={["20px", "20px"]}>
         <div style={{ position: "relative" }}>
+          <span>Last Update: {lastUpdate}</span>
           <TableChart
             header={["Name", "Count"]}
             data={general ?? []}
