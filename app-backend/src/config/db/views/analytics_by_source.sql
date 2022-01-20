@@ -11,6 +11,7 @@ LEFT JOIN news_feed as n ON s.id = n.source_id
 LEFT JOIN news_comment as co on n.id = co.news_id
 LEFT JOIN news_like as l on n.id = l.news_id
 LEFT JOIN news_read_history as r on n.id = r.news_id
+WHERE n.created_at > CURRENT_DATE - INTERVAl '7' DAY
 GROUP BY s.id
 ORDER BY s.id
-WITH DATA
+wiTH DATA

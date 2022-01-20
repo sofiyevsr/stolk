@@ -24,7 +24,7 @@ async function all() {
     )
     .from(materializedViews.analytics_by_category);
   const overallData = await db
-    .select("news_count", "user_count")
+    .select("news_count", "user_count", "last_update")
     .from(materializedViews.analytics_by_overall);
   return { overallData, categoryData, sourceData };
 }

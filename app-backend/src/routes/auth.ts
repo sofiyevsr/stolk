@@ -112,14 +112,19 @@ r.post("/verify-email", async (req, res, next) => {
   }
 });
 
-r.post("/email-verification", async (req, res, next) => {
-  try {
-    await createConfirmationToken(req.body);
-    return responseSuccess(res, {});
-  } catch (e) {
-    return next(e);
+r.post(
+  "/email-verification",
+  authenticateMiddleware(),
+  async (req, res, next) => {
+    try {
+      const email = req.session?.email;
+      await createConfirmationToken(req.body, email);
+      return responseSuccess(res, {});
+    } catch (e) {
+      return next(e);
+    }
   }
-});
+);
 
 r.post(
   "/complete-profile",

@@ -6,7 +6,6 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.notification_token, (t) => {
     t.string("token").primary();
     t.integer("session_id")
-      .unique()
       .references("id")
       .inTable(tables.user_session)
       .onUpdate("CASCADE")

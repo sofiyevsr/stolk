@@ -5,7 +5,7 @@ export async function allSources(userID?: number) {
   let query = db
     .select("s.id", "s.name", "s.logo_suffix", "s.lang_id")
     .from(`${tables.news_source} as s`)
-    .orderBy("s.name", "asc");
+    .orderBy("s.created_at", "desc");
   if (userID != null) {
     query = query
       .select(db.raw("min(f.id) as follow_id"))

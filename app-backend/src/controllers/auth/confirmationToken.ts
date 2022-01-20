@@ -7,7 +7,9 @@ import confirmationToken from "@utils/validations/auth/confirmationToken";
 import accountConfirmationEmail from "@utils/email/accountConfirmation";
 import dayjs from "dayjs";
 
-export async function createConfirmationToken(body: any) {
+//
+//@user_email email of user extracted from session
+export async function createConfirmationToken(body: any, user_email?: string) {
   const { value, error } =
     confirmationToken.createConfirmationToken.validate(body);
   if (error != null) {
@@ -15,10 +17,14 @@ export async function createConfirmationToken(body: any) {
   }
 
   if (value == null) {
-    throw new Error();
+    throw new SoftError(i18next.t("errors.confirmation_fail"));
   }
 
   const { email } = value;
+
+  if (user_email != null && user_email !== email) {
+    throw new SoftError(i18next.t("errors.confirmation_fail"));
+  }
   const [user] = await db(`${tables.app_user} as au`)
     // first name required for email
     .select(["au.id", "au.email", "bu.first_name"])

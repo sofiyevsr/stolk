@@ -258,7 +258,7 @@ export const sources = [
   {
     name: "Publika.az",
     logo_suffix: "publika-az.jpg",
-    link: "https://publika.az/rss/",
+    link: "https://publika.az/az/rss/",
     lang_id: 0,
   },
   {
