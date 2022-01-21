@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.stolk.android">
    <application
+        android:allowBackup="false"
         android:usesCleartextTraffic="true"
         android:label="Stolk"
         android:icon="@mipmap/ic_launcher">

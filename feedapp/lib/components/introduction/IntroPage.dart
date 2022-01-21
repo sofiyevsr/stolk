@@ -77,7 +77,7 @@ class _IntroPageState extends State<IntroPage>
                   children: [
                     AutoSizeText(
                       widget.title,
-                      style: theme.textTheme.headlineMedium?.copyWith(
+                      style: theme.textTheme.headline4?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,

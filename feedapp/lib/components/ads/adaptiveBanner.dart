@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+const maxRetries = 3;
+
 class AdaptiveBannerAd extends StatefulWidget {
   final String unitID;
-  const AdaptiveBannerAd({Key? key, required this.unitID}) : super(key: key);
+  final bool disabled;
+  const AdaptiveBannerAd(
+      {Key? key, required this.unitID, this.disabled = false})
+      : super(key: key);
 
   @override
   _AdaptiveBannerAdState createState() => _AdaptiveBannerAdState();
 }
 
 class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
+  // Retries
+  int tries = 0;
   // Ad related
   BannerAd? _banner;
   AdWidget? _adWidget;
@@ -18,7 +25,11 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
   bool _isAdLoaded = false;
 
   Future<void> _loadAd() async {
-    // TODO implement orientation change banner
+    if (widget.disabled == true) return;
+    if (tries >= maxRetries) {
+      return;
+    }
+    tries++;
     if (_isAdLoaded == true || _banner != null) return;
     // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
     final AnchoredAdaptiveBannerAdSize? size =
@@ -27,9 +38,8 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
     ).catchError((_) {});
 
     if (size == null) {
-      return;
+      return _loadAd();
     }
-
     _banner = BannerAd(
       adUnitId: widget.unitID,
       size: size,
@@ -37,6 +47,8 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
+          _banner = null;
+          _loadAd();
         },
         onAdLoaded: (a) {
           if (mounted) {
@@ -64,7 +76,7 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isAdLoaded == false) {
+    if (_isAdLoaded == false || widget.disabled == true) {
       return Container();
     }
     return Container(

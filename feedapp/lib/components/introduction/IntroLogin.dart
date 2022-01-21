@@ -1,8 +1,8 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:stolk/components/auth/loginButtons.dart';
+import 'package:stolk/components/common/typewriterText.dart';
 import 'package:stolk/screens/auth/auth.dart';
 import 'package:stolk/screens/home.dart';
 import 'package:stolk/utils/constants.dart';
@@ -43,28 +43,23 @@ class IntroLogin extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
+                  Flexible(
+                    flex: 1,
                     child: Image.asset(
                       "assets/icons/logo.png",
                     ),
                   ),
-                  Expanded(
-                    child: AnimatedTextKit(
-                      isRepeatingAnimation: false,
-                      animatedTexts: [
-                        TypewriterAnimatedText(
-                          "Stolk",
-                          speed: const Duration(milliseconds: 350),
-                          cursor: "|",
-                          textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 44,
-                          ),
-                        ),
-                      ],
+                  const Flexible(
+                    flex: 1,
+                    child: TypewriterText(
+                      text: "Stolk",
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 48,
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
               Container(
