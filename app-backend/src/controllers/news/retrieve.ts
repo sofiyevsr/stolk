@@ -289,7 +289,7 @@ async function bookmarks({ userID, perPage, lastID }: BookmarksRequest) {
 
 async function allCategories() {
   const categories = await db
-    .select("id", "name", "image_suffix")
+    .select("id", "name_en", "name_ru", "name_az", "image_suffix")
     .from(tables.news_category)
     .where({ hidden_at: null });
   return { categories };

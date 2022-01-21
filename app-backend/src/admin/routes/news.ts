@@ -1,4 +1,5 @@
 import news from "@admin/controllers/news";
+import imageS3Uploader from "@admin/utils/imageS3Uploader";
 import {
   responseContentCreated,
   responseSuccess,
@@ -81,14 +82,18 @@ r.patch("/category-aliases/link", async (req, res, next) => {
   }
 });
 
-r.post("/category", async (req, res, next) => {
-  try {
-    const category = await news.actions.category.insert(req.body);
-    return responseContentCreated(res, category);
-  } catch (error) {
-    return next(error);
+r.post(
+  "/category",
+  imageS3Uploader.fileParser.single("image"),
+  async (req, res, next) => {
+    try {
+      const category = await news.actions.category.insert(req.body, req.file);
+      return responseContentCreated(res, category);
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 r.delete("/category/:id", async (req, res, next) => {
   try {
@@ -100,15 +105,23 @@ r.delete("/category/:id", async (req, res, next) => {
   }
 });
 
-r.patch("/category/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const category = await news.actions.category.update(req.body, id);
-    return responseSuccess(res, category);
-  } catch (error) {
-    return next(error);
+r.patch(
+  "/category/:id",
+  imageS3Uploader.fileParser.single("image"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const category = await news.actions.category.update(
+        req.body,
+        id,
+        req.file
+      );
+      return responseSuccess(res, category);
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 r.patch("/category/:id/hide", async (req, res, next) => {
   try {
