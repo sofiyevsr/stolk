@@ -118,7 +118,7 @@ async function updateCategory(
 
   const trx = await db.transaction();
   try {
-    const [category] = await db(tables.news_category)
+    const [category] = await trx(tables.news_category)
       .update(
         {
           name_az,
