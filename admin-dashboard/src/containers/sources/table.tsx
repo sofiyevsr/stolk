@@ -1,7 +1,7 @@
 import useTableLoader from "../../utils/hooks/table-data-loader";
 import SourcesApi from "../../utils/api/sources";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Modal } from "../../widgets";
 import ActionsModal from "./actionsModal";
@@ -27,6 +27,7 @@ function SourcesTable({ setModalActive, show }: Props) {
     });
   const [actionType, setActionType] = useState<"delete" | "update">();
   const [selectedID, setSelectedID] = useState<number>();
+
 
   return (
     <div style={{ position: "relative" }}>
@@ -59,6 +60,7 @@ function SourcesTable({ setModalActive, show }: Props) {
         onClose={() => {
           setActionType(undefined);
         }}
+        defaultValues={data?.items.find((a) => a.id === selectedID)}
         sourceID={selectedID}
         addItem={addItem}
         modifyItem={modifyData}

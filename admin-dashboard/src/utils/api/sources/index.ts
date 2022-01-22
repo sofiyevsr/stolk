@@ -6,6 +6,7 @@ type SourceRequest = {
   id: number;
   logo_suffix: string;
   link: string;
+  image: File;
   lang_id: string;
   category_alias_name?: string;
 };
@@ -23,15 +24,20 @@ class SourcesApi extends ApiClient implements TableInterface {
     id,
     logo_suffix,
     link,
+    image,
     lang_id,
     category_alias_name,
   }: SourceRequest) {
-    const data = await this.axios.patch(`/source/${id}`, {
-      name,
-      logo_suffix,
-      link,
-      lang_id,
-      category_alias_name,
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("image", image);
+    formData.append("link", link);
+    formData.append("lang_id", lang_id);
+    formData.append("logo_suffix", logo_suffix);
+    if (category_alias_name != null)
+      formData.append("category_alias_name", category_alias_name);
+    const data = await this.axios.patch(`/source/${id}`, formData, {
+      "Content-Type": "multipart/form-data",
     });
     return data;
   }
@@ -40,15 +46,21 @@ class SourcesApi extends ApiClient implements TableInterface {
     name,
     logo_suffix,
     link,
+    image,
     lang_id,
     category_alias_name,
   }: Omit<SourceRequest, "id">) {
-    const data = await this.axios.post(`/source`, {
-      name,
-      logo_suffix,
-      link,
-      lang_id,
-      category_alias_name,
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("image", image);
+    formData.append("link", link);
+    formData.append("lang_id", lang_id);
+    formData.append("logo_suffix", logo_suffix);
+    if (category_alias_name != null)
+      formData.append("category_alias_name", category_alias_name);
+
+    const data = await this.axios.post(`/source`, formData, {
+      "Content-Type": "multipart/form-data",
     });
     return data;
   }

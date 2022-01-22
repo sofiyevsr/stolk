@@ -1,3 +1,4 @@
+import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import CategoriesApi from "../../utils/api/categories";
@@ -9,32 +10,46 @@ interface Props {
   modifyItem: (index: number, item: { [key: string]: any }) => void;
   addItem: (item: { [key: string]: any }) => void;
   categoryID?: number;
+  defaultValues?: any;
 }
 
 type FormData = {
-  name: string;
+  name_en: string;
+  name_ru: string;
+  name_az: string;
   image_suffix: string;
+  image: File[] | null;
 };
 
 const categoryApi = new CategoriesApi();
+const nameFields = {
+  name_az: "Name in AZ",
+  name_ru: "Name in RU",
+  name_en: "Name in EN",
+};
 function CategoryActionsModal({
   show,
   onClose,
   addItem,
   modifyItem,
+  defaultValues,
   categoryID,
 }: Props) {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isSubmitSuccessful },
   } = useForm<FormData>();
 
   const formHandler = async (data: FormData) => {
     if (categoryID == null) {
       const res: any = await categoryApi.insert({
-        name: data.name,
+        name_az: data.name_az,
+        name_en: data.name_en,
+        name_ru: data.name_ru,
+        image: data.image![0],
         image_suffix: data.image_suffix,
       });
       toast.success("Category created");
@@ -42,14 +57,31 @@ function CategoryActionsModal({
     } else {
       const res: any = await categoryApi.update({
         id: categoryID,
-        name: data.name,
+        name_az: data.name_az,
+        name_en: data.name_en,
+        name_ru: data.name_ru,
+        image: data.image![0],
         image_suffix: data.image_suffix,
       });
       toast.success("Category updated");
       modifyItem(categoryID, res.body);
     }
-    reset({ name: "", image_suffix: "" });
+    reset({
+      image: null,
+      name_az: "",
+      name_en: "",
+      name_ru: "",
+      image_suffix: "",
+    });
   };
+
+  useEffect(() => {
+    if (defaultValues) {
+      Object.entries(defaultValues).map(([key, value]) =>
+        setValue(key as any, value, { shouldValidate: true })
+      );
+    }
+  }, [defaultValues, setValue]);
 
   return (
     <Modal
@@ -60,19 +92,41 @@ function CategoryActionsModal({
         throw e;
       })}
     >
-      <label htmlFor="category-name">
-        Name (name should be translated on apps)
-      </label>
+      {Object.entries(nameFields).map(([key, value]) => {
+        const tKey = key as keyof typeof nameFields;
+        return (
+          <Fragment key={tKey}>
+            <label htmlFor="`category-${tKey}`">{value}</label>
+            <input
+              id="`category-${tKey}`"
+              {...register(tKey, {
+                minLength: { message: "Minimum 2 length", value: 2 },
+                required: { message: "Name is required", value: true },
+              })}
+            />
+            <div style={{ color: "red" }}>
+              {errors[tKey] && errors[tKey]!.message}
+            </div>
+          </Fragment>
+        );
+      })}
+      <label htmlFor="image">Image (only jpeg, max size 5mb)</label>
       <input
-        id="category-name"
-        {...register("name", {
-          maxLength: { message: "Maximum 8 length", value: 8 },
-          minLength: { message: "Minimum 2 length", value: 2 },
-          required: { message: "Name is required", value: true },
+        id="image"
+        type="file"
+        style={{ paddingTop: "7px" }}
+        accept="image/jpeg"
+        {...register("image", {
+          required: { message: "Image required", value: true },
         })}
       />
-      <div style={{ color: "red" }}>{errors.name && errors.name.message}</div>
-      <label htmlFor="image-suffix">Image filename (example: image.jpg)</label>
+      <div style={{ color: "red" }}>
+        {errors.image && (errors.image as any).message}
+      </div>
+      <label htmlFor="image-suffix">
+        Image filename (example: image.jpg, reusing old name is recommended as
+        it will delete the old image)
+      </label>
       <input
         id="image-suffix"
         {...register("image_suffix", {

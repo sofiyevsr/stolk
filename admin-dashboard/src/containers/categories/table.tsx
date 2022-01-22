@@ -58,6 +58,7 @@ function CategoriesTable({ setModalActive, show }: Props) {
       />
       <ActionsModal
         show={!!actionType && actionType === "update" && !!selectedID}
+        defaultValues={data?.items.find((a) => a.id === selectedID)}
         addItem={addItem}
         modifyItem={modifyData}
         onClose={() => {

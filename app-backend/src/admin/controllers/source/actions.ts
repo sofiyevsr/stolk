@@ -53,15 +53,12 @@ async function deleteSource(id: string | undefined) {
   const val = await Joi.number().validateAsync(id);
   const trx = await db.transaction();
   try {
-    const [source] = await trx(tables.news_source)
+    const [sourceImg] = await trx(tables.news_source)
       .where({ id: val })
       .del()
       .returning("logo_suffix");
-    if (source != null)
-      await imageS3Uploader.del(
-        `category-images/${source.image_suffix}`,
-        assetsBucket
-      );
+    if (sourceImg != null)
+      await imageS3Uploader.del(`source-logos/${sourceImg}`, assetsBucket);
     await trx.commit();
   } catch (error) {
     await trx.rollback();

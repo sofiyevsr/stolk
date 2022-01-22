@@ -1,5 +1,5 @@
 CREATE MATERIALIZED VIEW analytics_by_category AS
-SELECT c.id, c.name, 
+SELECT c.id, c.name_en, 
 COUNT(DISTINCT(l.id))::INTEGER as like_count, 
 COUNT(DISTINCT(co.id))::INTEGER as comment_count, 
 COUNT(DISTINCT(n.id))::INTEGER as news_count, 

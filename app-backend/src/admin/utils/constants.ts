@@ -5,4 +5,4 @@ export type IJWTUser = {
 export const assetsBucket =
   process.env.NODE_ENV === "production"
     ? "assets.stolk.app"
-    : "development_stolk";
+    : "development-stolk";

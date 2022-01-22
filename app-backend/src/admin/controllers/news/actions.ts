@@ -32,15 +32,12 @@ async function deleteCategory(id: string | undefined) {
   const val = await Joi.number().validateAsync(id);
   const trx = await db.transaction();
   try {
-    const [cat] = await trx(tables.news_category)
+    const [categoryImg] = await trx(tables.news_category)
       .where({ id: val })
       .del()
       .returning("image_suffix");
-    if (cat != null)
-      await imageS3Uploader.del(
-        `category-images/${cat.image_suffix}`,
-        assetsBucket
-      );
+    if (categoryImg != null)
+      await imageS3Uploader.del(`category-images/${categoryImg}`, assetsBucket);
     await trx.commit();
   } catch (error) {
     await trx.rollback();
@@ -75,6 +72,7 @@ async function insertCategory(
   }
   const { name_en, name_ru, name_az } = value;
 
+  console.log(file);
   const trx = await db.transaction();
   try {
     const [category] = await trx(tables.news_category).insert(

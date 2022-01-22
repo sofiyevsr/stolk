@@ -10,12 +10,13 @@ import SoftError from "@utils/softError";
 import multer from "multer";
 
 const fileParser = multer({
+  limits: { fileSize: 5e6 },
   fileFilter: (_, file, cb) => {
     // Accept max 5mb
-    if (file.mimetype === "image/jpeg" && file.size < 5e6) {
+    if (file.mimetype === "image/jpeg") {
       return cb(null, true);
     }
-    return cb(null, false);
+    return cb(new SoftError(i18next.t("errors.wrong_type")));
   },
 });
 
@@ -24,7 +25,7 @@ const save = (
   bucket: string,
   file: Express.Multer.File | undefined
 ) => {
-  if (file == null) throw new SoftError(i18next.t("image.empty"));
+  if (file == null) throw new SoftError(i18next.t("errors.empty_image"));
   const input: PutObjectCommandInput = {
     Key: key,
     Bucket: bucket,

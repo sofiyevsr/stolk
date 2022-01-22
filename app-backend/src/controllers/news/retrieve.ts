@@ -201,7 +201,7 @@ async function all({
   let categories;
   if (values.cursor == null) {
     categories = await db
-      .select("id", "name", "image_suffix")
+      .select("id", "name_en", "name_ru", "name_az", "image_suffix")
       .from(tables.news_category)
       .where({ hidden_at: null });
   }

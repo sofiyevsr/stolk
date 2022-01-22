@@ -25,7 +25,7 @@ async function all(lastID: string | undefined) {
       "s.name AS source_name",
       "s.logo_suffix AS source_logo_suffix",
       "c.id as category_id",
-      "c.name as category_name",
+      "c.name_en as category_name",
     ])
     .from(`${tables.news_feed} as n`)
     .leftJoin(`${tables.news_source} as s`, "n.source_id", "s.id")
@@ -85,7 +85,15 @@ async function comments(lastID: string | undefined) {
 
 async function allCategories() {
   const categories = await db
-    .select("id", "name", "created_at", "hidden_at", "image_suffix")
+    .select(
+      "id",
+      "name_az",
+      "name_ru",
+      "name_en",
+      "created_at",
+      "hidden_at",
+      "image_suffix"
+    )
     .from(tables.news_category);
   return { categories };
 }
@@ -96,7 +104,7 @@ async function allCategoryAliases() {
       "ca.id",
       "ca.alias",
       "c.id as category_id",
-      "c.name as category_name"
+      "c.name_en as category_name"
     )
     .from(`${tables.news_category_alias} as ca`)
     .leftJoin(`${tables.news_category} as c`, "ca.category_id", "c.id")
