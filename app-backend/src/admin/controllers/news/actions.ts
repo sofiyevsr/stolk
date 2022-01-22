@@ -72,7 +72,6 @@ async function insertCategory(
   }
   const { name_en, name_ru, name_az } = value;
 
-  console.log(file);
   const trx = await db.transaction();
   try {
     const [category] = await trx(tables.news_category).insert(
