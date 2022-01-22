@@ -2,16 +2,20 @@ import 'package:stolk/utils/common.dart';
 
 class SingleCategory {
   final int id;
-  final String name, imageSuffix;
+  final String nameEn, nameRu, nameAz, imageSuffix;
   SingleCategory._({
     required this.id,
-    required this.name,
+    required this.nameEn,
+    required this.nameRu,
+    required this.nameAz,
     required this.imageSuffix,
   });
   SingleCategory.fromJSON(Map<String, dynamic> json)
       : this._(
           id: json["id"],
-          name: json["name"],
+          nameAz: json["name_az"],
+          nameEn: json["name_en"],
+          nameRu: json["name_ru"],
           imageSuffix: json["image_suffix"],
         );
 }

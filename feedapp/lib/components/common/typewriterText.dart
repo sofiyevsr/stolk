@@ -52,22 +52,20 @@ class _TypewriterTextState extends State<TypewriterText> {
     super.dispose();
   }
 
+  String getText() {
+    String txt = widget.text.substring(0, _index) + " ";
+    if (_blink) {
+      txt = txt.replaceFirst(" ", "|");
+    }
+    return txt;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          widget.text.substring(0, _index),
-          key: const ValueKey("text"),
-          style: widget.textStyle,
-        ),
-        if (_blink == true)
-          Text(
-            "|",
-            key: const ValueKey("blink"),
-            style: widget.textStyle,
-          ),
-      ],
+    return Text(
+      getText(),
+      key: const ValueKey("text"),
+      style: widget.textStyle,
     );
   }
 }

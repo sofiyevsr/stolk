@@ -39,28 +39,23 @@ class IntroLogin extends StatelessWidget {
         Positioned.fill(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Image.asset(
-                      "assets/icons/logo.png",
-                    ),
+              Expanded(
+                child: Image.asset(
+                  "assets/icons/logo.png",
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: TypewriterText(
+                  text: "Stolk",
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 48,
                   ),
-                  const Flexible(
-                    flex: 1,
-                    child: TypewriterText(
-                      text: "Stolk",
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 48,
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),

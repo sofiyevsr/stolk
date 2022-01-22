@@ -42,23 +42,23 @@ class _HomeWrapperState extends State<HomeWrapper> {
         if (state is AuthorizedState) {
           if (state.user.completedAt != null)
             NavigationService.replaceAll(
-              Home(),
+              const Home(),
               RouteNames.HOME,
             );
           else
             NavigationService.replaceAll(
-              CompleteProfile(),
+              const CompleteProfile(),
               RouteNames.COMPLETE_PROFILE,
             );
         }
         if (state is UnathorizedState)
           NavigationService.replaceAll(
-            IntroductionWrapper(),
+            const IntroductionWrapper(),
             RouteNames.INTRODUCTION,
           );
         if (state is CheckTokenFailed)
           NavigationService.replaceAll(
-            CheckTokenFailScreen(),
+            const CheckTokenFailScreen(),
             RouteNames.CHECKTOKENFAIL,
           );
       },

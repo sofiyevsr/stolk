@@ -9,27 +9,16 @@ import dayjs from "dayjs";
 
 //
 //@user_email email of user extracted from session
-export async function createConfirmationToken(body: any, user_email?: string) {
-  const { value, error } =
-    confirmationToken.createConfirmationToken.validate(body);
-  if (error != null) {
-    throw new SoftError(error.message);
-  }
-
-  if (value == null) {
+export async function createConfirmationToken(user_email?: string) {
+  if (user_email == null) {
     throw new SoftError(i18next.t("errors.confirmation_fail"));
   }
 
-  const { email } = value;
-
-  if (user_email != null && user_email !== email) {
-    throw new SoftError(i18next.t("errors.confirmation_fail"));
-  }
   const [user] = await db(`${tables.app_user} as au`)
     // first name required for email
     .select(["au.id", "au.email", "bu.first_name"])
     .leftJoin(`${tables.base_user} as bu`, "bu.id", "au.id")
-    .where({ "au.email": email, "bu.confirmed_at": null });
+    .where({ "au.email": user_email, "bu.confirmed_at": null });
   if (user == null) return false;
   const confirmationTokenSession = await db(tables.confirmation_token)
     .select(["issued_at"])

@@ -54,6 +54,10 @@ class AuthService extends ApiService {
     await this.request.post("/auth/logout", {}, {});
   }
 
+  Future<void> resendConfirmationEmail() async {
+    await this.request.post("/auth/email-verification", {}, {});
+  }
+
   Future<CompleteProfileResponse> completeProfile() async {
     final response = await this.request.post("/auth/complete-profile", {}, {});
     return CompleteProfileResponse.fromJSON(response.data['body']);

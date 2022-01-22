@@ -118,7 +118,7 @@ r.post(
   async (req, res, next) => {
     try {
       const email = req.session?.email;
-      await createConfirmationToken(req.body, email);
+      await createConfirmationToken(email);
       return responseSuccess(res, {});
     } catch (e) {
       return next(e);

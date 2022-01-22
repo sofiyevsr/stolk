@@ -45,7 +45,13 @@ class CategoryList extends StatelessWidget {
       }
       final cats = [
         SingleCategory.fromJSON(
-          {"id": 0, "name": "all", "image_suffix": "all.jpg"},
+          {
+            "id": 0,
+            "name_az": "Hamısı",
+            "name_en": "All",
+            "name_ru": "Все",
+            "image_suffix": "all.jpg"
+          },
         ),
       ];
       if (state is NewsStateWithData && state.data.categories != null) {
@@ -120,7 +126,10 @@ class _SingleCategory extends StatelessWidget {
             Positioned.fill(
               child: Center(
                 child: AutoSizeText(
-                  tr("categories.${category.name}"),
+                  getCategoryName(
+                    context,
+                    category,
+                  ),
                   maxLines: 1,
                   minFontSize: 15,
                   style: const TextStyle(
@@ -137,4 +146,16 @@ class _SingleCategory extends StatelessWidget {
       ),
     );
   }
+}
+
+String getCategoryName(BuildContext context, SingleCategory category) {
+  final loc = EasyLocalization.of(context)?.currentLocale?.languageCode;
+  if (loc == "en") {
+    return category.nameEn;
+  } else if (loc == "ru") {
+    return category.nameRu;
+  } else if (loc == "az") {
+    return category.nameAz;
+  }
+  return "";
 }

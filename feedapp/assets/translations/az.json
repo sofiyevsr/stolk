@@ -269,6 +269,7 @@
     "logout": "Çıxış",
     "register": "Qeydiyyat",
     "theme": "Görünüş",
+    "send_confirmation_email": "Təsdiqləmə linkini yenidən göndər",
     "notifications": {
       "source_follow": "Tövsiyyə olunan xəbərlər",
       "updates": "Yeniliklər",
@@ -281,7 +282,8 @@
     "fields": {
       "email": "Email",
       "name": "Ad",
-      "created_at": "Qeydiyyat vaxtı"
+      "created_at": "Qeydiyyat vaxtı",
+      "confirmed_at": "Təsdiqləmə vaxtı"
     }
   },
   "sources": {
