@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Portal } from "react-portal";
 import classnames from "classnames";
 import { CSSTransition } from "react-transition-group";
@@ -53,6 +53,7 @@ export const Modal: FC<IModal> = ({
   onAction,
   ...restProps
 }) => {
+  const [isLoading, setLoading] = useState(false);
   return (
     <Portal>
       <>
@@ -90,12 +91,16 @@ export const Modal: FC<IModal> = ({
                     </Button>
                     <Button
                       color="primary"
-                      disabled={buttonDisabled}
+                      disabled={buttonDisabled || isLoading}
                       onClick={async () => {
+                        setLoading(true);
                         try {
                           await onAction();
                           onClose();
-                        } catch (error) {}
+                        } catch (error) {
+                        } finally {
+                          setLoading(false);
+                        }
                       }}
                     >
                       Save changes

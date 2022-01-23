@@ -18,7 +18,7 @@ export const read = async (
   }
   const read = await db(tables.news_read_history)
     .select("id")
-    .where({ ip_address: ip })
+    .where({ ip_address: ip, news_id: newsID })
     .first();
   if (read == null) {
     const [read] = await db(tables.news_read_history).insert(

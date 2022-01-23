@@ -269,6 +269,7 @@
     "logout": "Logout",
     "register": "Register",
     "theme": "Theme",
+    "send_confirmation_email": "Resend confirmation link",
     "notifications": {
       "source_follow": "Suggested news",
       "updates": "Updates",
@@ -281,7 +282,8 @@
     "fields": {
       "email": "Email",
       "name": "Name",
-      "created_at": "Registration date"
+      "created_at": "Registration date",
+      "confirmed_at": "Confirmation date"
     }
   },
   "sources": {

@@ -14,6 +14,7 @@ interface IProps extends SpaceProps, BorderProps {
 }
 
 const conentCSS = css<IProps>`
+    margin-bottom: 40px;
     padding: 20px;
     ${device.large} {
         padding: 25px;

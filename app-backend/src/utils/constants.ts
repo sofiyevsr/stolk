@@ -113,6 +113,6 @@ export const notification_topics = {
   news: "news",
 };
 
-export const DEFAULT_PERPAGE = 10;
+export const DEFAULT_PERPAGE = 12;
 export const MAX_PERPAGE = 30;
 export const MAX_CATEGORIES_COUNT = 5;

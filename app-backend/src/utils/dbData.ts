@@ -366,16 +366,63 @@ export const sources = [
 
 export const categories = [
   {
-    name: "culture",
+    name_en: "Culture",
+    name_az: "Mədəniyyət",
+    name_ru: "Культура",
     image_suffix: "culture.jpg",
   },
-  { name: "economics", image_suffix: "economics.jpg" },
-  { name: "incident", image_suffix: "incident.jpg" },
-  { name: "interesting", image_suffix: "interesting.jpg" },
-  { name: "life", image_suffix: "life.jpg" },
-  { name: "politics", image_suffix: "politics.jpg" },
-  { name: "society", image_suffix: "society.jpg" },
-  { name: "sport", image_suffix: "sport.jpg" },
-  { name: "technology", image_suffix: "technology.jpg" },
-  { name: "world", image_suffix: "world.jpg" },
+  {
+    name_en: "Economics",
+    name_az: "İqtisadiyyat",
+    name_ru: "Экономика",
+    image_suffix: "economics.jpg",
+  },
+  {
+    name_en: "Incident",
+    name_az: "Hadisə",
+    name_ru: "Инцидент",
+    image_suffix: "incident.jpg",
+  },
+  {
+    name_en: "Interesting",
+    name_az: "Maraqlı",
+    name_ru: "Интересно",
+    image_suffix: "interesting.jpg",
+  },
+  {
+    name_en: "Life",
+    name_az: "Həyat",
+    name_ru: "Жизнь",
+    image_suffix: "life.jpg",
+  },
+  {
+    name_en: "Politics",
+    name_az: "Siyasət",
+    name_ru: "Политика",
+    image_suffix: "politics.jpg",
+  },
+  {
+    name_en: "Society",
+    name_az: "Cəmiyyət",
+    name_ru: "Общество",
+    image_suffix: "society.jpg",
+  },
+  {
+    name_en: "Sport",
+    name_az: "İdman",
+    name_ru: "Спорт",
+    image_suffix: "sport.jpg",
+  },
+  {
+    name_en: "Technology",
+    name_az: "Texnologiya",
+    name_ru: "Технология",
+    image_suffix: "technology.jpg",
+  },
+  {
+    name_en: "World",
+    name_az: "Dünya",
+    name_ru: "Мир",
+    image_suffix: "world.jpg",
+  },
 ];

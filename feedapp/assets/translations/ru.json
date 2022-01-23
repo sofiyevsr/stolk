@@ -269,6 +269,7 @@
     "logout": "Выход",
     "register": "Зарегистрироваться",
     "theme": "Тема",
+    "send_confirmation_email": "Повторно отправить ссылку для подтверждения",
     "notifications": {
       "source_follow": "Предлагаемые новости",
       "updates": "Обновления",
@@ -281,7 +282,8 @@
     "fields": {
       "name": "Имя",
       "email": "Электронная почта",
-      "created_at": "Дата регистрации"
+      "created_at": "Дата регистрации",
+      "confirmed_at": "Дата подтверждения"
     }
   },
   "sources": {

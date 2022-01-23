@@ -16,7 +16,7 @@ async function all() {
   const categoryData = await db
     .select(
       "id",
-      "name",
+      "name_en as name",
       "like_count",
       "comment_count",
       "news_count",

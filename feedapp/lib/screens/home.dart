@@ -29,19 +29,6 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   PageController? _controller;
 
-  List<BottomNavigationBarItem> _buildNavItems(BuildContext ctx) {
-    final theme = Theme.of(ctx);
-    return navItems
-        .map(
-          (e) => BottomNavigationBarItem(
-            backgroundColor: theme.bottomNavigationBarTheme.backgroundColor,
-            label: (e["title"] as String).tr(),
-            icon: Icon(e["icon"] as IconData),
-          ),
-        )
-        .toList();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -56,6 +43,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -102,17 +90,25 @@ class _HomeState extends State<Home> {
         children: [
           AdaptiveBannerAd(
             unitID: getUnitID(AdPlacements.home),
-            disabled: true,
+            disabled: false,
           ),
           BottomNavigationBar(
-            type: BottomNavigationBarType.shifting,
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() => _currentIndex = index);
-              _controller?.jumpToPage(index);
-            },
-            items: _buildNavItems(context),
-          ),
+              type: BottomNavigationBarType.shifting,
+              currentIndex: _currentIndex,
+              onTap: (index) {
+                setState(() => _currentIndex = index);
+                _controller?.jumpToPage(index);
+              },
+              items: navItems
+                  .map(
+                    (e) => BottomNavigationBarItem(
+                      backgroundColor:
+                          theme.bottomNavigationBarTheme.backgroundColor,
+                      label: (e["title"] as String).tr(),
+                      icon: Icon(e["icon"] as IconData),
+                    ),
+                  )
+                  .toList()),
         ],
       ),
     );

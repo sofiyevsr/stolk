@@ -22,8 +22,8 @@ class ToastService {
             padding: EdgeInsets.zero,
             content: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Icon(
                     Icons.done,
                     size: 26,
@@ -33,7 +33,7 @@ class ToastService {
                 Expanded(
                   child: Text(
                     content,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       letterSpacing: 1,
                       fontWeight: FontWeight.bold,
@@ -51,6 +51,12 @@ class ToastService {
     );
   }
 
+  showSnackBar(SnackBar snackBar) {
+    _key.currentState?.showSnackBar(
+      snackBar,
+    );
+  }
+
   showAlert(String content) {
     _alertThrottler.run(
       () {
@@ -60,8 +66,8 @@ class ToastService {
             padding: EdgeInsets.zero,
             content: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Icon(
                     Icons.warning_amber_rounded,
                     size: 26,
@@ -71,7 +77,7 @@ class ToastService {
                 Expanded(
                   child: Text(
                     content,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       letterSpacing: 1,
                       fontWeight: FontWeight.bold,
@@ -81,7 +87,7 @@ class ToastService {
                 ),
               ],
             ),
-            duration: Duration(milliseconds: 3500),
+            duration: const Duration(milliseconds: 3500),
             backgroundColor: Colors.red,
           ),
         );

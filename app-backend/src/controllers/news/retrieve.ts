@@ -81,7 +81,6 @@ async function all({
       "n.created_at",
       "n.feed_link",
       "c.id as category_id",
-      "c.name as category_name",
       "n.like_count",
       "n.comment_count",
       "n.read_count",
@@ -201,7 +200,7 @@ async function all({
   let categories;
   if (values.cursor == null) {
     categories = await db
-      .select("id", "name", "image_suffix")
+      .select("id", "name_en", "name_ru", "name_az", "image_suffix")
       .from(tables.news_category)
       .where({ hidden_at: null });
   }
@@ -229,7 +228,6 @@ async function bookmarks({ userID, perPage, lastID }: BookmarksRequest) {
       "n.created_at",
       "n.feed_link",
       "c.id as category_id",
-      "c.name as category_name",
       "n.like_count",
       "n.comment_count",
       "n.read_count",
@@ -289,7 +287,7 @@ async function bookmarks({ userID, perPage, lastID }: BookmarksRequest) {
 
 async function allCategories() {
   const categories = await db
-    .select("id", "name", "image_suffix")
+    .select("id", "name_en", "name_ru", "name_az", "image_suffix")
     .from(tables.news_category)
     .where({ hidden_at: null });
   return { categories };
