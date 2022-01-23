@@ -50,7 +50,7 @@ async function insert(body: unknown, file: Express.Multer.File | undefined) {
 }
 
 async function deleteSource(id: string | undefined) {
-  const val = await Joi.number().validateAsync(id);
+  const val = await Joi.number().required().validateAsync(id);
   const trx = await db.transaction();
   try {
     const [sourceImg] = await trx(tables.news_source)
@@ -71,7 +71,7 @@ async function update(
   id: unknown,
   file: Express.Multer.File | undefined
 ) {
-  const val = await Joi.number().validateAsync(id);
+  const val = await Joi.number().required().validateAsync(id);
   const { error, value } = sourceValidation.validate(body);
   if (error) {
     throw new SoftError(error.message);

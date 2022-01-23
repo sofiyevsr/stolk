@@ -8,6 +8,7 @@ import {
   unhideCategory,
   unhideNews,
   updateCategory,
+  deleteNews,
 } from "./actions";
 import retrieve from "./retrieve";
 
@@ -17,6 +18,7 @@ export default {
     news: {
       hide: hideNews,
       unhide: unhideNews,
+      deleteNews,
     },
     category: {
       insert: insertCategory,

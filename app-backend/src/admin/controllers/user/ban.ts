@@ -3,7 +3,7 @@ import { tables } from "@utils/constants";
 import Joi from "joi";
 
 async function ban(id: string | undefined) {
-  const val = await Joi.number().validateAsync(id);
+  const val = await Joi.number().required().validateAsync(id);
   const trx = await db.transaction();
   try {
     // Banned at is object of {banned_at: string}
@@ -20,7 +20,7 @@ async function ban(id: string | undefined) {
 }
 
 async function unban(id: string | undefined) {
-  const val = await Joi.number().validateAsync(id);
+  const val = await Joi.number().required().validateAsync(id);
   const [banned_at] = await db(tables.base_user)
     .update({ banned_at: null }, ["banned_at"])
     .where({ id: val });
