@@ -14,4 +14,4 @@ LEFT JOIN news_read_history as r on n.id = r.news_id
 WHERE n.created_at > CURRENT_DATE - INTERVAl '7' DAY
 GROUP BY s.id
 ORDER BY s.id
-wiTH DATA
+WITH DATA
