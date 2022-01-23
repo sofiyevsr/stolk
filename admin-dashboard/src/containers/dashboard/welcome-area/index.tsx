@@ -16,7 +16,7 @@ const WelcomeArea: FC = () => {
     <>
       <StyledWelcomeArea>
         <StyledWelcomeLeft>
-          <Breadcrumb prev={[]} title="Home" wcText="Analytics (last 7 days only)" />
+          <Breadcrumb prev={[]} title="Home" wcText="Analytics" />
         </StyledWelcomeLeft>
         <StyledWelcomeRight>
           <StyledButton

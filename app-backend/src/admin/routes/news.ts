@@ -153,4 +153,12 @@ r.delete("/comments/:id", async (req, res, next) => {
   }
 });
 
+r.delete("/", async (req, res, next) => {
+  try {
+    const result = await news.actions.news.deleteNews(req.body);
+    return responseSuccess(res, result);
+  } catch (error) {
+    return next(error);
+  }
+});
 export default r;

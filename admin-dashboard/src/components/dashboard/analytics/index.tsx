@@ -24,7 +24,8 @@ const Analytics: FC = () => {
   }, []);
 
   const lastUpdate = useMemo(
-    () => data && new Date(data.overallData[0].last_update).toLocaleString("en-US"),
+    () =>
+      data && new Date(data.overallData[0].last_update).toLocaleString("en-US"),
     [data]
   );
 
@@ -34,6 +35,18 @@ const Analytics: FC = () => {
         ["News", data.overallData[0].news_count],
         ["Users", data.overallData[0].user_count],
       ],
+    [data]
+  );
+
+  const sourcesComment = useMemo(
+    () =>
+      data?.sourceData.map(({ name, comment_count }) => [name, comment_count]),
+    [data]
+  );
+
+  const sourcesFollow = useMemo(
+    () =>
+      data?.sourceData.map(({ name, follow_count }) => [name, follow_count]),
     [data]
   );
 
@@ -56,7 +69,10 @@ const Analytics: FC = () => {
     () => data?.categoryData.map(({ name, read_count }) => [name, read_count]),
     [data]
   );
-
+  const categoriesLike = useMemo(
+    () => data?.categoryData.map(({ name, like_count }) => [name, like_count]),
+    [data]
+  );
   const newsCountPerCategory = useMemo(
     () => data?.categoryData.map(({ name, news_count }) => [name, news_count]),
     [data]
@@ -94,31 +110,56 @@ const Analytics: FC = () => {
             title="General"
             absolute
           />
-          <PieChart
-            header={["Source Name", "News count"]}
-            data={newsCountPerSource ?? []}
-            title="Sources with most news"
-          />
         </div>
+        <div
+          style={{ textAlign: "center", fontSize: "3rem", marginTop: "50px" }}
+        >
+          Sources
+        </div>
+        <PieChart
+          header={["Source Name", "Follow count"]}
+          data={sourcesFollow ?? []}
+          title="Most Followed Sources"
+        />
+        <PieChart
+          header={["Source Name", "News count"]}
+          data={newsCountPerSource ?? []}
+          title="Sources with most news(7 days only)"
+        />
+        <PieChart
+          header={["Source Name", "Comment count"]}
+          data={sourcesComment ?? []}
+          title="Sources with most comment count(7 days only)"
+        />
         <PieChart
           header={["Source Name", "Like count"]}
           data={sourcesLike ?? []}
-          title="Most Liked Sources"
+          title="Most Liked Sources(7 days only)"
         />
         <PieChart
           header={["Source Name", "Read count"]}
           data={sourcesRead ?? []}
-          title="Most Read Sources"
+          title="Most Read Sources(7 days only)"
         />
+        <div
+          style={{ textAlign: "center", fontSize: "3rem", marginTop: "50px" }}
+        >
+          Categories
+        </div>
         <PieChart
           header={["Category Name", "Read count"]}
           data={categoriesRead ?? []}
-          title="Most Read Categories"
+          title="Most Read Categories(7 days only)"
         />
         <PieChart
           header={["Category Name", "News count"]}
           data={newsCountPerCategory ?? []}
-          title="Categories with most news"
+          title="Categories with most news(7 days only)"
+        />
+        <PieChart
+          header={["Category Name", "Like count"]}
+          data={categoriesLike ?? []}
+          title="Categories with most likes(7 days only)"
         />
       </CardBody>
     </Card>

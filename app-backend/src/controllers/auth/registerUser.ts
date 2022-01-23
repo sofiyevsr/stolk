@@ -63,7 +63,7 @@ export default async function registerUser(body: any, ip: string) {
     throw error;
   }
 
-  await createConfirmationToken({ email: user.email });
+  await createConfirmationToken(user.email);
 
   const token = await generateAccessToken({
     id: baseUser.user_id,
