@@ -22,7 +22,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-    StartupService.instance.startFCMInteraction().catchError((_) {});
+    StartupService.instance.startFCMInteraction();
     StartupService.instance
         .checkTokenAndSaveDeviceToken()
         .catchError((_) {})

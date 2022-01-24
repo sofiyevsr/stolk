@@ -18,7 +18,7 @@ const highAvailibilityOptions = (
   tokens,
   data,
   android: {
-    priority: "normal",
+    priority: "high",
   },
   // Add APNS (Apple) config
   apns: {
@@ -41,7 +41,6 @@ const deleteObsoleteTokens = async (
 ) => {
   const fails: string[] = [];
   responses.forEach((d, i) => {
-    console.log(d);
     if (
       !d.success &&
       (d.error?.code === "messaging/registration-token-not-registered" ||
@@ -53,7 +52,7 @@ const deleteObsoleteTokens = async (
   if (fails.length !== 0) {
     const deletedRows = await db(tables.notification_token)
       .delete()
-      .whereIn("token", tokens);
+      .whereIn("token", fails);
     return deletedRows;
   }
 };
@@ -87,11 +86,24 @@ export const sendToEveryone = async (
     tokens: flatTokens,
     data: data,
     android: {
+      priority: "high",
       notification: {
         tag,
       },
     },
-    apns: { payload: { aps: { threadId: tag } } },
+    apns: {
+      payload: {
+        aps: {
+          contentAvailable: true,
+          threadId: tag,
+        },
+      },
+      headers: {
+        "apns-push-type": "background",
+        "apns-priority": "5",
+        "apns-topic": "app.stolk.ios",
+      },
+    },
     notification: {
       ...value,
     },

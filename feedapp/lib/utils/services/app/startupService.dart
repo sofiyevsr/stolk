@@ -13,6 +13,7 @@ class StartupService {
   bool _isTokenSaveInProgress = false;
   StreamSubscription<String>? _tokenRefreshStream;
   StreamSubscription<RemoteMessage>? _remoteMessageStream;
+  StreamSubscription<AuthState>? _authStream;
   StartupService._();
 
   void dispose() {
@@ -20,13 +21,21 @@ class StartupService {
     _tokenRefreshStream?.cancel();
   }
 
-  Future<void> startFCMInteraction() async {
-    _remoteMessageStream =
-        FirebaseMessaging.onMessageOpenedApp.listen(_handleFCMMessage);
-    final message = await FirebaseMessaging.instance.getInitialMessage();
-    if (message != null) {
-      _handleFCMMessage(message);
-    }
+  void startFCMInteraction() {
+    // Authbloc should finish before fcm starts
+    _authStream = AuthBloc.instance.stream.listen((state) async {
+      try {
+        if (state is! UnknownAuthState && _remoteMessageStream == null) {
+          _remoteMessageStream =
+              FirebaseMessaging.onMessageOpenedApp.listen(_handleFCMMessage);
+          final message = await FirebaseMessaging.instance.getInitialMessage();
+          if (message != null) {
+            _handleFCMMessage(message);
+          }
+          _authStream?.cancel();
+        }
+      } catch (_) {}
+    });
   }
 
   Future<void> storeDeviceToken(String? authToken) async {
@@ -64,10 +73,9 @@ class StartupService {
   void _handleFCMMessage(RemoteMessage message) {
     if (message.data["type"] == "webview_open" &&
         message.data["link"] != null) {
-      NavigationService.pushAndRemoveUntil(
+      NavigationService.push(
         NewsView(link: message.data["link"]),
         RouteNames.SINGLE_NEWS,
-        removeUntil: RouteNames.HOME,
       );
     }
   }
