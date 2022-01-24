@@ -29,7 +29,12 @@ const NewsPage: React.FC = () => {
           </Button>
         </div>
         <NewsTable />
-        <CleanupModal show={modalActive} onClose={()=>{setModalActive(false)}} />
+        <CleanupModal
+          show={modalActive}
+          onClose={() => {
+            setModalActive(false);
+          }}
+        />
       </Content>
     </Layout>
   );

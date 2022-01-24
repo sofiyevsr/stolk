@@ -22,6 +22,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
+    StartupService.instance.startFCMInteraction().catchError((_) {});
     StartupService.instance
         .checkTokenAndSaveDeviceToken()
         .catchError((_) {})
@@ -30,7 +31,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   @override
   void dispose() {
-    // Stops refresh token stream
     StartupService.instance.dispose();
     super.dispose();
   }

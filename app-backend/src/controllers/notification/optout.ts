@@ -23,9 +23,9 @@ export const optout = async (body: any, user_id: number) => {
 };
 
 export const optin = async (body: any, user_id: number) => {
-  const { notification_type_id } = await notification.optout.validateAsync({
-    notification_type_id: body.notification_type_id,
-  });
+  const { notification_type_id } = await notification.optout.validateAsync(
+    body
+  );
 
   return db(tables.notification_optout)
     .where({

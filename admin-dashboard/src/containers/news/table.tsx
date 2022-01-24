@@ -3,9 +3,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import NewsApi from "../../utils/api/news";
 import { useState } from "react";
 import { Button, Modal } from "../../widgets";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import NotificationApi from "../../utils/api/notification";
 
 const newsApi = new NewsApi();
+const notificationApi = new NotificationApi();
 function NewsTable() {
   const getAll = async ({ lastID }: { lastID: number | null }) => {
     const {
@@ -19,6 +21,7 @@ function NewsTable() {
     });
   const [actionType, setActionType] = useState<"hide" | "unhide">();
   const [selectedID, setSelectedID] = useState<number>();
+  const [sendingNotification, setSendingNotification] = useState(false);
 
   return (
     <div style={{ position: "relative" }}>
@@ -50,11 +53,33 @@ function NewsTable() {
             </Button>
             <Button
               color="success"
+              mr={1}
               onClick={() => {
                 setActionType("unhide");
               }}
             >
               Unhide
+            </Button>
+            <Button
+              color="info"
+              disabled={sendingNotification}
+              onClick={async () => {
+                setSendingNotification(true);
+                try {
+                  const { body } = await notificationApi.sendNewsToEveryone(
+                    selectedID
+                  );
+                  toast.success(`Notifications sent,
+                    \nsuccess: ${body.success_count}
+                    \nfailure: ${body.failure_count}
+                    \ndeleted stale tokens: ${body.deleted_count}`);
+                } catch (_) {
+                } finally {
+                  setSendingNotification(false);
+                }
+              }}
+            >
+              Send to everyone as notification
             </Button>
           </>
         )}

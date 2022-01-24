@@ -115,7 +115,11 @@ class _CommentsViewState extends State<CommentsView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AppBar(),
+              AppBar(
+                title: Text(
+                  tr("commons.comments"),
+                ),
+              ),
               AnimatedContainer(
                 child: Text(
                   _errorMessage ?? "",

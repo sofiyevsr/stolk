@@ -10,7 +10,7 @@ export default joi
       .number()
       .required()
       .valid(
-        NotificationOptoutType.SourceFollow,
+        NotificationOptoutType.SuggestedNews,
         NotificationOptoutType.Updates
       )
       .messages({
