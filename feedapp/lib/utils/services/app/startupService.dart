@@ -19,6 +19,7 @@ class StartupService {
   void dispose() {
     _remoteMessageStream?.cancel();
     _tokenRefreshStream?.cancel();
+    _authStream?.cancel();
   }
 
   void startFCMInteraction() {
