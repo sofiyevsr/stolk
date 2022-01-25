@@ -70,44 +70,48 @@ class _SourcesPageState extends State<SourcesPage> {
             currentLangID: _currentLangID,
           ),
         ),
-        BlocBuilder<SourcesBloc, SourcesState>(builder: (context, state) {
-          if (state is SourcesStateSuccess) {
-            final sources = state.data.sources
-                .where(
-                  (element) =>
-                      (_currentLangID == null ||
-                          element.langID == _currentLangID) &&
-                      (_search == null ||
-                          element.name.toLowerCase().contains(
-                                _search!.toLowerCase(),
-                              )),
-                )
-                .toList();
-            return SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossCount,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (ctx, i) => SingleSourceView(
-                  item: sources[i],
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          sliver:
+              BlocBuilder<SourcesBloc, SourcesState>(builder: (context, state) {
+            if (state is SourcesStateSuccess) {
+              final sources = state.data.sources
+                  .where(
+                    (element) =>
+                        (_currentLangID == null ||
+                            element.langID == _currentLangID) &&
+                        (_search == null ||
+                            element.name.toLowerCase().contains(
+                                  _search!.toLowerCase(),
+                                )),
+                  )
+                  .toList();
+              return SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossCount,
                 ),
-                childCount: sources.length,
-              ),
+                delegate: SliverChildBuilderDelegate(
+                  (ctx, i) => SingleSourceView(
+                    item: sources[i],
+                  ),
+                  childCount: sources.length,
+                ),
+              );
+            }
+            return SliverFillRemaining(
+              child: () {
+                if (state is SourcesStateLoading) {
+                  return const CenterLoadingWidget();
+                }
+                if (state is SourcesStateError)
+                  return NoConnectionWidget(
+                    onRetry: fetchSources,
+                  );
+                return Container();
+              }(),
             );
-          }
-          return SliverFillRemaining(
-            child: () {
-              if (state is SourcesStateLoading) {
-                return const CenterLoadingWidget();
-              }
-              if (state is SourcesStateError)
-                return NoConnectionWidget(
-                  onRetry: fetchSources,
-                );
-              return Container();
-            }(),
-          );
-        }),
+          }),
+        ),
       ],
     );
   }
@@ -118,7 +122,7 @@ class _SourceHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         child: Row(
           children: [
             Expanded(
@@ -175,7 +179,7 @@ class _PersistentSourceHeader extends SliverPersistentHeaderDelegate {
     final theme = Theme.of(context);
     return Container(
       color: theme.scaffoldBackgroundColor,
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12),
       height: 100,
       alignment: Alignment.center,
       child: Row(

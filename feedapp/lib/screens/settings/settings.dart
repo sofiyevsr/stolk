@@ -27,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 25.0),
+              margin: const EdgeInsets.symmetric(horizontal: 12.0),
               child: SettingsHeaderSection(),
             ),
             Container(
@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 25.0),
+              margin: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 children: [
                   SettingsTile(
