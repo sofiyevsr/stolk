@@ -4,7 +4,7 @@ import { tables } from "../../../../utils/constants";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tables.user_session, (t) => {
     t.increments("id");
-    t.string("token").notNullable();
+    t.string("token").notNullable().index();
     t.string("ip_address").notNullable();
     t.integer("user_id")
       .references("id")

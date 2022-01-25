@@ -44,3 +44,17 @@ export default {
   notification_token_count: "Notification token count",
   latest_news_date: "Date last news found",
 } as { [key: string]: string };
+
+export const serverErrors = {
+  empty_tokens: "No token found send notification to",
+  invalid_token: "Invalid token",
+  login_fail: "Login fail",
+  news_not_found: "News not found",
+  recaptcha_fail: "Recaptcha failed",
+  wrong_type: "Invalid type",
+  empty_image: "Empty image",
+  account_banned: "Account banned",
+  invalid_session_id: "Invalid session id",
+  news_id_required: "News id required",
+  source_id_required: "Source id required",
+};

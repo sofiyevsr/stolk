@@ -113,6 +113,7 @@
     "or": "Ya da",
     "next": "İrəli",
     "guest": "Qonaq",
+    "comments": "Şərhlər",
     "welcome": "Xoş gəlmisiniz",
     "categories": "Kateqoriyalar",
     "count": "Say",
@@ -271,7 +272,7 @@
     "theme": "Görünüş",
     "send_confirmation_email": "Təsdiqləmə linkini yenidən göndər",
     "notifications": {
-      "source_follow": "Tövsiyyə olunan xəbərlər",
+      "suggested_news": "Tövsiyyə olunan xəbərlər",
       "updates": "Yeniliklər",
       "comments": "Şərhlər"
     },

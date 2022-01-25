@@ -4,6 +4,7 @@ import storageService from "../storage";
 import { store as redux } from "../../redux/store";
 import { logout } from "../../redux/slices/user";
 import { API_URL } from "../constants";
+import { serverErrors } from "../translations";
 
 const axiosConfig: AxiosRequestConfig = {
   baseURL: API_URL,
@@ -39,7 +40,11 @@ class CustomAxios {
           this.storage.logout();
           redux.dispatch(logout());
         }
-        toast("Error occured", { type: "error" });
+        const message = error.response?.data.message.replace("errors.", "");
+        console.log(message);
+        if (message && serverErrors.hasOwnProperty(message)) {
+          toast.error((serverErrors as any)[message], { type: "error" });
+        } else toast.error("Error occured", { type: "error" });
         return Promise.reject(error);
       }
     );

@@ -8,7 +8,7 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex(tables.notification_type).insert([
-    { id: NotificationOptoutType.SourceFollow, name: "source_follow" },
+    { id: NotificationOptoutType.SuggestedNews, name: "suggested_news" },
     { id: NotificationOptoutType.Updates, name: "updates" },
   ]);
 }

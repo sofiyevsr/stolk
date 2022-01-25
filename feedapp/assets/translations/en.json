@@ -113,6 +113,7 @@
     "or": "Or",
     "next": "Forward",
     "skip": "Skip",
+    "comments": "Comments",
     "welcome": "Welcome",
     "categories": "Categories",
     "count": "Count",
@@ -271,7 +272,7 @@
     "theme": "Theme",
     "send_confirmation_email": "Resend confirmation link",
     "notifications": {
-      "source_follow": "Suggested news",
+      "suggested_news": "Suggested news",
       "updates": "Updates",
       "comments": "Comments"
     },

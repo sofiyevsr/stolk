@@ -6,8 +6,6 @@ import 'package:flutter/widgets.dart';
 
 import "dart:io" show Platform;
 
-import '../../constants.dart';
-
 class NavigationService {
   static final _key = GlobalKey<NavigatorState>();
   static GlobalKey<NavigatorState> get key => _key;
@@ -40,7 +38,23 @@ class NavigationService {
 
   static void popUntil(String name) {
     NavigationService.key.currentState!
-        .popUntil((route) => route.settings.name != name);
+        .popUntil((route) => route.settings.name == name);
+  }
+
+  static void pushAndRemoveUntil(
+    Widget child,
+    String name, {
+    required String removeUntil,
+    bool disableAnimation = false,
+  }) {
+    NavigationService.key.currentState!.pushAndRemoveUntil(
+      NavigationService.wrapRoute(
+        child,
+        name,
+        disableAnimation: disableAnimation,
+      ),
+      (route) => route.settings.name == removeUntil,
+    );
   }
 
   static void push(

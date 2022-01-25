@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:stolk/logic/blocs/authBloc/auth.dart';
+import 'package:stolk/screens/feed/widgets/newsView.dart';
+import 'package:stolk/utils/constants.dart';
+import 'package:stolk/utils/services/app/navigationService.dart';
 import 'package:stolk/utils/services/app/secureStorage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stolk/utils/services/server/notificationService.dart';
@@ -9,10 +12,31 @@ class StartupService {
   // To avoid sending request twice
   bool _isTokenSaveInProgress = false;
   StreamSubscription<String>? _tokenRefreshStream;
+  StreamSubscription<RemoteMessage>? _remoteMessageStream;
+  StreamSubscription<AuthState>? _authStream;
   StartupService._();
 
   void dispose() {
+    _remoteMessageStream?.cancel();
     _tokenRefreshStream?.cancel();
+    _authStream?.cancel();
+  }
+
+  void startFCMInteraction() {
+    // Authbloc should finish before fcm starts
+    _authStream = AuthBloc.instance.stream.listen((state) async {
+      try {
+        if (state is! UnknownAuthState && _remoteMessageStream == null) {
+          _remoteMessageStream =
+              FirebaseMessaging.onMessageOpenedApp.listen(_handleFCMMessage);
+          final message = await FirebaseMessaging.instance.getInitialMessage();
+          if (message != null) {
+            _handleFCMMessage(message);
+          }
+          _authStream?.cancel();
+        }
+      } catch (_) {}
+    });
   }
 
   Future<void> storeDeviceToken(String? authToken) async {
@@ -45,6 +69,16 @@ class StartupService {
     final token = await storage.getToken();
     _checkToken(token);
     await storeDeviceToken(token);
+  }
+
+  void _handleFCMMessage(RemoteMessage message) {
+    if (message.data["type"] == "webview_open" &&
+        message.data["link"] != null) {
+      NavigationService.push(
+        NewsView(link: message.data["link"]),
+        RouteNames.SINGLE_NEWS,
+      );
+    }
   }
 
   Future<void> _saveTokenToDatabase(String? token, String? authToken) async {

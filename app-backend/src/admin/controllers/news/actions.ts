@@ -13,7 +13,9 @@ async function deleteNews(body: any) {
   const v = await Joi.object({
     older_than: Joi.number().required().min(1).max(12),
     keep_bookmarks: Joi.boolean().required(),
-  }).validateAsync(body);
+  })
+    .options({ stripUnknown: true })
+    .validateAsync(body);
 
   const { keep_bookmarks: keepBookmarks, older_than: olderThan } = v;
 

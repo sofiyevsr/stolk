@@ -41,13 +41,12 @@ class IntroLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Image.asset(
-                  "assets/icons/logo.png",
-                ),
+              Image.asset(
+                "assets/icons/logo.png",
+                height: 150,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
+                padding: EdgeInsets.only(bottom: 16.0),
                 child: TypewriterText(
                   text: "Stolk",
                   textStyle: TextStyle(

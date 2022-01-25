@@ -34,7 +34,7 @@ export enum ServiceType {
 
 export enum NotificationOptoutType {
   // Unless user optouts latest news from one of sources user follow will be sent each ... days
-  SourceFollow,
+  SuggestedNews,
   // Channel for sending notifications through admin panel
   Updates,
 }

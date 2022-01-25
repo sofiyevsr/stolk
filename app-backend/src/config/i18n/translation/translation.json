@@ -2,7 +2,11 @@
   "errors": {
     "invalid_token": "",
     "login_fail": "",
+    "empty_tokens": "",
+    "news_not_found": "",
     "recaptcha_fail": "",
+    "wrong_type": "",
+    "empty_image": "",
     "validation": {
       "email": {
         "string": "",
@@ -20,8 +24,8 @@
         "string": "",
         "empty": "",
         "min": "",
-        "max": "",
-        "required": ""
+        "required": "",
+        "max": ""
       },
       "image_suffix": {
         "string": "",
@@ -129,8 +133,8 @@
       }
     },
     "account_banned": "",
-    "backoff_confirmation_token": "",
     "confirmation_fail": "",
+    "backoff_confirmation_token": "",
     "invalid_session_id": "",
     "google_empty_payload": "",
     "google_data_not_complete": "",

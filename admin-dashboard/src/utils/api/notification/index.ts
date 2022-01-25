@@ -22,6 +22,12 @@ class NotificationApi extends ApiClient {
     });
     return data;
   }
+  public async sendNewsToEveryone(id: number) {
+    const data = await this.axios.post<Response>("/notification/send-news", {
+      id,
+    });
+    return data;
+  }
 }
 
 export default NotificationApi;
