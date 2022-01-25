@@ -2,7 +2,7 @@ import { IPaginate, TableInterface } from "../@types/paginate";
 import ApiClient from "../apiClient";
 
 interface AllResponse {
-  body: { categories: { id: number; name: string; created_at: string }[] };
+  body: { categories: { id: number; name_en: string; created_at: string }[] };
 }
 
 interface HiddenResponse {

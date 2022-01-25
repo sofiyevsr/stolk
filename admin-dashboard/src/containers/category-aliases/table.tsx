@@ -5,8 +5,8 @@ import { Button } from "../../widgets";
 import LinkCategoryModal from "./link";
 import { useState } from "react";
 
+const categoryAliasesApi = new CategoryAliasesApi();
 function CategoryAliasesTable() {
-  const categoryAliasesApi = new CategoryAliasesApi();
   const getAll = async ({ lastID }: { lastID: number | null }) => {
     const {
       body: { categories },

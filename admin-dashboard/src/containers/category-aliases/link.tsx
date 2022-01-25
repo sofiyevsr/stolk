@@ -24,13 +24,13 @@ function LinkCategoryModal({
   categoryAliasID,
 }: Props) {
   const [categories, setCategories] = useState<
-    { id: number | null; name: string }[]
+    { id: number | null; name_en: string }[]
   >([]);
   const [isLoading, setLoading] = useState(true);
   const [requestSent, setRequestSent] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{
     id: null | number;
-    name: string;
+    name_en: string;
   } | null>(null);
   useEffect(() => {
     categoryApi
@@ -68,7 +68,7 @@ function LinkCategoryModal({
         loading={isLoading}
         value={selectedCategory}
         options={categories}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) => option.name_en}
         disabled={requestSent}
         onChange={(_, value) => {
           setSelectedCategory(value);
