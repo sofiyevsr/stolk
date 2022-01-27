@@ -34,7 +34,7 @@ class SourcesApi extends ApiClient implements TableInterface {
     formData.append("link", link);
     formData.append("lang_id", lang_id);
     formData.append("logo_suffix", logo_suffix);
-    if (category_alias_name != null)
+    if (category_alias_name != null && category_alias_name.trim() !== "")
       formData.append("category_alias_name", category_alias_name);
     const data = await this.axios.patch(`/source/${id}`, formData, {
       "Content-Type": "multipart/form-data",
@@ -56,7 +56,7 @@ class SourcesApi extends ApiClient implements TableInterface {
     formData.append("link", link);
     formData.append("lang_id", lang_id);
     formData.append("logo_suffix", logo_suffix);
-    if (category_alias_name != null)
+    if (category_alias_name != null && category_alias_name.trim() !== "")
       formData.append("category_alias_name", category_alias_name);
 
     const data = await this.axios.post(`/source`, formData, {
