@@ -1,16 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// final apiUrl = "http://167.99.136.121:4500/";
 final apiUrl =
     kReleaseMode ? "https://api.stolk.app/" : "http://localhost:4500/";
 const websiteURL = "https://stolk.app/";
 const privacyPolicyURL = websiteURL + "privacy-policy";
 const termsOfUseURL = websiteURL + "terms-of-use";
-const sourceLogosPrefix =
-    "https://stolk.s3.eu-west-3.amazonaws.com/source-logos/";
-const categoryImagesPrefix =
-    "https://stolk.s3.eu-west-3.amazonaws.com/category-images/";
+const sourceLogosPrefix = "https://assets.stolk.app/source-logos/";
+const categoryImagesPrefix = "https://assets.stolk.app/category-images/";
 
 const Map<int, String> LANGS = {0: "az", 1: "tr", 2: "ru", 3: "en"};
 

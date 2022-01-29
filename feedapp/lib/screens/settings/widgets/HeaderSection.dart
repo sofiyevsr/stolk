@@ -41,7 +41,11 @@ class SettingsHeaderSection extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 8.0,
+                      right: 8.0,
+                    ),
                     alignment: Alignment.center,
                     height: 44,
                     child: Row(
@@ -65,7 +69,11 @@ class SettingsHeaderSection extends StatelessWidget {
                     color: Colors.grey.shade600,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 8.0,
+                      right: 8.0,
+                    ),
                     alignment: Alignment.center,
                     height: 44,
                     child: Row(
@@ -91,7 +99,11 @@ class SettingsHeaderSection extends StatelessWidget {
                     color: Colors.grey.shade600,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 8.0,
+                      right: 8.0,
+                    ),
                     alignment: Alignment.center,
                     height: 44,
                     child: Row(
@@ -118,7 +130,11 @@ class SettingsHeaderSection extends StatelessWidget {
                           color: Colors.grey.shade600,
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: const EdgeInsets.only(
+                            bottom: 8.0,
+                            top: 8.0,
+                            right: 8.0,
+                          ),
                           alignment: Alignment.center,
                           height: 44,
                           child: Row(

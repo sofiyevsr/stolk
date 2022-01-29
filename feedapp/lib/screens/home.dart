@@ -12,10 +12,10 @@ import 'settings/settings.dart';
 import 'sources/sources.dart';
 
 final navItems = [
-  {"icon": Icons.rss_feed_outlined, "title": "navbar.home"},
-  {"icon": Icons.explore_outlined, "title": "navbar.explore"},
-  {"icon": Icons.bookmark_outline_sharp, "title": "navbar.bookmarks"},
-  {"icon": Icons.manage_accounts_outlined, "title": "navbar.account"},
+  {"icon": Icons.rss_feed_sharp, "title": "navbar.home"},
+  {"icon": Icons.explore_sharp, "title": "navbar.explore"},
+  {"icon": Icons.bookmark_sharp, "title": "navbar.bookmarks"},
+  {"icon": Icons.manage_accounts_sharp, "title": "navbar.account"},
 ];
 
 class Home extends StatefulWidget {
