@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stolk/components/common/notFoundImage.dart';
 import 'package:stolk/utils/@types/response/allNews.dart';
 import 'package:stolk/utils/common.dart';
-import 'package:stolk/utils/services/server/newsService.dart';
 import 'package:stolk/utils/transparentImage.dart';
-
-final newsService = NewsService();
 
 class SingleNewsBody extends StatelessWidget {
   final SingleNews feed;

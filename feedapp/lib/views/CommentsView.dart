@@ -14,7 +14,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentsView extends StatefulWidget {
   final int id;
-  const CommentsView({Key? key, required this.id}) : super(key: key);
+  final Function() onNewComment;
+  const CommentsView({
+    Key? key,
+    required this.onNewComment,
+    required this.id,
+  }) : super(key: key);
 
   @override
   _CommentsViewState createState() => _CommentsViewState();
@@ -203,6 +208,7 @@ class _CommentsViewState extends State<CommentsView> {
                           setState(() {
                             hasAnimatedNew = false;
                           });
+                          widget.onNewComment();
                         },
                       ),
                     ],

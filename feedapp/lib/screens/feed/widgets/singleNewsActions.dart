@@ -112,12 +112,22 @@ class SingleNewsActions extends StatelessWidget {
   }
 
   void _comment(BuildContext context) {
+    final newsBloc = context.read<NewsBloc>();
     showBarModalBottomSheet(
       context: context,
       builder: (context) {
         return BlocProvider(
           create: (ctx) => CommentsBloc(),
-          child: CommentsView(id: newsID),
+          child: CommentsView(
+              id: newsID,
+              onNewComment: () {
+                newsBloc.add(
+                  NewsActionEvent(
+                    index: index,
+                    type: NewsActionType.COMMENT,
+                  ),
+                );
+              }),
         );
       },
     );
