@@ -19,6 +19,7 @@ class SingleCommentView extends StatefulWidget {
 }
 
 class _SingleCommentViewState extends State<SingleCommentView> {
+  final GlobalKey _popupKey = GlobalKey();
   final reportApi = ReportService();
   bool _isExtended = false;
   late TapGestureRecognizer _showMoreRecognizer;
@@ -61,7 +62,8 @@ class _SingleCommentViewState extends State<SingleCommentView> {
           Container(
             margin: const EdgeInsets.all(6.0),
             child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              if (state is AuthorizedState) {
+              if (state is AuthorizedState &&
+                  widget.comment.userID == state.user.id) {
                 return CircleAvatar(
                   radius: 24,
                   child: Text(state.user.firstName[0]),
@@ -122,6 +124,7 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                             ),
                           ),
                           PopupMenuButton<String>(
+                            key: _popupKey,
                             offset: const Offset(-32, 0),
                             padding: const EdgeInsets.all(0),
                             child: const Padding(

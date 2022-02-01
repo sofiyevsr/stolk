@@ -46,7 +46,6 @@ class _AdaptiveBannerAdState extends State<AdaptiveBannerAd> {
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
-          print("failed $error");
           ad.dispose();
           _banner = null;
           _loadAd();
