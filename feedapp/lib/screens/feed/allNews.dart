@@ -191,7 +191,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                         state: state,
                         forceFetchNext: forceFetchNext,
                         scrollController: _scrollController,
-                        // includeAds: true,
+                        includeAds: true,
                       ),
                     );
                   }

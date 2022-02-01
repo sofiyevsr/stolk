@@ -19,6 +19,7 @@ class SingleCommentView extends StatefulWidget {
 }
 
 class _SingleCommentViewState extends State<SingleCommentView> {
+  final GlobalKey _popupKey = GlobalKey();
   final reportApi = ReportService();
   bool _isExtended = false;
   late TapGestureRecognizer _showMoreRecognizer;
@@ -61,10 +62,18 @@ class _SingleCommentViewState extends State<SingleCommentView> {
           Container(
             margin: const EdgeInsets.all(6.0),
             child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              return CircleAvatar(
-                radius: 24,
-                child: Text(widget.comment.firstName?[0] ?? ""),
-              );
+              if (state is AuthorizedState &&
+                  widget.comment.userID == state.user.id) {
+                return CircleAvatar(
+                  radius: 24,
+                  child: Text(state.user.firstName[0]),
+                );
+              } else {
+                return CircleAvatar(
+                  radius: 24,
+                  child: Text(widget.comment.firstName?[0] ?? ""),
+                );
+              }
             }),
           ),
           Expanded(
@@ -115,6 +124,7 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                             ),
                           ),
                           PopupMenuButton<String>(
+                            key: _popupKey,
                             offset: const Offset(-32, 0),
                             padding: const EdgeInsets.all(0),
                             child: const Padding(
@@ -187,7 +197,7 @@ class _SingleCommentViewState extends State<SingleCommentView> {
                                   recognizer: _showMoreRecognizer,
                                   style: textTheme.bodyText2?.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: 15,
                                       color: Colors.blue[700]),
                                 ),
                             ],

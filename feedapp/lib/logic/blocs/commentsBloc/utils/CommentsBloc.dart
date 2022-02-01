@@ -8,14 +8,14 @@ import "package:equatable/equatable.dart";
 part "CommentsEvents.dart";
 part "CommentsState.dart";
 
-final service = NewsService();
+final _service = NewsService();
 
 class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   CommentsBloc() : super(CommentsStateInitial()) {
     on<FetchCommentsEvent>((event, emit) async {
       try {
         emit(CommentsStateLoading());
-        final data = await service.getAllComments(event.id, null);
+        final data = await _service.getAllComments(event.id, null);
         emit(CommentsStateSuccess(
           data: CommentsModel(
             comments: data.comments,
@@ -50,7 +50,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
               existing.data.comments[existing.data.comments.length - 1].id;
 
           // set Loading and fetch data then
-          final data = await service.getAllComments(event.id, lastID);
+          final data = await _service.getAllComments(event.id, lastID);
           emit(CommentsStateSuccess(
             data: existing.data.addNewComments(
               incomingComments: data.comments,

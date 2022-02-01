@@ -14,8 +14,8 @@ import 'package:stolk/utils/services/server/reportService.dart';
 import 'package:stolk/utils/ui/constants.dart';
 import 'package:stolk/views/CommentsView.dart';
 
-final news = NewsService();
-final reportApi = ReportService();
+final _news = NewsService();
+final _reportApi = ReportService();
 const _iconSize = 30.0;
 
 class SingleNewsActions extends StatelessWidget {
@@ -94,13 +94,13 @@ class SingleNewsActions extends StatelessWidget {
     final newsBloc = context.read<NewsBloc>();
     try {
       if (isLiked) {
-        await news.unlike(newsID);
+        await _news.unlike(newsID);
         newsBloc.add(
           NewsActionEvent(index: index, type: NewsActionType.UNLIKE),
         );
         return false;
       } else {
-        await news.like(newsID);
+        await _news.like(newsID);
         newsBloc.add(
           NewsActionEvent(index: index, type: NewsActionType.LIKE),
         );
@@ -112,12 +112,22 @@ class SingleNewsActions extends StatelessWidget {
   }
 
   void _comment(BuildContext context) {
+    final newsBloc = context.read<NewsBloc>();
     showBarModalBottomSheet(
       context: context,
       builder: (context) {
         return BlocProvider(
           create: (ctx) => CommentsBloc(),
-          child: CommentsView(id: newsID),
+          child: CommentsView(
+              id: newsID,
+              onNewComment: () {
+                newsBloc.add(
+                  NewsActionEvent(
+                    index: index,
+                    type: NewsActionType.COMMENT,
+                  ),
+                );
+              }),
         );
       },
     );
@@ -158,7 +168,7 @@ class SingleNewsActions extends StatelessWidget {
                     context: context,
                     builder: (ctx) => ReportDialog(
                       onConfirmed: (String message) {
-                        return reportApi.newsReport(message, newsID);
+                        return _reportApi.newsReport(message, newsID);
                       },
                     ),
                   );

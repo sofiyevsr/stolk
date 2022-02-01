@@ -63,11 +63,13 @@ class _RectangleBannerAd extends State<RectangleBannerAd> {
   @override
   Widget build(BuildContext context) {
     if (_adFailed == true) {
-      return AutoSizeText(
-        tr("tooltips.ad_error"),
-        minFontSize: 20,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
+      return Center(
+        child: AutoSizeText(
+          tr("tooltips.ad_error"),
+          minFontSize: 20,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       );
     }

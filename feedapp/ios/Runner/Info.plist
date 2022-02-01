@@ -26,6 +26,8 @@
 			<string>az</string>
 			<string>ru</string>
 		</array>
+		<key>GADApplicationIdentifier</key>
+		<string>ca-app-pub-3258697841522212~8175802093</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>https</string>

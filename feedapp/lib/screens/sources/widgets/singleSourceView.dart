@@ -54,8 +54,7 @@ class SingleSourceView extends StatelessWidget {
                   ),
                   AutoSizeText(
                     item.name,
-                    maxLines: 2,
-                    minFontSize: 15,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 20,

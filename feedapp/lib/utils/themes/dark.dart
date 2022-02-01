@@ -3,12 +3,6 @@ part of "./index.dart";
 final _base = ThemeData.dark();
 
 final darkTheme = _base.copyWith(
-  pageTransitionsTheme: const PageTransitionsTheme(
-    builders: {
-      TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-    },
-  ),
   dividerTheme: const DividerThemeData(
     space: 0,
     thickness: 1,

@@ -12,7 +12,7 @@ part "NewsState.dart";
 
 part "../models/newsActionType.dart";
 
-final service = NewsService();
+final newsService = NewsService();
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc() : super(NewsStateInitial()) {
@@ -34,7 +34,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         } else {
           emit(NewsStateLoading());
         }
-        final data = await service.getAllNews(
+        final data = await newsService.getAllNews(
           category: event.category,
           sourceID: event.sourceID,
           sortBy: event.sortBy,
@@ -112,7 +112,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           }
 
           // set Loading and fetch data then
-          final data = await service.getAllNews(
+          final data = await newsService.getAllNews(
             pubDate: lastPub,
             sourceID: event.sourceID,
             category: existing.data.category,
@@ -136,7 +136,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<FetchBookmarks>((event, emit) async {
       try {
         emit(NewsStateLoading());
-        final data = await service.getBookmarks();
+        final data = await newsService.getBookmarks();
         if (data.news.isNotEmpty)
           emit(NewsStateSuccess(
             data: NewsModel(
@@ -174,7 +174,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           final lastID = lastNews.fixedBookmarkID;
 
           // set Loading and fetch data then
-          final data = await service.getBookmarks(
+          final data = await newsService.getBookmarks(
             lastID: lastID,
           );
           emit(NewsStateSuccess(
@@ -197,6 +197,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           final item = existing.data.news[event.index];
           SingleNews modifItem;
           switch (event.type) {
+            case NewsActionType.COMMENT:
+              modifItem = item.copyWith(commentCount: item.commentCount + 1);
+              break;
             case NewsActionType.LIKE:
               modifItem = item.copyWith(
                   likeID: Nullable(value: 0), likeCount: item.likeCount + 1);

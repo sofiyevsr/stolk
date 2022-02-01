@@ -14,12 +14,6 @@ final lightTheme = ThemeData(
   iconTheme: const IconThemeData(
     color: CustomColorScheme.main,
   ),
-  pageTransitionsTheme: const PageTransitionsTheme(
-    builders: {
-      TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-    },
-  ),
   chipTheme: ChipThemeData.fromDefaults(
     brightness: Brightness.light,
     labelStyle: const TextStyle(),

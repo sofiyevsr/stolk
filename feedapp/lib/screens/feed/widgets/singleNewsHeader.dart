@@ -106,46 +106,43 @@ class SingleNewsHeader extends StatelessWidget {
     return SizedBox(
       height: HEADER_HEIGHT,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () {
-              NavigationService.push(
-                SourceNewsScreen(
-                  sourceID: feed.sourceID,
-                  sourceName: feed.sourceName,
-                  logoSuffix: feed.sourceLogoSuffix,
-                ),
-                RouteNames.SOURCE_NEWS_FEED,
-              );
-            },
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 65,
-                  width: 65,
-                  child: SourceLogo(
-                    isCircle: true,
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                NavigationService.push(
+                  SourceNewsScreen(
+                    sourceID: feed.sourceID,
+                    sourceName: feed.sourceName,
                     logoSuffix: feed.sourceLogoSuffix,
                   ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AutoSizeText(
+                  RouteNames.SOURCE_NEWS_FEED,
+                );
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    height: 65,
+                    width: 65,
+                    child: SourceLogo(
+                      isCircle: true,
+                      logoSuffix: feed.sourceLogoSuffix,
+                    ),
+                  ),
+                  Expanded(
+                    child: AutoSizeText(
                       feed.sourceName,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: theme.textTheme.headline6?.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Row(

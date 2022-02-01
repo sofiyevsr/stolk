@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:stolk/screens/splash.dart';
 import 'package:stolk/utils/constants.dart';
@@ -31,7 +32,7 @@ Future<void> _loadInternalization() async {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-
+  PlatformViewsService.synchronizeToNativeViewHierarchy(false);
   runZonedGuarded(() async {
     await _loadInternalization();
 

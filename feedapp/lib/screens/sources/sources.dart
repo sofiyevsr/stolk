@@ -126,28 +126,25 @@ class _SourceHeader extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: AutoSizeText(
-                        tr("sources.title"),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        minFontSize: 24,
-                        maxLines: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: AutoSizeText(
+                      tr("sources.title"),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
+                      minFontSize: 24,
+                      maxLines: 2,
                     ),
-                    AutoSizeText(
-                      tr("sources.description"),
-                      maxLines: 4,
-                    ),
-                  ],
-                ),
+                  ),
+                  AutoSizeText(
+                    tr("sources.description"),
+                    maxLines: 4,
+                  ),
+                ],
               ),
             ),
             const LottieLoader(

@@ -3,6 +3,7 @@ import 'package:stolk/logic/blocs/authBloc/auth.dart';
 import 'package:stolk/logic/blocs/commentsBloc/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stolk/logic/blocs/newsBloc/news.dart';
 
 class CommentInput extends StatefulWidget {
   final int newsID;
@@ -26,7 +27,7 @@ class _CommentInputState extends State<CommentInput> {
     if (_inputController.text.isNotEmpty) {
       final comments = context.read<CommentsBloc>();
       try {
-        final data = await service.comment(
+        final data = await newsService.comment(
           widget.newsID,
           _inputController.text,
         );
