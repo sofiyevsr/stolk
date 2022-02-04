@@ -72,7 +72,7 @@ class _CustomBottomSheetState<T> extends State<CustomBottomSheet<T>> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

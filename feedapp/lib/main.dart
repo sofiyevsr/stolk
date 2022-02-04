@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -32,7 +33,8 @@ Future<void> _loadInternalization() async {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  PlatformViewsService.synchronizeToNativeViewHierarchy(false);
+  if (Platform.isAndroid)
+    PlatformViewsService.synchronizeToNativeViewHierarchy(false);
   runZonedGuarded(() async {
     await _loadInternalization();
 
