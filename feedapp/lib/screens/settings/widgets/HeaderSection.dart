@@ -34,6 +34,7 @@ class SettingsHeaderSection extends StatelessWidget {
                 const LottieLoader(
                   asset: "assets/lottie/account.json",
                   size: Size(140, 140),
+                  repeat: false,
                 ),
               ],
             ),
@@ -195,7 +196,7 @@ class _UserDetails extends StatelessWidget {
                 ? tr("settings.description")
                 : tr("settings.guest_description"),
             maxLines: 3,
-            minFontSize: 16,
+            minFontSize: 18,
           ),
         ),
       ],
