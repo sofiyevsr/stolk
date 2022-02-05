@@ -38,7 +38,7 @@ class CategoryList extends StatelessWidget {
             child: Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.red,
+              color: CustomColorScheme.main,
             ),
           ),
         );

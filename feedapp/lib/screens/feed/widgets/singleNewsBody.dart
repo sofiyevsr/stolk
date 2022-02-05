@@ -61,7 +61,7 @@ class SingleNewsBody extends StatelessWidget {
                   fontSize: 18,
                   color: readBefore ? Colors.grey : null,
                 ),
-                minFontSize: 12,
+                minFontSize: 14,
                 maxLines: 3,
               ),
             ),

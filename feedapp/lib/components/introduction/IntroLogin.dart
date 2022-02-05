@@ -79,7 +79,7 @@ class IntroLogin extends StatelessWidget {
               TextButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(
-                    EdgeInsets.all(0),
+                    const EdgeInsets.only(bottom: 12.0),
                   ),
                 ),
                 onPressed: () {

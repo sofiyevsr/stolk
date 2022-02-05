@@ -16,7 +16,8 @@ class NoConnectionWidget extends StatelessWidget {
         children: [
           const LottieLoader(
             asset: "assets/lottie/no_connection.json",
-            size: Size(140, 140),
+            size: Size(150, 150),
+            repeat: false,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),

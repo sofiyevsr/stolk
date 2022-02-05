@@ -42,6 +42,7 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(ctx) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

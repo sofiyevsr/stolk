@@ -65,7 +65,7 @@ String platformToName(int p) {
 }
 
 class CustomColorScheme {
-  static const main = Color(0xFFDF9273);
+  static const main = Color(0xFF62A0DB);
   static const accent = Color(0xFFFF687B);
   static const cardColor = Color(0xFF2A2B2E);
   static const primaryLight = Color(0xFFE3A48A);

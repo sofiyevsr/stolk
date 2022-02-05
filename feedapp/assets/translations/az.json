@@ -197,7 +197,8 @@
     "description": "Daha yaxşı və daha özəl təcrübə üçün aşağıdakı seçimlərdən istifadə edərək daxil olun",
     "title": "Daxil ol",
     "email_sign_in": "Email ilə daxil ol",
-    "forgot_password": "Şifrəni unutmusunuz?"
+    "forgot_password": "Şifrəni unutmusunuz?",
+    "reset_password": "Şifrəni yenilə"
   },
   "register": {
     "register_button_label": "Qeydiyyat",
