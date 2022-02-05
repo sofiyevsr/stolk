@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>826163589727-uvgbu0jf7rci4im95jirp5jm7enf445r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.826163589727-uvgbu0jf7rci4im95jirp5jm7enf445r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>826163589727-0e1c5bof7o82shgu2tc1j7gt3qv3s592.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCG6ll_qvviVGhFmfyoQ2dAaMgCPp55Jnk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>826163589727</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.stolk.ios</string>
+	<key>PROJECT_ID</key>
+	<string>stolk-id</string>
+	<key>STORAGE_BUCKET</key>
+	<string>stolk-id.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:826163589727:ios:3cba4d55c9cc0872f1e1ea</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-3258697841522212~8175802093</string>
+</dict>
+</plist>
