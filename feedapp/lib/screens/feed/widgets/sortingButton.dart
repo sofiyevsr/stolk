@@ -40,9 +40,8 @@ class FeedSortingButton extends StatelessWidget {
   void buildPeriod(
     BuildContext context, {
     required int selectedSortBy,
+    required int period,
   }) {
-    final int period =
-        gBox.get("period", defaultValue: HiveDefaultValues.PERIOD);
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -87,59 +86,68 @@ class FeedSortingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int sortBy =
-        gBox.get("sortBy", defaultValue: HiveDefaultValues.SORT_BY);
-    return TextButton(
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-          ),
-          builder: (ctx) => CustomBottomSheet<int?>(
-            hasNext: true,
-            onSubmit: (sortBy) {
-              buildPeriod(context, selectedSortBy: sortBy!);
-            },
-            options: tiles
-                .map<CustomBottomSheetOption<int>>(
-                  (e) => CustomBottomSheetOption(
-                    value: e["value"] as int,
-                    title: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: e["icon"] as Icon,
-                        ),
-                        Text(
-                          tr("sort_by.${e["text"]}"),
-                        ),
-                      ],
-                    ),
+    return ValueListenableBuilder(
+        valueListenable: gBox.listenable(keys: ["sortBy", "period"]),
+        builder: (context, Box box, child) {
+          final sortBy = gBox.get("sortBy", defaultValue: 0);
+          final period =
+              gBox.get("period", defaultValue: HiveDefaultValues.PERIOD);
+          return TextButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
-                )
-                .toList(),
-            defaultValue: sortBy,
-            title: tr("sort_by.title"),
-          ),
-        );
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            tr("sort_by.${sortByToString(sortBy)}"),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+                ),
+                builder: (ctx) => CustomBottomSheet<int?>(
+                  hasNext: true,
+                  onSubmit: (sortBy) {
+                    buildPeriod(
+                      context,
+                      selectedSortBy: sortBy!,
+                      period: period,
+                    );
+                  },
+                  options: tiles
+                      .map<CustomBottomSheetOption<int>>(
+                        (e) => CustomBottomSheetOption(
+                          value: e["value"] as int,
+                          title: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: e["icon"] as Icon,
+                              ),
+                              Text(
+                                tr("sort_by.${e["text"]}"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  defaultValue: sortBy,
+                  title: tr("sort_by.title"),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  tr("sort_by.${sortByToString(sortBy)}"),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const Icon(Icons.expand_more),
+              ],
             ),
-          ),
-          const Icon(Icons.expand_more),
-        ],
-      ),
-    );
+          );
+        });
   }
 }
