@@ -133,7 +133,7 @@ export async function resetPassword(body: any) {
     if (updatedUser === 0) {
       throw new SoftError(i18next.t("errors.reset_fail"));
     }
-    await db(tables.reset_token).where({ user_id: id }).del();
+    await trx(tables.reset_token).where({ user_id: id }).del();
     await trx.commit();
   } catch (e) {
     await trx.rollback();
