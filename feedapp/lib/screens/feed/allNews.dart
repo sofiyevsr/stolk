@@ -121,7 +121,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           period: _currentPeriod,
         ),
       );
-    } catch (e) {}
+    } catch (_) {}
   }
 
   void _changeCategory(int id) {
@@ -191,7 +191,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                         state: state,
                         forceFetchNext: forceFetchNext,
                         scrollController: _scrollController,
-                        includeAds: true,
+                        includeAds: false,
                       ),
                     );
                   }

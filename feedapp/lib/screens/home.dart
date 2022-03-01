@@ -90,7 +90,6 @@ class _HomeState extends State<Home> {
         children: [
           AdaptiveBannerAd(
             unitID: getUnitID(AdPlacements.home),
-            disabled: false,
           ),
           BottomNavigationBar(
               type: BottomNavigationBarType.shifting,
