@@ -2,7 +2,7 @@ name: stolk
 description: Stolk - News aggregator
 
 publish_to: "none"
-version: 0.5.3+29
+version: 0.5.4+30
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
