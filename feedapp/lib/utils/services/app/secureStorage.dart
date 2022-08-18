@@ -1,9 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
-  final _iOptions = const IOSOptions(
-    accessibility: IOSAccessibility.first_unlock,
-  );
+  final _iOptions = const IOSOptions();
   static const _storage = FlutterSecureStorage();
 
   Future<String?> getToken() async {

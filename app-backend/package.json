@@ -7,9 +7,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "build": "rm -rf dist/ && tsc && webpack --config ./webpack.config.js",
-    "watch": "concurrently \"yarn run dev:watch\" \"yarn run dev:serve\"",
-    "dev:watch": "webpack --watch --config ./webpack.development.config.js",
-    "dev:serve": "DEBUG=knex:query NODE_ENV=development nodemon --watch dev_artifacts ./dev_artifacts/main.js",
+    "dev": "NODE_ENV=development node dev.js",
     "test": "jest",
     "test:ci": "jest --ci",
     "lint:fix": "eslint --fix .",
